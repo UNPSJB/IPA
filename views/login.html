@@ -5,8 +5,10 @@
     <title>IPA</title>
     <link href="assets/plugins/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css"/>
     <link href="assets/page/styles/index.css" rel="stylesheet" type="text/css" />
-    <link href="assets/page/pandoc-code-highlight.css" rel="stylesheet" type="text/css" />
-    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src="assets/plugins/jquery/jquery-3.2.1.min.js"></script>
+
+    <script src="assets/plugins/semantic-ui/semantic.min.js"></script>
   </head>
   <body>
     <div class="ui middle aligned center aligned grid">
@@ -17,11 +19,11 @@
         
         <h2 class="ui teal image header">
           <div class="content">
-            Bienvenido al IPA
+            BIENVENIDO AL IPA
           </div>
         </h2>
-        <form class="ui large form">
-          <div class="ui stacked segment">
+        <form class="ui large form" action="/login" method="POST">
+          <div class="ui stacked">
             <div class="field">
               <div class="ui left icon input">
                 <i class="user icon"></i><input name="email" placeholder="Correo electrónico o nombre de usuario" type="text" />
@@ -32,15 +34,13 @@
                 <i class="lock icon"></i><input name="password" placeholder="Contraseña" type="password" />
               </div>
             </div>
-            <div class="ui fluid large teal submit button">
-              Iniciar sesión
-            </div>
+            <button class="ui fluid large teal button " type="submit">Iniciar sesión</button>
           </div>
           <div class="ui error message"></div>
         </form>
       </div>
     </div>
-    <script src="assets/page/js/index.js">
+    <script src="assets/page/js/login.js">
     </script>
   </body>
 </html>
