@@ -7,6 +7,6 @@ pip-log.txt
 *.pyc
 
 #migration folders
-*/migrations
+*/migrations/*
 
 ipa/__pychache__/*
