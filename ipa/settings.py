@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.login',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +124,5 @@ USE_TZ = True
 STATIC_URL = '/assets/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'assets'),)
+
+LOGIN_REDIRECT_URL = '/'
