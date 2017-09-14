@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+
+{% load staticfiles %}
+
+{% block pageStaticStyles %}
+    <link href="{% static 'page/styles/login.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block fonts %}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <div class="imageContent">
+        <img class="image" src="{% static 'page/img/logo.jpg' %}" />
+      </div>
+      
+      <h2 class="ui teal image header">
+        <div class="content">
+          Bienvenido al IPA
+        </div>
+      </h2>
+      <form class="ui large form" action="./index.html" method="POST">
+        <div class="ui stacked">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i><input name="email" placeholder="Correo electrónico o nombre de usuario" type="text" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i><input name="password" placeholder="Contraseña" type="password" />
+            </div>
+          </div>
+          <button class="ui fluid large teal button " type="submit">Iniciar sesión</button>
+        </div>
+        <div class="ui error message"></div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block pageStaticJs %}
+  <script src="{% static 'page/js/login.js' %}">
+{% endblock %}

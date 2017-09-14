@@ -5,3 +5,8 @@ pip-log.txt
 *.log
 
 *.pyc
+
+#migration folders
+*/migrations
+
+*/__pychache__/*

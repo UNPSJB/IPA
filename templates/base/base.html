@@ -1,0 +1,32 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+    	<meta charset="utf-8" />
+    	<title>IPA</title>
+	  	
+	  	{% block pageStaticStyles %}{% endblock %}
+	  	
+
+	  	{% block pluginsStaticStyles %} 
+			{% include 'base/staticStylesBase.html' %}
+	  	{% endblock %}
+	  	
+
+	  	{% block fonts %} {% endblock %}
+
+	</head>
+	<body>
+		{% block header %}{% endblock %}
+		{% block content %}{% endblock %}
+		{% block footer %}{% endblock %}
+
+		<!-- archivos estaticos js de la pagina -->
+		{% block pageStaticJs %}{% endblock %}
+
+		<!-- archivos estaticos js de los plugins -->
+		{% block pluginsStaticJs %}
+			{% include 'base/staticJsBase.html'%}
+		{% endblock %}
+	</body>
+</html>
