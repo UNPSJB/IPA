@@ -9,4 +9,4 @@ pip-log.txt
 #migration folders
 */migrations
 
-*/__pychache__/*
+ipa/__pychache__/*
