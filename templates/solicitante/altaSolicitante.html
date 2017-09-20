@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head>   
   <meta charset="utf-8">
-  <titleIn>.</title>
+  <titleIn><font color="green"></font>.</title>
   <link href="assets/plugins/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css"/>
   <link href="assets/page/styles/login.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -10,15 +10,16 @@
   <script type="text/javascript" src="jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="semantic.js"></script>
 </head>
-<body>
-    
+<body style="border-color: blue">
     <div class ="ui container">
      <div class=" ui vertically divided grid">
         <div clas="two column row">
           <div clas= "column">
              <form class="ui form" id="frm-afluente" method="post">
-               <h4 class="ui dividing header"><font size="5" color="blue">Alta Establecimiento <img class="image" src="assets/page/img/logo.jpg" /></font></h4>
-                <h4 class="ui dividing header">Datos del Propietario</h4>
+               <h4 style="background-color:blue " class="ui dividing header"><font size="5" color="white">Alta Solicitante<img class="image" src="logo_ipa.jpg" />
+               </font>
+               </h4>
+                <h4 class="ui dividing header">Datos Personales</h4>
                     <div class="field">      
                      <div class="two fields">
                          <div class="field">
@@ -89,68 +90,10 @@
                            </div>
                          </div>     
                       </div>
-                    </div>
-                <h4 class="ui dividing header">Datos del Establecimiento</h4>
-                <div class="field">
-                       <label>Codigo Catastral</label>
-                       <div class="field">
-                          <input type="text" name="codigo" placeholder="codigo">    
-                       </div>                   
-                 </div>
-
-                <div class="field">
-                       <label>Superficie (km2)</label>
-                       <div class="field">
-                          <input type="text" name="superficie" placeholder="Superficie">    
-                       </div>                   
-                 </div>
-
-                <div class="field">
-                   <label>Localidad</label>
-                   <div class="field">
-                     <select class="ui fluid dropdown" name="localidad">
-                       <option value="1">Rawson</option>
-                       <option value="2">Trelew</option>
-                       <option value="3">Puerto Madryn</option>
-                       <option value="4">Jose de San Martin</option>
-                       <option value="4">Rada Tilly</option>
-                       <option value="4">Sarmiento</option>
-                       <option value="4">Villa Ameghino</option>
-                       <option value="4">Alto Rio Senguer</option>
-                       <option value="4">Camarones</option>
-                       <option value="4">Comodoro Rivadavia</option>
-                       <option value="4">El Hoyo</option>
-                       <option value="4">Epuyen</option>
-                       <option value="4">Gaiman</option>
-                       <option value="4">Lago Puelo</option>
-                       <option value="4">Puerto Piramides</option>
-                       <option value="4">Rio Mayo</option>
-                       <option value="4">Villa Futalaufquen</option>
-                       <option value="4">Bahia Bustamante</option>
-                       <option value="4">Cholila</option>
-                       <option value="4">Corcobado</option>
-                       <option value="4">El Maiten</option>
-                       <option value="4">Esquel</option>
-                       <option value="4">Rio Pico</option>
-                       <option value="4">Gobernador Costa</option>
-                       <option value="4">Trevelin</option>
-                       <option value="4">Playa Union</option>
-                      </select> 
-                   </div>                   
-                 </div>
-
-                 <div class="field">
-                   <label>Descripcion</label>
-                   <div class="field">
-                     <input type="text" name="descripcion" placeholder="descripcion">    
-                   </div>                   
-                 </div>
-
+                    </div>             
                  <div class="ui error message"></div>
-                 <div class="ui blue button submit" id="btn-enviar">Guardar</div>
+                 <div class="ui blue button submit" id="btn-enviar">Crear Solicitante</div>
                  <div class="ui blue button submit" id="btn-cancelar">Cancelar</div>
-                 <div class="ui blue button submit" id="btn-modificar">Modificar</div>
-                 <div class="ui blue button submit" id="btn-modificar">Eliminar</div>
 
              </form>
           </div>
@@ -196,16 +139,6 @@
             }
           ]
         },
-          codigo : {
-          identifier: 'codigo',
-          rules: [
-            {
-              type   : 'empty',
-              prompt : 'por favor ingrese codigo catastral'
-            }
-          ]
-        }
-
       }
     },{
 
