@@ -22,7 +22,10 @@ from django.contrib.auth.views import login
 
 
 
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^login/', login, {'template_name': 'login/login.html'}),
+    url(r'^login/', login, {'template_name': 'login/login.html'}),   
 ]
+
