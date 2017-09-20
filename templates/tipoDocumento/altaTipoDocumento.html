@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <titleIn>.</title>
+  <link rel="stylesheet" type="text/css" href="semantic.css">
+  <script type="text/javascript" src="jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="semantic.js"></script>
+</head>
+<body>
+  <div class ="ui container">
+     <div class=" ui vertically divided grid">
+        <div clas="two column row">
+          <div clas= "column">
+             <form class="ui form" id="frm-afluente" method="post">
+               <h4 class="ui dividing header"><font size="6" color="blue">Alta tipo de Documento<img class="image" src="assets/page/img/logo.jpg" /></font></h4>
+                 <div class="field">
+                     <div class="field">
+                       <label>Nombre tipo Documento</label>
+                       <div class="field">
+                         <input type="text" name="nombre" placeholder="nombre">    
+                       </div>
+                     </div>
+                </div>
+                <div class="ui error message"></div>
+                 <div class="ui blue button submit" id="btn-enviar">Guardar</div>
+                 <div class="ui blue button submit" id="btn-cancelar">Cancelar</div>
+                
+             </form>
+          </div>
+        </div>
+     </div>
+  </div> 
+
+   <script type="text/javascript">
+      $('.ui.form')
+    .form({
+      fields: {
+        nombre: {
+          identifier: 'nombre',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'por favor ingrese nombre'
+            }
+          ]
+        }, 
+
+      }
+    },{
+
+            onSuccess: function(e){
+              e.preventDefault();
+            }
+      } )
+  ;
+   </script>
+</body>
+</html>>
