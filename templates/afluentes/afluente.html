@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <titleIn>.</title>
+  <link rel="stylesheet" type="text/css" href="semantic.css">
+  <script type="text/javascript" src="jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="semantic.js"></script>
+</head>
+<body>
+  <div class ="ui container">
+     <div class=" ui vertically divided grid">
+        <div clas="two column row">
+          <div clas= "column">
+             <form class="ui form" id="frm-afluente" method="post">
+               <h4 class="ui dividing header"><font size="6" color="blue">Formulario de Afluente</font></h4>
+                 <div class="field">
+                     <div class="field">
+                       <label>Nombre Afluente</label>
+                       <div class="field">
+                         <input type="text" name="nombre" placeholder="nombre">    
+                       </div>
+                     </div>
+                </div>
+
+                <div class="field">
+                       <label>Superficie (km2)</label>
+                       <div class="field">
+                          <input type="text" name="superficie" placeholder="Superficie">    
+                       </div>                   
+                 </div>
+                 
+                 
+
+                 <div class="field">
+                   <label>longitud</label>
+                   <div class="field">
+                     <input type="text" name="longitud" placeholder="longitud">    
+                   </div>                   
+                 </div>
+
+                 <div class="field">
+                   <label>Caudal</label>
+                   <div class="field">
+                     <input type="text" name="caudal" placeholder="Caudal">    
+                   </div>                   
+                 </div>
+
+                 <div class="field">
+                   <label>Nacimiento del Afluente</label>
+                   <div class="field">
+                     <input type="text" name="nacimiento" placeholder="Nacimiento">    
+                   </div>                   
+                 </div>
+
+                <div class="field">
+                   <label>Localidad</label>
+                   <div class="field">
+                     <select class="ui fluid dropdown" name="localidad">
+                       <option value="1">Rawson</option>
+                       <option value="2">Trelew</option>
+                       <option value="3">Puerto Madryn</option>
+                       <option value="4">Jose de San Martin</option>
+                       <option value="4">Rada Tilly</option>
+                       <option value="4">Sarmiento</option>
+                       <option value="4">Villa Ameghino</option>
+                       <option value="4">Alto Rio Senguer</option>
+                       <option value="4">Camarones</option>
+                       <option value="4">Comodoro Rivadavia</option>
+                       <option value="4">El Hoyo</option>
+                       <option value="4">Epuyen</option>
+                       <option value="4">Gaiman</option>
+                       <option value="4">Lago Puelo</option>
+                       <option value="4">Puerto Piramides</option>
+                       <option value="4">Rio Mayo</option>
+                       <option value="4">Villa Futalaufquen</option>
+                       <option value="4">Bahia Bustamante</option>
+                       <option value="4">Cholila</option>
+                       <option value="4">Corcobado</option>
+                       <option value="4">El Maiten</option>
+                       <option value="4">Esquel</option>
+                       <option value="4">Rio Pico</option>
+                       <option value="4">Gobernador Costa</option>
+                       <option value="4">Trevelin</option>
+                       <option value="4">Playa Union</option>
+                      </select> 
+                   </div>                   
+                 </div>
+
+                 <div class="field">
+                   <label>Desembocadura</label>
+                   <div class="field">
+                     <input type="text" name="desembocadura" placeholder="Desembocadura">    
+                   </div>                   
+                 </div>
+
+                 <div class="field">
+                   <label>Descripcion</label>
+                   <div class="field">
+                     <input type="text" name="descripcion" placeholder="descripcion">    
+                   </div>                   
+                 </div>
+
+                 <div class="ui error message"></div>
+                 <div class="ui blue button submit" id="btn-enviar">Guardar</div>
+                 <div class="ui blue button submit" id="btn-cancelar">Cancelar</div>
+                 <div class="ui blue button submit" id="btn-modificar">Modificar</div>
+
+             </form>
+          </div>
+        </div>
+     </div>
+  </div> 
+
+   <script type="text/javascript">
+      $('.ui.form')
+    .form({
+      fields: {
+        nombre: {
+          identifier: 'nombre',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'por favor ingrese nombre'
+            }
+          ]
+        }, descripcion: {
+          identifier: 'descripcion',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'por favor ingrese descripcion'
+            }
+          ]
+        }
+
+      }
+    },{
+
+            onSuccess: function(e){
+              e.preventDefault();
+            }
+      } )
+  ;
+   </script>
+</body>
+</html>>
