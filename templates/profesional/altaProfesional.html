@@ -15,11 +15,9 @@
      <div class=" ui vertically divided grid">
         <div clas="two column row">
           <div clas= "column">
-             <form style="border-radius: 1em; border:3px solid #CCC; padding: 1em; margin: 0 auto; width: 600px;height: 600px;" class="ui form" id="frm-solicitante" method="post">
-               <h4 class="ui dividing header"><font size="5" color="blue">Alta Solicitante<img class="image" src="assets/page/img/logo.jpg" />
+             <form style="border-radius: 1em; border:3px solid #CCC; padding: 1em; margin: 0 auto; width: 600px;height: 600px;" class="ui form" id="frm-profesional" method="post">
+              <h4 class="ui dividing header"><font size="5" color="blue">Alta Profesional<img class="image" align="right" src="assets/page/img/logo.jpg" />
                </font>
-               </h4>
-               </h4>
                 <h4 class="ui dividing header">Datos Personales</h4>
                     <div class="field">      
                      <div class="two fields">
@@ -56,7 +54,7 @@
                          <div class="field">
                            <label>Numero documento</label>
                            <div class="field">
-                             <input type="text" name="numero" placeholder="numero">
+                             <input type="text" size="8"  name="numero" placeholder="numero">
                            </div>
                          </div> 
                       </div>
@@ -68,13 +66,6 @@
                             <input type="text" name="direccion" placeholder="direccion">
                         </div>
                     </div>
-                    <div class="field">
-                        <labe>Razon Social</label>
-                        <div class="field">
-                            <input type="text" name="razon social" placeholder="razonSocial">
-                        </div>
-                    </div>
-
                     <div class="field">      
                      <div class="two fields">
                          <div class="field">
@@ -85,15 +76,41 @@
                          </div>
 
                          <div class="field">
-                           <label>telefono</label>
+                           <label>Telefono</label>
                            <div class="field">
                              <input type="text" name="telefono" placeholder="telefono">
                            </div>
-                         </div>     
+                         </div> 
                       </div>
-                    </div>             
+                    </div> 
+                    <h4 class="ui dividing header">Datos Profesionales</h4>  
+                     <div class="field">  
+                        <div class="three fields">
+                          <div class="field">
+                          <label>Titulo</label>
+                           <div class="field">
+                              <input type="text" name="titulo" placeholder="titulo">
+                           </div>
+                          </div>
+
+                          <div class="field">
+                           <label>Nro de Matricula</label>
+                           <div class="field">
+                             <input type="text" name="matricula" placeholder="matricula">
+                           </div>
+                         </div> 
+
+                           <div class="field">
+                           <label>Departamento</label>
+                           <div class="field">
+                             <input type="text" name="departamento" placeholder="departamento">
+                           </div>
+                         </div> 
+                      </div>
+                    </div>
+                     
                  <div class="ui error message"></div>
-                 <div class="ui blue button submit" id="btn-enviar">Crear Solicitante</div>
+                 <div class="ui blue button submit" id="btn-enviar">Crear Profesional</div>
                  <div class="ui blue button submit" id="btn-cancelar">Cancelar</div>
 
              </form>
@@ -134,16 +151,14 @@
           numero : {
           identifier: 'numero',
           rules: [
-            {
+            { 
               type   : 'empty',
-              prompt : 'por favor ingrese numero de documento'
+              prompt : 'por favor ingrese numero de documento no mayor a 8 digitos'
             }
           ]
         },
       }
-    },{
-
-            onSuccess: function(e){
+    },{  onSuccess: function(e){
               e.preventDefault();
             }
       } )
