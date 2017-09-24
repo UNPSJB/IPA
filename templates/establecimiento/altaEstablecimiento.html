@@ -83,7 +83,7 @@
                          </div>
 
                          <div class="field">
-                           <label>telefono</label>
+                           <label>Telefono</label>
                            <div class="field">
                              <input type="text" name="telefono" placeholder="telefono">
                            </div>
@@ -201,8 +201,15 @@
               prompt : 'por favor ingrese codigo catastral'
             }
           ]
+        }, superficie : {
+          identifier: 'superficie',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'por favor ingrese la superficie'
+            }
+          ]
         }
-
       }
     },{
 
