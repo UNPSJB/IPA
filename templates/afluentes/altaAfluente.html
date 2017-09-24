@@ -13,25 +13,28 @@
         <div clas="two column row">
           <div clas= "column">
              <form class="ui form" id="frm-afluente" method="post">
-               <h4 class="ui dividing header"><font size="5" color="blue">Formulario de Afluente</font></h4>
-                 <div class="field">
-                     <div class="field">
-                       <label>Nombre Afluente</label>
-                       <div class="field">
-                         <input type="text" name="nombre" placeholder="nombre">    
-                       </div>
-                     </div>
+               <h4 class="ui dividing header"><font size="5" color="blue">Alta Afluente<img class="image" src="logo_ipa.jpg" />
+               </font>
+               </h4>
+               </h4>
+                <div class="field">      
+                     <div class="two fields">
+                         <div class="field">
+                           <label>Nombre</label>
+                           <div class="field">
+                              <input type="text" name="nombre" placeholder="nombre">
+                           </div>
+                         </div>
+
+                         <div class="field">
+                           <label>Superficie (km2)</label>
+                           <div class="field">
+                             <input type="text" name="superficie" placeholder="superficie">
+                           </div>
+                         </div>     
+                      </div>
                 </div>
-
-                <div class="field">
-                       <label>Superficie (km2)</label>
-                       <div class="field">
-                          <input type="text" name="superficie" placeholder="Superficie">    
-                       </div>                   
-                 </div>
-                 
-                 
-
+      
                  <div class="field">
                    <label>longitud</label>
                    <div class="field">
@@ -102,8 +105,9 @@
                  </div>
 
                  <div class="ui error message"></div>
-                 <div class="ui blue button submit" id="btn-enviar">Crear</div>
+                 <div class="ui blue button submit" id="btn-enviar">Guardar</div>
                  <div class="ui blue button submit" id="btn-cancelar">Cancelar</div>
+
              </form>
           </div>
         </div>

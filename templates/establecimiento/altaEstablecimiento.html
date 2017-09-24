@@ -11,14 +11,16 @@
   <script type="text/javascript" src="semantic.js"></script>
 </head>
 <body>
-    
     <div class ="ui container">
      <div class=" ui vertically divided grid">
         <div clas="two column row">
           <div clas= "column">
              <form class="ui form" id="frm-afluente" method="post">
-               <h4 class="ui dividing header"><font size="5" color="blue">Alta Establecimiento <img class="image" src="assets/page/img/logo.jpg" /></font></h4>
+               <h4 class="ui dividing header"><font size="5" color="blue">Alta Establecimiento<img class="image" src="logo_ipa.jpg" />
+               </font>
+               </h4>
                 <h4 class="ui dividing header">Datos del Propietario</h4>
+                   <font size="2">
                     <div class="field">      
                      <div class="two fields">
                          <div class="field">
@@ -91,19 +93,24 @@
                       </div>
                     </div>
                 <h4 class="ui dividing header">Datos del Establecimiento</h4>
-                <div class="field">
-                       <label>Codigo Catastral</label>
-                       <div class="field">
-                          <input type="text" name="codigo" placeholder="codigo">    
-                       </div>                   
-                 </div>
+                  <div class="field">      
+                     <div class="two fields">
+                         <div class="field">
+                           <label>Codigo Catastral</label>
+                           <div class="field">
+                              <input type="text" name="codigo" placeholder="codigo">
+                           </div>
+                         </div>
 
-                <div class="field">
-                       <label>Superficie (km2)</label>
-                       <div class="field">
-                          <input type="text" name="superficie" placeholder="Superficie">    
-                       </div>                   
-                 </div>
+                         <div class="field">
+                           <label>Superficie (km2)</label>
+                           <div class="field">
+                             <input type="text" name="superficie" placeholder="superficie">
+                           </div>
+                         </div>     
+                      </div>
+                </div>
+
 
                 <div class="field">
                    <label>Localidad</label>
@@ -149,6 +156,7 @@
                  <div class="ui error message"></div>
                  <div class="ui blue button submit" id="btn-enviar">Guardar</div>
                  <div class="ui blue button submit" id="btn-cancelar">Cancelar</div>
+              </font>
              </form>
           </div>
         </div>
@@ -222,5 +230,8 @@
 
 </body>
 </html>>
+
+
+
 
 
