@@ -32,6 +32,6 @@ Maquetación del sitio con:
 ##### Behold!
 Go to http://localhost:8000/
 
-###### Gentelella Contributors  
+######  Contributors  
 [](https://github.com/)  
 [](https://github.com/)
