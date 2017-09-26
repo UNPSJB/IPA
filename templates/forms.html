@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+
+{% block extra %} 
+
+<form class="ui large form" action="{{ form.url_post }}" method="POST">
+  {% csrf_token %}
+  {form.as_p}
+</form>
+
+{% endblock %}

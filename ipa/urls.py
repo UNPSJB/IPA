@@ -16,16 +16,10 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import login
-
-
-
-
-
-
-
+from . import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^login/', login, {'template_name': 'login/login.html'}),   
+    url(r'^admin/', admin.site.urls, name = 'admin'),
+    url(r'^login/', login, {'template_name': 'login/login.html'}, name='login'),  
+    url(r'^$', views.home, name='home')
 ]
-

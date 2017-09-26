@@ -1,9 +1,11 @@
 body {
   display: relative;
-  margin-top: 30px;
+  margin-top: 60px;
 }
 
-
+.ui .grid{
+  background-color: red;
+}
 
 /*
 #sidebar {

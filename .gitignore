@@ -1,12 +1,8 @@
+# ARREGLAR
 # Installer logs
 pip-log.txt
 
 # Django stuff:
 *.log
 
-*.pyc
-
-#migration folders
-*/migrations/*
-
-ipa/__pychache__/*
+*.py[co]
