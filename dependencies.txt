@@ -1,4 +1,0 @@
-//Python 3 dependecies
-
-psycopg2
-Django 1.11.4

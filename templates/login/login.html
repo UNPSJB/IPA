@@ -22,11 +22,12 @@
           Bienvenido al IPA
         </div>
       </h2>
-      <form class="ui large form" action="./index.html" method="POST">
+      <form class="ui large form" action="/" method="POST">
+        {% csrf_token %}
         <div class="ui stacked">
           <div class="field">
             <div class="ui left icon input">
-              <i class="user icon"></i><input name="email" placeholder="Correo electrónico o nombre de usuario" type="text" />
+              <i class="user icon"></i><input name="username" placeholder="Correo electrónico o nombre de usuario" type="text" />
             </div>
           </div>
           <div class="field">
