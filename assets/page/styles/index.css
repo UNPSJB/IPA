@@ -1,0 +1,22 @@
+body {
+  display: relative;
+  margin: 0px;
+}
+
+.row {
+  padding: 0px;
+}
+
+.ui.menu{
+  margin-bottom: 0px;
+}
+
+.roles {
+  font-weight: bold;
+  text-align: center;
+}
+
+.ui .header {
+  color:white;
+  font-weight: bold;
+}
