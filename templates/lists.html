@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+
+{% block extra %}
+
+{% endblock %}
+
+{% block secondaryMenu %}
+ <div class="ui vertical fluid blue inverted large menu right">
+{% for boton in botones %}
+	<a class="item" href="#"></i> {{boton}}</a>
+{% endfor%}
+</div>    
+{% endblock %}

@@ -4,11 +4,15 @@ body {
 }
 
 .row {
-  padding: 0px;
+  padding: 0px 0px 0px 0px;
 }
 
 .ui.menu{
   margin-bottom: 0px;
+}
+
+.ui.menu.right {
+	margin-top: 150px;
 }
 
 .roles {

@@ -16,17 +16,14 @@
 Maquetación del sitio con: 
 #### [ Admin Template](https://github.com/)
 
-#### Steps
-[Optional] [](http://) 
-
 ##### Get the code
     git clone https://github.com/
 
 ##### Install requirements 
-    pip install -r dependencies.txt
+    pip install -r requirements.txt
 
 ##### Run the code
-    cd 
+    cd IPA/
     python manage.py runserver 
     
 ##### Behold!

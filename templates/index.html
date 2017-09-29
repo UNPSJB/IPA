@@ -85,18 +85,21 @@
             <div class="menu inverted blue">
               <a href="#" class="item"> Afluentes</a>
               <a href="#" class="item"> Ciudades</a>
-              <a href="#" class="item "> Otra Cosa</a>
-              <a href="#" class="item "> Otra cosa2</a>
+              <a href="#" class="item "> Tipos de Uso</a>
+              <a href="{% url 'documentos:listar'%}" class="item "> Tipos de Documentos</a>
+              <a href="/admin" class="item "> Administración</a>
             </div>
           </div>
 
         </div>
       </div> <!-- column sidebar-->
-      <div class="nine wide column" >
+      <div class="ten wide column" >
         {% block extra %}
         {% endblock %}
       </div>
       <div class="three wide column" >
+        {% block secondaryMenu %}
+        {% endblock %}
       </div>
     </div><!-- row -->
   </div><!-- ui grid -->

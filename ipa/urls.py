@@ -22,5 +22,9 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name = 'admin'),
     url(r'^login/', login, {'template_name': 'login/login.html'}, name='login'),  
-    url(r'^$', login_required(views.home, login_url='login'), name='index')
+#    url(r'^tipos/', include())
+  #  url(r'permisos/' include('apps.permisos.urls'), name='permisos')
+    url(r'^$', login_required(views.home, login_url='login'), name='index'),
+    url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name= 'documentos'),
+
 ]
