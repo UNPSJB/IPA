@@ -1,0 +1,24 @@
+body {
+  background-color: #0298D2;
+  background-image: url("../img/background-index.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+  body > .grid {
+    height: 100%;
+  }
+
+.column {
+  border-radius: 20px;	
+  background-color: white;
+  padding-top: 100px;
+  max-width: 400px;
+}
+
+.content {
+	padding-bottom: 20px;
+	font-size: 25px;
+	font-family: 'Open Sans', sans-serif;
+}

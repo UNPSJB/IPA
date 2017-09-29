@@ -22,7 +22,7 @@
           Bienvenido al IPA
         </div>
       </h2>
-      <form class="ui large form" action="/" method="POST">
+      <form class="ui large form" action="{% url 'index'%}" method="POST">
         {% csrf_token %}
         <div class="ui stacked">
           <div class="field">

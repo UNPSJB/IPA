@@ -17,9 +17,10 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import login
 from . import views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name = 'admin'),
     url(r'^login/', login, {'template_name': 'login/login.html'}, name='login'),  
-    url(r'^$', views.home, name='home')
+    url(r'^$', login_required(views.home, login_url='login'), name='index')
 ]
