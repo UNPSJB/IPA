@@ -3,28 +3,40 @@
 <head>
   <meta charset="utf-8">
   <titleIn>.</title>
-  <link href="assets/plugins/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css"/>
-  <link href="assets/page/styles/login.css" rel="stylesheet" type="text/css" />
+  <link href="../../assets/plugins/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../../assets/page/styles/login.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="semantic.css">
-  <script type="text/javascript" src="jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="semantic.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../semantic.css">
+  <script type="text/javascript" src="../../jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="../../semantic.js"></script>
 </head>
 <body>
     <div class ="ui container">
      <div class=" ui vertically divided grid">
           <div clas= "column">
              <form style="border-radius: 1em; border:3px solid #CCC; padding: 1em; margin: 0 auto; width: 600px;height: 450px;" class="ui form" id="frm-departamento" method="post">
-               <h4 class="ui dividing header"><font size="5" color="blue">Alta Departamento<img class="image" src="assets/page/img/logo.jpg" />
+               <center><h4 class="ui dividing header"><font size="5" color="blue">Ciudad<img class="image" src="assets/page/img/logo.jpg" />
                </font>
-               </h4>
-                <h4 class="ui dividing header">Datos del departamento</h4>
+               </h4></center>
+                <h4 class="ui dividing header">Datos de la ciudad</h4>
                    <font size="2">
                     <div class="field">      
-
+                      </div>
+                    <div class="field">
+                         <label>Codigo Postal</label>
                          <div class="field">
-                           <label>Nombre</label>
-                              <select class="ui fluid dropdown" name="nombre" placeholder="nombre">
+                           <input type="text" name="codigopostal" placeholder="Numero CP">
+                         </div>
+                    </div>
+                    <div class="field">
+                         <label>Nombre</label>
+                         <div class="field">
+                           <input type="text" name="nombre" placeholder="Nombre">
+                         </div>
+                    </div>
+                    <div class="field">
+                           <label>Departamento</label>
+                              <select class="ui fluid dropdown" name="departamento" placeholder="departamento">
                                   <option value="1">Biedma</option>
                                   <option value="2">Cushamen</option>
                                   <option value="3">Escalante</option>
@@ -42,28 +54,9 @@
                                   <option value="15">Telsen</option>
                               </select>
                          </div>
-                      </div>
-                    <div class="field">
-                         <label>Superficie (Km2)</label>
-                         <div class="field">
-                           <input type="text" name="superficie" placeholder="superficie">
-                         </div>
-                    </div>
-                    <div class="field">
-                         <label>Población</label>
-                         <div class="field">
-                           <input type="text" name="poblacion" placeholder="poblacion">
-                         </div>
-                    </div>
-                    <div class="field">
-                   			<label>Descripción</label>
-                   		<div class="field">
-                    		<input type="text" name="descripcion" placeholder="descripcion">    
-                   		</div>                   
-                 	</div>
 
                  <div class="ui error message"></div>
-                 <div class="ui blue button submit" id="btn-enviar">Crear Departamento</div>
+                 <div class="ui blue button submit" id="btn-enviar">Crear Ciudad</div>
                  <div class="ui blue button submit" id="btn-cancelar">Cancelar</div>
               </font>
              </form>
@@ -75,29 +68,29 @@
       $('.ui.form')
     .form({
       fields: {
-        nombre: {
-          identifier: 'nombre',
+        codigopostal: {
+          identifier: 'codigopostal',
           rules: [
             {
               type   : 'empty',
               prompt : 'Por favor, seleccione el nombre del departamento'
             }
           ]
-        }, superficie: {
-          identifier: 'superficie',
+        }, nombre: {
+          identifier: 'nombre',
           rules: [
             {
               type   : 'empty',
-              prompt : 'Por favor, ingrese la superficie (Km2)'
+              prompt : 'Por favor, ingrese el nombre'
             }
           ]
         },
-          poblacion : {
-          identifier: 'poblacion',
+          departamento : {
+          identifier: 'departamento',
           rules: [
             {
               type   : 'empty',
-              prompt : 'Por favor, ingrese la poblacion'
+              prompt : 'Por favor, seleccione el nombre del departamento'
             }
           ]
         }
