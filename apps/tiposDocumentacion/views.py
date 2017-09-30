@@ -12,8 +12,12 @@ def listar_tiposDocumentacion(request):
 
 	documentos = TipoDocumentacion.objects.all()
 
+	headers = {'nombre':'nombre'}
+
 	context = { 
+		'headers': headers,
 		'botones': botones,
 		'documentos': documentos
 	}
+	
 	return render(request, "lists.html", context)

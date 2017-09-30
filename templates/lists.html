@@ -1,6 +1,24 @@
 {% extends 'index.html' %}
 
 {% block extra %}
+<table class="ui single line table">
+	<thead>
+		<tr>
+      		{% for header in headers%}
+				<th>{{header.nombre}}</th>
+      		{% endfor %}
+	 	</tr>
+	</thead>
+	<tbody>
+		 <tr>
+		 	{% for documento in documentos %}
+				<td>{{documento.nombre}}</td>
+			{% endfor%}
+		 </tr>
+
+	</tbody>
+	  
+</table>
 
 {% endblock %}
 
