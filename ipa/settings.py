@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.users',
     #'apps.permisos'
-    #'apps.tipoDeUso'
+    'apps.tiposDeUso',
     'apps.tiposDocumentacion'
 ]
 
