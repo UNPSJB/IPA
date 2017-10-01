@@ -24,4 +24,7 @@ class TipoUso(models.Model):
 	
 	periodo = models.CharField(max_length=1, choices=PERIOD_TYPES_CHOICES)
 	medida = models.CharField(max_length=1, choices=MEASUREMENT_UNIT_CHOICES)
-	documentos = models.ManyToManyField("apps.tiposDocumentacion.TipoDocumentacion")
+	documentos = models.ManyToManyField("tiposDocumentacion.TipoDocumentacion")
+
+	def __str__(self):
+		return self.nombre
