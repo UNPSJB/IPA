@@ -26,5 +26,5 @@ urlpatterns = [
   #  url(r'permisos/' include('apps.permisos.urls'), name='permisos')
     url(r'^$', login_required(views.home, login_url='login'), name='index'),
     url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name= 'documentos'),
-
+    url(r'^permisos/', include('apps.permisos.urls'), name='solicitudes')
 ]
