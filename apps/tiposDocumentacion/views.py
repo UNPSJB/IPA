@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import TipoDocumentacion
+from .forms import AltaForm
 
 # Create your views here.
 def listar_tiposDocumentacion(request):
@@ -21,3 +22,21 @@ def listar_tiposDocumentacion(request):
 	}
 	
 	return render(request, "lists.html", context)
+
+def alta_tiposDocumentos(request):
+	botones = {
+		"Listar" : 'documentos:listar',
+		"Alta" : "documentos:Alta", 
+	}
+
+	altaForm = AltaForm(request.POST or None)
+
+	context = { 
+		"form": altaForm,
+		"botones": botones
+	}
+
+	if request.POST and form.is_valid():
+		pass # Do whatever
+
+	return render(request, "forms.html", context)

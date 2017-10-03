@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.users',
-    #'apps.permisos',
+    'apps.permisos',
     'apps.tiposDeUso',
     'apps.tiposDocumentacion',
-#    'apps.persona',
+    'apps.personas',
     'apps.establecimientos',
     
 ]
@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTH_USER_MODEL = 'users.Usuario'
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 

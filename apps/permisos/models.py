@@ -5,6 +5,6 @@ class Solicitud(models.Model):
 	fecha_solicitud = models.DateField()
 	solicitante = models.ForeignKey('personas.Persona')
 	establecimiento = models.ForeignKey('establecimientos.Establecimiento')
-	tipo = models.ForeignKey('tiposDeUso.TiposUso')
-	afluente = models.ForeignKey('afluentes.Afluente')
+	tipo = models.ForeignKey('tiposDeUso.TipoUso')
+#	afluente = models.ForeignKey('afluentes.Afluente')
 	utilizando = models.BooleanField()
