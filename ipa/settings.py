@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'apps.tiposDocumentacion',
     'apps.persona',
     'apps.establecimientos',
+    'apps.departamento',
+    'apps.localidad',
     
 ]
 
