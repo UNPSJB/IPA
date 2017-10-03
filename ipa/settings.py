@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'apps.tiposDocumentacion',
     'apps.personas',
     'apps.establecimientos',
+    'apps.departamento',
+    'apps.localidad',
     
 ]
 
@@ -110,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'users.Usuario'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 

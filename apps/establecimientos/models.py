@@ -10,4 +10,4 @@ class Establecimiento(models.Model):
 #	localidad = models.ForeignKey("localidades.Localidad")
 
 	def __str__(self):
-		return nombre + " | " + codigoCatastral
+		return self.nombre + " | " + self.codigoCatastral

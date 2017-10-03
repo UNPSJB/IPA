@@ -6,3 +6,10 @@ pip-log.txt
 *.log
 
 *.py[co]
+*_REMOTE_*
+*_LOCAL_*
+*_BASE_*
+*_BACKUP_*
+
+
+*.orig
