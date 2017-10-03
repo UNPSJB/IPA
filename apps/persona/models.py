@@ -16,7 +16,7 @@ class Persona(models.Model):
 
 class Rol(models.Model):
 	rolname = models.CharField(max_length=20)
-    persona = models.ForeignKey(
+	persona = models.ForeignKey(
         Persona,
         on_delete=models.CASCADE,
         null=True
@@ -25,42 +25,42 @@ class Rol(models.Model):
 class Director(Rol):
 	
 	def __init__(self):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.rolname = "Director"
-        self.legajo = models.IntegerField()
-		self.cargo = models.CharField(max_length=25)
-		#fecha inicio de cargo
-		self.fechaInicio = models.DateField()
+	    super(self.__class__, self).__init__(*args, **kwargs)
+	    self.rolname = "Director"
+	    self.legajo = models.IntegerField()
+	    self.cargo = models.CharField(max_length=25)
+	    #fecha inicio de cargo
+	    self.fechaInicio = models.DateField()
 
 class Administrativo(Rol):
 
 	def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.rolname = "Administrativo"
+		super(self.__class__, self).__init__(*args, **kwargs)
+		self.rolname = "Administrativo"
 
 class Inspector(Rol):
 
 	def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.rolname = "Inspector"
+		super(self.__class__, self).__init__(*args, **kwargs)
+		self.rolname = "Inspector"
 
 class JefeDepartamento(Rol):
 
 	def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.rolname = "Jefe de departamento"
+		super(self.__class__, self).__init__(*args, **kwargs)
+		self.rolname = "Jefe de departamento"
 
 class Chofer(Rol):
 
 	def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.rolname = "Jefe de departamento"
-        self.licencia = models.CharField(max_length=20)
-        self.vencimientoLicencia = models.DateField()
+		super(self.__class__, self).__init__(*args, **kwargs)
+		self.rolname = "Jefe de departamento"
+		self.licencia = models.CharField(max_length=20)
+		self.vencimientoLicencia = models.DateField()
         #tipo ?????????????????
 
 class Solicitante(Rol):
 
 	def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.rolname = "Solicitante"
+		super(self.__class__, self).__init__(*args, **kwargs)
+		self.rolname = "Solicitante"

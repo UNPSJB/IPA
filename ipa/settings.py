@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     #'apps.permisos',
     'apps.tiposDeUso',
     'apps.tiposDocumentacion',
-#    'apps.persona',
+    'apps.persona',
     'apps.establecimientos',
     
 ]
