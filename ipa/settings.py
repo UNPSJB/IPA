@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'apps.departamento',
     'apps.localidad',
     'apps.semanticuiforms',
-    'apps.afluentes'
+    'apps.afluente',
     
 ]
 
