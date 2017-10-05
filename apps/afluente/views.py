@@ -3,4 +3,4 @@ from django.shortcuts import render
 # Create your views here.
 
 def alta_afluente(request):
-	return render(request, 'afluentes/altaAfluente.html')
+	return render(request, 'afluentes/altaAfluente2.html')
