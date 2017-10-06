@@ -47,6 +47,10 @@ INSTALLED_APPS = [
     'apps.localidad',
     'apps.semanticuiforms',
     'apps.afluente',
+<<<<<<< HEAD
+=======
+    'django_extensions'
+>>>>>>> d885e2c264f108d3d15cb77b13e9b9ed5d3653bb
     
 ]
 

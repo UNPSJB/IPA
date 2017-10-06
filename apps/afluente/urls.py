@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from apps.afluente.views import alta_afluente,listar_afluentes
+from . import views
 
 urlpatterns = [
 	#url(r'^$', views.listar_tiposDocumentacion, name='index_afluente'),
