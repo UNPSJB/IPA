@@ -20,11 +20,12 @@
     <div class="row">
       <div class="three wide column" >
         <div class="ui vertical fluid blue inverted large menu">
-          
+
           <div class="item">
             <h2 class="ui center aligned icon header"><i class="blue inverted circular user icon"></i> {{ user }} </h2>
             <p class="roles">Administrativo</p>
           </div>
+
           <div class="ui dropdown item">
             <i class="circle check icon"></i>  Permisos 
             <div class="menu inverted blue">
@@ -82,15 +83,22 @@
           <div class="ui dropdown item">
               <i class="settings icon"></i> Generales
               <div class="menu inverted blue">
-                  <a href="{% url 'alta_afluente' %}" class="item"> Afluentes</a>
-                  <a href="#" class="item"> Ciudades</a>
-                  <a href="#" class="item "> Tipos de Uso</a>
-                  <a href="{% url 'documentos:listar'%}" class="item "> Tipos de Documentos</a>
-                  <a href="/admin" class="item "> Administración</a>
+                <div class="item"><i class="dropdown icon"></i> Afluentes 
+                  <div class="menu">
+                    <a href="{% url 'alta_afluente' %}" class="item"> Alta</a>
+                    <a href="#" class="item"> Baja</a>
+                    <a href="#" class="item"> Modificacion</a>
+                    <a href="{% url 'listar_afluentes' %}"" class="item"> Modificacion</a>
+                  </div>
+                </div>
+                <a href="#" class="item"> Ciudades</a>
+                <a href="#" class="item "> Tipos de Uso</a>
+                <a href="{% url 'documentos:listar'%}" class="item "> Tipos de Documentos</a>
+                <a href="/admin" class="item "> Administración</a>
               </div>
           </div>
-      </div>
         </div>
+      </div>
         <!-- column sidebar-->
         <div class="ten wide column">
             {% block extra %} {% endblock %}
