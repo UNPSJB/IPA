@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <titleIn>.</title>
-  <link href="assets/plugins/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css"/>
-  <link href="assets/page/styles/login.css" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="semantic.css">
-  <script type="text/javascript" src="jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="semantic.js"></script>
-</head>
-<body>
+{% extends 'index.html' %} {% load staticfiles %} 
+
+
+{% block extra %}
+
     <div class ="ui container">
      <div class=" ui vertically divided grid">
           <div clas= "column">
@@ -110,7 +102,4 @@
       } )
   ;
    </script>
-
-</body>
-</html>
-
+{% endblock %}
