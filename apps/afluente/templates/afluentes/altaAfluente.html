@@ -1,107 +1,14 @@
-{% extends 'index.html' %} {% load staticfiles %} 
 
 
-{% block extra %}
-  <div class ="ui container" >
-     <div class=" ui vertically divided grid">
-        <div clas="two column row">
-          <div clas= "column">
-             <form style="border-radius: 1em; border:3px solid #CCC; padding: 1em;  margin: 0 auto; width: 500px; height: 650px; top:50px;" class="ui form" id="frm-afluente" method="post" >
-               <h4 class="ui dividing header"><font size="5" color="blue">Alta Afluente<img class="image" src="assets/page/img/logo.jpg" />
-               </font>
-               </h4>
-               </h4>
-                <div class="field">      
-                     <div class="two fields">
-                         <div class="field">
-                           <label>Nombre</label>
-                           <div class="field">
-                              <input type="text" name="nombre" placeholder="nombre">
-                           </div>
-                         </div>
+{% extends 'index.html' %}
 
-                         <div class="field">
-                           <label>Superficie (km2)</label>
-                           <div class="field">
-                             <input type="text" name="superficie" placeholder="superficie">
-                           </div>
-                         </div>     
-                      </div>
-                </div>
-      
-                 <div class="field">
-                   <label>longitud</label>
-                   <div class="field">
-                     <input type="text" name="longitud" placeholder="longitud">    
-                   </div>                   
-                 </div>
+{% load static semanticui %}
 
-                 <div class="field">
-                   <label>Caudal</label>
-                   <div class="field">
-                     <input type="text" name="caudal" placeholder="Caudal">    
-                   </div>                   
-                 </div>
+{% block extra %} 
 
-                 <div class="field">
-                   <label>Nacimiento del Afluente</label>
-                   <div class="field">
-                     <input type="text" name="nacimiento" placeholder="Nacimiento">    
-                   </div>                   
-                 </div>
+    <form class="ui large form" action="{{ form.url_post }}" method="POST">
+      {% csrf_token %}
+      {% render_form form %}
+    </form>
 
-                <div class="field">
-                   <label>Localidad</label>
-                   <div class="field">
-                     <select class="ui fluid dropdown" name="localidad">
-                       <option value="1">Rawson</option>
-                       <option value="2">Trelew</option>
-                       <option value="3">Puerto Madryn</option>
-                       <option value="4">Jose de San Martin</option>
-                       <option value="4">Rada Tilly</option>
-                       <option value="4">Sarmiento</option>
-                       <option value="4">Villa Ameghino</option>
-                       <option value="4">Alto Rio Senguer</option>
-                       <option value="4">Camarones</option>
-                       <option value="4">Comodoro Rivadavia</option>
-                       <option value="4">El Hoyo</option>
-                       <option value="4">Epuyen</option>
-                       <option value="4">Gaiman</option>
-                       <option value="4">Lago Puelo</option>
-                       <option value="4">Puerto Piramides</option>
-                       <option value="4">Rio Mayo</option>
-                       <option value="4">Villa Futalaufquen</option>
-                       <option value="4">Bahia Bustamante</option>
-                       <option value="4">Cholila</option>
-                       <option value="4">Corcobado</option>
-                       <option value="4">El Maiten</option>
-                       <option value="4">Esquel</option>
-                       <option value="4">Rio Pico</option>
-                       <option value="4">Gobernador Costa</option>
-                       <option value="4">Trevelin</option>
-                       <option value="4">Playa Union</option>
-                      </select> 
-                   </div>                   
-                 </div>
-
-                 <div class="field">
-                   <label>Desembocadura</label>
-                   <div class="field">
-                     <input type="text" name="desembocadura" placeholder="Desembocadura">    
-                   </div>                   
-                 </div>
-
-                 <div class="field">
-                   <label>Descripcion</label>
-                   <div class="field">
-                     <input type="text" name="descripcion" placeholder="descripcion">    
-                   </div>                   
-                 </div>
-
-                 <div class="ui error message"></div>
-                 <div class="ui blue button submit" id="btn-enviar">Crear Afluente</div>
-                 <div class="ui blue button submit" id="btn-cancelar">Cancelar</div>
-
-             </form>
-          </div>
 {% endblock %}
