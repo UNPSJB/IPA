@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.semanticuiforms',
     'apps.afluente',
     #'django_extensions'
+    'apps.tags',
 ]
 
 MIDDLEWARE = [
