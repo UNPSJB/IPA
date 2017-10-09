@@ -1,27 +1,30 @@
-from django.shortcuts import render
+from .forms import *
+
+#from django.core.urlresolvers import reverse_lazy
 
 from .models import Afluente
 
-# Create your views here.
+from django.views.generic import ListView,CreateView,DeleteView,UpdateView
 
-def alta_afluentes(request):
-	return render(request, 'afluentes/altaAfluente.html')
+class AltaAfluente(CreateView):
+	model = Afluente
+	form_class = AfluenteForm
+	template_name = 'afluentes/altaAfluente.html'
 
-def listar_afluentes(request):
-	botones = {
-		"Listar": "#",
-		"Baja": "#",
-		"Alta": "#", 
-	}
 
-	afluentes = Afluente.objects.all()
+class ListadoAfluentes(ListView):
+	model = Afluente
+	#form_class = AfluenteForm
+	template_name = 'afluentes/listado.html'
 
-	headers = {'nombre':'nombre'}
+	def get_context_data(self, **kwargs):
+		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
+		context['headers'] = {'Nombre', 'Localidad','Caudal'}
+		context['botones','url'] = {'Alta': 'alta_afluentes', 'Listado':'listar_afluentes'}
+		return context
 
-	context = { 
-		'headers': headers,
-		'botones': botones,
-		'afluentes': afluentes,
-	}
-	
-	return render(request, 'afluentes/listado.html', context)
+class AfluenteDelete(DeleteView):
+	pass
+	#model = Afluente
+	#template_name = ''
+	#success_url = reverse_lazy('xx:xx')
