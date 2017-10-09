@@ -6,9 +6,8 @@ from .forms import AltaForm
 # Create your views here.
 def listar_tiposDocumentacion(request):
 	botones = {
-		"Listar" : 'documentos:listar',
-		"Baja" : "#",
-		"Alta" : "#", 
+		"Listar" : '/documentos/listar',
+		"Alta" : "/documentos/alta",
 	}
 
 	documentos = TipoDocumentacion.objects.all()
