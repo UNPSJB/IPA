@@ -1,36 +1,43 @@
 {% extends 'index.html' %}
 
+
+
 {% block extra %}
 
-
-<table class="ui single line table">
-	<thead>
-		<tr>
-      		{% for header in headers%}
-				<th>{{header}}</th>
-      		{% endfor %}
-      		<th>Más Info</th>
-			<th>Editar</th>
-			<th>Borrar</th>
-	 	</tr>
-	</thead>
-	<tbody>
-		 <tr>
-		 	{% if object_list %}
-		 	{% for afluente in object_list %}
-				<td>{{afluente.nombre}}</td>
-				<td>{{afluente.localidad}}</td>
-				<td>{{afluente.caudal}}</td>
-				<td> <button class="ui icon button"><i class="info circle icon"></i></button></td>
-				<td> <button class="ui icon button"><i class="edit icon"></i></button></td>
-				<td> <button class="ui icon button"><i class="trash icon"></i></button></td>
+<div>
+	<table class="ui single line table">
+		<thead>
+			<tr>
+	      		{% for header in headers%}
+					<th>{{header}}</th>
+	      		{% endfor %}
+	      		<th>Más Info</th>
+				<th>Editar</th>
+				<th>Borrar</th>
+		 	</tr>
+		</thead>
+		<tbody>
+			{% if afluentes %}
+			{% for afluente in afluentes %}
+			 	<tr>
+					<td>{{ afluente.nombre }}</td>
+					<td>{{ afluente.localidad }}</td>
+					<td>{{ afluente.caudal }}</td>
+					<td class="text-center">	
+						<button class="ui icon button" id="infoID"><i class="info circle icon"></i></button>
+						<button class="ui icon button" ><i class="edit icon"></i></button>
+						<button class="ui icon button" id="deleteID"><i class="trash icon"></i></button>
+					</td>
+					<td>sdasdasadsad</td>
+				</tr>
 			{% endfor %}
 			{% endif %}
-		 </tr>
 
-	</tbody>
-	  
-</table>
+
+		</tbody>
+	</table>
+</div>
+
 
 {% endblock %}
 
@@ -41,3 +48,9 @@
 {% endfor%}
 </div>    
 {% endblock %}
+
+ {% block pageStaticJs %}
+
+{% endblock %}
+
+
