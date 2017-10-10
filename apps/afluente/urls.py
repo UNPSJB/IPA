@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from .views import ListadoAfluentes, AltaAfluente, Detalle_Afluente, AfluenteDelete, ModificarAfluente
 
+app_name = 'afluentes'
+
 urlpatterns = [
 
 	url(r'^alta_afluentes$', AltaAfluente.as_view(), name='alta_afluentes'),

@@ -1,9 +1,9 @@
 {% load static semanticui %}
 
 {% if object %}
-	<form class="ui large form" action="{% url 'detalle_afluente' object.pk %}" method="post">
+	<form class="ui large form" action="{% url 'afluentes:modificar_afluente' object.pk %}" method="post">
 {% else %}
-	<form  class="ui large form" action="{% url 'alta_afluentes' %}" method="post">
+	<form  class="ui large form" action="{% url 'afluentes:alta_afluentes' %}" method="post">
 {% endif %}
 
   {% csrf_token %}

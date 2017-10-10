@@ -1,7 +1,7 @@
 from .forms import *
 
 from django.core.urlresolvers import reverse_lazy
-
+from django.http import HttpResponseRedirect
 from .models import Afluente
 
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
@@ -39,6 +39,19 @@ class ModificarAfluente(UpdateView):
 	model = Afluente
 	form_class = AfluenteForm
 	template_name = 'afluentes/form.html'
+	success_url = reverse_lazy('afluentes:listar_afluentes')
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		id_afluente = kwargs['pk']
+		afluente = self.model.objects.get(id=id_afluente)
+		form = self.form_class(request.POST, instance=afluente)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(self.get_success_url())
+		else:
+			return HttpResponseRedirect(self.get_success_url())
+
 
 class AfluenteDelete(DeleteView):
 	model = Afluente

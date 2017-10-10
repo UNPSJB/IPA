@@ -69,9 +69,15 @@ $(document).ready(function(){
     	});
 
 		$("#deleteID").click(function(){
-			$(this).modal('show').load('{% url 'delete_afluente' 1 %}')
+			$(this).modal('show').load('{% url 'afluentes:delete_afluente' 1 %}')
 		})
 });
+
+function cerrar_modal(){
+		$('#afludiv').modal('hide');
+	return false;
+}
+
 </script>
 
 {% endblock %}
