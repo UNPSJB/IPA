@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name= 'tiposDeUso'),
     url(r'^permisos/', include('apps.permisos.urls'), name='solicitudes'),
     url(r'^afluentes/', include('apps.afluente.urls')),
+    url(r'^localidades/', include('apps.localidad.urls')),
     url(r'^departamento/', include('apps.departamento.urls'))
 
 ]

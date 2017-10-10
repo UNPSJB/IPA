@@ -8,5 +8,6 @@ class Localidad(models.Model):
 	nombre = models.CharField(max_length = 50)
 	departamento = models.ForeignKey(Departamento, null=False, blank=False)
 
+
 	def __str__(self):
-		return '{}'.format(self.nombre)
+		return self.nombre
