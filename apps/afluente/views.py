@@ -57,4 +57,4 @@ class ModificarAfluente(UpdateView):
 class AfluenteDelete(DeleteView):
 	model = Afluente
 	template_name = 'afluentes/delete.html'
-	success_url = reverse_lazy('afluente:listar_afluentes')
+	success_url = reverse_lazy('afluentes:listar_afluentes')
