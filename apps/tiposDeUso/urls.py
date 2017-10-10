@@ -1,5 +1,5 @@
 from django.conf.urls import url
-
+from .views import AltaTipoDeUso, DetalleTipoDeUso, ListadoTiposDeUso,TipoDeUsoDelete
 from . import views
 
 app_name = 'tiposDeUso'
