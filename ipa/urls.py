@@ -27,6 +27,7 @@ urlpatterns = [
 #    url(r'^tipos/', include())
   #  url(r'permisos/' include('apps.permisos.urls'), name='permisos')
     url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name= 'documentos'),
+    url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name= 'tiposDeUso'),
     url(r'^permisos/', include('apps.permisos.urls'), name='solicitudes'),
     url(r'^afluentes/', include('apps.afluente.urls')),
     url(r'^departamento/', include('apps.departamento.urls'))
