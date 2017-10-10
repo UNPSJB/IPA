@@ -25,13 +25,17 @@ urlpatterns = [
     url(r'^login/', login, {'template_name': 'login/login.html'}, name='login'),
     url(r'^logout/', logout, name='logout'),  
 #    url(r'^tipos/', include())
-  #  url(r'permisos/' include('apps.permisos.urls'), name='permisos')
+    url(r'permisos/', include('apps.permisos.urls'), name='permisos'),
     url(r'^establecimientos/', include('apps.establecimientos.urls')),
     url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name= 'documentos'),
     url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name= 'tiposDeUso'),
-    url(r'^permisos/', include('apps.permisos.urls'), name='solicitudes'),
     url(r'^afluentes/', include('apps.afluente.urls')),
+<<<<<<< HEAD
     url(r'^edictos/', include('apps.edicto.urls')),
     url(r'^departamento/', include('apps.departamento.urls')),
 
+=======
+    url(r'^localidades/', include('apps.localidad.urls')),
+    url(r'^departamento/', include('apps.departamento.urls'))
+>>>>>>> a415bed939dc81d91a951dace70b32cb63a8ce55
 ]

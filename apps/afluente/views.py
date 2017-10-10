@@ -10,7 +10,7 @@ class AltaAfluente(CreateView):
 	model = Afluente
 	form_class = AfluenteForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('afluente:listar_afluentes')
+	success_url = reverse_lazy('afluentes:listar_afluentes')
 
 
 	def get_context_data(self, **kwargs):
