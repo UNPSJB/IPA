@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'apps.localidad',
     'apps.semanticuiforms',
     'apps.afluente',
-    'apps.edicto'
-    'apps.expediente'
+    'apps.edicto',
+    'apps.expediente',
     #'django_extensions'
 ]
 
