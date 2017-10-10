@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^permisos/', include('apps.permisos.urls'), name='solicitudes'),
     url(r'^afluentes/', include('apps.afluente.urls')),
     url(r'^departamento/', include('apps.departamento.urls'))
+    url(r'^establecimientos/', include('apps.establecimientos.urls')),
 ]
