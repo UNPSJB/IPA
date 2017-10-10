@@ -33,5 +33,5 @@ urlpatterns = [
     url(r'^edictos/', include('apps.edicto.urls')),
     url(r'^departamento/', include('apps.departamento.urls')),
     url(r'^localidades/', include('apps.localidad.urls')),
-    url(r'^departamento/', include('apps.departamento.urls'))
+    
 ]
