@@ -30,12 +30,8 @@ urlpatterns = [
     url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name= 'documentos'),
     url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name= 'tiposDeUso'),
     url(r'^afluentes/', include('apps.afluente.urls')),
-<<<<<<< HEAD
     url(r'^edictos/', include('apps.edicto.urls')),
     url(r'^departamento/', include('apps.departamento.urls')),
-
-=======
     url(r'^localidades/', include('apps.localidad.urls')),
     url(r'^departamento/', include('apps.departamento.urls'))
->>>>>>> a415bed939dc81d91a951dace70b32cb63a8ce55
 ]
