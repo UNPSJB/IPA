@@ -1,7 +1,7 @@
 from django.db import models
 
-class Expediente(models.Model):
+class Edicto(models.Model):
 	numero = models.CharField(max_length=10)
-	fecha_creacion = models.DateField()
-	fecha_maxima = models.DateField()
+	fechaPublicacion = models.DateField()
+	fechaExigencia = models.DateField()
 #	expediente = models.ForeignKey('expediente.Expediente')
