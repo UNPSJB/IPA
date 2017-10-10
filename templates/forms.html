@@ -2,6 +2,8 @@
 
 {% load static semanticui %}
 
+{% load contextMenu %}
+
 {% block extra %} 
 
 <form class="ui large form" action="{{ form.url_post }}" method="POST">
@@ -9,4 +11,8 @@
   {% render_form form %}
 </form>
 
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
 {% endblock %}
