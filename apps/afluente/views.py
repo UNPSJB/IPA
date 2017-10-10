@@ -16,6 +16,7 @@ class AltaAfluente(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaAfluente, self).get_context_data(**kwargs)
 		context['botones'] = {'Alta': '/afluentes/alta_afluentes', 'Listado':'/afluentes/listar_afluentes'}
+		context['nombreForm'] = 'Afluentes'
 		return context
 
 class Detalle_Afluente(DetailView):

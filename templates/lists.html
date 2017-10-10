@@ -2,13 +2,15 @@
 {% load contextMenu %}
 {% block extra %}
 <div class="ui grid"> 
-<div class="row ">
-	<div class="eight wide centered column">
-		<div class="center titulo">
-			<h1> {{ nombreLista }}</h1>
+<div class="row header-content">
+	<div class="one wide column"></div>
+	<div class="seven wide column">
+		<div class=" titulo">
+			<h1 class="ui header"> {{ nombreLista }}</h1>
 		</div>
 	</div>
-	<div class="eight wide column">
+	<div class="two wide column"></div>
+	<div class="six wide column">
 		<div class="center buscador">
 			<div class="ui search">
 			  <div class="ui icon input">
@@ -20,26 +22,24 @@
 		</div>
 	</div>
 </div>
-<div class="row">
+<div class="row lista">
 	<div class="sixteen wide column">
-		<div class="lista">
-			<table class="ui single line table">
-				<thead>
-					<tr>
-			      		{% for header in headers%}
-							<th>{{header}}</th>
-			      		{% endfor %}
-			      		<th>Más Info</th>
-						<th>Editar</th>
-						<th>Borrar</th>
-				 	</tr>
-				</thead>
-				<tbody>
-					{% block contentList%} {% endblock%}
-					 	
-				</tbody>
-			</table>
-		</div>
+		<table class="ui single line table">
+			<thead>
+				<tr>
+		      		{% for header in headers%}
+						<th>{{header}}</th>
+		      		{% endfor %}
+		      		<th>Más Info</th>
+					<th>Editar</th>
+					<th>Borrar</th>
+			 	</tr>
+			</thead>
+			<tbody>
+				{% block contentList%} {% endblock%}
+				 	
+			</tbody>
+		</table>
 	</div>
 </div>
 

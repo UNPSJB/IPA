@@ -25,10 +25,15 @@ body {
   font-weight: bold;
 }
 
-.lista {
-	margin-top: 150px;
+.extra .header-content{
+  margin-top: 20px; 
+  padding: 0px;
 }
 
-.extra > .row {
-  margin-top: 20px;
+.extra .lista {
+  margin-top: 0px;
+}
+
+.header {
+  margin:10px;
 }
