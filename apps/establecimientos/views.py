@@ -1,4 +1,4 @@
-rom django.shortcuts import render
+from django.shortcuts import render
 
 # Create your views here.
 def alta_establecimiento(request):
