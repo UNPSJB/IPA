@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import TipoDocumentacion
 from .forms import AltaForm
