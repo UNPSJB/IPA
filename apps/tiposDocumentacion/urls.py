@@ -2,10 +2,10 @@ from django.conf.urls import url
 
 from . import views
 
-app_name = 'documentos'
+app_name = 'tipoDocumentacion'
 urlpatterns = [
-	url(r'^$', views.listar_tiposDocumentacion, name='index'),
-	url(r'^alta$', views.alta_tiposDocumentos, name='alta'),
-	url(r'^listar$', views.listar_tiposDocumentacion, name='listar'),
-	
+	url(r'^alta$', views.AltaTipoDocumentacion.as_view(), name='alta'),
+	url(r'^listar$', views.ListadoTipoDocumentacion.as_view(), name='listado'),
+	url(r'^detalle/(?P<pk>.+)/$', views.DetalleTipoDocumentacion.as_view(), name='detalle'),
+	url(r'^eliminar/(?P<pk>\d+)$', views.TipoDocumentacionDelete.as_view(), name='delete'),
 ]
