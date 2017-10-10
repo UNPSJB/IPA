@@ -1,1 +1,14 @@
-{%extends 'index.html'%}
+{%extends 'lists.html'%}
+
+{% block contentList%} 
+
+{% for documento in documentos %}
+	<tr>
+		<td>{{documento.nombre}}</td>
+
+		{% include 'formButtons.html' %}
+		
+	</tr>
+{% endfor%}
+
+{% endblock %}

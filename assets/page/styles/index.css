@@ -25,6 +25,10 @@ body {
   font-weight: bold;
 }
 
-.ui .table {
-	margin-top: 300px;
+.lista {
+	margin-top: 150px;
+}
+
+.extra > .row {
+  margin-top: 20px;
 }

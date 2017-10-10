@@ -12,15 +12,16 @@ def listar_tiposDocumentacion(request):
 
 	documentos = TipoDocumentacion.objects.all()
 
-	headers = {'nombre':'nombre'}
+	headers = ['Nombre']
 
 	context = { 
+		"nombreLista": 'Tipos de Documento',
 		'headers': headers,
 		'botones': botones,
 		'documentos': documentos
 	}
 	
-	return render(request, "lists.html", context)
+	return render(request, "listar.html", context)
 
 def alta_tiposDocumentos(request):
 	botones = {
@@ -31,6 +32,7 @@ def alta_tiposDocumentos(request):
 	altaForm = AltaForm(request.POST or None)
 
 	context = { 
+		"nombreLista": "Tipos de Documento",
 		"form": altaForm,
 		"botones": botones
 	}
