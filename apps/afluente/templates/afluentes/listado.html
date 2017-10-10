@@ -1,6 +1,6 @@
 {% extends 'index.html' %}
 
-
+{% load contextMenu %}
 
 {% block extra %}
 
@@ -23,12 +23,9 @@
 					<td>{{ afluente.nombre }}</td>
 					<td>{{ afluente.localidad }}</td>
 					<td>{{ afluente.caudal }}</td>
-					<td class="text-center">	
-						<button class="ui icon button" id="infoID"><i class="info circle icon"></i></button>
-						<button class="ui icon button" ><i class="edit icon"></i></button>
-						<button class="ui icon button" id="deleteID"><i class="trash icon"></i></button>
-					</td>
-					<td>sdasdasadsad</td>
+					<td><button class="ui icon button info" id= {{afluente.id}} ><i class="info circle icon"></i></button></td>
+					<td><button class="ui icon button edit" id= {{afluente.id}} ><i class="edit icon"></i></button></td>
+					<td><button class="ui icon button delete" id="deleteID"><i class="trash icon"></i></button></td>
 				</tr>
 			{% endfor %}
 			{% endif %}
@@ -38,18 +35,44 @@
 	</table>
 </div>
 
+<div id="afludiv" class="ui modal">
+
+</div>
 
 {% endblock %}
 
 {% block secondaryMenu %}
- <div class="ui vertical fluid blue inverted large menu right">
-{% for boton in botones %}
-	<a class="item" href="{% url 'listar_afluentes' %}"></i> {{boton}}</a>
-{% endfor%}
-</div>    
+	{% renderContextMenu %}
 {% endblock %}
 
  {% block pageStaticJs %}
+
+ <script type="text/javascript">
+$(document).ready(function(){
+
+    	$(".button.info").click(function(){
+    		var ID = $(this).attr('id');
+
+    		$("#afludiv").load('/afluentes/detalle_afluente/' + ID, function(){
+    			$(this).modal('show');
+    		});
+    	});
+
+    	$(".button.edit").click(function(){
+    		var ID = $(this).attr('id');
+
+    		console.log(ID);
+
+    		$("#afludiv").load('/afluentes/modificar_afluente/' + ID, function(){
+    			$(this).modal('show');
+    		});
+    	});
+
+		$("#deleteID").click(function(){
+			$(this).modal('show').load('{% url 'delete_afluente' 1 %}')
+		})
+});
+</script>
 
 {% endblock %}
 
