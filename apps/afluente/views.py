@@ -9,7 +9,7 @@ from django.views.generic import ListView,CreateView,DeleteView,DetailView,Updat
 class AltaAfluente(CreateView):
 	model = Afluente
 	form_class = AfluenteForm
-	template_name = 'forms.html'
+	template_name = 'form.html'
 	success_url = reverse_lazy('afluente:listar_afluentes')
 
 
