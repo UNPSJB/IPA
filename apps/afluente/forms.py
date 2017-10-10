@@ -24,7 +24,7 @@ class AfluenteForm(forms.ModelForm):
 
 		widgets = {
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),
-			'localidad':forms.TextInput(attrs={'class':'form-control'}),
+			'localidad':forms.Select(attrs={'class':'form-control'}),
 			'caudal':forms.TextInput(attrs={'class':'form-control'}),
 			'longitud':forms.TextInput(attrs={'class':'form-control'}),
 			'superficie':forms.TextInput(attrs={'class':'form-control'}),
