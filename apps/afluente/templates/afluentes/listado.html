@@ -25,7 +25,7 @@
 					<td>{{ afluente.caudal }}</td>
 					<td><button class="ui icon button info" id= {{afluente.id}} ><i class="info circle icon"></i></button></td>
 					<td><button class="ui icon button edit" id= {{afluente.id}} ><i class="edit icon"></i></button></td>
-					<td><button class="ui icon button delete" id="deleteID"><i class="trash icon"></i></button></td>
+					<td><button class="ui icon button delete" id= {{afluente.id}} ><i class="trash icon"></i></button></td>
 				</tr>
 			{% endfor %}
 			{% endif %}
@@ -61,16 +61,20 @@ $(document).ready(function(){
     	$(".button.edit").click(function(){
     		var ID = $(this).attr('id');
 
-    		console.log(ID);
-
     		$("#afludiv").load('/afluentes/modificar_afluente/' + ID, function(){
     			$(this).modal('show');
     		});
     	});
 
-		$("#deleteID").click(function(){
-			$(this).modal('show').load('{% url 'afluentes:delete_afluente' 1 %}')
-		})
+    	$(".button.delete").click(function(){
+    		var ID = $(this).attr('id');
+
+    		console.log(typeof(ID));
+
+			$("#afludiv").load('/afluentes/eliminar/' + ID, function(){
+    			$(this).modal('show');
+    		});
+		});
 });
 
 function cerrar_modal(){

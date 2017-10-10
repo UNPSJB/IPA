@@ -10,6 +10,6 @@ urlpatterns = [
 	url(r'^detalle_afluente/(?P<pk>.+)/$', Detalle_Afluente.as_view(), name='detalle_afluente'),
 	url(r'^modificar_afluente/(?P<pk>.+)/$', ModificarAfluente.as_view(), name='modificar_afluente'),
 	url(r'^listar_afluentes$', ListadoAfluentes.as_view(), name='listar_afluentes'),
-	url(r'^eliminar/(?P<pk>\d+)$', AfluenteDelete.as_view(), name='delete_afluente'),
+	url(r'^eliminar/(?P<pk>.+)/$', AfluenteDelete.as_view(), name='delete_afluente'),
 	
 ]
