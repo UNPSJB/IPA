@@ -1,0 +1,15 @@
+{%extends 'lists.html'%}
+
+{% block contentList%} 
+
+{% for tipo in tiposDeUso %}
+	<tr>
+		<td>{{tipo.nombre}}</td>
+		<td>{{tipo.coefiente}}</td>
+		<td>{{tipo.periodo}}</td>
+		{% include 'formButtons.html' %}
+		
+	</tr>
+{% endfor%}
+
+{% endblock %}

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.edicto',
     'apps.expediente',
     #'django_extensions'
+    'apps.tags',
 ]
 
 MIDDLEWARE = [

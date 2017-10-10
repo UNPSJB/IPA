@@ -2,11 +2,20 @@
 
 {% load static semanticui %}
 
+{% load contextMenu %}
+
 {% block extra %} 
+<div class="row">
+	<h1 class="ui header">{{nombreForm}}</h1>
+</div>
 
 <form class="ui large form" action="{{ form.url_post }}" method="POST">
   {% csrf_token %}
   {% render_form form %}
 </form>
 
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
 {% endblock %}

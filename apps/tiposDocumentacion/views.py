@@ -1,42 +1,35 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import TipoDocumentacion
 from .forms import AltaForm
+from django.views.generic import ListView,CreateView,DeleteView,DetailView
+
 
 # Create your views here.
-def listar_tiposDocumentacion(request):
-	botones = {
-		"Listar" : 'documentos:listar',
-		"Baja" : "#",
-		"Alta" : "#", 
-	}
+class AltaTipoDocumentacion(CreateView):
+	model = TipoDocumentacion
+	form_class = AltaForm
+	template_name = 'tipoDocumentacion/alta.html'
+	success_url = reverse_lazy('tipoDocumentacion:listado')
 
-	documentos = TipoDocumentacion.objects.all()
+class DetalleTipoDocumentacion(DetailView):
+	model = TipoDocumentacion
+	template_name = 'tipoDocumentacion/detalle.html'		
 
-	headers = {'nombre':'nombre'}
+class ListadoTipoDocumentacion(ListView):
+	model = TipoDocumentacion
+	#form_class = AfluenteForm
+	template_name = 'tipoDocumentacion/listado.html'
+	context_object_name = 'documentos'
 
-	context = { 
-		'headers': headers,
-		'botones': botones,
-		'documentos': documentos
-	}
-	
-	return render(request, "lists.html", context)
+	def get_context_data(self, **kwargs):
+		context = super(ListadoTipoDocumentacion, self).get_context_data(**kwargs)
+		context['nombreLista'] = "Tipos de Documentación"
+		context['headers'] = ['Nombre']
+		context['botones'] = {'Alta': '/documentos/alta', 'Listado':'/documentos/listar'}
+		return context
 
-def alta_tiposDocumentos(request):
-	botones = {
-		"Listar" : 'documentos:listar',
-		"Alta" : "documentos:Alta", 
-	}
 
-	altaForm = AltaForm(request.POST or None)
-
-	context = { 
-		"form": altaForm,
-		"botones": botones
-	}
-
-	if request.POST and form.is_valid():
-		pass # Do whatever
-
-	return render(request, "forms.html", context)
+class TipoDocumentacionDelete(DeleteView):
+	model = TipoDocumentacion
+	template_name = 'tipoDocumentacion/delete.html'
+	success_url = reverse_lazy('tipoDocumentacion:listado')
