@@ -6,5 +6,8 @@ class Solicitud(models.Model):
 	solicitante = models.ForeignKey('personas.Persona')
 	establecimiento = models.ForeignKey('establecimientos.Establecimiento')
 	tipo = models.ForeignKey('tiposDeUso.TipoUso')
-#	afluente = models.ForeignKey('afluentes.Afluente')
+	afluente = models.ForeignKey('afluente.Afluente')
 	utilizando = models.BooleanField()
+
+class Permiso(models.Model):
+	pass
