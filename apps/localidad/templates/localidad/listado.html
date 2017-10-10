@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+
+{% load contextMenu %}
+
+{% block extra %}
+
+<div>
+	<table class="ui single line table">
+		<thead>
+			<tr>
+	      		{% for header in headers%}
+					<th>{{header}}</th>
+	      		{% endfor %}
+	      		<th>Más Info</th>
+				<th>Editar</th>
+				<th>Borrar</th>
+		 	</tr>
+		</thead>
+		<tbody>
+			{% if localidades %}
+			{% for localidad in localidades %}
+			 	<tr>
+					<td>{{ localidad.codpostal }}</td>
+					<td>{{ localidad.nombre }}</td>
+					<td>{{ localidad.departamento }}</td>
+					<td><button class="ui icon button info" id= {{localidad.id}} ><i class="info circle icon"></i></button></td>
+					<td><button class="ui icon button edit" id= {{localidad.id}} ><i class="edit icon"></i></button></td>
+					<td><button class="ui icon button delete" id= {{localidad.id}} ><i class="trash icon"></i></button></td>
+				</tr>
+			{% endfor %}
+			{% endif %}
+
+
+		</tbody>
+	</table>
+</div>
+
+<div id="localModal" class="ui modal">
+
+</div>
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
+{% endblock %}
+
+ {% block pageStaticJs %}
+
+ <script type="text/javascript">
+$(document).ready(function(){
+
+    	$(".button.info").click(function(){
+    		var ID = $(this).attr('id');
+
+    		$("#localModal").load('/localidades/detalle_localidad/' + ID, function(){
+    			$(this).modal('show');
+    		});
+    	});
+
+    	$(".button.edit").click(function(){
+    		var ID = $(this).attr('id');
+
+    		$("#localModal").load('/localidades/modificar_localidad/' + ID, function(){
+    			$(this).modal('show');
+    		});
+    	});
+
+    	$(".button.delete").click(function(){
+    		var ID = $(this).attr('id');
+
+    		console.log(typeof(ID));
+
+			$("#localModal").load('/localidades/eliminar/' + ID, function(){
+    			$(this).modal('show');
+    		});
+		});
+});
+
+function cerrar_modal(){
+		$('#localModal').modal('hide');
+	return false;
+}
+
+</script>
+
+{% endblock %}
+
+
