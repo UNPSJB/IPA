@@ -10,24 +10,24 @@ class AltaEdicto(CreateView):
 	model = Edicto
 	form_class = EdictoForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('afluente:listar_afluentes')
+	success_url = reverse_lazy('edicto:listar_edicto')
 
 
 	def get_context_data(self, **kwargs):
-		context = super(AltaAfluente, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/afluentes/alta_afluentes', 'Listado':'/afluentes/listar_afluentes'}
-		context['nombreForm'] = 'Afluentes'
+		context = super(AltaEdicto, self).get_context_data(**kwargs)
+		context['botones'] = {'Alta': '/edicto/alta_edicto', 'Listado':'/edito/listar_edicto'}
+		context['nombreForm'] = 'Edicto'
 		return context
 
 class Detalle_Edicto(DetailView):
 	model = Edicto
-	template_name = 'edictos/detalle_afluente.html'		
+	template_name = 'edicto/detalle_edicto.html'		
 
 
 class ListadoEdictos(ListView):
 	model = Edicto
 	#form_class = AfluenteForm
-	template_name = 'edictos/listado.html'
+	template_name = 'edicto/listado.html'
 	context_object_name = 'edictos'
 
 	def get_context_data(self, **kwargs):
@@ -39,7 +39,7 @@ class ListadoEdictos(ListView):
 class ModificarEdicto(UpdateView):
 	model = Edicto
 	form_class = EdictoForm
-	template_name = 'edictos/form.html'
+	template_name = 'edicto/form.html'
 	success_url = reverse_lazy('edictos:listar_edictos')
 
 	def post(self, request, *args, **kwargs):

@@ -33,6 +33,10 @@ urlpatterns = [
     url(r'^edictos/', include('apps.edicto.urls')),
     url(r'^departamento/', include('apps.departamento.urls')),
     url(r'^localidades/', include('apps.localidad.urls')),
+<<<<<<< HEAD
     url(r'^departamento/', include('apps.departamento.urls'))
 
+=======
+    
+>>>>>>> 834e9de33e2acfae2e2891f4aa5e51efcef86d13
 ]
