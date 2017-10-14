@@ -15,15 +15,23 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth.views import login, logout
+from django.contrib.auth.views import logout
+from django.views.generic import TemplateView
 from . import views
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    url(r'^$', login_required(views.home, login_url='login'), name='index'),
+    # Ruta de index
+    url(r'^$', login_required(TemplateView.as_view(template_name="index.html"), login_url='login'), name='index'),
+    
+    # Ruta al admin de Django
     url(r'^admin/', admin.site.urls, name = 'admin'),
-    url(r'^login/', login, {'template_name': 'login/login.html'}, name='login'),
+    
+    # Rutas al login y al logout 
+    url(r'^login/', views.Login.as_view(), name='login'),
     url(r'^logout/', logout, name='logout'),  
+
+    # Inclusion de rutas de aplicaciones
 #    url(r'^tipos/', include())
     url(r'permisos/', include('apps.permisos.urls'), name='permisos'),
     url(r'^establecimientos/', include('apps.establecimientos.urls')),
