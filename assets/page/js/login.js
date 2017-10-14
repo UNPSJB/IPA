@@ -24,5 +24,14 @@ $(document)
         }
       })
     ;
-  })
-;
+    $( 'i.eye' ).hover( 
+      function() {
+        $(this).removeClass('disabled');
+        $('.passwordInput').attr('type', 'text'); 
+      }, 
+      function() {
+        $(this).addClass('disabled');
+        $('.passwordInput').attr('type', 'password'); 
+      }
+    );
+  });
