@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate as django_auth
 
 class UserBackend(object):
 	def authenticate(self, request, username=None, password=None):
+		username = self.sanitizate(username)
 		user = django_auth(request, username=username, password=password)
 		if user is None:
 			try :
@@ -13,3 +14,6 @@ class UserBackend(object):
 				return None
 			user = django_auth(request, username=userObject.username, password=password)
 		return user
+
+	def sanitizate(self, username):
+		return username.lower()

@@ -1,8 +1,7 @@
 from django.urls import reverse_lazy
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, TemplateView
 from django.shortcuts import render, redirect
-from apps.users.models import Usuario
 from apps.users.backend import UserBackend
 
 # Create your views here.
@@ -23,3 +22,6 @@ class Login(LoginView):
 			login(request, user)
 			return redirect(self.success_url)
 		return render(request, self.template_name, {'message_error': 'Usuario o contraseña incorrectos'})
+
+class PasswordRecovery(TemplateView):
+	pass
