@@ -26,7 +26,9 @@ body {
 .recovery {
   margin-top: 15px;
   font-size:15px;
+  cursor:pointer;
 }
+
 
 .ui.icon.input>.eye.icon {
   border-bottom-left-radius:0px;

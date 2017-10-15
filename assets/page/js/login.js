@@ -22,8 +22,7 @@ $(document)
             ]
           }
         }
-      })
-    ;
+      });//end form
     $( 'i.eye' ).hover( 
       function() {
         $(this).removeClass('disabled');
@@ -33,5 +32,11 @@ $(document)
         $(this).addClass('disabled');
         $('.passwordInput').attr('type', 'password'); 
       }
-    );
-  });
+    ); // End hover
+    
+    $('.recovery').click(function(){
+        $('.ui.modal').load('/recovery/password_reset', function(){
+          $(this).modal('show');
+        });
+      }); //End click modal 
+  }); //End ready

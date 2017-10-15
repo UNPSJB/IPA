@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth.views import logout
+from django.contrib.auth.views import logout, password_reset, password_reset_done
 from django.views.generic import TemplateView
 from . import views
 from django.contrib.auth.decorators import login_required
@@ -31,8 +31,11 @@ urlpatterns = [
     url(r'^login/', views.Login.as_view(), name='login'),
     url(r'^logout/', logout, name='logout'),  
 
+    # Rutas de recuperacion de contraseña
+    url(r'^recovery/password_reset', password_reset, {'template_name':'recovery/password_reset_form.html', 'email_template_name': 'recovery/password_reset_email.html'} ,name='password_reset'),
+    url(r'^recovery/password_reset_done', password_reset_done, {'template_name':'recovery/password_reset_done.html'},name='password_reset_done'),
+
     # Inclusion de rutas de aplicaciones
-#    url(r'^tipos/', include())
     url(r'permisos/', include('apps.permisos.urls'), name='permisos'),
     url(r'^establecimientos/', include('apps.establecimientos.urls')),
     url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name= 'documentos'),
