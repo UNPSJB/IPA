@@ -31,11 +31,10 @@ class Documento(models.Model):
 	visado = models.BooleanField()
 
 class Permiso(models.Model):
-	solicitante = models.ForeignKey('persona.Solicitante')
-	establecimiento = models.ForeignKey('establecimiento.Establecimiento')
+	solicitante = models.ForeignKey('personas.Solicitante')
+	establecimiento = models.ForeignKey('establecimientos.Establecimiento')
 	tipo = models.ForeignKey('tiposDeUso.TipoUso')
 	afluente = models.ForeignKey('afluente.Afluente')
-	#documentos = models.l
 	numero_exp = models.PositiveIntegerField(null=True)
 
 
@@ -100,7 +99,7 @@ class Solicitado(Estado):
 
 class Iniciado(Estado):
 	TIPO = 2
-	fecha = models.DateField()
+	fecha_iniciado = models.DateField()
 	#observacion = models.CharField(max_length=100)
 
 	def recibir(self, permiso, documentos):
@@ -114,7 +113,7 @@ class Iniciado(Estado):
 
 class Visado(Estado):
 	TIPO = 3
-	fecha = models.DateField()
+	fecha_visado = models.DateField()
 
 	def recibir(self, permiso, documentos):
 		#permiso.documentos.add(documentos)
