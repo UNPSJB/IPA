@@ -51,19 +51,27 @@ class DirectorForm (PersonaForm):
 		personaForm = PersonaForm(data=self.cleaned_data)
 		try:
 			persona = personaForm.save()
-			print (persona)
 			director = super().save()
 			persona.agregar_rol(director)
 			return director
-		except ValueError as e:
-			return e
-
-
-DirectorForm.base_fields.update(PersonaForm.base_fields)
+		except ValueError:
+			return None
 
 
 class AdministrativoForm (PersonaForm):
-	pass
+	class Meta:
+		model=Administrativo
+		exclude = ['persona']
+
+	def save(self):
+		personaForm = PersonaForm(data=self.cleaned_data)
+		try:
+			persona = personaForm.save()
+			director = super().save()
+			persona.agregar_rol(director)
+			return director
+		except ValueError:
+			return None
 
 class InspectorForm (PersonaForm):
 	pass
@@ -83,6 +91,8 @@ class SolicitanteForm (PersonaForm):
 class LiquidadorForm (PersonaForm):
 	pass
 
+DirectorForm.base_fields.update(PersonaForm.base_fields)
+AdministrativoForm.base_fields.update(PersonaForm.base_fields)
 
 
 
