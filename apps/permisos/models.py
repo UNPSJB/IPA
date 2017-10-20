@@ -66,6 +66,9 @@ class Permiso(models.Model):
 		else:
 			raise Exception("Tramite: La accion solicitada no se pudo realizar")
 
+	def agregarDocumentacion(self, documento):
+		self.documentos.add(documento)
+
 class Estado(models.Model):
 	TIPO = 0
 	TIPOS = [
