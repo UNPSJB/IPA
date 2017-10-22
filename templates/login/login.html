@@ -32,17 +32,31 @@
           </div>
           <div class="field">
             <div class="ui left icon input">
-              <i class="lock icon"></i><input name="password" placeholder="Contraseña" type="password" />
+              <i class="lock icon"></i>
+              <i class="eye link disabled icon"></i>
+              <input class="passwordInput" name="password" placeholder="Contraseña" type="password"/>
             </div>
           </div>
           <button class="ui fluid large teal button " type="submit">Iniciar sesión</button>
         </div>
-        <div class="ui error message"></div>
+        <div class="recovery">          
+          <a> ¿Olvidaste la contraseña? </a>
+        </div>  
+        {% if message_error %}
+          <p> {{message_error}}</p>
+        {% endif%}
+        <div class="ui error message">
+
+        </div>
       </form>
     </div>
+  </div>
+
+  <div class="ui small modal">
+
   </div>
 {% endblock %}
 
 {% block pageStaticJs %}
-  <script src="{% static 'page/js/login.js' %}">
+  <script src="{% static 'page/js/login.js' %}"> </script>
 {% endblock %}
