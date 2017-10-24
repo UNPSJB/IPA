@@ -5,8 +5,10 @@
 {% load contextMenu %}
 
 {% block extra %} 
-<div class="row">
-	<h1 class="ui header">{{nombreForm}}</h1>
+<div class="row header-content">
+	<div class="titulo">
+		<h1 class="ui header blue">{{nombreForm}}</h1>
+	</div>
 </div>
 
 <form class="ui large form" action="{{ form.url_post }}" method="POST">
