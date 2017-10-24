@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name= 'tiposDeUso'),
     url(r'^afluentes/', include('apps.afluente.urls')),
     url(r'^edictos/', include('apps.edicto.urls')),
-    url(r'^departamento/', include('apps.departamento.urls')),
+    url(r'^departamentos/', include('apps.departamento.urls')),
     url(r'^localidades/', include('apps.localidad.urls')),
     url(r'^personas/',include('apps.personas.urls')),
 ]
