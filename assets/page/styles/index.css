@@ -41,3 +41,6 @@ body {
   margin:10px;
 }
 
+.titulo > .ui .header{
+  color: blue;
+}
