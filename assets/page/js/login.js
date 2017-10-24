@@ -3,8 +3,8 @@ $(document)
     $('.ui.form')
       .form({
         fields: {
-          email: {
-            identifier  : 'email',
+          username: {
+            identifier  : 'username',
             rules: [
               {
                 type   : 'empty',
@@ -22,7 +22,21 @@ $(document)
             ]
           }
         }
-      })
-    ;
-  })
-;
+      });//end form
+    $( 'i.eye' ).hover( 
+      function() {
+        $(this).removeClass('disabled');
+        $('.passwordInput').attr('type', 'text'); 
+      }, 
+      function() {
+        $(this).addClass('disabled');
+        $('.passwordInput').attr('type', 'password'); 
+      }
+    ); // End hover
+    
+    $('.recovery').click(function(){
+        $('.ui.modal').load('/recovery/password_reset', function(){
+          $(this).modal('show');
+        });
+      }); //End click modal 
+  }); //End ready

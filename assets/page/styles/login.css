@@ -22,3 +22,20 @@ body {
 	font-size: 25px;
 	font-family: 'Open Sans', sans-serif;
 }
+
+.recovery {
+  margin-top: 15px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+
+.ui.icon.input>.eye.icon {
+  border-bottom-left-radius:0px;
+  border-bottom-right-radius:0.285714rem;
+  border-top-left-radius:0px;
+  border-top-right-radius:0.285714rem;
+  left: auto;
+  padding: 10px;
+  right: 0px;
+}

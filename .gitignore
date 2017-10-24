@@ -2,6 +2,7 @@
 # Installer logs
 pip-log.txt
 
+vim.exe.stackdump
 # Django stuff:
 *.log
 

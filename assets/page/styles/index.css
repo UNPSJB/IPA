@@ -3,6 +3,9 @@ body {
   margin: 0px;
 }
 
+.ui.grid > .row {
+  padding-bottom: 0px;
+}
 .row {
   padding: 0px 0px 0px 0px;
 }
@@ -36,4 +39,8 @@ body {
 
 .header {
   margin:10px;
+}
+
+.titulo > .ui .header{
+  color: blue;
 }

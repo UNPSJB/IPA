@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('afluente', '0002_auto_20171010_1821'),
+        ('afluente', '0002_auto_20171010_1826'),
         ('permisos', '0001_initial'),
     ]
 
