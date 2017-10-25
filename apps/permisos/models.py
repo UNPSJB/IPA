@@ -1,6 +1,10 @@
 from django.db import models
-
+from apps.personas.models import Persona
+from apps.establecimientos.models import Establecimiento
+from apps.tiposDeUso.models import TipoUso
+from apps.afluente.models import Afluente
 # Create your models here.
+
 class Solicitud(models.Model):
 	fecha_solicitud = models.DateField()
 	solicitante = models.ForeignKey('personas.Persona')

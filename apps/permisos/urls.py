@@ -6,7 +6,7 @@ app_name = 'permisos'
 urlpatterns = [
 	#URLS SOLICITUDES
 	url(r'^solicitud/alta$', views.AltaSolicitud.as_view(), name='altaSolicitud'),
-	url(r'^solicitud/listar$', views.ListadoSolicitudes.as_view(), name='listadoSolicitud'),
+	url(r'^solicitud/listar$', views.ListadoSolicitud.as_view(), name='listadoSolicitud'),
 	url(r'^solicitud/detalle/(?P<pk>.+)/$', views.DetalleSolicitud.as_view(), name='detalleSolicitud'),
 	url(r'^solicitud/eliminar/(?P<pk>\d+)$', views.SolicitudDelete.as_view(), name='deleteSolicitud'),
 	
