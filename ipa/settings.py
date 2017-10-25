@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'apps.reclamo',
     #'django_extensions'
     'apps.tags',
+    'apps.modulo',
 ]
 
 MIDDLEWARE = [
