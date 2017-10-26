@@ -29,7 +29,7 @@ class ListadoOpisicion(ListView):
 
 
 	def get_context_data(self, **kwargs):
-		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
+		context = super(ListadoOpisicion, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Oposiciones'
 		context['headers'] = ['Numero', 'Fecha','Persona']
 		context['botones'] = {'Alta': '/oposicion/altaOposicion', 'Listado':'/oposicion/listarOposicion'}
