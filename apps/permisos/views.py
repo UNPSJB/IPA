@@ -10,8 +10,16 @@ from django.views.generic import ListView,CreateView,DeleteView,DetailView
 class AltaSolicitud(CreateView):
 	model = Solicitud
 	form_class = SolicitudForm
-	template_name = 'alta.html' 
+	template_name = 'forms.html' 
 	success_url = reverse_lazy('permisos:listadoSolicitud')
+
+	def get_context_data(self, **kwargs):
+		context = super(AltaSolicitud, self).get_context_data(**kwargs)
+		context['nombreLista'] = "Solicitud"
+		context['headers'] = ['Fecha', 'Solicitante', 'Tipo']
+		context['botones'] = {'Alta': '/permisos/solicitud/alta', 'Listado':'/permisos/documentos/listar'}
+		return context
+	
 
 class DetalleSolicitud(DetailView):
 	model = Solicitud

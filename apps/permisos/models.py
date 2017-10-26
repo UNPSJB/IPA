@@ -13,6 +13,11 @@ class Solicitud(models.Model):
 	afluente = models.ForeignKey('afluente.Afluente')
 	utilizando = models.BooleanField()
 
+	class Meta:
+		ordering = ["-fecha_solicitud"]
+
+	def __str__(self):
+		return "{} {} {}".format(solicitante, establecimiento, fecha_solicitud)
 
 
 class PermisoBaseManager(models.Manager):

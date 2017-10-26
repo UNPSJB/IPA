@@ -1,12 +1,13 @@
 {%extends 'lists.html'%}
 
-{% block contentList%} 
+{% block contentList %} 
 
 {% for solicitud in solicitudes %}
 	<tr>
 		<td>{{solicitud.fecha_solicitud}}</td>
 		<td>{{solicitud.solicitante}}</td>
 		<td>{{solicitud.tipo}}</td>
+		
 		{% include 'formButtons.html' %}
 		
 	</tr>
