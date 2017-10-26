@@ -31,7 +31,7 @@ class ListadoAfluentes(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
-		context['nombreLista'] = 'Nombre'
+		context['nombreLista'] = 'Listado de Afluentes'
 		context['headers'] = ['Nombre', 'Localidad','Caudal']
 		context['botones'] = {'Alta': '/afluentes/alta_afluentes', 'Listado':'/afluentes/listar_afluentes'}
 		return context

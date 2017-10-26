@@ -32,7 +32,7 @@ class ListadoDepartamentos(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDepartamentos, self).get_context_data(**kwargs)
-		context['nombreLista'] = 'Departamento'
+		context['nombreLista'] = 'Departamentos'
 		context['headers'] = ['Nombre','Poblacion']
 		context['botones'] = {'Alta': '/departamentos/alta', 'Listado':'/departamentos/listar'}
 		return context
