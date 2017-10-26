@@ -1,0 +1,15 @@
+{%extends 'lists.html'%}
+
+{% block contentList%} 
+
+{% for expediente in expedientes %}
+  <tr>
+    <td>{{expediente.fecha}}</td>
+    <td>{{expediente.numero}}</td>
+    <td>{{expediente.extracto}}</td>
+    {% include 'formButtons.html' %}
+    
+  </tr>
+{% endfor%}
+
+{% endblock %}
