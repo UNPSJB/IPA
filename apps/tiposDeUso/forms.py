@@ -23,7 +23,7 @@ class AltaForm(forms.ModelForm):
 		widgets = {
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),
 			'coeficiente':forms.TextInput(attrs={'class':'form-control'}),
-			'periodo':forms.TextInput(attrs={'class':'form-control'}),
-			'medida':forms.TextInput(attrs={'class':'form-control'}),
-			'documentos':forms.TextInput(attrs={'class':'form-control'}),
+			'periodo':forms.Select(attrs={'class':'form-control'}),
+			'medida':forms.Select(attrs={'class':'form-control'}),
+			'documentos':forms.SelectMultiple(attrs={'class':'form-control'}),
 		}

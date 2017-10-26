@@ -49,8 +49,11 @@ INSTALLED_APPS = [
     'apps.afluente',
     'apps.edicto',
     'apps.expediente',
+    'apps.oposicion',
+    'apps.reclamo',
     #'django_extensions'
     'apps.tags',
+    'apps.modulo',
 ]
 
 MIDDLEWARE = [

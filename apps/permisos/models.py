@@ -1,6 +1,10 @@
 from django.db import models
-
+from apps.personas.models import Persona
+from apps.establecimientos.models import Establecimiento
+from apps.tiposDeUso.models import TipoUso
+from apps.afluente.models import Afluente
 # Create your models here.
+
 class Solicitud(models.Model):
 	fecha_solicitud = models.DateField()
 	solicitante = models.ForeignKey('personas.Persona')
@@ -9,6 +13,11 @@ class Solicitud(models.Model):
 	afluente = models.ForeignKey('afluente.Afluente')
 	utilizando = models.BooleanField()
 
+	class Meta:
+		ordering = ["-fecha_solicitud"]
+
+	def __str__(self):
+		return "{} {} {}".format(solicitante, establecimiento, fecha_solicitud)
 
 
 class PermisoBaseManager(models.Manager):

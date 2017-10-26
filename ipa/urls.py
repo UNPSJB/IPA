@@ -29,7 +29,7 @@ urlpatterns = [
     
     # Rutas al login y al logout 
     url(r'^login/', views.Login.as_view(), name='login'),
-    url(r'^logout/', logout, name='logout'),  
+    url(r'^logout/', logout, name='logout'),
 
     # Rutas de recuperacion de contraseña
     url(r'^recovery/password_reset', password_reset, {'template_name':'recovery/password_reset_form.html', 'email_template_name': 'recovery/password_reset_email.html'} ,name='password_reset'),
@@ -38,11 +38,12 @@ urlpatterns = [
     # Inclusion de rutas de aplicaciones
     url(r'permisos/', include('apps.permisos.urls'), name='permisos'),
     url(r'^establecimientos/', include('apps.establecimientos.urls')),
-    url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name= 'documentos'),
-    url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name= 'tiposDeUso'),
+    url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name='documentos'),
+    url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name='tiposDeUso'),
     url(r'^afluentes/', include('apps.afluente.urls')),
     url(r'^edictos/', include('apps.edicto.urls')),
     url(r'^departamentos/', include('apps.departamento.urls')),
     url(r'^localidades/', include('apps.localidad.urls')),
-    url(r'^personas/',include('apps.personas.urls')),
+    url(r'^personas/', include('apps.personas.urls')),
+    url(r'^oposicion/', include('apps.oposicion.urls')),
 ]

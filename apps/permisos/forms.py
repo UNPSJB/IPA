@@ -36,10 +36,10 @@ class SolicitudForm(forms.ModelForm):
 			}
 
 		widgets = {
-	#		'fecha_solicitud' : forms.DateField(widget=forms.DateInput()),
-	#		'solicitante' : forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple),
-	#		'establecimiento' : forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple),
-	#		'tipo' : forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple),
-	#		'afluente' : forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple),
-	#		'utilizando' : forms.MultipleChoiceField(widget=forms.CheckboxInput()),
+			'fecha_solicitud':forms.TextInput(attrs={'class':'form-control'}),
+			'solicitante':forms.Select(attrs={'class':'form-control'}),
+			'establecimiento':forms.Select(attrs={'class':'form-control'}),
+			'tipo':forms.Select(attrs={'class':'form-control'}),
+			'afluente':forms.Select(attrs={'class':'form-control'}),
+		#	'utilizando':forms.BooleanField(required=False),
 			}
