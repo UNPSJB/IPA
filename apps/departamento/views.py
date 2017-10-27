@@ -1,5 +1,5 @@
 from .forms import *
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import Departamento
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
@@ -13,7 +13,7 @@ class AltaDepartamento(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaDepartamento, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/departamentos/alta', 'Listado':'/departamentos/listar'}
+		context['botones'] = {'Alta': reverse('departamentos:alta'), 'Listado': reverse('departamentos:listar')}
 		context['nombreForm'] = 'Departamentos'
 		return context
 
@@ -32,7 +32,7 @@ class ListadoDepartamentos(ListView):
 		context = super(ListadoDepartamentos, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Departamentos'
 		context['headers'] = ['Nombre','Poblacion']
-		context['botones'] = {'Alta': '/departamentos/alta', 'Listado':'/departamentos/listar'}
+		context['botones'] = {'Alta': reverse('departamentos:alta'), 'Listado': reverse('departamentos:listar')}
 		return context
 
 class ModificarDepartamento(UpdateView):
