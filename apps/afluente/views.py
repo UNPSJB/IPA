@@ -1,5 +1,5 @@
 from .forms import *
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import Afluente
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
@@ -8,12 +8,12 @@ class AltaAfluente(CreateView):
 	model = Afluente
 	form_class = AfluenteForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('afluentes:listar_afluentes')
+	success_url = reverse_lazy('afluentes:listar')
 
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaAfluente, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/afluentes/alta_afluentes', 'Listado':'/afluentes/listar_afluentes'}
+		context['botones'] = {'Alta': reverse('afluentes:alta'), 'Listado': reverse('afluentes:listar')}
 		context['nombreForm'] = 'Afluente'
 		return context
 
@@ -33,14 +33,14 @@ class ListadoAfluentes(ListView):
 		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Afluentes'
 		context['headers'] = ['Nombre', 'Localidad','Caudal']
-		context['botones'] = {'Alta': '/afluentes/alta_afluentes', 'Listado':'/afluentes/listar_afluentes'}
+		context['botones'] = {'Alta': reverse('afluentes:alta'), 'Listado':reverse('afluentes:listar')}
 		return context
 
 class ModificarAfluente(UpdateView):
 	model = Afluente
 	form_class = AfluenteForm
 	template_name = 'afluentes/form.html'
-	success_url = reverse_lazy('afluentes:listar_afluentes')
+	success_url = reverse_lazy('afluentes:listar')
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -57,4 +57,4 @@ class ModificarAfluente(UpdateView):
 class AfluenteDelete(DeleteView):
 	model = Afluente
 	template_name = 'afluentes/delete.html'
-	success_url = reverse_lazy('afluentes:listar_afluentes')
+	success_url = reverse_lazy('afluentes:listar')
