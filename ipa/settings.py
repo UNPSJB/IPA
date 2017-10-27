@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     #'django_extensions'
     'apps.tags',
     'apps.modulo',
+    'apps.infraccionActa'
 ]
 
 MIDDLEWARE = [

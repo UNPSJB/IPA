@@ -1,0 +1,14 @@
+{%extends 'lists.html'%}
+
+{% block contentList%} 
+
+{% for infraccionActa in infraccionActas %}
+  <tr>
+    <td>{{infraccionActa.numero}}</td>
+    <td>{{infraccionActa.fecha}}</td>
+    {% include 'formButtons.html' %}
+    
+  </tr>
+{% endfor%}
+
+{% endblock %}
