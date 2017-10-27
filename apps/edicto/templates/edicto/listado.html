@@ -1,89 +1,15 @@
-{% extends 'index.html' %}
+{%extends 'lists.html'%}
 
-{% load contextMenu %}
+{% block contentList%} 
 
-{% block extra %}
-
-<div>
-	<table class="ui single line table">
-		<thead>
-			<tr>
-	      		{% for header in headers%}
-					<th>{{header}}</th>
-	      		{% endfor %}
-	      		<th>Más Info</th>
-				<th>Editar</th>
-				<th>Borrar</th>
-		 	</tr>
-		</thead>
-		<tbody>
-			{% if edicto %}
-			{% for edicto in edicto %}
-			 	<tr>
-					<td>{{ edicto.numero }}</td>
-					<td>{{ edicto.fechaPublicacion }}</td>
-					<td>{{ edicto.fechaExigencia }}</td>
-					<td><button class="ui icon button info" id= {{edicto.id}} ><i class="info circle icon"></i></button></td>
-					<td><button class="ui icon button edit" id= {{edcito.id}} ><i class="edit icon"></i></button></td>
-					<td><button class="ui icon button delete" id= {{edicto.id}} ><i class="trash icon"></i></button></td>
-				</tr>
-			{% endfor %}
-			{% endif %}
-
-
-		</tbody>
-	</table>
-</div>
-
-<div id="edictodiv" class="ui modal">
-
-</div>
+{% for edicto in edictos %}
+  <tr>
+    <td>{{edicto.numero}}</td>
+    <td>{{edicto.fechaPublicacion}}</td>
+    <td>{{edicto.fechaExigencia}}</td>
+    {% include 'formButtons.html' %}
+    
+  </tr>
+{% endfor%}
 
 {% endblock %}
-
-{% block secondaryMenu %}
-	{% renderContextMenu %}
-{% endblock %}
-
- {% block pageStaticJs %}
-
- <script type="text/javascript">
-$(document).ready(function(){
-
-    	$(".button.info").click(function(){
-    		var ID = $(this).attr('id');
-
-    		$("#afludiv").load('/afluentes/detalle_afluente/' + ID, function(){
-    			$(this).modal('show');
-    		});
-    	});
-
-    	$(".button.edit").click(function(){
-    		var ID = $(this).attr('id');
-
-    		$("#afludiv").load('/afluentes/modificar_afluente/' + ID, function(){
-    			$(this).modal('show');
-    		});
-    	});
-
-    	$(".button.delete").click(function(){
-    		var ID = $(this).attr('id');
-
-    		console.log(typeof(ID));
-
-			$("#afludiv").load('/afluentes/eliminar/' + ID, function(){
-    			$(this).modal('show');
-    		});
-		});
-});
-
-function cerrar_modal(){
-		$('#edictodiv').modal('hide');
-	return false;
-}
-
-</script>
-
-{% endblock %}
-
-

@@ -1,27 +1,25 @@
 from .forms import *
-
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from .models import Edicto
-
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
 
 class AltaEdicto(CreateView):
 	model = Edicto
 	form_class = EdictoForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('edicto:listar_edicto')
+	success_url = reverse_lazy('edictos:listar')
 
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaEdicto, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/edicto/alta_edicto', 'Listado':'/edito/listar_edicto'}
-		context['nombreForm'] = 'Edicto'
+		context['botones'] = {'Alta': '/edictos/alta', 'Listado':'/edictos/listar'}
+		context['nombreForm'] = 'Edictos'
 		return context
 
 class Detalle_Edicto(DetailView):
 	model = Edicto
-	template_name = 'edicto/detalle_edicto.html'		
+	template_name = 'edictos/detalle_edicto.html'		
 
 
 class ListadoEdictos(ListView):
@@ -32,15 +30,16 @@ class ListadoEdictos(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoEdictos, self).get_context_data(**kwargs)
+		context['nombreLista'] = 'Edictos'
 		context['headers'] = ['Numero', 'Fecha Publicacion','Fecha Exigencia']
-		context['botones'] = {'Alta': '/edictos/alta_edictos', 'Listado':'/edictos/listar_edictos'}
+		context['botones'] = {'Alta': '/edictos/alta', 'Listado':'/edictos/listar'}
 		return context
 
 class ModificarEdicto(UpdateView):
 	model = Edicto
 	form_class = EdictoForm
 	template_name = 'edicto/form.html'
-	success_url = reverse_lazy('edictos:listar_edictos')
+	success_url = reverse_lazy('edictos:listar')
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -57,4 +56,4 @@ class ModificarEdicto(UpdateView):
 class EdictoDelete(DeleteView):
 	model = Edicto
 	template_name = 'edicto/delete.html'
-	success_url = reverse_lazy('edictos:listar_edictos')
+	success_url = reverse_lazy('edictos:listar')
