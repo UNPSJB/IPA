@@ -1,5 +1,5 @@
 from .forms import *
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import Edicto
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
@@ -13,7 +13,7 @@ class AltaEdicto(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaEdicto, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/edictos/alta', 'Listado':'/edictos/listar'}
+		context['botones'] = {'Alta': reverse('edictos:alta'), 'Listado': reverse('edictos:listar')}
 		context['nombreForm'] = 'Edictos'
 		return context
 
@@ -32,7 +32,7 @@ class ListadoEdictos(ListView):
 		context = super(ListadoEdictos, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Edictos'
 		context['headers'] = ['Numero', 'Fecha Publicacion','Fecha Exigencia']
-		context['botones'] = {'Alta': '/edictos/alta', 'Listado':'/edictos/listar'}
+		context['botones'] = {'Alta': reverse('edictos:alta'), 'Listado': reverse('edictos:listar')}
 		return context
 
 class ModificarEdicto(UpdateView):
