@@ -1,5 +1,5 @@
 from .forms import *
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import Oposicion
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
@@ -8,12 +8,14 @@ class AltaOposicion(CreateView):
 	model = Oposicion
 	form_class = OposicionForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('oposicion:listar_oposicion')
-
+	success_url = reverse_lazy('oposicion:listado')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaOposicion, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/oposicion/alta_oposicion', 'Listado':'/oposicion/listar_oposicion'}
+		context['botones'] = {
+		  'Alta': reverse('oposicion:alta'), 
+		  'Listado': reverse('oposicion:listado')
+		}
 		context['nombreForm'] = 'Oposicion'
 		return context
 
@@ -32,14 +34,14 @@ class ListadoOpisicion(ListView):
 		context = super(ListadoOpisicion, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Oposiciones'
 		context['headers'] = ['Numero', 'Fecha','Persona']
-		context['botones'] = {'Alta': '/oposicion/altaOposicion', 'Listado':'/oposicion/listarOposicion'}
+		context['botones'] = {'Alta': '/oposicion/alta', 'Listado':'/oposicion/listado'}
 		return context
 
 class ModificarOposicion(UpdateView):
 	model = Oposicion
 	form_class = OposicionForm
 	template_name = 'oposicion/form.html'
-	success_url = reverse_lazy('oposicion:listarOposicion')
+	success_url = reverse_lazy('oposicion:listado')
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -56,4 +58,4 @@ class ModificarOposicion(UpdateView):
 class OposicionDelete(DeleteView):
 	model = Oposicion
 	template_name = 'Oposicion/delete.html'
-	success_url = reverse_lazy('oposicion:listarOposicion')
+	success_url = reverse_lazy('oposicion:listado')
