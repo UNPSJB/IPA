@@ -1,6 +1,6 @@
 from .forms import *
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .models import Expediente
 from django.views.generic import ListView,CreateView,DeleteView,DetailView
 
@@ -17,7 +17,7 @@ class AltaExpediente(CreateView):
 		context = super(AltaExpediente, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Expediente"
 		context['headers'] = ['Fecha', 'Numero', 'Extracto']
-		context['botones'] = {'Alta': '/expediente/alta', 'Listado':'/expediente/listar'}
+		context['botones'] = {'Alta': reverse('expediente:alta'), 'Listado': reverse('expediente:listar')}
 		return context
 	
 
@@ -33,8 +33,8 @@ class ListadoExpediente(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoExpediente, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Expediente"
-		context['headers'] = ['Fecha', 'Solicitante', 'Tipo']
-		context['botones'] = {'Alta': '/expediente/alta', 'Listado':'/expediente/listar'}
+		context['headers'] = ['Fecha', 'Numero', 'Extracto']
+		context['botones'] = {'Alta': reverse('expediente:alta'), 'Listado': reverse('expediente:listar')}
 		return context
 
 class DeleteExpediente(DeleteView):

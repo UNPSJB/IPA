@@ -1,10 +1,8 @@
 from django.shortcuts import render
-
 from .models import Establecimiento
 from .forms import EstablecimientoForm
 from django.views.generic import CreateView, ListView
-
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 
 
 # Create your views here.
@@ -16,12 +14,12 @@ class AltaEstablecimiento(CreateView):
 	model = Establecimiento
 	form_class = EstablecimientoForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('establecimientos:listar_establecimientos')
+	success_url = reverse_lazy('establecimientos:listar')
 
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaEstablecimiento, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/afluentes/alta_afluentes', 'Listado':'/afluentes/listar_afluentes'}
+		context['botones'] = {'Alta': reverse('establecimientos:alta'), 'Listado': reverse('establecimientos:listar')}
 		context['nombreForm'] = 'Establecimientos'
 		return context
 
@@ -34,5 +32,5 @@ class ListadoEstablecimientos(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoEstablecimientos, self).get_context_data(**kwargs)
 		context['headers'] = ['Nombre', 'Localidad','Código Catastral']
-		context['botones'] = {'Alta': '/establecimientos/alta_establecimiento', 'Listado':'/establecimientos/listar_establecimientos'}
+		context['botones'] = {'Alta': reverse('establecimientos:alta'), 'Listado': reverse('establecimientos:listar')}
 		return context
