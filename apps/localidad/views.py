@@ -1,6 +1,6 @@
 from .forms import *
 # Create your views here.
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import Localidad
 
@@ -10,12 +10,12 @@ class AltaLocalidad(CreateView):
 	model = Localidad
 	form_class = LocalidadForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('localidades:listar_localidades')
+	success_url = reverse_lazy('localidades:listar')
 
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaLocalidad, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/localidades/alta_localidad', 'Listado': '/localidades/listar_localidades'}
+		context['botones'] = {'Alta': reverse('localidades:alta') , 'Listado': reverse('localidades:listar')}
 		context['nombreForm'] = 'Localidades'
 		return context
 
@@ -32,7 +32,7 @@ class ListadoLocalidades(ListView):
 		context = super(ListadoLocalidades, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Localidades'
 		context['headers'] = ['Codigo Postal', 'Nombre','Departamento']
-		context['botones'] = {'Alta': '/localidades/alta_localidad', 'Listado': '/localidades/listar_localidades'}
+		context['botones'] = {'Alta': reverse('localidades:alta') , 'Listado': reverse('localidades:listar')}
 		return context
 
 
@@ -41,7 +41,7 @@ class ModificarLocalidad(UpdateView):
 	model = Localidad
 	form_class = LocalidadForm
 	template_name = 'localidad/form.html'
-	success_url = reverse_lazy('localidades:listar_localidades')
+	success_url = reverse_lazy('localidades:listar')
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -58,4 +58,4 @@ class ModificarLocalidad(UpdateView):
 class LocalidadDelete(DeleteView):
 	model = Localidad
 	template_name = 'localidad/delete.html'
-	success_url = reverse_lazy('localidades:listar_localidades')
+	success_url = reverse_lazy('localidades:listar')

@@ -7,10 +7,10 @@ app_name = 'localidades'
 
 urlpatterns = [
 
-	url(r'^alta_localidad$', AltaLocalidad.as_view(), name='alta_localidad'),
-	url(r'^listar_localidades$', ListadoLocalidades.as_view(), name='listar_localidades'),
-	url(r'^detalle_localidad/(?P<pk>.+)/$', Detalle_Localidad.as_view(), name='detalle_localidad'),
-	url(r'^modificar_localidad/(?P<pk>.+)/$', ModificarLocalidad.as_view(), name='modificar_localidad'),
-	url(r'^eliminar/(?P<pk>.+)/$', LocalidadDelete.as_view(), name='delete_localidad'),
+	url(r'^alta$', AltaLocalidad.as_view(), name='alta'),
+	url(r'^listar$', ListadoLocalidades.as_view(), name='listar'),
+	url(r'^detalle/(?P<pk>.+)/$', Detalle_Localidad.as_view(), name='detalle'),
+	url(r'^modificar/(?P<pk>.+)/$', ModificarLocalidad.as_view(), name='modificar'),
+	url(r'^eliminar/(?P<pk>.+)/$', LocalidadDelete.as_view(), name='delete'),
 
 ]
