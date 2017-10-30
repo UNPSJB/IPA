@@ -1,5 +1,5 @@
 from .forms import *
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import Modulo
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
@@ -13,7 +13,7 @@ class AltaAModulo(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaAModulo, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': '/modulo/alta', 'Listado':'/modulo/listar'}
+		context['botones'] = {'Alta': reverse('modulo:alta'), 'Listado': reverse('modulo:listar')}
 		context['nombreForm'] = 'Modulo'
 		return context
 

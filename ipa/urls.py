@@ -48,5 +48,5 @@ urlpatterns = [
     url(r'^oposicion/', include('apps.oposicion.urls')),
     url(r'^expediente/', include('apps.expediente.urls'), name='expedientes'),
     url(r'^infraccionActa/', include('apps.infraccionActa.urls')),
-
+    url(r'^modulo/', include('apps.modulo.urls')),
 ]

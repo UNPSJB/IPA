@@ -6,12 +6,12 @@ class ModuloForm(forms.ModelForm):
 		model = Modulo
 
 		fields = [
-				'codigo'
+				'codigo',
 				'nombre',
 				'descripcion',
 			]
 		labels = {
-				'codigo': 'Codigo'
+				'codigo': 'Codigo',
 				'nombre': 'Nombre',
 				'descripcion': 'Descripcion',
 		}
