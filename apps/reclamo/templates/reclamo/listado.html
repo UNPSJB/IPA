@@ -1,0 +1,15 @@
+{%extends 'lists.html'%}
+
+{% block contentList%} 
+
+{% for reclamo in reclamos %}
+  <tr>
+    <td>{{reclamo.persona}}</td>
+    <td>{{reclamo.lugar}}</td>
+    <td>{{reclamo.fecha}}</td>
+    {% include 'formButtons.html' %}
+    
+  </tr>
+{% endfor%}
+
+{% endblock %}
