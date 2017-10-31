@@ -5,21 +5,6 @@ from apps.tiposDeUso.models import TipoUso
 from apps.afluente.models import Afluente
 # Create your models here.
 
-class Solicitud(models.Model):
-	fecha_solicitud = models.DateField()
-	solicitante = models.ForeignKey('personas.Persona')
-	establecimiento = models.ForeignKey('establecimientos.Establecimiento')
-	tipo = models.ForeignKey('tiposDeUso.TipoUso')
-	afluente = models.ForeignKey('afluente.Afluente')
-	utilizando = models.BooleanField()
-
-	class Meta:
-		ordering = ["-fecha_solicitud"]
-
-	def __str__(self):
-		return "{} {} {}".format(solicitante, establecimiento, fecha_solicitud)
-
-
 class PermisoBaseManager(models.Manager):
 	pass
 
@@ -33,19 +18,12 @@ class PermisoQuerySet(models.QuerySet):
 
 PermisoManager = PermisoBaseManager.from_queryset(PermisoQuerySet)
 
-class Documento(models.Model):
-	permiso = models.ForeignKey('Permiso', related_name="documentos")
-	nombre = models.CharField(max_length=100)
-	archivo = models.FileField()
-	visado = models.BooleanField()
-
 class Permiso(models.Model):
 	solicitante = models.ForeignKey('personas.Solicitante')
 	establecimiento = models.ForeignKey('establecimientos.Establecimiento')
 	tipo = models.ForeignKey('tiposDeUso.TipoUso')
 	afluente = models.ForeignKey('afluente.Afluente')
 	numero_exp = models.PositiveIntegerField(null=True)
-
 
 	objects = PermisoManager()
 
@@ -54,10 +32,10 @@ class Permiso(models.Model):
 			return self.estados.latest().related()
 
 	@classmethod
-	def new(cls, tipo):
-		t = cls(tipo=tipo)
+	def new(cls, usuario, fecha, solicitante, establecimiento, tipo, afluente):
+		t = cls(tipo=tipo, solicitante=solicitante, establecimiento=establecimiento, afluente=afluente)
 		t.save()
-		t.hacer(None, observacion="Arranca el permiso")
+		t.hacer(None, usuario=usuario, fecha=fecha, observacion="Arranca el permiso")
 		return t
 
 	def estados_related(self):
@@ -68,10 +46,10 @@ class Permiso(models.Model):
 		if estado_actual is not None and hasattr(estado_actual, accion):
 			metodo = getattr(estado_actual, accion)
 			estado_nuevo = metodo(self, *args, **kwargs)
-			if estado_actual is not None:
+			if estado_nuevo is not None:
 				estado_nuevo.save()
 		elif estado_actual is None:
-			Iniciado(permiso=self, *args, **kwargs).save()
+			Solicitado(permiso=self, *args, **kwargs).save()
 		else:
 			raise Exception("Tramite: La accion solicitada no se pudo realizar")
 
@@ -83,14 +61,18 @@ class Estado(models.Model):
 	TIPOS = [
 		(0, 'estado')
 	]
-	fecha = models.DateField()
+	# Marca de tiempo asiganda por el sistema al crear un estado
 	timestamp = models.DateTimeField(auto_now_add=True)
+	# Fecha en la que ocurre fisicamente la accion (ingresada generalmente por un usuario)
+	fecha = models.DateField()
 	permiso = models.ForeignKey(Permiso, related_name="estados")
 	tipo = models.PositiveSmallIntegerField(choices=TIPOS)
+	observacion = models.CharField(max_length=300, null=True, blank=True)
 	usuario = models.ForeignKey('users.Usuario', null=True, blank=True)
 
 	class Meta:
-		get_latest_by = 'marca'
+		ordering = ["timestamp"]
+		get_latest_by = 'timestamp'
 
 	def save(self, *args, **kwargs):
 		if self.pk is None:
@@ -108,61 +90,103 @@ class Solicitado(Estado):
 	TIPO = 1
 	utilizando = models.BooleanField(default=False)
 
-
-class Iniciado(Estado):
-	TIPO = 2
-	fecha_iniciado = models.DateField()
-	#observacion = models.CharField(max_length=100)
-
-	def recibir(self, permiso, documentos):
-		#permiso.documentos.add(documentos)
+	def recibir(self, usuario, fecha, documentos):
+		for documento in documentos:
+			self.permiso.documentos.add(documento)
 		return self
 
-	def revisar(self, permiso, documentos):
-		if permiso.documentos.exists():
-			return Visado(permiso=permiso)
+	def revisar(self, usuario, fecha, documentos):
+		for documento in documentos:
+			documento.visado = True
+			documento.save()
+		if self.permiso.documentos.filter(documentos__visado=True).exists():
+			return Visado(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		return self
 
 class Visado(Estado):
-	TIPO = 3
+	TIPO = 2
 	fecha_visado = models.DateField()
 
-	def recibir(self, permiso, documentos):
-		#permiso.documentos.add(documentos)
-		pass
+	def recibir(self, usuario, fecha, documentos):
+		for documento in documentos:
+			self.permiso.documentos.add(documento)
+		return self
 
-	def revisar(self, permiso, documentos):
-		pass
+	def revisar(self, usuario, fecha, documentos):
+		for documento in documentos:
+			documento.visado = True
+			documento.save()
+		return self
 
-	def pasar(self, permiso, expediente, documentos):
-		permiso.numero = expediente
-		#permiso.documentos.add(documentos)
-		permiso.save()
-		return Creado(permiso=permiso)
+	def pasar(self, usuario, fecha, expediente, pase):
+		self.permiso.numero_exp = expediente
+		self.permiso.documentos.add(pase)
+		self.permiso.save()
+		return Creado(permiso=self.permiso, usuario=usuario, fecha=fecha)
 
 class Creado(Estado):
-	TIPO = 4
+	TIPO = 3
 	""" Estado del tramite cuando se convierte en expediente """
-	def completar(self):
-		pass
+	def recibir(self, usuario, fecha, documentos):
+		for documento in documentos:
+			self.permiso.documentos.add(documento)
+		return self
+
+	def revisar(self, usuario, fecha, documentos):
+		for documento in documentos:
+			documento.visado = True
+			documento.save()
+		return self
+
+	def completar(self, usuario, fecha):
+		visados = self.permiso.documentos.filter(visado=True)
+		pk_tipos_requeridos = [t.pk for t in self.permiso.tipo.documentos.all()]
+		pk_tipos_visados = [d.tipo.pk for d in visados]
+		if set(pk_tipos_requeridos).issubset(set(pk_tipos_visados)):
+			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		return self
 
 class Completado(Estado):
-	TIPO = 5
+	TIPO = 4
 	""" Estado del tramite cuando se completo la documentacion del expediente """
 
-class Publicado(Estado):
-	TIPO = 6
-	edicto = models.ForeignKey('edicto.Edicto')
+	def publicar(self, usuario, fecha, tiempo, edicto):
+		self.permiso.documentos.add(edicto)
+		return Publicado(permiso=self.permiso, usuario=usuario, fecha=fecha, tiempo=tiempo)
 
-	def resolver(self, resolucion, documentos):
-		pass
+class Publicado(Estado):
+	TIPO = 5
+	# No contemplar dias habiles.... para no entrar en tema de feriados
+	tiempo = models.PositiveIntegerField()
+
+	def resolver(self, usuario, fecha, unidad, resolucion):
+		if self.fecha + self.tiempo < fecha:
+			self.permiso.documentos.add(resolucion)
+			monto = self.permiso.tipo.calcular_monto(unidad)
+			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
+		return self
 
 class Otorgado(Estado):
-	TIPO = 7    
+	TIPO = 6
+	monto = models.DecimalField()
 
-class Vencido(Estado):
-	TIPO = 8
+	def cobrar(self, usuario, fecha, monto, pago):
+		self.permiso.documentos.add(pago)
+		return self
 
+	# Recalculando monto en base a inscpeccion o capricho del director
+	def recalcular(self, usuario, fecha, unidad, documento):
+		self.permiso.documentos.add(documento)
+		monto = self.permiso.tipo.calcular_monto(unidad)
+		return Otrogado(permiso=self.permiso, usaurio=usuario, fecha=fecha, monto=monto)
 
-for Klass in [Solicitado, Iniciado, Visado, Creado, Completado, Publicado, Otorgado, Vencido]:
+for Klass in [Solicitado, Visado, Creado, Completado, Publicado, Otorgado]:
 	Estado.register(Klass)
+
+class Documento(models.Model):
+	tipo = models.ForeignKey("tiposDocumentacion.TipoDocumentacion")
+	permiso = models.ForeignKey(Permiso, related_name="documentos")
+	nombre = models.CharField(max_length=100)
+	archivo = models.FileField()
+	visado = models.BooleanField()
+	fecha = models.DateField()
