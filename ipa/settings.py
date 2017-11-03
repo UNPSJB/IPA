@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'ipa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ipaPrueba_db',
+        'NAME': 'ipa_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
