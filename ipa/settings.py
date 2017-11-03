@@ -38,23 +38,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.permisos',
-    'apps.tiposDeUso',
-    'apps.tiposDocumentacion',
-    'apps.personas',
+    'apps.comision',
+    'apps.documentos',
     'apps.establecimientos',
-    'apps.departamento',
-    'apps.localidad',
-    'apps.semanticuiforms',
-    'apps.afluente',
-    'apps.edicto',
-    'apps.expediente',
-    'apps.oposicion',
+    'apps.modulo',
+    'apps.permisos',
+    'apps.personas',
     'apps.reclamo',
+    #'apps.tiposDeUso',
+    'apps.tiposDocumentacion',
+
+
+    #'apps.departamento',
+    #'apps.localidad',
+    #'apps.semanticuiforms',
+    #'apps.afluente',
+    #'apps.oposicion',
+
     #'django_extensions'
     'apps.tags',
-    'apps.modulo',
-    'apps.infraccionActa'
+    #'apps.modulo',
+    #'apps.infraccionActa'
 ]
 
 MIDDLEWARE = [
@@ -94,7 +98,7 @@ WSGI_APPLICATION = 'ipa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ipa_db',
+        'NAME': 'ipaPrueba_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',

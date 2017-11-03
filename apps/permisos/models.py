@@ -1,8 +1,8 @@
 from django.db import models
 from apps.personas.models import Persona
-from apps.establecimientos.models import Establecimiento
-from apps.tiposDeUso.models import TipoUso
-from apps.afluente.models import Afluente
+from apps.establecimientos.models import Afluente
+from apps.documentos.models import Documento, TipoDocumento
+
 # Create your models here.
 
 class PermisoBaseManager(models.Manager):
@@ -18,12 +18,40 @@ class PermisoQuerySet(models.QuerySet):
 
 PermisoManager = PermisoBaseManager.from_queryset(PermisoQuerySet)
 
+class TipoUso(models.Model):
+	tipoMedida = (
+    ('0', 'unidad'),
+    ('1', 'm'),
+    ('2', 'm2'),
+    ('3', 'm3'),
+    ('4', 'Ha'),
+    ('5', 'KW'),
+	)
+
+	tipoPeriodo = (
+	('0', 'hora'),
+	('1', 'dia'),
+	('2', 'mes'),
+	('3', 'año'),
+	) 
+
+	nombre = models.CharField(max_length=50)
+	coeficiente = models.IntegerField()
+	periodo = models.CharField(max_length=1, choices=tipoPeriodo)
+	medida = models.CharField(max_length=1, choices=tipoMedida)
+	documentos = models.ManyToManyField(TipoDocumento)
+
+	def __str__(self):
+		return self.nombre
+
 class Permiso(models.Model):
 	solicitante = models.ForeignKey('personas.Solicitante')
 	establecimiento = models.ForeignKey('establecimientos.Establecimiento')
-	tipo = models.ForeignKey('tiposDeUso.TipoUso')
-	afluente = models.ForeignKey('afluente.Afluente')
+	tipo = models.ForeignKey(TipoUso)
+	afluente = models.ForeignKey(Afluente)
 	numero_exp = models.PositiveIntegerField(null=True)
+	documentos = models.ManyToManyField(Documento)
+
 
 	objects = PermisoManager()
 
@@ -168,7 +196,7 @@ class Publicado(Estado):
 
 class Otorgado(Estado):
 	TIPO = 6
-	monto = models.DecimalField()
+	monto = models.DecimalField(max_digits = 10, decimal_places = 2)
 
 	def cobrar(self, usuario, fecha, monto, pago):
 		self.permiso.documentos.add(pago)
@@ -183,10 +211,3 @@ class Otorgado(Estado):
 for Klass in [Solicitado, Visado, Creado, Completado, Publicado, Otorgado]:
 	Estado.register(Klass)
 
-class Documento(models.Model):
-	tipo = models.ForeignKey("tiposDocumentacion.TipoDocumentacion")
-	permiso = models.ForeignKey(Permiso, related_name="documentos")
-	nombre = models.CharField(max_length=100)
-	archivo = models.FileField()
-	visado = models.BooleanField()
-	fecha = models.DateField()

@@ -39,15 +39,9 @@ urlpatterns = [
     url(r'permisos/', include('apps.permisos.urls'), name='permisos'),
     url(r'^establecimientos/', include('apps.establecimientos.urls')),
     url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name='documentos'),
-    url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name='tiposDeUso'),
-    url(r'^afluentes/', include('apps.afluente.urls')),
-    url(r'^edictos/', include('apps.edicto.urls')),
-    url(r'^departamentos/', include('apps.departamento.urls')),
-    url(r'^localidades/', include('apps.localidad.urls')),
+    #url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name='tiposDeUso'),
     url(r'^personas/', include('apps.personas.urls')),
-    url(r'^oposicion/', include('apps.oposicion.urls')),
-    url(r'^expediente/', include('apps.expediente.urls'), name='expedientes'),
-    url(r'^infraccionActa/', include('apps.infraccionActa.urls')),
     url(r'^modulo/', include('apps.modulo.urls')),
     url(r'^reclamo/', include('apps.reclamo.urls')),
+    
 ]

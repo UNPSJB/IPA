@@ -1,9 +1,7 @@
 from django.db import models
-from apps.persona.models import Persona
-from apps.localidad.models import Localidad
+from apps.personas.models import Persona
 from apps.reclamo.models import Reclamo
-from apps.departamento.models import Departamento
-from apps.localidad.models import Localidad
+from apps.establecimientos.models import *
 
 # Create your models here.
 class Comision (models.Model):

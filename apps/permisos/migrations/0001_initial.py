@@ -13,19 +13,5 @@ class Migration(migrations.Migration):
     dependencies = [
         ('establecimientos', '0001_initial'),
         ('personas', '0001_initial'),
-        ('tiposDeUso', '0001_initial'),
     ]
 
-    operations = [
-        migrations.CreateModel(
-            name='Solicitud',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fecha_solicitud', models.DateField()),
-                ('utilizando', models.BooleanField()),
-                ('establecimiento', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='establecimientos.Establecimiento')),
-                ('solicitante', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='personas.Persona')),
-                ('tipo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tiposDeUso.TipoUso')),
-            ],
-        ),
-    ]
