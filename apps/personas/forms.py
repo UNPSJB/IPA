@@ -1,10 +1,13 @@
 from django import forms
 from .models import *
 
+from django.core.exceptions import ObjectDoesNotExist
+
+
 class PersonaForm(forms.ModelForm):
 	class Meta:
 		model = Persona
-		#abstract = True
+
 		fields = [
 				'nombre',
 				'apellido',
@@ -36,43 +39,40 @@ class PersonaForm(forms.ModelForm):
 			'direccion':forms.TextInput(attrs={'class':'form-control'}),
 			'telefono':forms.TextInput(attrs={'class':'form-control'}),
 		}
+		
+
+class DetallePersonaForm(forms.Form):
+	pass
 
 
-class DirectorForm (PersonaForm):
+class DirectorForm (forms.ModelForm):
 	class Meta:
 		model=Director
 		fields = [
 			'legajo',
 			'cargo',
-			'fechaInicio'
+			'fechaInicio',
 		]
+
+		#fields = '__all__'
+		#exclude = ['nombre','apellido']
 		
-	def save(self):
-		personaForm = PersonaForm(data=self.cleaned_data)
-		try:
-			persona = personaForm.save()
-			director = super().save()
-			persona.agregar_rol(director)
-			return director
-		except ValueError:
-			return None
+	#def save(self):
+		#personaForm = PersonaForm(data=self.cleaned_data)
+	#	try:
+			#persona = personaForm.save()
+	#		director = super().save()
+	#		persona.agregar_rol(director)
+	#		return director
+	#	except ValueError:
+	#		return None
 
-
-class AdministrativoForm (PersonaForm):
+class AdministrativoForm (forms.Form):
 	class Meta:
 		model=Administrativo
-		exclude = ['persona']
 
-	def save(self):
-		personaForm = PersonaForm(data=self.cleaned_data)
-		try:
-			persona = personaForm.save()
-			director = super().save()
-			persona.agregar_rol(director)
-			return director
-		except ValueError:
-			return None
-
+	#fields = '__all__'
+	#exclude = []
 class InspectorForm (PersonaForm):
 	pass
 
@@ -91,8 +91,7 @@ class SolicitanteForm (PersonaForm):
 class LiquidadorForm (PersonaForm):
 	pass
 
-DirectorForm.base_fields.update(PersonaForm.base_fields)
-AdministrativoForm.base_fields.update(PersonaForm.base_fields)
+#AdministrativoForm.base_fields.update(PersonaForm.base_fields)
 
 
 

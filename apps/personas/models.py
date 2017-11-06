@@ -7,17 +7,16 @@ from django.db import models
 # Create your models here.
 class Persona(models.Model):
 
-	TipoDocumento = (
+	TipoDocumento = [
 		('1', 'DNI'),
 		('2', 'LC'),
 		('3', 'LE'),
 		('4', 'PASS'),
 		('5', 'CUIT')
-	)
+	]
 
 	class Meta:
 		unique_together = ("tipoDocumento", "numeroDocumento")
-
 
 	nombre = models.CharField(max_length=30)
 	apellido = models.CharField(max_length=30)
@@ -51,6 +50,7 @@ class Rol(models.Model):
 	TIPOS = [ (0, "rol") ]
 
 	persona = models.ForeignKey(Persona,on_delete=models.CASCADE,null=True, related_name="roles")
+	tipo = models.PositiveSmallIntegerField(choices=TIPOS)
 	
 	def save(self, *args, **kwargs):
 		if self.pk is None:
@@ -61,21 +61,24 @@ class Rol(models.Model):
 		if self.__class__ != Rol:
 			return self
 		else:
+			#return self.get_tipo_display()
 			return getattr(self, self.get_tipo_display())
 
 	@classmethod
 	def register(cls, klass):
 		cls.TIPOS.append((klass.TIPO, klass.__name__.lower()))
 
+	#def __str__(self):
+	#	return "{rol}: {persona}".format(rol=self.__class__.__name__, persona=self.persona)
 	def __str__(self):
-		return "{rol}: {persona}".format(rol=self.__class__.__name__, persona=self.persona)
+		return "{rol}".format(rol=self.__class__.__name__)
 
 class Director(Rol):
 	TIPO = 1
 	legajo =  models.IntegerField()
 	cargo = models.CharField(max_length=25)
 	fechaInicio = models.DateField()
-
+	
 class Administrativo(Rol):
 	TIPO = 2
 
@@ -99,3 +102,5 @@ class Liquidador(Rol):
 class Sumariante(Inspector):
 	TIPO = 7
 	
+for Klass in [Director, Administrativo, Inspector, JefeDepartamento, Chofer, Solicitante, Liquidador, Sumariante]:
+    Rol.register(Klass)

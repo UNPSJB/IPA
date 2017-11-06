@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+
+{% load static semanticui %}
+
+{% load contextMenu %}
+
+{% block extra %}
+
+	<h1>Información de la Persona: {{ persona.nombre }} {{ persona.apellido }} </h1>
+
+	<h3>ROLES:</h3>
+	<ul>
+		{% if persona.roles.all %}
+			{% for rol in persona.roles.all %}
+				<li> {{rol.related.get_tipo_display | title}} </li>
+			{% endfor %}
+		{% endif %}
+	</ul>
+	<div>
+
+		<h3>Promover a rol:
+		<select class="ui search dropdown" id="select">
+	  		{% for tipoRol in roles %}
+	  			<option value="{{tipoRol.1}}" id={{tipoRol.0}}>{{tipoRol.1}}</option>
+	  		{% endfor %}
+
+		</select>
+		<button type="button" class="ui positive button" id="2123">Agregar</button>
+		</h3>
+	</div>
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
+{% endblock %}
+
+ {% block pageStaticJs %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+    	$("button").click(function(){
+    		var x = document.getElementById("select"); 
+    		var ID = x.value
+
+    		$(location).attr('href','/personas/promover_a_' + ID + '/' + {{persona.id}}); 
+    	});
+
+		$('#select')
+		  .dropdown({
+		    action: 'activate'
+		  });
+
+});
+</script>
+{% endblock %}
