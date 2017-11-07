@@ -56,7 +56,7 @@ class DetalleAfluente(DetailView):
 class ListadoAfluentes(ListView):
 	model = Afluente
 	template_name = 'afluente/listado.html'
-	context_object_name = 'afluentes'
+	context_object_name = 'establecimientos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
@@ -109,7 +109,7 @@ class ListadoDepartamentos(ListView):
 	model = Departamento
 	#form_class = DepartamentoForm
 	template_name = 'departamento/listado.html'
-	context_object_name = 'departamentos'
+	context_object_name = 'establecimientos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDepartamentos, self).get_context_data(**kwargs)
@@ -156,12 +156,12 @@ class AltaLocalidad(CreateView):
 
 class Detalle_Localidad(DetailView):
 	model = Localidad
-	template_name = 'localidades/detalle_localidad.html'
+	template_name = 'establecimientos/detalle_localidad.html'
 
 class ListadoLocalidades(ListView):
 	model = Localidad
 	template_name = 'localidad/listado.html'
-	context_object_name = 'localidades'
+	context_object_name = 'establecimientos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoLocalidades, self).get_context_data(**kwargs)
