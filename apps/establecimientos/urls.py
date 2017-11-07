@@ -13,11 +13,11 @@ urlpatterns = [
 	url(r'^listarAfluente$', views.ListadoAfluentes.as_view(), name='listar'),
 	url(r'^eliminarAfluente/(?P<pk>.+)/$', views.AfluenteDelete.as_view(), name='delete'),
 
-	url(r'^altaDepartamento$', views.AltaDepartamento.as_view(), name='alta'),
-	url(r'^detalleDepartamento(?P<pk>.+)/$', views.DetalleDepartamento.as_view(), name='detalle'),
-	url(r'^modificarDepartamento(?P<pk>.+)/$', views.ModificarDepartamento.as_view(), name='modificar'),
-	url(r'^listarDepartamento$', views.ListadoDepartamentos.as_view(), name='listar'),
-	url(r'^eliminarDepartamento(?P<pk>.+)/$', views.DeleteDepartamento.as_view(), name='delete'),
+	url(r'^altaDepartamento$', views.AltaDepartamento.as_view(), name='altaDepartamento'),
+	url(r'^detalleDepartamento(?P<pk>.+)/$', views.DetalleDepartamento.as_view(), name='detalleDepartamento'),
+	url(r'^modificarDepartamento(?P<pk>.+)/$', views.ModificarDepartamento.as_view(), name='modificarDepartamento'),
+	url(r'^listarDepartamento$', views.ListadoDepartamentos.as_view(), name='listarDepartamento'),
+	url(r'^eliminarDepartamento(?P<pk>.+)/$', views.DeleteDepartamento.as_view(), name='deleteDepartamento'),
 
 	url(r'^altaLocalidad$', views.AltaLocalidad.as_view(), name='altaLocalidad'),
 	url(r'^listarLocalidad$', views.ListadoLocalidades.as_view(), name='listarLocalidad'),
