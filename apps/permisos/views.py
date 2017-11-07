@@ -7,12 +7,12 @@ class AltaPermiso(CreateView):
 	model = Permiso
 	form_class = PermisoForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('permisos:listadoPermiso')
+	success_url = reverse_lazy('permisos:listar')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaPermiso, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Permisos"
-		context['headers'] = ['Fecha', 'Solicitante', 'Tipo']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente']
 		context['botones'] = {'Alta': reverse('permisos:alta'), 'Listado': reverse('permisos:listar')}
 		return context
 
@@ -29,7 +29,7 @@ class ListadoPermisos(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisos, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Permisos"
-		context['headers'] = ['Fecha', 'Solicitante', 'Tipo']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente']
 		context['botones'] = {'Alta': reverse('permisos:alta'), 'Listado': reverse('permisos:listar')}
 		return context
 

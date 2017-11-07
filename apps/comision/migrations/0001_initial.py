@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('reclamo', '0001_initial'),
         ('establecimientos', '0002_auto_20171103_1559'),
         ('personas', '0004_auto_20171020_1606'),
     ]
@@ -26,7 +25,6 @@ class Migration(migrations.Migration):
                 ('departamento', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='establecimientos.Departamento')),
                 ('empleado', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='personas.Persona')),
                 ('localidad', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='establecimientos.Localidad')),
-                ('reclamos', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reclamo.Reclamo')),
             ],
             options={
                 'ordering': ['-fechaInicio'],

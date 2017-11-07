@@ -11,7 +11,7 @@ class TipoDocumento(models.Model):
 		return self.nombre
 
 class Documento(models.Model):
-	tipo = models.ForeignKey(TipoDocumento)
+	tipo = models.ForeignKey(TipoDocumento, null=True, blank=True)
 	descripcion = models.CharField(max_length=100)
 	archivo = models.FileField()
 	visado = models.BooleanField()
