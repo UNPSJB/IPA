@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'apps.reclamo',
     #'apps.tiposDeUso',
     'apps.tiposDocumentacion',
-
+    'apps.pagos',
 
     #'apps.departamento',
     #'apps.localidad',

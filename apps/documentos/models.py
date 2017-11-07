@@ -12,7 +12,7 @@ class TipoDocumento(models.Model):
 
 class Documento(models.Model):
 	tipo = models.ForeignKey(TipoDocumento)
-	nombre = models.CharField(max_length=100)
+	descripcion = models.CharField(max_length=100)
 	archivo = models.FileField()
 	visado = models.BooleanField()
 	fecha = models.DateField()

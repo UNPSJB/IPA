@@ -2,6 +2,7 @@ from django.db import models
 from apps.personas.models import Persona
 from apps.establecimientos.models import Afluente
 from apps.documentos.models import Documento, TipoDocumento
+from apps.pagos.models import Cobro
 
 # Create your models here.
 
@@ -45,13 +46,12 @@ class TipoUso(models.Model):
 		return self.nombre
 
 class Permiso(models.Model):
-	solicitante = models.ForeignKey('personas.Solicitante')
+	solicitante = models.ForeignKey(Persona)
 	establecimiento = models.ForeignKey('establecimientos.Establecimiento')
 	tipo = models.ForeignKey(TipoUso)
 	afluente = models.ForeignKey(Afluente)
 	numero_exp = models.PositiveIntegerField(null=True)
 	documentos = models.ManyToManyField(Documento)
-
 
 	objects = PermisoManager()
 
@@ -117,6 +117,7 @@ class Estado(models.Model):
 class Solicitado(Estado):
 	TIPO = 1
 	utilizando = models.BooleanField(default=False)
+	oficio = models.BooleanField(default=False)
 
 	def recibir(self, usuario, fecha, documentos):
 		for documento in documentos:
@@ -206,7 +207,8 @@ class Otorgado(Estado):
 	def recalcular(self, usuario, fecha, unidad, documento):
 		self.permiso.documentos.add(documento)
 		monto = self.permiso.tipo.calcular_monto(unidad)
-		return Otrogado(permiso=self.permiso, usaurio=usuario, fecha=fecha, monto=monto)
+		Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
+		return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
 
 for Klass in [Solicitado, Visado, Creado, Completado, Publicado, Otorgado]:
 	Estado.register(Klass)
