@@ -6,13 +6,13 @@ from django.views.generic import ListView,CreateView,DeleteView,DetailView
 class AltaPermiso(CreateView):
 	model = Permiso
 	form_class = PermisoForm
-	template_name = 'permiso/alta.html'
-	success_url = reverse_lazy('permisos:listadoPermiso')
+	template_name = 'forms.html'
+	success_url = reverse_lazy('permisos:listar')
 
 	def get_context_data(self, **kwargs):
-		context = super(ListadoPermisos, self).get_context_data(**kwargs)
+		context = super(AltaPermiso, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Permisos"
-		context['headers'] = ['Fecha', 'Solicitante', 'Tipo']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente']
 		context['botones'] = {'Alta': reverse('permisos:alta'), 'Listado': reverse('permisos:listar')}
 		return context
 
@@ -23,13 +23,13 @@ class DetallePermiso(DetailView):
 
 class ListadoPermisos(ListView):
 	model = Permiso
-	template_name = 'permiso/listado.html'
+	template_name = 'permisos/listado.html'
 	context_object_name = 'permisos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisos, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Permisos"
-		context['headers'] = ['Fecha', 'Solicitante', 'Tipo']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente']
 		context['botones'] = {'Alta': reverse('permisos:alta'), 'Listado': reverse('permisos:listar')}
 		return context
 

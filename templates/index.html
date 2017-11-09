@@ -30,7 +30,7 @@
             <i class="circle check icon"></i>  Permisos 
             <div class="menu inverted blue">
               <a href="#" class="item "> Solicitudes</a>
-              <a href="#" class="item"> Entregados</a>
+              <a href="{% url 'permisos:listar' %}" class="item"> Otorgado</a>
               <a href="#" class="item"> Expedientes</a>
             </div>
           </div>
@@ -49,7 +49,7 @@
             <i class="users icon"></i> Usuarios 
             <div class="menu inverted blue">
               <a href="#" class="item"> Usuarios</a>
-              <a href="#%}" class="item ">Establecimientos</a>
+              <a href="{% url 'establecimientos:listarEstablecimiento' %}" class="item ">Establecimientos</a>
             </div>
           </div>
          
@@ -63,16 +63,8 @@
           </div>
           
           <div class="ui dropdown item">
-              <i class="id card icon"></i> Empleados
-              <div class="menu inverted blue">
-                  <a href="#" class="item "> Director</a>
-                  <a href="#" class="item"> Jefe de Departamento</a>
-                  <a href="#" class="item"> Administrativos</a>
-                  <a href="#" class="item "> Inspectores</a>
-                  <a href="#" class="item "> Sumariantes</a>
-                  <a href="#" class="item "> Liquidadores</a>
-                  <a href="#" class="item "> Choferes</a>
-              </div>
+          <a class="ui teal item" href="{% url 'personas:listado_personas' %}">Personas <i class="id card icon"></i></a>
+
           </div>
 
           <div class="ui dropdown item">
@@ -84,11 +76,11 @@
           <div class="ui dropdown item">
               <i class="settings icon"></i> Generales
               <div class="menu inverted blue">
-                <a href="#" class="item"> Afluentes</a> 
+                <a href="{% url 'establecimientos:listarAfluente' %}" class="item"> Afluentes</a> 
                 <a href="{% url 'establecimientos:listarLocalidad' %}" class="item"> Localidades</a>
                 <a href="#" class="item "> Tipos de Uso</a>
                 <a href="#" class="item "> Tipos de Documentos</a>
-                <a href="#" class="item "> Departamentos</a>
+                <a href="{% url 'establecimientos:listarDepartamento' %}" class="item "> Departamentos</a>
                 <a href="/admin" class="item "> Administración</a>
               </div>
           </div>
