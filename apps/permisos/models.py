@@ -6,6 +6,7 @@ from apps.pagos.models import Cobro
 
 # Create your models here.
 
+# PERMISOS =================================================
 class PermisoBaseManager(models.Manager):
 	pass
 
@@ -20,30 +21,56 @@ class PermisoQuerySet(models.QuerySet):
 PermisoManager = PermisoBaseManager.from_queryset(PermisoQuerySet)
 
 class TipoUso(models.Model):
-	tipoMedida = (
-    ('0', 'unidad'),
-    ('1', 'm'),
-    ('2', 'm2'),
-    ('3', 'm3'),
-    ('4', 'Ha'),
-    ('5', 'KW'),
+	UNIDAD = 1
+	METRO = 2
+	METRO2 = 3
+	METRO3 = 4
+	HECTAREA = 5
+	KILOWATTS = 6
+	TipoMedida = (
+    	(UNIDAD, 'unidad'),
+    	(METRO, 'm'),
+    	(METRO2, 'm2'),
+    	(METRO3, 'm3'),
+    	(HECTAREA, 'Ha'),
+    	(KILOWATTS, 'KW'),
 	)
 
-	tipoPeriodo = (
-	('0', 'hora'),
-	('1', 'dia'),
-	('2', 'mes'),
-	('3', 'año'),
-	) 
+	HORA = 1
+	DIA = 1 * 24 * HORA
+	MES = 1 * 30 * DIA
+	ANIO = 1 * 12 * MES 
+	TipoPeriodo = (
+		(HORA, 'hora'),
+		(DIA, 'dia'),
+		(MES, 'mes'),
+		(ANIO, 'año'),
+	)
+	TipoPeriodoDict = dict(TipoPeriodo)
 
-	nombre = models.CharField(max_length=50)
-	coeficiente = models.IntegerField()
-	periodo = models.CharField(max_length=1, choices=tipoPeriodo)
-	medida = models.CharField(max_length=1, choices=tipoMedida)
-	documentos = models.ManyToManyField(TipoDocumento)
+	DIESEL = 1
+	KW = 2
+	TipoModulo = [
+		(DIESEL, 'Diesel'),
+		(KW, 'Kw')
+	]
+	TipoModuloDict = dict(TipoModulo)
+
+	descripcion = models.CharField(max_length=500)
+	coeficiente = models.DecimalField(decimal_places=2, max_digits=10)
+	tipo_modulo = models.PositiveIntegerField(choices=TipoModulo)
+	periodo = models.PositiveIntegerField(choices=TipoPeriodo)
+	medida = models.PositiveIntegerField(choices=TipoMedida)
+	#documentos = models.ManyToManyField(TipoDocumento)
 
 	def __str__(self):
 		return self.nombre
+
+	def calcular(self, modulo, unidad, desde, hasta):
+		dias = (hasta - desde).days
+		horas = dias * 24
+		lapso = horas / self.periodo
+		return self.coeficiente * modulo * unidad * lapso
 
 class Permiso(models.Model):
 	solicitante = models.ForeignKey(Persona)

@@ -15,25 +15,9 @@ class Cobro(models.Model):
 	documento = models.ForeignKey(Documento, blank=False, null=False)
 	fecha = models.DateField()
 
-class Modulo(models.Model):
-	TipoModulo = [
-		('1', 'Dolar'),
-		('2', 'EuroDiesel'),
-		('3', 'UltraDiesel'),
-	]
-
-	class Meta:
-		ordering = ["nombre"]
-	
-	codigo = models.CharField(max_length=2)
-	nombre = models.CharField(max_length=1, choices=TipoModulo)
-	descripcion = models.TextField()
-
-	def __str__(self):
-		return self.codigo
-
+# MODULOS ===================================================
 class RegistrarValorDeModulo (models.Model):
-	modulo = models.ForeignKey(Modulo, blank=False, null=False)
+	#modulo = models.ForeignKey(Modulo, blank=False, null=False)
 	precio = models.DecimalField(max_digits = 10, decimal_places = 2)
 	fecha = models.DateField()
 	descripcion = models.TextField()
@@ -43,6 +27,3 @@ class RegistrarValorDeModulo (models.Model):
 
 	def __str__(self):
 		return "{fecha}: ${precio}".format(fecha=self.fecha, precio=self.precio)
-
-class formula():
-	pass
