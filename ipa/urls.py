@@ -41,5 +41,6 @@ urlpatterns = [
     url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name='documentos'),
     #url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name='tiposDeUso'),
     url(r'^personas/', include('apps.personas.urls')),
+    url(r'^comision/', include('apps.comision.urls')),
     
 ]

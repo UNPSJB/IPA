@@ -1,0 +1,15 @@
+{% extends 'lists.html' %}
+{% block contentList%} 
+
+{% for comision in comisiones %}
+	<tr>
+		<td>{{comision.empleado}}</td>
+		<td>{{comision.fechaInicio}}</td>
+		<td>{{comision.fechaFin }}</td>
+		{% include 'formButtons.html' %}
+		
+	</tr>
+{% endfor%}
+
+{% endblock %}
+
