@@ -36,7 +36,8 @@ urlpatterns = [
     url(r'^recovery/password_reset_done', password_reset_done, {'template_name':'recovery/password_reset_done.html'},name='password_reset_done'),
 
     # Inclusion de rutas de aplicaciones
-    url(r'permisos/', include('apps.permisos.urls'), name='permisos'),
+    url(r'permisos/', include('apps.permisos.urls.permisos'), name='permisos'),
+    url(r'solicitudes/', include('apps.permisos.urls.solicitudes'), name='solicitudes'),
     url(r'^establecimientos/', include('apps.establecimientos.urls')),
     url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name='documentos'),
     #url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name='tiposDeUso'),
