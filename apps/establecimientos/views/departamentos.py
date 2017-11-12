@@ -23,7 +23,19 @@ class AltaDepartamento(CreateView):
 
 class DetalleDepartamento(DetailView):
 	model = Departamento
-	template_name = 'departamentos/detalle.html'		
+	template_name = 'departamento/detalle.html'		
+	context_object_name = 'departamento'
+
+	def get_context_data(self, **kwargs):
+		context = super(DetalleDepartamento, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle de Departamento'
+		context['botones'] = {
+			'Listado': reverse('departamentos:listar'),
+			'Nuevo Departamento': reverse('departamentos:alta'),
+			'Eliminar Departamento': reverse('departamentos:eliminar', args=[self.object.id])
+
+		}
+		return context
 
 class ListadoDepartamentos(ListView):
 	model = Departamento
@@ -36,7 +48,7 @@ class ListadoDepartamentos(ListView):
 		context['nombreReverse'] = 'departamentos'
 		context['headers'] = ['Nombre','Poblacion']
 		context['botones'] = {
-				'Alta': reverse('departamentos:alta')
+				'Nuevo departamento': reverse('departamentos:alta')
 			}
 		return context
 
@@ -59,5 +71,6 @@ class ModificarDepartamento(UpdateView):
 
 class DeleteDepartamento(DeleteView):
 	model = Departamento
-	template_name = 'departamentos/delete.html'
+	template_name = 'departamento/delete.html'
 	success_url = reverse_lazy('departamentos:listar')
+
