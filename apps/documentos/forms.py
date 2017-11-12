@@ -1,9 +1,9 @@
 from django import forms
-from .models import TipoDocumentacion
+from .models import TipoDocumento
 
-class TipoDocumentacionForm(forms.ModelForm):
+class TipoDocumentoForm(forms.ModelForm):
 	class Meta:
-		model = TipoDocumentacion
+		model = TipoDocumento
 
 		fields = [
 				'nombre',
@@ -17,3 +17,4 @@ class TipoDocumentacionForm(forms.ModelForm):
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),
 		
 		}
+

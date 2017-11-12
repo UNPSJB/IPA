@@ -13,8 +13,13 @@ class AltaComision(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaComision, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': reverse('comisiones:alta') , 'Listado': reverse('comisiones:listar')}
-		context['nombreForm'] = 'Comisiones'
+		context['botones'] = {
+			'Listado comisiones': reverse('comisiones:listar'),
+			'Nuevo Empleado': reverse('personas:alta'),
+			'Nueva Localidad': reverse('localidades:alta'),
+			'Nuevo Departamento': reverse('departamentos:alta')
+			}
+		context['nombreForm'] = 'Nueva comisión'
 		return context
 
 class DetalleComision(DetailView):
@@ -28,9 +33,9 @@ class ListadoComision(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoComision, self).get_context_data(**kwargs)
-		context['nombreLista'] = 'Listado de Comisiones'
+		context['nombreLista'] = 'Listado de comisiones'
 		context['headers'] = ['Empleado', 'Departamento']
-		context['botones'] = {'Alta': reverse('comisiones:alta') , 'Listado': reverse('comisiones:listar')}
+		context['botones'] = {'Nueva comisión': reverse('comisiones:alta')}
 		return context
 
 class ModificarComision(UpdateView):
@@ -42,7 +47,7 @@ class ModificarComision(UpdateView):
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		id_comision = kwargs['pk']
-		comision = self.model.objects.get(id=id_comision)
+		comision = self.mod-el.objects.get(id=id_comision)
 		form = self.form_class(request.POST, instance=comision)
 		if form.is_valid():
 			form.save()

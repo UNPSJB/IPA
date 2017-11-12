@@ -1,5 +1,5 @@
 from django import forms
-from .models import Permiso
+from .models import Permiso, TipoUso
 
 class PermisoForm(forms.ModelForm):
     class Meta:
@@ -24,3 +24,31 @@ class PermisoForm(forms.ModelForm):
             'tipo':forms.Select(attrs={'class':'form-control'}),
             'afluente':forms.Select(attrs={'class':'form-control'}),
             }
+
+
+class TipoDeUsoForm(forms.ModelForm):
+    class Meta:
+        model = TipoUso
+
+        fields = [
+                'descripcion',
+                'coeficiente',
+                'periodo',
+                'medida',
+          #      'documentos',
+            ]
+        labels = {
+                'descripcion': 'Descripcion',
+                'coeficiente': 'Coeficiente',
+                'periodo': 'Periodo',
+                'medida': 'Medida',
+         #       'documentos': 'Documentos',
+        }
+
+        widgets = {
+            'descripcion':forms.TextInput(attrs={'class':'form-control'}),
+            'coeficiente':forms.TextInput(attrs={'class':'form-control'}),
+            'periodo':forms.Select(attrs={'class':'form-control'}),
+            'medida':forms.Select(attrs={'class':'form-control'}),
+        #    'documentos':forms.SelectMultiple(attrs={'class':'form-control'}),
+        }

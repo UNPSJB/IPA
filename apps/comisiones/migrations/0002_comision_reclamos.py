@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('documentos', '0002_auto_20171107_2211'),
-        ('comision', '0001_initial'),
+        ('comisiones', '0001_initial'),
     ]
 
     operations = [

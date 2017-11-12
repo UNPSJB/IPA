@@ -36,12 +36,15 @@ urlpatterns = [
     url(r'^recovery/password_reset_done', password_reset_done, {'template_name':'recovery/password_reset_done.html'},name='password_reset_done'),
 
     # Inclusion de rutas de aplicaciones
-    url(r'permisos/', include('apps.permisos.urls.permisos'), name='permisos'),
-    url(r'solicitudes/', include('apps.permisos.urls.solicitudes'), name='solicitudes'),
-    url(r'^establecimientos/', include('apps.establecimientos.urls')),
-    url(r'^documentos/', include('apps.tiposDocumentacion.urls'), name='documentos'),
-    #url(r'^tiposDeUso/', include('apps.tiposDeUso.urls'), name='tiposDeUso'),
+    url(r'^tiposDocumentos/', include('apps.documentos.urls.tipoDocumentos'), name='tipoDocumentos'),
+    url(r'^afluentes/', include('apps.establecimientos.urls.afluentes'), name='afluentes'),
+    url(r'^departamentos/', include('apps.establecimientos.urls.departamentos'), name='departamentos'),
+    url(r'^establecimientos/', include('apps.establecimientos.urls.establecimientos'), name='establecimientos'),
+    url(r'^localidades/', include('apps.establecimientos.urls.localidades'), name='localidades'),
+    url(r'^permisos/', include('apps.permisos.urls.permisos'), name='permisos'),
+    url(r'^tiposDeUso/', include('apps.permisos.urls.tiposUso'), name='tiposDeUso'),
+    url(r'^solicitudes/', include('apps.permisos.urls.solicitudes'), name='solicitudes'),
     url(r'^personas/', include('apps.personas.urls')),
-    url(r'^comision/', include('apps.comision.urls')),
-    
+    url(r'^comision/', include('apps.comisiones.urls')),
+         
 ]

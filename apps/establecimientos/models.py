@@ -31,7 +31,8 @@ class Establecimiento(models.Model):
 	localidad = models.ForeignKey(Localidad)
 
 	def __str__(self):
-		return self.nombre + " | " + self.codigoCatastral
+		return '{} | {}'.format(self.nombre, self.codigoCatastral)
+
 
 class Afluente(models.Model):
 	nombre = models.CharField(max_length=100)
