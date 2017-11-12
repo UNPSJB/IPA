@@ -28,11 +28,12 @@ class DetalleDepartamento(DetailView):
 class ListadoDepartamentos(ListView):
 	model = Departamento
 	template_name = 'departamento/listado.html'
-	context_object_name = 'establecimientos'
+	context_object_name = 'departamentos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDepartamentos, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de departamentos'
+		context['nombreReverse'] = 'departamentos'
 		context['headers'] = ['Nombre','Poblacion']
 		context['botones'] = {
 				'Alta': reverse('departamentos:alta')

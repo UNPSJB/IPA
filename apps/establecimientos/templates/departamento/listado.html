@@ -1,4 +1,5 @@
-{%extends 'lists.html'%}
+{% extends 'lists.html' %}
+{% load actionButton %}
 
 {% block contentList%} 
 
@@ -6,7 +7,7 @@
   <tr>
     <td>{{departamento.nombre}}</td>
     <td>{{departamento.poblacion}}</td>
-    {% include 'formButtons.html' %}
+    {%renderActionButton departamento.id %}
     
   </tr>
 {% endfor%}

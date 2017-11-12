@@ -1,12 +1,10 @@
 from django import template
-
+from django.core.urlresolvers import reverse, reverse_lazy
 register = template.Library()
 
 
 @register.inclusion_tag('actionButtons.html', takes_context=True)
-def renderActionButton(context, idObjeto):
-    reverseString = '{0}:detalle {1}'.format(context['nombreReverse'], idObjeto)
-
-    return {
-        'url': reverse(reverseString)
-        }
+def renderActionButton(context, objectId):
+	return {
+		'url': reverse(context['nombreReverse'] + ':detalle', args=[objectId] )
+		}
