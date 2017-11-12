@@ -11,7 +11,7 @@ class AltaDepartamento(CreateView):
 	model = Departamento
 	form_class = DepartamentoForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('departamento:listar')
+	success_url = reverse_lazy('departamentos:listar')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaDepartamento, self).get_context_data(**kwargs)
@@ -35,7 +35,7 @@ class ListadoDepartamentos(ListView):
 		context['nombreLista'] = 'Listado de departamentos'
 		context['headers'] = ['Nombre','Poblacion']
 		context['botones'] = {
-				'Alta': reverse('establecimientos:altaDepartamento')
+				'Alta': reverse('departamentos:alta')
 			}
 		return context
 
@@ -43,7 +43,7 @@ class ModificarDepartamento(UpdateView):
 	model = Departamento
 	form_class = DepartamentoForm
 	template_name = 'departamentos/form.html'
-	success_url = reverse_lazy('departamento:listar')
+	success_url = reverse_lazy('departamentos:listar')
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object

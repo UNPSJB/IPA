@@ -14,12 +14,12 @@ class AltaSolicitud(CreateView):
 		context['nombreForm'] = "Nueva Solicitud"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente']
 		context['botones'] = {
-								'Listado': reverse('solicitudes:listar'),
-							  	'Agregar Persona' : reverse('personas:alta_personas'),
-							  	'Agregar Establecimiento': reverse('establecimientos:altaEstablecimiento'),
-							  	'Agregar Tipo de Uso': reverse('tiposDeUso:alta'),
-							  	'Agregar Afluente': reverse('establecimientos:alta_afluente'),
-							  }
+				'Listado': reverse('solicitudes:listar'),
+				'Agregar Persona' : reverse('personas:alta'),
+			  	'Agregar Establecimiento': reverse('establecimientos:alta'),
+			  	'Agregar Tipo de Uso': reverse('tiposDeUso:alta'),
+			  	'Agregar Afluente': reverse('afluentes:alta'),
+		}
 		return context
 
 
@@ -29,14 +29,15 @@ class DetalleSolicitud(DetailView):
 
 class ListadoSolicitudes(ListView):
 	model = Permiso
-	template_name = 'permisos/listado.html'
-	context_object_name = 'permisos'
+	template_name = 'solicitudes/listado.html'
+	context_object_name = 'solicitudes'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoSolicitudes, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Permisos"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente']
-		context['botones'] = {'Alta': reverse('permisos:alta'), 'Listado': reverse('permisos:listar')}
+		context['nombreLista'] = "Lista de Solicitudes"
+		context['nombreReverse'] = "Solicitudes"
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado']
+		context['botones'] = {'Alta': reverse('solicitudes:alta')}
 		return context
 
 class SolicitudDelete(DeleteView):
