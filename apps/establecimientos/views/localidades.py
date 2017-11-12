@@ -24,15 +24,28 @@ class AltaLocalidad(CreateView):
 class DetalleLocalidad(DetailView):
 	model = Localidad
 	template_name = 'localidad/detalle.html'
+	context_object_name = 'localidad'
+	
+	def get_context_data(self, **kwargs):
+		context = super(DetalleLocalidad, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle de Localidad'
+		context['botones'] = {
+			'Listado': reverse('localidades:listar'),
+			'Nueva localidad': reverse('localidades:alta'),
+			'Eliminar localidad': reverse('localidades:eliminar', args=[self.object.id]),
+			'Modificar localidad': reverse('localidades:modificar', args=[self.object.id])
+		}
+		return context
 
 class ListadoLocalidades(ListView):
 	model = Localidad
 	template_name = 'localidad/listado.html'
-	context_object_name = 'establecimientos'
+	context_object_name = 'localidades'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoLocalidades, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Localidades'
+		context['nombreReverse'] = 'localidades'
 		context['headers'] = ['Codigo Postal', 'Nombre','Departamento']
 		context['botones'] = {
 			'Alta': reverse('localidades:alta')
