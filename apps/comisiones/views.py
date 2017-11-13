@@ -57,5 +57,5 @@ class ModificarComision(UpdateView):
 
 class DeleteComision(DeleteView):
 	model = Comision
-	template_name = 'comision/delete.html'
+	template_name = 'delete.html'
 	success_url = reverse_lazy('comisiones:listar')

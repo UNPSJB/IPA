@@ -71,5 +71,5 @@ class ModificarEstablecimiento(UpdateView):
 
 class DeleteEstablecimiento(DeleteView):
 	model = Establecimiento
-	template_name = 'establecimiento/delete.html'
+	template_name = 'delete.html'
 	success_url = reverse_lazy('establecimientos:listar')

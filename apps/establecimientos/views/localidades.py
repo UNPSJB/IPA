@@ -71,5 +71,5 @@ class ModificarLocalidad(UpdateView):
 
 class LocalidadDelete(DeleteView):
 	model = Localidad
-	template_name = 'localidad/delete.html'
+	template_name = 'delete.html'
 	success_url = reverse_lazy('localidades:listar')

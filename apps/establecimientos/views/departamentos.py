@@ -71,6 +71,6 @@ class ModificarDepartamento(UpdateView):
 
 class DeleteDepartamento(DeleteView):
 	model = Departamento
-	template_name = 'departamento/delete.html'
+	template_name = 'delete.html'
 	success_url = reverse_lazy('departamentos:listar')
 
