@@ -80,10 +80,10 @@
               <div class="menu inverted blue">
                 <a href="{% url 'afluentes:listar' %}" class="item"> Afluentes</a> 
                 <a href="{% url 'localidades:listar' %}" class="item"> Localidades</a>
-                <a href="#" class="item "> Tipos de Uso</a>
-                <a href="#" class="item "> Tipos de Documentos</a>
+                <a href="{% url 'tiposDeUso:listar' %}" class="item "> Tipos de Uso</a>
+                <a href="{% url 'tipoDocumentos:listar' %}" class="item "> Tipos de Documentos</a>
                 <a href="{% url 'departamentos:listar' %}" class="item "> Departamentos</a>
-                <a href="/admin" class="item "> Administración</a>
+                <a href="{% url 'admin:index' %}" class="item "> Administración</a>
               </div>
           </div>
         </div>

@@ -36,15 +36,15 @@ class TipoDeUsoForm(forms.ModelForm):
                 'periodo',
                 'medida',
                 'tipo_modulo',
-          #      'documentos',
+                'documentos',
             ]
         labels = {
                 'descripcion': 'Descripcion',
                 'coeficiente': 'Coeficiente',
                 'periodo': 'Periodo',
                 'medida': 'Medida',
-                'tipo_modulo': 'Tipo modulo',
-         #       'documentos': 'Documentos',
+                'tipo_modulo': 'Tipo de módulo',
+                'documentos': 'Documentos requeridos',
         }
 
         widgets = {
@@ -53,5 +53,5 @@ class TipoDeUsoForm(forms.ModelForm):
             'periodo':forms.Select(attrs={'class':'form-control'}),
             'medida':forms.Select(attrs={'class':'form-control'}),
             'tipo_modulo':forms.Select(attrs={'class':'form-control'}),
-        #    'documentos':forms.SelectMultiple(attrs={'class':'form-control'}),
+            'documentos':forms.SelectMultiple(attrs={'class':'form-control'}),
         }

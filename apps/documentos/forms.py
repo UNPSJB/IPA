@@ -15,6 +15,6 @@ class TipoDocumentoForm(forms.ModelForm):
 
 		widgets = {
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),
-		
+	
 		}
 
