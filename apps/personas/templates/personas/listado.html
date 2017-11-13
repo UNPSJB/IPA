@@ -1,5 +1,5 @@
 {% extends 'index.html' %}
-
+{% load actionButton %}
 {% load contextMenu %}
 
 {% block extra %}
@@ -12,8 +12,6 @@
 					<th>{{header}}</th>
 	      		{% endfor %}
 	      		<th>Más Info</th>
-				<th>Editar</th>
-				<th>Borrar</th>
 		 	</tr>
 		</thead>
 		<tbody>
@@ -25,9 +23,7 @@
 					<td>{{ persona.get_tipoDocumento_display }}</td>
 					<!--<td>{{ persona.roles.all | join:"," }}</td> -->
 					<td>{{ persona.numeroDocumento }}</td>
-					<td><button class="ui icon button info" id= {{persona.id}}  ><i class="info circle icon"></i></button></td>
-					<td><button class="ui icon button edit" id= {{persona.id}} ><i class="edit icon"></i></button></td>
-					<td><button class="ui icon button delete" id= {{persona.id}} ><i class="trash icon"></i></button></td>
+    				{%renderActionButton persona.id %}
 				</tr>
 			{% endfor %}
 			{% endif %}
@@ -45,7 +41,7 @@
 
  {% block pageStaticJs %}
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
 $(document).ready(function(){
 
     	$(".button.info").click(function(){
@@ -57,5 +53,5 @@ $(document).ready(function(){
 </script>
 
 {% endblock %}
-
+-->
 

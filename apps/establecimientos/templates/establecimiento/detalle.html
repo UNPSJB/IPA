@@ -1,0 +1,11 @@
+{% extends 'detail.html' %}
+
+{% block detailblock %}
+	<p> Dueño: {{establecimiento.duenio.nombre}}</p>
+	<p> Código catastral: {{establecimiento.codigoCatastral}}</p>
+	<p> Superficie: {{establecimiento.superficie}}</p>
+	<p> Nombre: {{establecimiento.nombre}}</p>
+	<p> Descripción: {{establecimiento.descripcion}}</p>
+	<p> Localidad: {{establecimiento.localidad.nombre}}</p>
+	
+{% endblock%}	

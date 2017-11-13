@@ -8,4 +8,6 @@ urlpatterns = [
 	url(r'^listar$', ListadoTiposDeUso.as_view(), name='listar'),
 	url(r'^detalle/(?P<pk>.+)/$', DetalleTipoDeUso.as_view(), name='detalle'),
 	url(r'^eliminar/(?P<pk>\d+)$', DeleteTipoDeUso.as_view(), name='eliminar'),
+	url(r'^modificar/(?P<pk>\d+)$', ModificarTipoDeUso.as_view(), name='modificar'),
+
 ]

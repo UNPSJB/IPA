@@ -27,7 +27,7 @@ class EstablecimientoForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'duenio':forms.TextInput(attrs={'class':'form-control'}),
+			'duenio':forms.Select(attrs={'class':'form-control'}),
 			'codigoCatastral':forms.TextInput(attrs={'class':'form-control'}),
 			'superficie':forms.TextInput(attrs={'class':'form-control'}),
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),

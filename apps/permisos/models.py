@@ -61,10 +61,28 @@ class TipoUso(models.Model):
 	tipo_modulo = models.PositiveIntegerField(choices=TipoModulo)
 	periodo = models.PositiveIntegerField(choices=TipoPeriodo)
 	medida = models.PositiveIntegerField(choices=TipoMedida)
-	#documentos = models.ManyToManyField(TipoDocumento)
+	documentos = models.ManyToManyField(TipoDocumento)
+
+	def getPeriodoString(self):
+		for tupla in TipoUso.TipoPeriodo:
+			if tupla[0] == self.periodo:
+				return tupla[1]
+		return None
+
+	def getTipoModuloString(self):
+		for tupla in TipoUso.TipoModulo:
+			if tupla[0] == self.tipo_modulo:
+				return tupla[1]
+		return None
+
+	def getMedidaString(self):
+		for tupla in TipoUso.TipoMedida:
+			if tupla[0] == self.medida:
+				return tupla[1]
+		return None
 
 	def __str__(self):
-		return self.nombre
+		return self.descripcion
 
 	def calcular(self, modulo, unidad, desde, hasta):
 		dias = (hasta - desde).days
@@ -85,6 +103,11 @@ class Permiso(models.Model):
 	def estado(self):
 		if self.estados.exists():
 			return self.estados.latest().related()
+
+	def save(self,*args, **kwargs):
+		super(Permiso, self).save(*args, **kwargs)
+		self.hacer(accion = None, *args, **kwargs)
+		
 
 	@classmethod
 	def new(cls, usuario, fecha, solicitante, establecimiento, tipo, afluente):
