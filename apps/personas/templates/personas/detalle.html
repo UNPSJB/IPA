@@ -1,23 +1,29 @@
-{% extends 'index.html' %}
-
-{% load static semanticui %}
-
-{% load contextMenu %}
-
-{% block extra %}
+{% extends 'detail.html' %}
+{% load infoRol %}
+{% load staticfiles %}
+{% block detailblock %}
 
 	<h1>Información de la Persona: {{ persona.nombre }} {{ persona.apellido }} </h1>
-
+	<hr>
+	<h2>Datos Personales:</h2>
+	<div>
+		<li>Email: {{persona.email}}</li>
+		<li>Documento: {{persona.get_tipoDocumento_display}} {{persona.numeroDocumento}}</li>
+		<li>Dirección: {{persona.direccion}}</li>
+		<li>Teléfono: {{persona.telefono}}</li>
+	</div>
+	<hr>
 	<h3>ROLES:</h3>
 	<ul>
 		{% if persona.roles.all %}
 			{% for rol in persona.roles.all %}
 				<li> {{rol.related.get_tipo_display | title}} </li>
+				{% renderInfoRol rol %}
+				
 			{% endfor %}
 		{% endif %}
 	</ul>
 	<div>
-
 		<h3>Promover a rol:
 		<select class="ui search dropdown" id="select">
 	  		{% for tipoRol in roles %}
@@ -28,14 +34,12 @@
 		<button type="button" class="ui positive button" id="2123">Agregar</button>
 		</h3>
 	</div>
+	<hr>
 
-{% endblock %}
-
-{% block secondaryMenu %}
-	{% renderContextMenu %}
-{% endblock %}
+{% endblock%}	
 
  {% block pageStaticJs %}
+ <script type="text/javascript" src="{% static 'page/js/index.js'%}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
