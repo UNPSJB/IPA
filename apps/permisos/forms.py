@@ -35,6 +35,7 @@ class TipoDeUsoForm(forms.ModelForm):
                 'coeficiente',
                 'periodo',
                 'medida',
+                'tipo_modulo',
           #      'documentos',
             ]
         labels = {
@@ -42,6 +43,7 @@ class TipoDeUsoForm(forms.ModelForm):
                 'coeficiente': 'Coeficiente',
                 'periodo': 'Periodo',
                 'medida': 'Medida',
+                'tipo_modulo': 'Tipo modulo',
          #       'documentos': 'Documentos',
         }
 
@@ -50,5 +52,6 @@ class TipoDeUsoForm(forms.ModelForm):
             'coeficiente':forms.TextInput(attrs={'class':'form-control'}),
             'periodo':forms.Select(attrs={'class':'form-control'}),
             'medida':forms.Select(attrs={'class':'form-control'}),
+            'tipo_modulo':forms.Select(attrs={'class':'form-control'}),
         #    'documentos':forms.SelectMultiple(attrs={'class':'form-control'}),
         }

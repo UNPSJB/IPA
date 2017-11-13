@@ -25,12 +25,13 @@ class AltaEstablecimiento(CreateView):
 
 class ListadoEstablecimientos(ListView):
 	model = Establecimiento
-	#form_class = AfluenteForm
-	template_name = 'establecimientos/listado.html'
+	template_name = 'establecimiento/listado.html'
 	context_object_name = 'establecimientos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoEstablecimientos, self).get_context_data(**kwargs)
+		context['nombreLista'] = 'Listado de establecimientos'
+		context['nombreReverse'] = 'establecimientos'
 		context['headers'] = ['Nombre', 'Localidad','Código Catastral']
 		context['botones'] = {'Alta': reverse('establecimientos:alta')}
 		return context
@@ -38,7 +39,18 @@ class ListadoEstablecimientos(ListView):
 class DetalleEstablecimiento(DetailView):
 	model = Establecimiento
 	template_name = 'establecimiento/detalle.html'
+	context_object_name = 'establecimiento'
 
+	def get_context_data(self, **kwargs):
+		context = super(DetalleEstablecimiento, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle de establecimiento'
+		context['botones'] = {
+			'Listado': reverse('establecimientos:listar'),
+			'Nuevo establecimiento': reverse('establecimientos:alta'),
+			'Eliminar establecimiento': reverse('establecimientos:eliminar', args=[self.object.codigoCatastral])
+
+		}
+		return context
 
 class ModificarEstablecimiento(UpdateView):
 	model = Establecimiento

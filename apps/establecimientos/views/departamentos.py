@@ -17,6 +17,7 @@ class AltaDepartamento(CreateView):
 		context = super(AltaDepartamento, self).get_context_data(**kwargs)
 		context['botones'] = {
 				'Listado': reverse('departamentos:listar')
+				
 			}
 		context['nombreForm'] = 'Nuevo departamento'
 		return context

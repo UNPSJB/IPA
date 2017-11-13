@@ -64,7 +64,7 @@ class TipoUso(models.Model):
 	#documentos = models.ManyToManyField(TipoDocumento)
 
 	def __str__(self):
-		return self.nombre
+		return self.descripcion
 
 	def calcular(self, modulo, unidad, desde, hasta):
 		dias = (hasta - desde).days

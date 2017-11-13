@@ -1,0 +1,8 @@
+{% extends 'detail.html' %}
+
+{% block detailblock %}
+	<p> Nombre: {{localidad.nombre}}</p>
+	<p> Código postal: {{localidad.codpostal}}</p>
+	<p> Departamento: {{localidad.departamento.nombre}}</p>
+	
+{% endblock%}	
