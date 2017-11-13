@@ -37,7 +37,6 @@ class AltaPersona(CreateBaseView):
 	form_class = PersonaForm
 	template_name = 'forms.html'
 	success_url = reverse_lazy('personas:listado')
-	
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaPersona, self).get_context_data(**kwargs)
@@ -59,6 +58,7 @@ class ListadoPersonas(ListView):
 		 	'Administrativos':'', 
 		 	'Liquidadores':''
 		 }
+		context['nombreReverse'] = 'personas'
 		context['headers'] = ['Nombre', 'Apellido','Tipo de Documento', 'Numero de Documento']
 		return context
 

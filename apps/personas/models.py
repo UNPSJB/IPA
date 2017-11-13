@@ -73,11 +73,21 @@ class Rol(models.Model):
 	def __str__(self):
 		return "{rol}".format(rol=self.__class__.__name__)
 
+	def getInfo(self):
+		return { 's':  'aa',  'otra': 'cosa'}
+
 class Director(Rol):
 	TIPO = 1
 	legajo =  models.IntegerField()
 	cargo = models.CharField(max_length=25)
 	fechaInicio = models.DateField()
+
+	def getInfo(self):
+		return {
+			'legajo': self.legajo,
+			'cargo': self.cargo,
+			'Fecha de inicio': self.fechaInicio
+		}
 	
 class Administrativo(Rol):
 	TIPO = 2
