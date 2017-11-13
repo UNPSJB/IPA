@@ -34,7 +34,6 @@ class DetalleDepartamento(DetailView):
 			'Listado': reverse('departamentos:listar'),
 			'Nuevo Departamento': reverse('departamentos:alta'),
 			'Eliminar Departamento': reverse('departamentos:eliminar', args=[self.object.id])
-
 		}
 		return context
 

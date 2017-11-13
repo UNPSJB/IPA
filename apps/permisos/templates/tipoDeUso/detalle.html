@@ -1,0 +1,10 @@
+{% extends 'detail.html' %}
+
+{% block detailblock %}
+	<p> Descripción: {{tipo.descripcion}}</p>
+	<p> Coeficiente: {{tipo.coeficiente}}</p>
+	<p> Tipo de módulo: {{tipo.getTipoModuloString}}</p>
+	<p> Periodo: {{tipo.getPeriodoString}}</p>
+	<p> Medida: {{tipo.getMedidaString}}</p>
+
+{% endblock%}	

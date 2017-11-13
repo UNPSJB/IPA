@@ -63,6 +63,24 @@ class TipoUso(models.Model):
 	medida = models.PositiveIntegerField(choices=TipoMedida)
 	#documentos = models.ManyToManyField(TipoDocumento)
 
+	def getPeriodoString(self):
+		for tupla in TipoUso.TipoPeriodo:
+			if tupla[0] == self.periodo:
+				return tupla[1]
+		return None
+
+	def getTipoModuloString(self):
+		for tupla in TipoUso.TipoModulo:
+			if tupla[0] == self.tipo_modulo:
+				return tupla[1]
+		return None
+
+	def getMedidaString(self):
+		for tupla in TipoUso.TipoMedida:
+			if tupla[0] == self.medida:
+				return tupla[1]
+		return None
+
 	def __str__(self):
 		return self.descripcion
 
