@@ -22,9 +22,8 @@
 					<td>{{ director.director.legajo}}</td>
 					<td>{{ director.cargo}}</td>
 					<td>{{ director.fechaInicio }}</td>
-					<td><form action="{% url 'personas:actualizar_director' director.id%}">
-    				<input class="positive ui button" type="submit" value="Editar" /></form></td>
-					<td><a class="negative ui button" href="#">Eliminar</a></td>
+					<td><a class="positive ui button" href="{% url 'directores:modificar' director.id %}">Modificar</a></td>
+					<td><a class="negative ui button" href="{% url 'directores:eliminar' director.id %}">Eliminar</a></td>
 				</tr>
 			{% endfor %}
 			{% endif %}

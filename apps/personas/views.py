@@ -7,7 +7,7 @@ from apps.personas import models as pmodels
 
 from .models import *
 
-from django.views.generic import CreateView, ListView, DetailView, FormView, UpdateView
+from django.views.generic import CreateView, ListView, DetailView, FormView, UpdateView, DeleteView
 
 
 class CreateBaseView(CreateView):
@@ -54,7 +54,7 @@ class ListadoPersonas(ListView):
 		context = super(ListadoPersonas, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Alta Persona': reverse('personas:alta'),
-		 	'Directores':reverse('personas:listado_directores'), 
+		 	'Directores':reverse('directores:listado'), 
 		 	'Administrativos':'', 
 		 	'Liquidadores':''
 		 }
@@ -82,8 +82,8 @@ class DetallePersona(DetailView):
 class AltaDirector(CreateBaseView):
 	model = Director
 	form_class = DirectorForm
-	template_name = 'personas/forms.html'
-	success_url = reverse_lazy('personas:listado')
+	template_name = 'directores/forms.html'
+	success_url = reverse_lazy('directores:listado')
 	
 	def get_context_data(self, **kwargs):
 		context = super(AltaDirector, self).get_context_data(**kwargs)
@@ -125,12 +125,23 @@ class ListadoDirectores(ListView):
 
 class DirectorUpdate(UpdateView):
 	model = Director
-	template_name = 'directores/forms.html'
+	template_name = 'forms.html'
 	form_class = DirectorForm
-	success_url = reverse_lazy('personas:listado_directores')
+	success_url = reverse_lazy('directores:listado')
 
 	def get_context_data(self, **kwargs):
 		context = super(DirectorUpdate, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Editar director:' + self.object.persona.nombre + self.object.persona.apellido
+		context['botones'] = {}
+		return context
+
+class DirectorDelete(DeleteView):
+	model = Director
+	template_name = 'delete.html'
+	success_url = reverse_lazy('directores:listado')
+
+	def get_context_data(self, **kwargs):
+		context = super(DirectorDelete, self).get_context_data(**kwargs)
 		context['nombreForm'] = 'Editar director:' + self.object.persona.nombre + self.object.persona.apellido
 		context['botones'] = {}
 		return context
