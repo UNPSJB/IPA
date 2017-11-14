@@ -46,18 +46,30 @@
             </div>
           </div>
           
+
           <div class="ui dropdown item">
-            <i class="users icon"></i> Usuarios 
-            <div class="menu inverted blue">
-              <a href="{% url 'personas:listado' %}" class="item"> Usuarios</a>
-              <a href="{% url 'establecimientos:listar' %}" class="item ">Establecimientos</a>
+            <i class="users icon"></i>
+            <div>
+               <a style="color:white" href="{% url 'personas:listado' %}"> Usuarios</a>
             </div>
+            </div>
+             
+        
+          
+
+          <div class="ui dropdown item">
+            <i class="users icon"></i>
+            <div>
+              <a style="color:white" href="{% url 'establecimientos:listar' %}">Establecimientos</a>
+            </div>         
           </div>
+
+
          
           <div class="ui dropdown item">
-            <i class="file icon"></i> Actas
+            <i class="file icon"></i> Comisión/Actas
             <div class="menu inverted blue">
-              <a href="{% url 'comisiones:listar' %}" class="item"> Comisión</a>
+              <a href="{% url 'comisiones:listar' %}" class="item">Comisión</a>
               <a href="#" class="item"> Inspección</a>
               <a href="#" class="item "> Infracción</a>
               <a href="#" class="item ">Reclamo</a>
@@ -66,8 +78,8 @@
           
           <div class="ui dropdown item">
           <a class="ui teal item" href="{% url 'personas:listado' %}">Personas <i class="id card icon"></i></a>
-
           </div>
+
 
           <div class="ui dropdown item">
               <i class="dollar icon"></i> Pagos
