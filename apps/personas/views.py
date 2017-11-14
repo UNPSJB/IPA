@@ -45,6 +45,18 @@ class AltaPersona(CreateBaseView):
 		}
 		return context
 
+class ModificarPersona(UpdateView):
+	model = Persona
+	template_name = 'forms.html'
+	form_class = PersonaForm
+	success_url = reverse_lazy('persona:listado')
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarPersona, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Editar Persona:'
+		context['botones'] = {}
+		return context
+
 class ListadoPersonas(ListView):
 	model = Persona
 	template_name = 'personas/listado.html'
