@@ -1,23 +1,37 @@
+{% extends 'index.html' %}
+
 {% load static semanticui %}
 
-{% if object %}
-	<form class="ui large form" action="{% url 'tiposDeUso:alta' object.pk %}" method="post">
-{% else %}
-	<form  class="ui large form" action="{% url 'tiposDeUso:alta' %}" method="post">
-{% endif %}
+{% load contextMenu %}
 
+{% block extra %} 
+<div class="row header-content">
+	<div class="titulo">
+		<h1 class="ui header blue">Alta Solicitud</h1>
+	</div>
+</div>
+
+<form class="ui large form" action="{{ form.url_post }}" method="POST">
+	{% if message %}
+		<p>{{ message }}</p>
+	{% endif %}
   {% csrf_token %}
-  {% render_form form %}
-
+  {% render_form forms.permiso %}
+  {% render_form forms.estado %}
+  {% render_form forms.solicitado %}
 
 	<div class="row">
 		<div class="col-lg-12 text-right">
-			<input type="submit" class="btn btn-primary" name="submit" value="Guardar">
-			<button type="button" class="btn btn-default" onclick="return cerrar_modal()">
-				Cancelar
-			</button>
+			<input type="submit" class="ui primary button" name="cargarOtro" value="Guardar y Cargar otro">
+			<input type="submit" class="ui positive button" name="guardar" value="Guardar">
 		</div>
 	</div>
 
 
 </form>
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
+{% endblock %}

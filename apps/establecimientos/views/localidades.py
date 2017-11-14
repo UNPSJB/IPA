@@ -16,7 +16,7 @@ class AltaLocalidad(CreateView):
 		context = super(AltaLocalidad, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Listado': reverse('localidades:listar'),
-			'Nuevo departamento': reverse('departamentos:alta')
+			'Nuevo departamento': reverse('departamentos:alta'),
 		}
 		context['nombreForm'] = 'Nueva Localidad'
 		return context
@@ -48,14 +48,15 @@ class ListadoLocalidades(ListView):
 		context['nombreReverse'] = 'localidades'
 		context['headers'] = ['Codigo Postal', 'Nombre','Departamento']
 		context['botones'] = {
-			'Alta': reverse('localidades:alta')
+			'Nueva localidad': reverse('localidades:alta'),
+			'Ir a establecimientos': reverse('establecimientos:listar')
 			}
 		return context
 
 class ModificarLocalidad(UpdateView):
 	model = Localidad
 	form_class = LocalidadForm
-	template_name = 'localidad/form.html'
+	template_name = 'forms.html'
 	success_url = reverse_lazy('localidades:listar')
 
 	def post(self, request, *args, **kwargs):
@@ -69,7 +70,20 @@ class ModificarLocalidad(UpdateView):
 		else:
 			return HttpResponseRedirect(self.get_success_url())
 
+	def get_context_data(self, **kwargs):
+		context = super(ModificarLocalidad, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar tipo de uso"
+		context['botones'] = {
+			'Nuevo departamento': reverse('departamentos:alta'),
+			'Eliminar departamento': reverse('departamentos:eliminar', args=[self.object.id]),
+			'Listado': reverse('departamentos:listar')
+			}
+		return context
+
 class LocalidadDelete(DeleteView):
 	model = Localidad
-	template_name = 'localidad/delete.html'
+	template_name = 'delete.html'
 	success_url = reverse_lazy('localidades:listar')
+
+
+	

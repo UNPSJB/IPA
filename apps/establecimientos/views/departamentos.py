@@ -32,8 +32,9 @@ class DetalleDepartamento(DetailView):
 		context['nombreDetalle'] = 'Detalle de Departamento'
 		context['botones'] = {
 			'Listado': reverse('departamentos:listar'),
-			'Nuevo Departamento': reverse('departamentos:alta'),
-			'Eliminar Departamento': reverse('departamentos:eliminar', args=[self.object.id])
+			'Nuevo departamento': reverse('departamentos:alta'),
+			'Eliminar departamento': reverse('departamentos:eliminar', args=[self.object.id]),
+			'Modificar departamento': reverse('departamentos:modificar', args=[self.object.id]),
 		}
 		return context
 
@@ -48,14 +49,15 @@ class ListadoDepartamentos(ListView):
 		context['nombreReverse'] = 'departamentos'
 		context['headers'] = ['Nombre','Poblacion']
 		context['botones'] = {
-				'Nuevo departamento': reverse('departamentos:alta')
+				'Nuevo departamento': reverse('departamentos:alta'),
+				'Ir a localidades': reverse('localidades:listar')
 			}
 		return context
 
 class ModificarDepartamento(UpdateView):
 	model = Departamento
 	form_class = DepartamentoForm
-	template_name = 'departamentos/form.html'
+	template_name = 'forms.html'
 	success_url = reverse_lazy('departamentos:listar')
 
 	def post(self, request, *args, **kwargs):
@@ -69,8 +71,21 @@ class ModificarDepartamento(UpdateView):
 		else:
 			return HttpResponseRedirect(self.get_success_url())
 
+		return context
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarDepartamento, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar tipo de uso"
+		context['botones'] = {
+			'Nuevo tipo de uso': reverse('tiposDeUso:alta'),
+			'Eliminar tipo de uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
+			'Listado': reverse('tiposDeUso:listar')
+			}
+		return context
+
 class DeleteDepartamento(DeleteView):
 	model = Departamento
 	template_name = 'departamento/delete.html'
 	success_url = reverse_lazy('departamentos:listar')
+
 

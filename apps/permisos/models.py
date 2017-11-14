@@ -141,6 +141,7 @@ class Estado(models.Model):
 	]
 	# Marca de tiempo asiganda por el sistema al crear un estado
 	timestamp = models.DateTimeField(auto_now_add=True)
+	
 	# Fecha en la que ocurre fisicamente la accion (ingresada generalmente por un usuario)
 	fecha = models.DateField()
 	permiso = models.ForeignKey(Permiso, related_name="estados")
