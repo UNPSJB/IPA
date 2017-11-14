@@ -30,7 +30,7 @@ class ListadoTipoDocumentos(ListView):
 	context_object_name = 'documentos'
 
 	def get_context_data(self, **kwargs):
-		context = super(ListadoTipoDocumento, self).get_context_data(**kwargs)
+		context = super(ListadoTipoDocumentos, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Listado de tipos de documento"
 		context['headers'] = ['Nombre']
 		context['botones'] = {
