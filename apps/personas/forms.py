@@ -68,11 +68,10 @@ class DirectorForm (forms.ModelForm):
 	#		return None
 
 class AdministrativoForm (forms.Form):
-	class Meta:
-		model=Administrativo
+	pass
+	#class Meta:
+	#	model=Administrativo
 
-	#fields = '__all__'
-	#exclude = []
 class InspectorForm (PersonaForm):
 	pass
 

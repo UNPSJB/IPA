@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+{% load contextMenu %}
+{% load static semanticui %}
+{% block extra %}
+
+<div>
+	<table class="ui single line table">
+		<thead>
+			<tr>
+	      		{% for header in headers%}
+					<th>{{header}}</th>
+	      		{% endfor %}
+	      		<th>Editar</th>
+	      		<th>Eliminar</th>
+		 	</tr>
+		</thead>
+		<tbody>
+			{% if directores %}
+			{% for director in directores %}
+			 	<tr>
+					<td>{{ director}}</td>
+					<td>{{ director.director.legajo}}</td>
+					<td>{{ director.cargo}}</td>
+					<td>{{ director.fechaInicio }}</td>
+					<td><form action="{% url 'personas:actualizar_director' director.id%}">
+    				<input class="positive ui button" type="submit" value="Editar" /></form></td>
+					<td><a class="negative ui button" href="#">Eliminar</a></td>
+				</tr>
+			{% endfor %}
+			{% endif %}
+
+
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
+{% endblock %}
+
+ {% block pageStaticJs %}
+ {% endblock %}

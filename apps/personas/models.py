@@ -30,8 +30,14 @@ class Persona(models.Model):
 	def __str__(self):
 		return "{}, {}".format(self.apellido, self.nombre)
 
+	def es_director(self):
+		return self.sos(Director)
+
 	def como(self, Klass):
 		return self.roles.get(tipo=Klass.TIPO).related()
+
+	def como_director(self):
+		return self.como(Director)
 
 	def agregar_rol(self, rol):
 		if not self.sos(rol.__class__):
@@ -82,13 +88,9 @@ class Director(Rol):
 	cargo = models.CharField(max_length=25)
 	fechaInicio = models.DateField()
 
-	def getInfo(self):
-		return {
-			'legajo': self.legajo,
-			'cargo': self.cargo,
-			'Fecha de inicio': self.fechaInicio
-		}
-	
+	def __str__(self):
+		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
+
 class Administrativo(Rol):
 	TIPO = 2
 
