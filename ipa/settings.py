@@ -123,7 +123,7 @@ if DEBUG:
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'es-ar'
+LANGUAGE_CODE = 'es-AR'
 
 TIME_ZONE = 'UTC'
 

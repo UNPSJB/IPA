@@ -7,7 +7,7 @@ from apps.personas import models as pmodels
 
 from .models import *
 
-from django.views.generic import CreateView, ListView, DetailView, FormView
+from django.views.generic import CreateView, ListView, DetailView, FormView, UpdateView, DeleteView
 
 
 class CreateBaseView(CreateView):
@@ -54,7 +54,7 @@ class ListadoPersonas(ListView):
 		context = super(ListadoPersonas, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Alta Persona': reverse('personas:alta'),
-		 	'Directores':'', 
+		 	'Directores':reverse('directores:listado'), 
 		 	'Administrativos':'', 
 		 	'Liquidadores':''
 		 }
@@ -82,8 +82,8 @@ class DetallePersona(DetailView):
 class AltaDirector(CreateBaseView):
 	model = Director
 	form_class = DirectorForm
-	template_name = 'personas/forms.html'
-	success_url = reverse_lazy('personas:listado')
+	template_name = 'directores/forms.html'
+	success_url = reverse_lazy('directores:listado')
 	
 	def get_context_data(self, **kwargs):
 		context = super(AltaDirector, self).get_context_data(**kwargs)
@@ -109,6 +109,43 @@ class AltaDirector(CreateBaseView):
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
+class ListadoDirectores(ListView):
+	model = Director
+	template_name = 'directores/listado.html'
+	form_class = DirectorForm
+
+	def get_context_data(self, **kwargs):
+		context = super(ListadoDirectores, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Nuevo director'
+		context['botones'] = {}
+		context['nombreReverse'] = 'directores'
+		context['headers'] = ['Nombre y Apellido', 'Legajo','Cargo', 'Fecha de Inicio']
+		context['directores'] = pmodels.Director.objects.all()
+		return context
+
+class DirectorUpdate(UpdateView):
+	model = Director
+	template_name = 'forms.html'
+	form_class = DirectorForm
+	success_url = reverse_lazy('directores:listado')
+
+	def get_context_data(self, **kwargs):
+		context = super(DirectorUpdate, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Editar director:' + self.object.persona.nombre + self.object.persona.apellido
+		context['botones'] = {}
+		return context
+
+class DirectorDelete(DeleteView):
+	model = Director
+	template_name = 'delete.html'
+	success_url = reverse_lazy('directores:listado')
+
+	def get_context_data(self, **kwargs):
+		context = super(DirectorDelete, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Editar director:' + self.object.persona.nombre + self.object.persona.apellido
+		context['botones'] = {}
+		return context
+
 class AltaAdministrativo(CreateBaseView):
 	model = Administrativo
 	form_class = AdministrativoForm
@@ -121,18 +158,3 @@ class AltaAdministrativo(CreateBaseView):
 		context['message'] = 'Administrativo YA EXISTE'
 		return context
 
-	def get(self, request, *args, **kwargs):
-		persona = pmodels.Persona.objects.get(pk=kwargs.get('pk'))
-		form = AdministrativoForm()
-		return render(request, self.template_name, {'form': form, 'persona':persona, 'botones':'', 'rol': self.__class__.model.__name__})
-		
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		form = self.form_class(request.POST)
-		persona = pmodels.Persona.objects.get(pk=kwargs.get('pk'))
-		if form.is_valid() and not(persona.sos(Administrativo)):
-			administrativo = form.save()
-			persona.agregar_rol(administrativo)
-			#director.save()
-			return HttpResponseRedirect(self.get_success_url())
-		return self.render_to_response(self.get_context_data(form=form))

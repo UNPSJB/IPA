@@ -31,9 +31,13 @@ class AltaSolicitud(View):
 		permiso_form = PermisoForm(request.POST)
 		solicitado_form = SolicitadoForm(request.POST)
 		if permiso_form.is_valid() and solicitado_form.is_valid():
-			permiso_form.save()
-			solicitado_form.save()
+			permiso = permiso_form.save()
+			solicitado = solicitado_form.save(commit=False)
+			solicitado.permiso = permiso
+			solicitado.usuario = request.user
+			solicitado.save()
 			return redirect('solicitudes:listar')
+		print(solicitado_form.errors)
 		return redirect('solicitudes:alta')
 
 	def form_invalid(self,form):

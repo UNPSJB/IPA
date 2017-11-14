@@ -44,7 +44,9 @@ urlpatterns = [
     url(r'^permisos/', include('apps.permisos.urls.permisos'), name='permisos'),
     url(r'^tiposDeUso/', include('apps.permisos.urls.tiposUso'), name='tiposDeUso'),
     url(r'^solicitudes/', include('apps.permisos.urls.solicitudes'), name='solicitudes'),
-    url(r'^personas/', include('apps.personas.urls')),
+    url(r'^personas/', include('apps.personas.urls.personas')),
+    url(r'^directores/', include('apps.personas.urls.directores')),
+    url(r'^administrativos/', include('apps.personas.urls.administrativos')),
     url(r'^comision/', include('apps.comisiones.urls')),
          
 ]

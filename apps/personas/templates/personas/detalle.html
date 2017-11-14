@@ -17,9 +17,15 @@
 	<ul>
 		{% if persona.roles.all %}
 			{% for rol in persona.roles.all %}
+				{% if persona.es_director %}
 				<li> {{rol.related.get_tipo_display | title}} </li>
-				{% renderInfoRol rol %}
-				
+				<ul>
+					<li>Legajo: {{persona.como_director.legajo}}</li>
+					<li>Cargo: {{persona.como_director.cargo}}</li>
+					<li>Fecha Inicio: {{persona.como_director.fechaInicio}}</li>
+				</ul>
+				{% endif %}
+				<!--{% renderInfoRol rol %}-->
 			{% endfor %}
 		{% endif %}
 	</ul>
