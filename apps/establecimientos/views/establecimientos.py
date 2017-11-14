@@ -33,7 +33,9 @@ class ListadoEstablecimientos(ListView):
 		context['nombreLista'] = 'Listado de establecimientos'
 		context['nombreReverse'] = 'establecimientos'
 		context['headers'] = ['Nombre', 'Localidad','Código Catastral']
-		context['botones'] = {'Alta': reverse('establecimientos:alta')}
+		context['botones'] = {
+			'Nuevo establecimiento': reverse('establecimientos:alta'),
+		}	
 		return context
 
 class DetalleEstablecimiento(DetailView):
@@ -55,7 +57,7 @@ class DetalleEstablecimiento(DetailView):
 class ModificarEstablecimiento(UpdateView):
 	model = Establecimiento
 	form_class = EstablecimientoForm
-	template_name = 'establecimiento/form.html'
+	template_name = 'form.html'
 	success_url = reverse_lazy('establecimientos:listar')
 
 	def post(self, request, *args, **kwargs):

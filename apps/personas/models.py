@@ -23,7 +23,7 @@ class Persona(models.Model):
 	email = models.EmailField()
 	tipoDocumento = models.CharField(max_length=1, choices=TipoDocumento)
 	numeroDocumento = models.CharField(max_length=13)
-	razonSocial = models.CharField(max_length=30, null=True)
+	razonSocial = models.CharField(max_length=30, null=True, blank=True)
 	direccion = models.CharField(max_length=60)
 	telefono = models.IntegerField()
 
