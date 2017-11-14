@@ -84,6 +84,3 @@ class LocalidadDelete(DeleteView):
 	model = Localidad
 	template_name = 'delete.html'
 	success_url = reverse_lazy('localidades:listar')
-
-
-	

@@ -58,5 +58,5 @@ class ModificarTipoDocumento(UpdateView):
 
 class DeleteTipoDocumento(DeleteView):
 	model = TipoDocumento
-	template_name = 'tipoDocumento/delete.html'
+	template_name = 'delete.html'
 	success_url = reverse_lazy('tipoDocumento:listar')

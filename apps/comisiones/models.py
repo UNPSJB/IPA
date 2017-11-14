@@ -15,6 +15,7 @@ class Comision (models.Model):
 
 	class Meta:
 		ordering = ["-fechaInicio"]
+		verbose_name_plural = "Comisión"
 
 	def __str__(self):
 		return self.fechaInicio
