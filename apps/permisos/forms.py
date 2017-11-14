@@ -63,7 +63,8 @@ class SolicitadoForm(forms.ModelForm):
 		fields = [
 			'fecha',
 			'observacion',
-			'utilizando', 
+			'utilizando',
+			'oficio'
 		]
 		labels = {
 			'fecha': 'Fecha',
