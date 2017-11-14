@@ -104,11 +104,6 @@ class Permiso(models.Model):
 		if self.estados.exists():
 			return self.estados.latest().related()
 
-	def save(self,*args, **kwargs):
-		super(Permiso, self).save(*args, **kwargs)
-		self.hacer(accion = None, *args, **kwargs)
-		
-
 	@classmethod
 	def new(cls, usuario, fecha, solicitante, establecimiento, tipo, afluente):
 		t = cls(tipo=tipo, solicitante=solicitante, establecimiento=establecimiento, afluente=afluente)
@@ -168,7 +163,9 @@ class Estado(models.Model):
 class Solicitado(Estado):
 	TIPO = 1
 	utilizando = models.BooleanField(default=False)
-	oficio = models.BooleanField(default=False)
+	oficio = models.BooleanField(
+			help_text="Indica si el permiso se inicia por una solicitud formal (solicitud) o una inspeccion (de oficio)",
+			default=False)
 
 	def recibir(self, usuario, fecha, documentos):
 		for documento in documentos:
