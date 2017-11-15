@@ -13,7 +13,9 @@
 			<td class="text-center">	
 			<a class="ui icon button" href="{%url 'solicitudes:detalle' solicitud.id%} "><i class="info circle icon"></i></button>
 			</td>
-
+			{% for documento in documentos %}
+				<td>{{documento.nombre}}</td>
+			{%endfor%}
 		
 	</tr>
 	{% endif %}

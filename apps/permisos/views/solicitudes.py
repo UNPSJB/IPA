@@ -53,7 +53,7 @@ class DetalleSolicitud(DetailView):
 		context['nombreDetalle'] = 'Detalle de la solicitud'
 		context['botones'] = {
 			'Listado': reverse('solicitudes:listar'),
-			'Cargar documento': '#',
+			'Cargar documento': reverse('documentos:alta'),
 			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.id]),
 		}
 		return context
