@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 {% load actionButton %}
+{% load staticfiles %}
 {% load contextMenu %}
 
 {% block extra %}
@@ -21,7 +22,6 @@
 					<td>{{ persona.nombre }}</td>
 					<td>{{ persona.apellido }}</td>
 					<td>{{ persona.get_tipoDocumento_display }}</td>
-					<!--<td>{{ persona.roles.all | join:"," }}</td> -->
 					<td>{{ persona.numeroDocumento }}</td>
     				{%renderActionButton persona.id %}
 				</tr>
