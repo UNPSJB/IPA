@@ -45,7 +45,18 @@ class AltaSolicitud(View):
 
 class DetalleSolicitud(DetailView):
 	model = Permiso
-	template_name = 'permiso/detalle.html'		
+	template_name = 'solicitudes/detalle.html'
+	context_object_name = 'solicitud'		
+
+	def get_context_data(self, **kwargs):
+		context = super(DetalleSolicitud, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle de la solicitud'
+		context['botones'] = {
+			'Listado': reverse('solicitudes:listar'),
+			'Cargar documento': '#',
+			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.id]),
+		}
+		return context
 
 class ListadoSolicitudes(ListView):
 	model = Permiso

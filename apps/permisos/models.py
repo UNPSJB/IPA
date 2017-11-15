@@ -126,13 +126,29 @@ class Permiso(models.Model):
 		else:
 			raise Exception("Tramite: La accion solicitada no se pudo realizar")
 
-	def agregarDocumentacion(self, documento):
+	def agregar_documentacion(self, documento):
 		self.documentos.add(documento)
+
+	def falta_documentacion(self):
+		return self.documentacion_faltante()
+
+	def documentacion_faltante(self):
+		documentos_requeridos = self.tipo.documentos.all()
+		for documento in self.documentos.all():
+			if documento.tipo in documentos_requeridos:
+				documentos_requeridos.remove(documento.tipo)
+		return documentos_requeridos
 
 class Estado(models.Model):
 	TIPO = 0
 	TIPOS = [
-		(0, 'estado')
+		(0, 'estado'),
+		(1, 'Solicitado'),
+		(2, 'Visado'),
+		(3, 'Con expediente'),
+		(4, 'Documentación completa'),
+		(5, 'Edicto publicado'),
+		(6, 'Otorgado'),
 	]
 	# Marca de tiempo asiganda por el sistema al crear un estado
 	timestamp = models.DateTimeField(auto_now_add=True)
@@ -160,6 +176,8 @@ class Estado(models.Model):
 	def register(cls, klass):
 		cls.TIPOS.append((klass.TIPO, klass.__name__.lower()))
 
+	def getEstadoString(self):
+		return Estado.TIPOS[self.tipo][1]
 class Solicitado(Estado):
 	TIPO = 1
 	utilizando = models.BooleanField(default=False)

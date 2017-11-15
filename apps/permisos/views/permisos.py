@@ -13,7 +13,7 @@ class AltaPermiso(CreateView):
 		context = super(AltaPermiso, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Permisos"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente']
-		context['botones'] = {'Alta': reverse('permisos:alta'), 'Listado': reverse('permisos:listar')}
+		context['botones'] = {'Nuevo permiso': reverse('permisos:alta'), 'Listado': reverse('permisos:listar')}
 		return context
 
 
