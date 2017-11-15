@@ -4,8 +4,6 @@ from apps.establecimientos.models import Afluente
 from apps.documentos.models import Documento, TipoDocumento
 from apps.pagos.models import Cobro
 
-# Create your models here.
-
 # PERMISOS =================================================
 class PermisoBaseManager(models.Manager):
 	pass
@@ -178,6 +176,7 @@ class Estado(models.Model):
 
 	def getEstadoString(self):
 		return Estado.TIPOS[self.tipo][1]
+
 class Solicitado(Estado):
 	TIPO = 1
 	utilizando = models.BooleanField(default=False)
