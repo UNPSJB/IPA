@@ -37,6 +37,7 @@ urlpatterns = [
 
     # Inclusion de rutas de aplicaciones
     url(r'^tiposDocumentos/', include('apps.documentos.urls.tipoDocumentos'), name='tipoDocumentos'),
+    url(r'^documentos/', include('apps.documentos.urls.documento'), name='Documento'),
     url(r'^afluentes/', include('apps.establecimientos.urls.afluentes'), name='afluentes'),
     url(r'^departamentos/', include('apps.establecimientos.urls.departamentos'), name='departamentos'),
     url(r'^establecimientos/', include('apps.establecimientos.urls.establecimientos'), name='establecimientos'),

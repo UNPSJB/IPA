@@ -1,0 +1,15 @@
+{% extends 'lists.html' %}
+{% block contentList%} 
+
+{% for documento in documentos %}
+	<tr>
+		<td>{{documento.tipo}}</td>
+		<td>{{documento.descripcion}}</td>
+		<td>{{documento.visado }}</td>
+		{% include 'formButtons.html' %}
+		
+	</tr>
+{% endfor%}
+
+{% endblock %}
+
