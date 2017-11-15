@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from ..views import AltaPersona, ListadoPersonas, DetallePersona, ModificarPersona
+from ..views.personas import *
 
 app_name = 'personas'
 urlpatterns = [

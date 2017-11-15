@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from ..views import AltaAdministrativo
+from ..views.administrativos import *
 
 app_name = 'administrativos'
 urlpatterns = [

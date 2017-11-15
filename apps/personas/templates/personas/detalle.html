@@ -26,6 +26,10 @@
 					<li>Fecha Inicio: {{persona.como_director.fechaInicio}}</li>
 				</ul>
 				{% endif %}
+				
+				{% if persona.es_administrativo %}
+				<li> {{rol.related.get_tipo_display | title}} </li>
+				{% endif %}
 				<!--{% renderInfoRol rol %}-->
 			{% endfor %}
 		{% endif %}

@@ -1,7 +1,7 @@
 
 from django.conf.urls import url
 
-from ..views import AltaDirector, ListadoDirectores, DirectorUpdate, DirectorDelete
+from ..views.directores import *
 
 app_name = 'directores'
 
