@@ -12,6 +12,7 @@
 		<li>Dirección: {{persona.direccion}}</li>
 		<li>Teléfono: {{persona.telefono}}</li>
 		<a class="positive ui button" href="{% url 'personas:modificar' persona.id %}">Modificar datos</a>
+		<a class="negative ui button" href="{% url 'personas:eliminar' persona.id %}">Eliminar Persona</a>
 	</div>
 	<hr>
 	<h3>ROLES:</h3>

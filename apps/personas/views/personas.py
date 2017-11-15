@@ -89,3 +89,14 @@ class DetallePersona(DetailView):
 		}
 		context['roles'] = pmodels.Rol.TIPOS 
 		return context
+
+class EliminarPersona(DeleteView):
+	model = pmodels.Persona
+	template_name = 'delete.html'
+	success_url = reverse_lazy('personas:listado')
+
+	def get_context_data(self, **kwargs):
+		context = super(EliminarPersona, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Eliminar Persona:' + self.object.nombre + self.object.apellido
+		context['botones'] = {}
+		return context
