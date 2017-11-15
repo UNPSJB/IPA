@@ -65,7 +65,7 @@ class DeleteTipoDocumento(DeleteView):
 class AltaDocumento(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'forms.html'
+	template_name = 'formsInput.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, **kwargs):
