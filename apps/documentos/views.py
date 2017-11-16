@@ -5,6 +5,8 @@ from django.views.generic import ListView,CreateView,DeleteView,DetailView, Upda
 from django.views import View
 from apps.permisos.models import Permiso
 
+from django.http import HttpResponseRedirect
+
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm
@@ -70,9 +72,22 @@ class AltaDocumento(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaDocumento, self).get_context_data(**kwargs)
-		context['botones'] = {'Alta': reverse('documentos:alta') , 'Listado': reverse('documentos:listar')}
+		context['botones'] = {
+		#'Alta': reverse('documentos:alta') , 
+		'Listado': reverse('documentos:listar')}
 		context['nombreForm'] = 'documentos'
 		return context
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
+			documento = form.save()
+			permiso.agregar_documentacion(documento)
+			return HttpResponseRedirect(self.get_success_url())
+		return self.render_to_response(self.get_context_data(form=form))
 
 class DetalleDocumento(DetailView):
 	model = Documento
@@ -81,13 +96,15 @@ class DetalleDocumento(DetailView):
 class ListadoDocumento(ListView):
 	model = Documento
 	template_name = 'Documento/listado.html'
-	context_object_name = 'Documentos'
+	context_object_name = 'documentos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDocumento, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Documentos'
 		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
-		context['botones'] = {'Alta': reverse('documentos:alta') , 'Listado': reverse('documentos:listar')}
+		context['botones'] = {
+		#'Alta': reverse('documentos:alta') , 
+		'Listado': reverse('documentos:listar')}
 		return context
 
 class ModificarDocumento(UpdateView):
