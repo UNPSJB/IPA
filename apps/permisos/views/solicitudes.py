@@ -53,6 +53,7 @@ class DetalleSolicitud(DetailView):
 		context['nombreDetalle'] = 'Detalle de la solicitud'
 		context['botones'] = {
 			'Listado': reverse('solicitudes:listar'),
+			'Ver Documentación presentada': '',
 			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
 			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.id]),
 		}

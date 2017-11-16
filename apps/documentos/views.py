@@ -93,13 +93,13 @@ class DetalleDocumento(DetailView):
 	model = Documento
 	template_name = 'Documento/detalle.html'
 
-class ListadoDocumento(ListView):
+class ListadoDocumentacionPresentada(ListView):
 	model = Documento
 	template_name = 'Documento/listado.html'
 	context_object_name = 'documentos'
 
 	def get_context_data(self, **kwargs):
-		context = super(ListadoDocumento, self).get_context_data(**kwargs)
+		context = super(ListadoDocumentacionPresentada, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Documentos'
 		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
 		context['botones'] = {
@@ -128,16 +128,3 @@ class DeleteDocumento(DeleteView):
 	model = Documento
 	template_name = 'Documento/delete.html'
 	success_url = reverse_lazy('documentos:listar')
-
-class AltaDocumentoSolicitud(View):
-	
-	def get(self, request):
-		context['botones'] = {
-			'Volver a la solicitud': reverse('solicitudes:detalle', request.GET.pk),
-		}
-		solicitud = Solicitud.objects.get(pk=request.GET.pk)
-		faltante = solicitud.documentacion_faltante()
-		form = DocumentoForm(initial=faltante )
-		
-	def post(self, request):
-		pass
