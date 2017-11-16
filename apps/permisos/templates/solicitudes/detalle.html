@@ -45,8 +45,9 @@
 	{% if solicitud.falta_documentacion %}
 		<div class="ui medium header">Documentación faltante </div>
 		{% for documentacion in solicitud.documentacion_faltante %}
-			<p> {{documentacion }} </p> <a href="#" class="u button"> Ver</a>
+			<p> {{documentacion }} </p> 
 		{% endfor %}
+		<a href="{% url 'documentos:alta' solicitud.id %}" class="ui button"> Agregar</a>
 	{% else %}
 		<p> Documentación completa</p>
 	{% endif%}

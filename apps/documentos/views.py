@@ -2,9 +2,9 @@ from django.urls import reverse_lazy, reverse
 from .models import TipoDocumento, Documento
 from .forms import TipoDocumentoForm, DocumentoForm
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
+from django.views import View
+from apps.permisos.models import Permiso
 
-
-# Create your views here.
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm
@@ -111,3 +111,16 @@ class DeleteDocumento(DeleteView):
 	model = Documento
 	template_name = 'Documento/delete.html'
 	success_url = reverse_lazy('documentos:listar')
+
+class AltaDocumentoSolicitud(View):
+	
+	def get(self, request):
+		context['botones'] = {
+			'Volver a la solicitud': reverse('solicitudes:detalle', request.GET.pk),
+		}
+		solicitud = Solicitud.objects.get(pk=request.GET.pk)
+		faltante = solicitud.documentacion_faltante()
+		form = DocumentoForm(initial=faltante )
+		
+	def post(self, request):
+		pass

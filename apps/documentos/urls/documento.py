@@ -10,4 +10,6 @@ urlpatterns = [
 	url(r'^detalle/(?P<pk>.+)/$', DetalleDocumento.as_view(), name='detalle'),
 	url(r'^modificar/(?P<pk>.+)/$', ModificarDocumento.as_view(), name='modificar'),
 	url(r'^eliminar/(?P<pk>.+)/$', DeleteDocumento.as_view(), name='eliminar'),
+	url(r'^alta/solicitud/(?P<pk>.+)/$', AltaDocumentoSolicitud.as_view(), name='alta_solicitud'),
+
 ]
