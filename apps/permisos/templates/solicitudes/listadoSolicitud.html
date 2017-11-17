@@ -1,0 +1,24 @@
+{%extends 'lists.html'%}
+{% load actionButton %}
+
+{% block contentList %} 
+
+{% for solicitud in solicitudes %}
+	{% if solicitud.estado.tipo == 1 or solicitud.estado.tipo == 2 %}
+	<tr>
+			<td>{{solicitud.solicitante}}</td>
+			<td>{{solicitud.establecimiento}}</td>
+			<td>{{solicitud.tipo}}</td>
+			<td>{{solicitud.estado.getEstadoString}}</td>
+			<td class="text-center">	
+			<a class="ui icon button" href="{%url 'solicitudes:detalleSolicitud' solicitud.id%} "><i class="info circle icon"></i></button>
+			</td>
+			{% for documento in documentos %}
+				<td>{{documento.nombre}}</td>
+			{%endfor%}
+		
+	</tr>
+	{% endif %}
+{% endfor%}
+
+{% endblock %}

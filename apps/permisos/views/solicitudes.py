@@ -75,3 +75,35 @@ class SolicitudDelete(DeleteView):
 	model = Permiso
 	template_name = 'delete.html'
 	success_url = reverse_lazy('solicitudes:listar')
+
+
+class ListadoActasSolicitudes(ListView):
+	model = Permiso
+	template_name = 'solicitudes/listadoSolicitud.html'
+	context_object_name = 'solicitudes'
+
+	def get_context_data(self, **kwargs):
+		context = super(ListadoActasSolicitudes, self).get_context_data(**kwargs)
+		context['nombreLista'] = "Lista de Permisos"
+		context['nombreReverse'] = "solicitudes"
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado']
+		context['botones'] = {'Atras': reverse('index')}
+		return context
+
+
+class DetalleActasSolicitud(DetailView):
+	model = Permiso
+	template_name = 'solicitudes/detalleSolicitud.html'
+	context_object_name = 'solicitud'		
+
+	def get_context_data(self, **kwargs):
+		context = super(DetalleActasSolicitud, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle de la solicitud'
+		context['botones'] = {
+			'Listado': reverse('solicitudes:listar'),
+			'Cargar documento': reverse('documentos:alta'),
+			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.id]),
+		}
+		return context
+
+
