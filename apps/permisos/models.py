@@ -116,7 +116,7 @@ class Permiso(models.Model):
 		estado_actual = self.estado()
 		if estado_actual is not None and hasattr(estado_actual, accion):
 			metodo = getattr(estado_actual, accion)
-			estado_nuevo = metodo(self, *args, **kwargs)
+			estado_nuevo = metodo(*args, **kwargs)
 			if estado_nuevo is not None:
 				estado_nuevo.save()
 		elif estado_actual is None:
@@ -195,8 +195,8 @@ class Solicitado(Estado):
 		for documento in documentos:
 			documento.visado = True
 			documento.save()
-		if self.permiso.documentos.filter(documentos__visado=True).exists():
-			return Visado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		if self.permiso.documentos.filter(visado=True).exists():
+			return Visado(permiso=self.permiso, usuario=usuario, fecha_visado=fecha, fecha=fecha)
 		return self
 
 class Visado(Estado):

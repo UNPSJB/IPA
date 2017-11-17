@@ -12,7 +12,7 @@
 	    <div class="image">
 	      <img src="{% static documento.thumbnail %}">
 	    </div>
-	    <div class="extra">Visado <i class="circle icon" style="color:
+	    <div class="extra">Visado<i class="circle icon" style="color:
 	    {%if documento.visado%}green{%else%}red{%endif%}
 	    "></i></div>
 		<div class="content">
@@ -21,6 +21,7 @@
       	<span class="date">{{documento.fecha}}</span>
     	</div>
 	    <div class="description">{{documento.descripcion}}</div>
+	    <a href="{% url 'solicitudes:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
 	  </div>
 
 	  </div>

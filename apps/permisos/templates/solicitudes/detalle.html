@@ -40,17 +40,12 @@
 	{% endfor %}
 	
 	{% if solicitud.falta_documentacion %}
-		<a class="ui labeled icon button"><i class="plus icon"></i> Agregar número de expediente. </a>
-	{% else %}
-		<p style="color:green">DOCUMENTACION COMPLETA </p>
-	{% endif %}
-	{% if solicitud.falta_documentacion %}
 		<div class="ui medium header">Documentación faltante </div>
 		{% for documentacion in solicitud.tipos_de_documentos_faltantes %}
 			<p> {{documentacion }} </p> 
 		{% endfor %}
 		<a href="{% url 'documentos:alta' solicitud.id %}" class="ui button"> Agregar</a>
 	{% else %}
-		<p> Documentación completa</p>
+		<p style="color:green">DOCUMENTACION COMPLETA </p>
 	{% endif%}
 {% endblock %}

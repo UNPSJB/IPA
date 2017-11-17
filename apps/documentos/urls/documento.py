@@ -11,4 +11,5 @@ urlpatterns = [
 	url(r'^modificar/(?P<pk>.+)/$', ModificarDocumento.as_view(), name='modificar'),
 	url(r'^eliminar/(?P<pk>.+)/$', DeleteDocumento.as_view(), name='eliminar'),
 
+	#url(r'^agregarExpediente/(?P<pk>.+)/$', AgregarExpediente.as_view(), name='agregarExpediente')
 ]

@@ -5,6 +5,8 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.views.generic import ListView,DeleteView,DetailView
 
+from datetime import datetime
+
 class AltaSolicitud(View):
 	model = Permiso
 	template_name = 'solicitudes/alta.html'
@@ -71,7 +73,7 @@ class ListadoDocumentacionPresentada(DetailView):
 		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
 		context['botones'] = {
 		#'Alta': reverse('documentos:alta') , 
-		'Listado': reverse('documentos:listar')}
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.object.pk])}
 		return context
 
 class ListadoSolicitudes(ListView):
@@ -122,4 +124,10 @@ class DetalleActasSolicitud(DetailView):
 		}
 		return context
 
+
+def visar_documento_solicitud(request,pks,pkd):
+	permiso = Permiso.objects.get(pk=pks)
+	documento = permiso.documentos.get(pk=pkd)
+	permiso.hacer('revisar',request.user, datetime.now(), [documento])
+	return redirect('solicitudes:listarDocumentacionPresentada', pks)
 

@@ -70,13 +70,17 @@ class AltaDocumento(CreateView):
 	template_name = 'formsInput.html'
 	success_url = reverse_lazy('documentos:listar')
 
-	def get_context_data(self, **kwargs):
+	def get_context_data(self, *args, **kwargs):
 		context = super(AltaDocumento, self).get_context_data(**kwargs)
 		context['botones'] = {
-		#'Alta': reverse('documentos:alta') , 
-		'Listado': reverse('documentos:listar')}
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		}
 		context['nombreForm'] = 'documentos'
 		return context
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AltaDocumento, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
