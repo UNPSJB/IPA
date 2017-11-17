@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% load actionButton %}
+{% load staticfiles %}
+{% load contextMenu %}
+
+{% block extra %}
+
+{% for documento in permiso.documentos.all %}
+	<div class="ui cards">
+	  <div class="card">
+	    <div class="image">
+	      <img src="{% static documento.thumbnail %}">
+	    </div>
+	    <div class="extra">Rating: <div class="ui star rating" data-rating="4"></div>
+	    </div>
+	  </div>
+	</div>
+		{{documento.tipo.nombre}}
+		
+{% endfor%}
+
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
+{% endblock %}
+
+ {% block pageStaticJs %}
+	<script type="text/javascript" src="{% static 'page/js/index.js'%}"></script>
+{% endblock %}
+
