@@ -128,14 +128,16 @@ class Permiso(models.Model):
 		self.documentos.add(documento)
 
 	def falta_documentacion(self):
-		return self.documentacion_faltante()
+			if self.tipos_de_documentos_faltantes() is None:
+				return False
+			else: 
+				return True
 
-	def documentacion_faltante(self):
-		documentos_requeridos = self.tipo.documentos.all()
-		for documento in self.documentos.all():
-			if documento.tipo in documentos_requeridos:
-				documentos_requeridos.remove(documento.tipo)
-		return documentos_requeridos
+	def tipos_de_documentos_faltantes(self):
+		tipos_documentos_requeridos = self.tipo.documentos.all() #DOCUMENTO REQUERIDOS DEL TIPO DE USO
+
+		tipos_documentos_recibidos = [doc.tipo for doc in self.documentos.select_related('tipo')]
+		return set(tipos_documentos_requeridos).difference(set(tipos_documentos_recibidos))
 
 class Estado(models.Model):
 	TIPO = 0

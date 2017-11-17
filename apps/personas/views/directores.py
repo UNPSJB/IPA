@@ -74,25 +74,25 @@ class ListadoDirectores(ListView):
 		context['directores'] = pmodels.Director.objects.all()
 		return context
 
-class DirectorUpdate(UpdateView):
+class ModificarDirector(UpdateView):
 	model = pmodels.Director
 	template_name = 'forms.html'
 	form_class = DirectorForm
 	success_url = reverse_lazy('directores:listado')
 
 	def get_context_data(self, **kwargs):
-		context = super(DirectorUpdate, self).get_context_data(**kwargs)
+		context = super(ModificarDirector, self).get_context_data(**kwargs)
 		context['nombreForm'] = 'Editar director:' + self.object.persona.nombre + self.object.persona.apellido
 		context['botones'] = {'Volver a los Directores': reverse('directores:listado')}
 		return context
 
-class DirectorDelete(DeleteView):
+class EliminarDirector(DeleteView):
 	model = pmodels.Director
 	template_name = 'delete.html'
 	success_url = reverse_lazy('directores:listado')
 
 	def get_context_data(self, **kwargs):
-		context = super(DirectorDelete, self).get_context_data(**kwargs)
+		context = super(EliminarDirector, self).get_context_data(**kwargs)
 		context['nombreForm'] = 'Editar director:' + self.object.persona.nombre + self.object.persona.apellido
 		context['botones'] = {}
 		return context
