@@ -4,7 +4,7 @@
 {% block contentList %} 
 
 {% for solicitud in solicitudes %}
-	{% if solicitud.estado.tipo == 1 or solicitud.estado.tipo == 2 %}
+	{% if solicitud.estado.tipo == 1 or solicitud.estado.tipo == 2 or solicitud.estado.tipo == 3 or solicitud.estado.tipo == 4%}
 	<tr>
 			<td>{{solicitud.solicitante}}</td>
 			<td>{{solicitud.establecimiento}}</td>

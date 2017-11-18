@@ -139,16 +139,22 @@ class Permiso(models.Model):
 		tipos_documentos_recibidos = [doc.tipo for doc in self.documentos.select_related('tipo')]
 		return set(tipos_documentos_requeridos).difference(set(tipos_documentos_recibidos))
 
+	def visado_completo(self):
+		if self.documentos.filter(visado=False).exists():
+			return False
+		else:
+			return True
+			
 class Estado(models.Model):
 	TIPO = 0
 	TIPOS = [
 		(0, 'estado'),
 		(1, 'Solicitado'),
 		(2, 'Visado'),
-		(3, 'Con expediente'),
-		(4, 'Documentación completa'),
-		(5, 'Edicto publicado'),
-		(6, 'Otorgado'),
+		#(3, 'Con expediente'),
+		(3, 'Documentación completa'),
+		(4, 'Edicto publicado'),
+		(5, 'Otorgado'),
 	]
 	# Marca de tiempo asiganda por el sistema al crear un estado
 	timestamp = models.DateTimeField(auto_now_add=True)
@@ -214,36 +220,36 @@ class Visado(Estado):
 			documento.save()
 		return self
 
-	def pasar(self, usuario, fecha, expediente, pase):
+	def completar(self, usuario, fecha, expediente, pase):
 		self.permiso.numero_exp = expediente
 		self.permiso.documentos.add(pase)
 		self.permiso.save()
-		return Creado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
 
-class Creado(Estado):
-	TIPO = 3
-	""" Estado del tramite cuando se convierte en expediente """
-	def recibir(self, usuario, fecha, documentos):
-		for documento in documentos:
-			self.permiso.documentos.add(documento)
-		return self
+# class Creado(Estado):
+# 	TIPO = 20
+# 	""" Estado del tramite cuando se convierte en expediente """
+# 	def recibir(self, usuario, fecha, documentos):
+# 		for documento in documentos:
+# 			self.permiso.documentos.add(documento)
+# 		return self
 
-	def revisar(self, usuario, fecha, documentos):
-		for documento in documentos:
-			documento.visado = True
-			documento.save()
-		return self
+# 	def revisar(self, usuario, fecha, documentos):
+# 		for documento in documentos:
+# 			documento.visado = True
+# 			documento.save()
+# 		return self
 
-	def completar(self, usuario, fecha):
-		visados = self.permiso.documentos.filter(visado=True)
-		pk_tipos_requeridos = [t.pk for t in self.permiso.tipo.documentos.all()]
-		pk_tipos_visados = [d.tipo.pk for d in visados]
-		if set(pk_tipos_requeridos).issubset(set(pk_tipos_visados)):
-			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
-		return self
+# 	def completar(self, usuario, fecha):
+# 		visados = self.permiso.documentos.filter(visado=True)
+# 		pk_tipos_requeridos = [t.pk for t in self.permiso.tipo.documentos.all()]
+# 		pk_tipos_visados = [d.tipo.pk for d in visados]
+# 		if set(pk_tipos_requeridos).issubset(set(pk_tipos_visados)):
+# 			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+# 		return self
 
 class Completado(Estado):
-	TIPO = 4
+	TIPO = 3
 	""" Estado del tramite cuando se completo la documentacion del expediente """
 
 	def publicar(self, usuario, fecha, tiempo, edicto):
@@ -251,7 +257,7 @@ class Completado(Estado):
 		return Publicado(permiso=self.permiso, usuario=usuario, fecha=fecha, tiempo=tiempo)
 
 class Publicado(Estado):
-	TIPO = 5
+	TIPO = 4
 	# No contemplar dias habiles.... para no entrar en tema de feriados
 	tiempo = models.PositiveIntegerField()
 
@@ -263,7 +269,7 @@ class Publicado(Estado):
 		return self
 
 class Otorgado(Estado):
-	TIPO = 6
+	TIPO = 5
 	monto = models.DecimalField(max_digits = 10, decimal_places = 2)
 
 	def cobrar(self, usuario, fecha, monto, pago):
@@ -277,6 +283,6 @@ class Otorgado(Estado):
 		Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
 		return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
 
-for Klass in [Solicitado, Visado, Creado, Completado, Publicado, Otorgado]:
+for Klass in [Solicitado, Visado, Completado, Publicado, Otorgado]:
 	Estado.register(Klass)
 

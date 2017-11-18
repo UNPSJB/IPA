@@ -91,7 +91,7 @@ class AltaDocumento(CreateView):
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
-			return HttpResponseRedirect(self.get_success_url())
+			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
 		return self.render_to_response(self.get_context_data(form=form))
 
 class DetalleDocumento(DetailView):
@@ -164,9 +164,35 @@ class AgregarExpediente(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			documento = form.save()
-			permiso.hacer('pasar',request.user,datetime.now(), 33, documento)
+			permiso.hacer('completar',request.user,datetime.now(), 33, documento)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
-	#permiso.hacer('revisar',request.user, datetime.now(), [documento])
-	#return redirect('solicitudes:listarDocumentacionPresentada', pks)
+class AgregarEdicto(CreateView):
+	model = Documento
+	form_class = DocumentoForm
+	template_name = 'formsInput.html'
+	success_url = reverse_lazy('documentos:listar')
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(AgregarEdicto, self).get_context_data(**kwargs)
+		context['botones'] = {
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		}
+		context['nombreForm'] = 'Expediente'
+		return context
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AgregarEdicto, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
+			edicto = form.save()
+			permiso.hacer('publicar',request.user,datetime.now(), 30, edicto)
+			return HttpResponseRedirect(self.get_success_url())
+		return self.render_to_response(self.get_context_data(form=form))
