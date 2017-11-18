@@ -4,7 +4,7 @@
 {% block contentList %} 
 
 {% for permiso in permisos %}
-	{% if permiso.estado.tipo == 3 or permiso.estado.tipo == 4%}
+	{% if permiso.estado.tipo == 3 %}
 	<tr>
 			<td>{{permiso.solicitante}}</td>
 			<td>{{permiso.establecimiento}}</td>

@@ -12,5 +12,6 @@ urlpatterns = [
 	url(r'^eliminar/(?P<pk>.+)/$', DeleteDocumento.as_view(), name='eliminar'),
 
 	url(r'^agregarExpediente/(?P<pk>.+)/$', AgregarExpediente.as_view(), name='agregarExpediente'),
-	url(r'^agregarEdicto/(?P<pk>.+)/$', AgregarEdicto.as_view(), name='agregarEdicto')
+	url(r'^agregarEdicto/(?P<pk>.+)/$', AgregarEdicto.as_view(), name='agregarEdicto'),
+	url(r'^agregarResolucion/(?P<pk>.+)/$', AgregarResolucion.as_view(), name='agregarResolucion')
 ]

@@ -4,7 +4,7 @@ from .forms import TipoDocumentoForm, DocumentoForm
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from django.views import View
 from apps.permisos.models import Permiso
-
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from datetime import datetime
 
@@ -194,5 +194,34 @@ class AgregarEdicto(CreateView):
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			edicto = form.save()
 			permiso.hacer('publicar',request.user,datetime.now(), 30, edicto)
+			return HttpResponseRedirect(self.get_success_url())
+		return self.render_to_response(self.get_context_data(form=form))
+
+class AgregarResolucion(CreateView):
+	model = Documento
+	form_class = DocumentoForm
+	template_name = 'formsInput.html'
+	success_url = reverse_lazy('documentos:listar')
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(AgregarResolucion, self).get_context_data(**kwargs)
+		context['botones'] = {
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		}
+		context['nombreForm'] = 'Expediente'
+		return context
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AgregarResolucion, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
+			resolucion = form.save()
+			permiso.hacer('resolver',request.user,datetime.now(), 30, resolucion)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))

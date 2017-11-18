@@ -11,4 +11,9 @@ urlpatterns = [
 
 	url(r'^listarPermisosCompletos$', ListadoPermisosDocumentacionCompleta.as_view(), name='listarPermisosCompletos'),
 	url(r'^detallePermisoCompleto/(?P<pk>\d+)/$', DetallePermisoCompleto.as_view(), name='detallePermisoCompleto'),
+
+	url(r'^listarPermisosPublicados$', ListadoPermisosPublicados.as_view(), name='listarPermisosPublicados'),
+	url(r'^detallePermisoPublicado/(?P<pk>\d+)/$', DetallePermisoPublicado.as_view(), name='detallePermisoPublicado'),
+
+
 ]
