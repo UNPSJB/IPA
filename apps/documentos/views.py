@@ -109,8 +109,12 @@ class ListadoDocumentacionPresentada(ListView):
 		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
 		context['botones'] = {
 		#'Alta': reverse('documentos:alta') , 
-		'Listado': reverse('documentos:listar')}
+		'Listado': reverse('documentos:listar'),
+        #'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		}
 		return context
+
+	
 
 class ModificarDocumento(UpdateView):
 	model = Documento
