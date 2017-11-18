@@ -6,9 +6,10 @@
 	<tr>
 		<td>{{permiso.solicitante.nombre}} {{permiso.solicitante.apellido}}</td>
 		<td>{{permiso.establecimiento.nombre}}</td>
-		<td>{{permiso.tipo.nombre}}</td>
+		<td>{{permiso.tipo.descripcion}}</td>
 		<td>{{permiso.afluente.nombre}}</td>
-
+		<td>{{permiso.estado.getEstadoString}}</td>
+		<td><a href="{% url 'permisos:eliminar' permiso.id %}"> Eliminar</a></td>
 		{% include 'formButtons.html' %}
 		
 	</tr>

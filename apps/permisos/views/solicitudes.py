@@ -86,8 +86,11 @@ class ListadoSolicitudes(ListView):
 		context['nombreLista'] = "Lista de Solicitudes"
 		context['nombreReverse'] = "solicitudes"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado']
-		context['botones'] = {'Alta': reverse('solicitudes:alta')}
+		context['botones'] = {
+		'Alta': reverse('solicitudes:alta'),
+		'Volver a Listado de Permisos': reverse('permisos:listar')}
 		return context
+
 
 class SolicitudDelete(DeleteView):
 	model = Permiso
