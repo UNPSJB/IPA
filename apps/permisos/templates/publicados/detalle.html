@@ -1,0 +1,34 @@
+{% extends 'detail.html' %}
+
+{% block detailblock %}
+	<p>Nombre del solicitante: {{permiso.solicitante}} </p>
+	<p>Establecimiento: {{permiso.establecimiento}}</p>
+	<p>Tipo de uso: {{permiso.tipo}}</p>
+	<p>Afluente: {{permiso.afluente}} </p>
+
+	<p>Fecha: {{permiso.estado.fecha}}</p>
+	<p>Observación: {{permiso.estado.observacion}}</p>
+	<p>Usuario: {{permiso.estado.usuario}}</p>
+	
+	<p>Utilizando: 
+
+	{% if utilizando %}  
+		Si
+	{% else %}
+		No
+	{% endif %}
+	</p>
+
+	<p> Obtenido en oficina: 
+	{% if not oficio %}  
+		Si
+	{% else %}
+		No
+	{% endif %}
+	</p>
+	
+
+	<p> Este Permiso no tiene Resolucion.</p>
+		<a href="{% url 'documentos:agregarResolucion' permiso.id %}" class="ui button"> Agregar Resolucion.</a> 
+
+{% endblock %}
