@@ -128,7 +128,7 @@ class Permiso(models.Model):
 		self.documentos.add(documento)
 
 	def falta_documentacion(self):
-			if self.tipos_de_documentos_faltantes() is None:
+			if len(self.tipos_de_documentos_faltantes()) == 0:
 				return False
 			else: 
 				return True

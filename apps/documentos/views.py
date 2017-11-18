@@ -6,6 +6,7 @@ from django.views import View
 from apps.permisos.models import Permiso
 
 from django.http import HttpResponseRedirect
+from datetime import datetime
 
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
@@ -132,3 +133,36 @@ class DeleteDocumento(DeleteView):
 	model = Documento
 	template_name = 'Documento/delete.html'
 	success_url = reverse_lazy('documentos:listar')
+
+
+class AgregarExpediente(CreateView):
+	model = Documento
+	form_class = DocumentoForm
+	template_name = 'formsInput.html'
+	success_url = reverse_lazy('documentos:listar')
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(AgregarExpediente, self).get_context_data(**kwargs)
+		context['botones'] = {
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		}
+		context['nombreForm'] = 'Expediente'
+		return context
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AgregarExpediente, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
+			documento = form.save()
+			permiso.hacer('pasar',request.user,datetime.now(), 33, documento)
+			return HttpResponseRedirect(self.get_success_url())
+		return self.render_to_response(self.get_context_data(form=form))
+
+	#permiso.hacer('revisar',request.user, datetime.now(), [documento])
+	#return redirect('solicitudes:listarDocumentacionPresentada', pks)

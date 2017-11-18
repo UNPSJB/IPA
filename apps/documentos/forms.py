@@ -43,4 +43,3 @@ class DocumentoForm(forms.ModelForm):
 				'visado':forms.CheckboxInput(attrs={'class':'form-control'}),
 				'fecha':forms.DateInput(attrs={'class':'form-control'}),
 		}
-
