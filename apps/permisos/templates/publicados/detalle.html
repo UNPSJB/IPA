@@ -27,8 +27,12 @@
 	{% endif %}
 	</p>
 	
+	{% if permiso.estado.isEdictoFinalizado %}
 
 	<p> Este Permiso no tiene Resolucion.</p>
-		<a href="{% url 'documentos:agregarResolucion' permiso.id %}" class="ui button"> Agregar Resolucion.</a> 
+		<a class="ui button" href="{% url 'documentos:agregarResolucion' permiso.id %}" class="ui button"> Agregar Resolucion.</a> 
+	{% else %}
+		<p style="color:red">EDICTO NO ESTA FINALIZADO </p>
+	{% endif %}
 
 {% endblock %}

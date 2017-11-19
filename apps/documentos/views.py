@@ -6,7 +6,7 @@ from django.views import View
 from apps.permisos.models import Permiso
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from datetime import datetime
+from datetime import date, datetime
 
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
@@ -193,7 +193,7 @@ class AgregarEdicto(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			edicto = form.save()
-			permiso.hacer('publicar',request.user,datetime.now(), 30, edicto)
+			permiso.hacer('publicar',request.user,edicto.fecha, 30, edicto)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
@@ -222,6 +222,6 @@ class AgregarResolucion(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			resolucion = form.save()
-			permiso.hacer('resolver',request.user,datetime.now(), 30, resolucion)
+			permiso.hacer('resolver',request.user,date.today(), 30, resolucion)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))

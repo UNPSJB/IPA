@@ -3,6 +3,7 @@ from apps.personas.models import Persona
 from apps.establecimientos.models import Afluente
 from apps.documentos.models import Documento, TipoDocumento
 from apps.pagos.models import Cobro
+from datetime import timedelta, date
 
 # PERMISOS =================================================
 class PermisoBaseManager(models.Manager):
@@ -82,7 +83,7 @@ class TipoUso(models.Model):
 	def __str__(self):
 		return self.descripcion
 
-	def calcular(self, modulo, unidad, desde, hasta):
+	def calcular_monto(self, modulo, unidad, desde, hasta):
 		dias = (hasta - desde).days
 		horas = dias * 24
 		lapso = horas / self.periodo
@@ -97,6 +98,9 @@ class Permiso(models.Model):
 	documentos = models.ManyToManyField(Documento)
 
 	objects = PermisoManager()
+
+	def getEstados(self, tipo):
+		return [(estado.tipo == tipo ) for estado in self.estados_related()]
 
 	def estado(self):
 		if self.estados.exists():
@@ -144,6 +148,9 @@ class Permiso(models.Model):
 			return False
 		else:
 			return True
+
+			
+		
 			
 class Estado(models.Model):
 	TIPO = 0
@@ -262,11 +269,15 @@ class Publicado(Estado):
 	tiempo = models.PositiveIntegerField()
 
 	def resolver(self, usuario, fecha, unidad, resolucion):
-		if self.fecha + self.tiempo < fecha:
+		if self.fecha + timedelta(days=self.tiempo) < fecha:
 			self.permiso.documentos.add(resolucion)
-			monto = self.permiso.tipo.calcular_monto(unidad)
-			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
+			print(self.permiso.getEstados(1)[0])
+			#monto = self.permiso.tipo.calcular_monto(30, unidad, self.permiso.getEstados(1)[0].fecha, self.fecha )
+			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=10)
 		return self
+
+	def isEdictoFinalizado(self):
+		return self.fecha + timedelta(days=self.tiempo) < date.today()
 
 class Otorgado(Estado):
 	TIPO = 5
@@ -285,4 +296,3 @@ class Otorgado(Estado):
 
 for Klass in [Solicitado, Visado, Completado, Publicado, Otorgado]:
 	Estado.register(Klass)
-
