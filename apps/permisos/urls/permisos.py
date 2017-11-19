@@ -9,11 +9,13 @@ urlpatterns = [
 	url(r'^eliminar/(?P<pk>\d+)$', PermisoDelete.as_view(), name='eliminar'),
 
 
-	url(r'^listarPermisosCompletos$', ListadoPermisosDocumentacionCompleta.as_view(), name='listarPermisosCompletos'),
-	url(r'^detallePermisoCompleto/(?P<pk>\d+)/$', DetallePermisoCompleto.as_view(), name='detallePermisoCompleto'),
+	url(r'^listar/Completos$', ListadoPermisosDocumentacionCompleta.as_view(), name='listarPermisosCompletos'),
+	url(r'^detalle/Completo/(?P<pk>\d+)/$', DetallePermisoCompleto.as_view(), name='detallePermisoCompleto'),
 
-	url(r'^listarPermisosPublicados$', ListadoPermisosPublicados.as_view(), name='listarPermisosPublicados'),
-	url(r'^detallePermisoPublicado/(?P<pk>\d+)/$', DetallePermisoPublicado.as_view(), name='detallePermisoPublicado'),
+	url(r'^listar/Publicados$', ListadoPermisosPublicados.as_view(), name='listarPermisosPublicados'),
+	url(r'^detalle/Publicado/(?P<pk>\d+)/$', DetallePermisoPublicado.as_view(), name='detallePermisoPublicado'),
 
+	url(r'^listar/Otorgados$', ListadoPermisosOtorgados.as_view(), name='listarPermisosOtorgados'),
+	url(r'^detalle/Otorgado/(?P<pk>\d+)/$', DetallePermisoOtorgado.as_view(), name='detallePermisoOtorgado'),
 
 ]
