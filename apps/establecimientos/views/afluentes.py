@@ -56,7 +56,7 @@ class ListadoAfluentes(ListView):
 class ModificarAfluente(UpdateView):
 	model = Afluente
 	form_class = AfluenteForm
-	template_name = 'form.html'
+	template_name = 'forms.html'
 	success_url = reverse_lazy('afluentes:listar')
 
 	def post(self, request, *args, **kwargs):
@@ -70,8 +70,18 @@ class ModificarAfluente(UpdateView):
 		else:
 			return HttpResponseRedirect(self.get_success_url())
 
+	def get_context_data(self, **kwargs):
+		context = super(ModificarAfluente, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar afluente"
+		context['botones'] = {
+			
+			'Eliminar afluente': reverse('afluentes:eliminar', args=[self.object.id]),
+			'Listado': reverse('afluentes:listar')
+			}
+		return context
+
 class DeleteAfluente(DeleteView):
 	model = Afluente
-	template_name = 'afluentes/delete.html'
+	template_name = 'delete.html'
 	success_url = reverse_lazy('afluentes:listar')
 
