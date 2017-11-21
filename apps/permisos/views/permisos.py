@@ -2,7 +2,7 @@ from django.urls import reverse_lazy, reverse
 from ..models import Permiso
 from ..forms import PermisoForm
 from django.views.generic import ListView,DeleteView,DetailView
-
+from django.shortcuts import redirect
 		
 class ListadoPermisos(ListView):
 	model = Permiso
@@ -12,7 +12,7 @@ class ListadoPermisos(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisos, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Permisos"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente', 'Estado']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente', 'Estado', 'Accion', 'Detalle']
 		context['botones'] = {
 		'Bajas': reverse('permisos:listarPermisosDeBaja'),
 		'Otorgados': reverse('permisos:listarPermisosOtorgados'),
