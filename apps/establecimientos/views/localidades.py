@@ -16,7 +16,7 @@ class AltaLocalidad(CreateView):
 		context = super(AltaLocalidad, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Listado': reverse('localidades:listar'),
-			'Nuevo departamento': reverse('departamentos:alta'),
+			'Nuevo Departamento': reverse('departamentos:alta'),
 		}
 		context['nombreForm'] = 'Nueva Localidad'
 		return context
@@ -31,9 +31,9 @@ class DetalleLocalidad(DetailView):
 		context['nombreDetalle'] = 'Detalle de Localidad'
 		context['botones'] = {
 			'Listado': reverse('localidades:listar'),
-			'Nueva localidad': reverse('localidades:alta'),
-			'Eliminar localidad': reverse('localidades:eliminar', args=[self.object.id]),
-			'Modificar localidad': reverse('localidades:modificar', args=[self.object.id]),
+			'Nueva Localidad': reverse('localidades:alta'),
+			'Eliminar Localidad': reverse('localidades:eliminar', args=[self.object.id]),
+			'Modificar Localidad': reverse('localidades:modificar', args=[self.object.id]),
 			'Salir': reverse('index')
 		}
 		return context
@@ -47,10 +47,10 @@ class ListadoLocalidades(ListView):
 		context = super(ListadoLocalidades, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Localidades'
 		context['nombreReverse'] = 'localidades'
-		context['headers'] = ['Codigo Postal', 'Nombre','Departamento']
+		context['headers'] = ['Código Postal', 'Nombre','Departamento']
 		context['botones'] = {
-			'Nueva localidad': reverse('localidades:alta'),
-			'Ir a establecimientos': reverse('establecimientos:listar')
+			'Nueva Localidad': reverse('localidades:alta'),
+			'Ir a Establecimientos': reverse('establecimientos:listar')
 			}
 		return context
 
@@ -73,10 +73,10 @@ class ModificarLocalidad(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarLocalidad, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar localidad"
+		context['nombreForm'] = "Modificar Localidad"
 		context['botones'] = {
-			'Nuevo departamento': reverse('departamentos:alta'),
-			'Eliminar departamento': reverse('departamentos:eliminar', args=[self.object.id]),
+			'Nuevo Departamento': reverse('departamentos:alta'),
+			'Eliminar Departamento': reverse('departamentos:eliminar', args=[self.object.id]),
 			'Listado': reverse('departamentos:listar')
 			}
 		return context

@@ -16,7 +16,7 @@ class AltaTipoDocumento(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDocumento, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Nuevo tipo de documento"
+		context['nombreForm'] = "Nuevo Tipo de Documento"
 		context['headers'] = ['Nombre']
 		context['botones'] = {
 			'Listado':reverse('tipoDocumentos:listar'),
@@ -34,10 +34,10 @@ class ListadoTipoDocumentos(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTipoDocumentos, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Listado de tipos de documento"
+		context['nombreLista'] = "Listado de Tipos de Documento"
 		context['headers'] = ['Nombre']
 		context['botones'] = {
-			'Alta': reverse('tipoDocumentos:alta'),
+			'Nuevo Tipo de Documento': reverse('tipoDocumentos:alta'),
 			'Salir': reverse('index')
 			}
 		return context
@@ -77,7 +77,7 @@ class AltaDocumento(CreateView):
 		context['botones'] = {
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
-		context['nombreForm'] = 'documentos'
+		context['nombreForm'] = 'Documentos'
 		return context
 
 	def get (self, request, *args, **kwargs):

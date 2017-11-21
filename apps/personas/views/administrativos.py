@@ -16,7 +16,7 @@ class CreateBaseView(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(CreateBaseView, self).get_context_data(**kwargs)
 		context['headers'] = []
-		context['nombreForm'] = 'Nueva persona'
+		context['nombreForm'] = 'Nueva Persona'
 		context['botones'] = {
 			'Nueva Persona': reverse('personas:alta'), 
 			'Directores':'', 
@@ -40,7 +40,7 @@ class AltaAdministrativo(CreateBaseView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(AltaAdministrativo, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Nuevo administrativo'
+		context['nombreForm'] = 'Nuevo Administrativo'
 		context['message'] = 'Administrativo YA EXISTE'
 		return context
 

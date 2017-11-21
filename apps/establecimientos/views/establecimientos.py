@@ -18,9 +18,9 @@ class AltaEstablecimiento(CreateView):
 		context['botones'] = {
 			'Listado': reverse('establecimientos:listar'),
 			'Nuevo Solicitante': reverse('personas:alta'),
-			'Nueva localidad': reverse('localidades:alta')
+			'Nueva Localidad': reverse('localidades:alta')
 			}
-		context['nombreForm'] = 'Nuevo establecimiento'
+		context['nombreForm'] = 'Nuevo Establecimiento'
 		return context
 
 class ListadoEstablecimientos(ListView):
@@ -30,11 +30,11 @@ class ListadoEstablecimientos(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoEstablecimientos, self).get_context_data(**kwargs)
-		context['nombreLista'] = 'Listado de establecimientos'
+		context['nombreLista'] = 'Listado de Establecimientos'
 		context['nombreReverse'] = 'establecimientos'
 		context['headers'] = ['Nombre', 'Localidad','Código Catastral']
 		context['botones'] = {
-			'Nuevo establecimiento': reverse('establecimientos:alta'),
+			'Nuevo Establecimiento': reverse('establecimientos:alta'),
 		}	
 		return context
 
@@ -45,11 +45,11 @@ class DetalleEstablecimiento(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleEstablecimiento, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de establecimiento'
+		context['nombreDetalle'] = 'Detalle de Establecimiento'
 		context['botones'] = {
 			'Listado': reverse('establecimientos:listar'),
-			'Nuevo establecimiento': reverse('establecimientos:alta'),
-			'Eliminar establecimiento': reverse('establecimientos:eliminar', args=[self.object.codigoCatastral])
+			'Nuevo Establecimiento': reverse('establecimientos:alta'),
+			'Eliminar Establecimiento': reverse('establecimientos:eliminar', args=[self.object.codigoCatastral])
 
 		}
 		return context

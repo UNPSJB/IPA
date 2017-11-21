@@ -14,7 +14,7 @@ class CreateBaseView(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(CreateBaseView, self).get_context_data(**kwargs)
 		context['headers'] = []
-		context['nombreForm'] = 'Nueva persona'
+		context['nombreForm'] = 'Nueva Persona'
 		context['botones'] = {
 			'Nueva Persona': reverse('personas:alta'), 
 			'Directores':'', 
@@ -53,7 +53,7 @@ class ModificarPersona(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarPersona, self).get_context_data(**kwargs)
 		context['nombreForm'] = 'Editar Persona:'
-		context['botones'] = {'Volver a listado de Personas':reverse('personas:listado')}
+		context['botones'] = {'Volver a Listado de Personas':reverse('personas:listado')}
 		return context
 
 class ListadoPersonas(ListView):
@@ -70,7 +70,7 @@ class ListadoPersonas(ListView):
 		 	'Liquidadores':''
 		 }
 		context['nombreReverse'] = 'personas'
-		context['headers'] = ['Nombre', 'Apellido','Tipo de Documento', 'Numero de Documento']
+		context['headers'] = ['Nombre', 'Apellido','Tipo de Documento', 'Número de Documento']
 		return context
 
 class DetallePersona(DetailView):
@@ -82,7 +82,7 @@ class DetallePersona(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(DetallePersona, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Volver a las Personas': reverse('personas:listado'),
+			'Volver a Listado de Personas': reverse('personas:listado'),
 			'Nueva Persona': reverse('personas:alta'), 
 			'Directores': reverse('directores:listado'), 
 			'Administrativos':'', 

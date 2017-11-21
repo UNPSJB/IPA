@@ -20,7 +20,7 @@ class AltaAfluente(CreateView):
 			'Nueva Localidad': reverse('localidades:alta')
 			
 			}
-		context['nombreForm'] = 'Nuevo afluente'
+		context['nombreForm'] = 'Nuevo Afluente'
 		return context
 
 class DetalleAfluente(DetailView):
@@ -33,9 +33,9 @@ class DetalleAfluente(DetailView):
 		context['nombreDetalle'] = 'Detalle de Afluente'
 		context['botones'] = {
 			'Listado': reverse('afluentes:listar'),
-			'Nuevo afluente': reverse('afluentes:alta'),
-			'Eliminar afluente': reverse('afluentes:eliminar', args=[self.object.id]),
-			'Modificar afluente': reverse('afluentes:modificar', args=[self.object.id]),
+			'Nuevo Afluente': reverse('afluentes:alta'),
+			'Eliminar Afluente': reverse('afluentes:eliminar', args=[self.object.id]),
+			'Modificar Afluente': reverse('afluentes:modificar', args=[self.object.id]),
 		}
 		return context	
 
@@ -50,7 +50,7 @@ class ListadoAfluentes(ListView):
 		context['nombreReverse'] = 'afluentes'
 		context['headers'] = ['Nombre', 'Caudal','Descripción']
 		context['botones'] = {
-			'Nuevo afluente': reverse('afluentes:alta')
+			'Nuevo Afluente': reverse('afluentes:alta')
 			}
 		return context
 
@@ -74,10 +74,10 @@ class ModificarAfluente(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarAfluente, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar afluente"
+		context['nombreForm'] = "Modificar Afluente"
 		context['botones'] = {
 			
-			'Eliminar afluente': reverse('afluentes:eliminar', args=[self.object.id]),
+			'Eliminar Afluente': reverse('afluentes:eliminar', args=[self.object.id]),
 			'Listado': reverse('afluentes:listar')
 			}
 		return context
