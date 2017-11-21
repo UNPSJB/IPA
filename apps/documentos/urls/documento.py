@@ -13,5 +13,6 @@ urlpatterns = [
 
 	url(r'^agregarExpediente/(?P<pk>.+)/$', AgregarExpediente.as_view(), name='agregarExpediente'),
 	url(r'^agregarEdicto/(?P<pk>.+)/$', AgregarEdicto.as_view(), name='agregarEdicto'),
+	url(r'^agregarOposicion/(?P<pk>.+)/$', AgregarOposicion.as_view(), name='agregarOposicion'),
 	url(r'^agregarResolucion/(?P<pk>.+)/$', AgregarResolucion.as_view(), name='agregarResolucion')
 ]

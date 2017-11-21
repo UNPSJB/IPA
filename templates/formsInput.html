@@ -12,8 +12,8 @@
 </div>
 
 <form class="ui large form" action="{{ form.url_post }}" method="POST" enctype="multipart/form-data">
-	{% if message %}
-		<p>{{ message }}</p>
+	{% if message_error %}
+		<p style='color:red'>{{ message_error }}</p>
 	{% endif %}
   {% csrf_token %}
   {% render_form form %}

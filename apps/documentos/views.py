@@ -150,7 +150,7 @@ class AgregarExpediente(CreateView):
 		context['botones'] = {
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
-		context['nombreForm'] = 'Expediente'
+		context['nombreForm'] = 'Agregar Expediente a Permiso'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -179,7 +179,7 @@ class AgregarEdicto(CreateView):
 		context['botones'] = {
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
-		context['nombreForm'] = 'Expediente'
+		context['nombreForm'] = 'Agregar Edicto a Permiso'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -208,7 +208,7 @@ class AgregarResolucion(CreateView):
 		context['botones'] = {
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
-		context['nombreForm'] = 'Expediente'
+		context['nombreForm'] = 'Agregar Resolución a Permiso'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -225,3 +225,43 @@ class AgregarResolucion(CreateView):
 			permiso.hacer('resolver',request.user,date.today(), 30, resolucion)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
+
+
+class AgregarOposicion(CreateView):
+	model = Documento
+	form_class = DocumentoForm
+	template_name = 'formsInput.html'
+	success_url = reverse_lazy('documentos:listar')
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(AgregarOposicion, self).get_context_data(**kwargs)
+		context['botones'] = {
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		}
+		context['nombreForm'] = 'Agregar Oposición a Permiso'
+		context['message_error'] = ''
+		return context
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AgregarOposicion, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		fechaVencimiento = permiso.estado().vencimientoPublicacion()
+
+		if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
+			resolucion = form.save()
+			permiso.hacer('darDeBaja',request.user,date.today(), resolucion)
+			return HttpResponseRedirect(self.get_success_url())
+		
+		context = {'form':form, 'message_error': 'La fecha de publicacion ingresada es posterior a la fecha de vencimiento del edicto'}
+		context['botones'] = {
+		'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[permiso.pk])}
+
+		return render(request, self.template_name, context)	
+		
+		
