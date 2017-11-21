@@ -27,13 +27,7 @@
 	{% endif %}
 	</p>
 
-	{% if solicitud.numero_exp %}
-		<p> Número de expediente: {{ solicitud.numero_exp}}</p>	
-	{% else %}
-		<p> Esta solicitud no tiene expediente.</p> <button class="ui labeled icon button"><i class="plus icon"></i> Agregar número de expediente. </button>
-	{% endif %}
-
-	<div class="ui medium header">Documentos:</div>
+	<div class="ui medium header blue">Documentos:</div>
 
 	{% for documento in documentos %}
 		<p> {{ documento.nombre }}</p>
@@ -45,9 +39,16 @@
 	{% if solicitud.falta_documentacion %}
 		<div class="ui medium header">Documentación faltante </div>
 		{% for documentacion in solicitud.documentacion_faltante %}
-			<p> {{documentacion }} </p> <a href="#" class="u button"> Ver</a>
+			<p> {{documentacion }} </p> <a href="#" class="ui button"> Ver</a>
 		{% endfor %}
 	{% else %}
 		<p> Documentación completa</p>
 	{% endif%}
 {% endblock %}
+	
+	{% if solicitud.numero_exp %}
+		<p> Número de expediente: {{ solicitud.numero_exp}}</p>	
+	
+	{% else %}
+		hola
+	{% endif %}
