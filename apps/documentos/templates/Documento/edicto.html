@@ -17,6 +17,10 @@
 	{% endif %}
   {% csrf_token %}
   {% render_form form %}
+  <div class="field">
+    <label>Tiempo de Publicación (en días):</label>
+    <input type="number" name="tiempo" placeholder="Ingrese el tiempo de publicacion de edicto">
+  </div>
 
 	<div class="row">
 		<div class="col-lg-12 text-right">

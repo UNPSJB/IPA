@@ -73,7 +73,7 @@ class ModificarLocalidad(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarLocalidad, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar tipo de uso"
+		context['nombreForm'] = "Modificar localidad"
 		context['botones'] = {
 			'Nuevo departamento': reverse('departamentos:alta'),
 			'Eliminar departamento': reverse('departamentos:eliminar', args=[self.object.id]),

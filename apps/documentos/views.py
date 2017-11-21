@@ -143,7 +143,7 @@ class DeleteDocumento(DeleteView):
 class AgregarExpediente(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
+	template_name = 'Documento/expediente.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, *args, **kwargs):
@@ -151,7 +151,7 @@ class AgregarExpediente(CreateView):
 		context['botones'] = {
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
-		context['nombreForm'] = 'Expediente'
+		context['nombreForm'] = 'Agregar Expediente a Permiso'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -165,14 +165,14 @@ class AgregarExpediente(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			documento = form.save()
-			permiso.hacer('completar',request.user,datetime.now(), 33, documento)
+			permiso.hacer('completar',request.user,datetime.now(), request.POST['expediente'], documento)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarEdicto(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
+	template_name = 'Documento/edicto.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, *args, **kwargs):
@@ -180,7 +180,7 @@ class AgregarEdicto(CreateView):
 		context['botones'] = {
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
-		context['nombreForm'] = 'Expediente'
+		context['nombreForm'] = 'Agregar Edicto a Permiso'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -194,14 +194,14 @@ class AgregarEdicto(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			edicto = form.save()
-			permiso.hacer('publicar',request.user,edicto.fecha, 30, edicto)
+			permiso.hacer('publicar',request.user,edicto.fecha, request.POST['tiempo'], edicto)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarResolucion(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
+	template_name = 'Documento/resolucion.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, *args, **kwargs):
@@ -209,7 +209,8 @@ class AgregarResolucion(CreateView):
 		context['botones'] = {
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
-		context['nombreForm'] = 'Expediente'
+		context['permiso'] = Permiso.objects.get(pk=self.permiso_pk)
+		context['nombreForm'] = 'Agregar Resolución a Permiso'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -223,8 +224,42 @@ class AgregarResolucion(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			resolucion = form.save()
-			permiso.hacer('resolver',request.user,date.today(), 30, resolucion)
+			permiso.hacer('resolver',request.user,date.today(), request.POST['unidad'], resolucion)
 			return HttpResponseRedirect(self.get_success_url())
+		return self.render_to_response(self.get_context_data(form=form))
+
+
+class AgregarOposicion(CreateView):
+	model = Documento
+	form_class = DocumentoForm
+	template_name = 'formsInput.html'
+	success_url = reverse_lazy('documentos:listar')
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(AgregarOposicion, self).get_context_data(**kwargs)
+		context['botones'] = {
+			'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
+		}
+		context['nombreForm'] = 'Agregar Oposición a Permiso'
+		context['message_error'] = ''
+		return context
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AgregarOposicion, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		fechaVencimiento = permiso.estado().vencimientoPublicacion()
+
+		if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
+			resolucion = form.save()
+			permiso.hacer('darDeBaja',request.user,date.today(), resolucion)
+			return HttpResponseRedirect(self.get_success_url())
+<<<<<<< HEAD
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarInfraccion(CreateView):
@@ -249,3 +284,13 @@ class AgregarInfraccion(CreateView):
 		self.object = self.get_object
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+=======
+		
+		context = {'form':form, 'message_error': 'La fecha de publicacion ingresada es posterior a la fecha de vencimiento del edicto'}
+		context['botones'] = {
+		'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[permiso.pk])}
+		context['nombreForm'] = 'Agregar Oposición a Permiso'
+		return render(request, self.template_name, context)	
+		
+		
+>>>>>>> 9f1343a8b5b40ae0b4a78450855ef683dd8b2676

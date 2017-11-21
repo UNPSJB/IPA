@@ -14,6 +14,7 @@ class ListadoPermisos(ListView):
 		context['nombreLista'] = "Permisos"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente', 'Estado']
 		context['botones'] = {
+		'Bajas': reverse('permisos:listarPermisosDeBaja'),
 		'Otorgados': reverse('permisos:listarPermisosOtorgados'),
 		'Publicados': reverse('permisos:listarPermisosPublicados'),
 		'Con Expedientes': reverse('permisos:listarPermisosCompletos'),
@@ -65,7 +66,7 @@ class ListadoPermisosPublicados(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisosPublicados, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Lista de Permisos con Documentacion Completa"
+		context['nombreLista'] = "Lista de Permisos Publicados"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado']
 		context['botones'] = {
 		'Alta': reverse('solicitudes:alta'),
@@ -95,7 +96,7 @@ class ListadoPermisosOtorgados(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisosOtorgados, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Lista de Permisos con Documentacion Completa"
+		context['nombreLista'] = "Lista de Permisos Otorgados"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado']
 		context['botones'] = {
 		'Alta': reverse('solicitudes:alta'),
@@ -109,12 +110,41 @@ class DetallePermisoOtorgado(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(DetallePermisoOtorgado, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Permiso Publicado'
+		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
 		context['botones'] = {
 			'Calcular Canon': reverse('solicitudes:listar'),
 			'Listado': reverse('solicitudes:listar'),
 			'Ver Documentación presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
+			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
+		}
+		return context
+
+class ListadoPermisosDeBaja(ListView):
+	model = Permiso
+	template_name = 'bajas/listado.html'
+	context_object_name = 'permisos'
+
+	def get_context_data(self, **kwargs):
+		context = super(ListadoPermisosDeBaja, self).get_context_data(**kwargs)
+		context['nombreLista'] = "Lista de Permisos que fueron dados de Baja"
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado']
+		context['botones'] = {
+		'Alta': reverse('solicitudes:alta'),
+		'Volver a Listado de Permisos': reverse('permisos:listar')}
+		return context
+
+class DetallePermisoDeBaja(DetailView):
+	model = Permiso
+	template_name = 'bajas/detalle.html'
+	context_object_name = 'permiso'		
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(DetallePermisoDeBaja, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle de Permiso dado de Baja'
+		context['botones'] = {
+			'Volver a Listado Permisos de Baja': reverse('permisos:listarPermisosDeBaja'),
+			'Ver Documentación presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
 		}
 		return context

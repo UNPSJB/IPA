@@ -1,12 +1,13 @@
 {% extends 'lists.html' %}
-{% block contentList%} 
+{% load actionButton %}
 
+{% block contentList%} 
 {% for afluente in afluentes %}
 	<tr>
 		<td>{{afluente.nombre}}</td>
-		<td>{{afluente.localidad}}</td>
 		<td>{{afluente.caudal}}</td>
-		{% include 'formButtons.html' %}
+		<td>{{afluente.descripcion}}</td>
+		{% renderActionButton afluente.id %}
 		
 	</tr>
 {% endfor%}

@@ -148,10 +148,7 @@ class Permiso(models.Model):
 			return False
 		else:
 			return True
-
-			
 		
-			
 class Estado(models.Model):
 	TIPO = 0
 	TIPOS = [
@@ -162,6 +159,7 @@ class Estado(models.Model):
 		(3, 'Documentación completa'),
 		(4, 'Edicto publicado'),
 		(5, 'Otorgado'),
+		(6, 'Baja'),
 	]
 	# Marca de tiempo asiganda por el sistema al crear un estado
 	timestamp = models.DateTimeField(auto_now_add=True)
@@ -233,28 +231,6 @@ class Visado(Estado):
 		self.permiso.save()
 		return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
 
-# class Creado(Estado):
-# 	TIPO = 20
-# 	""" Estado del tramite cuando se convierte en expediente """
-# 	def recibir(self, usuario, fecha, documentos):
-# 		for documento in documentos:
-# 			self.permiso.documentos.add(documento)
-# 		return self
-
-# 	def revisar(self, usuario, fecha, documentos):
-# 		for documento in documentos:
-# 			documento.visado = True
-# 			documento.save()
-# 		return self
-
-# 	def completar(self, usuario, fecha):
-# 		visados = self.permiso.documentos.filter(visado=True)
-# 		pk_tipos_requeridos = [t.pk for t in self.permiso.tipo.documentos.all()]
-# 		pk_tipos_visados = [d.tipo.pk for d in visados]
-# 		if set(pk_tipos_requeridos).issubset(set(pk_tipos_visados)):
-# 			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
-# 		return self
-
 class Completado(Estado):
 	TIPO = 3
 	""" Estado del tramite cuando se completo la documentacion del expediente """
@@ -279,6 +255,14 @@ class Publicado(Estado):
 	def isEdictoFinalizado(self):
 		return self.fecha + timedelta(days=self.tiempo) < date.today()
 
+	def vencimientoPublicacion(self):
+		return self.fecha + timedelta(days=self.tiempo)
+
+	def darDeBaja(self, usuario, fecha, oposicion):
+		self.permiso.documentos.add(oposicion)
+		self.permiso.save()
+		return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
+
 class Otorgado(Estado):
 	TIPO = 5
 	monto = models.DecimalField(max_digits = 10, decimal_places = 2)
@@ -294,5 +278,9 @@ class Otorgado(Estado):
 		Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
 		return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
 
-for Klass in [Solicitado, Visado, Completado, Publicado, Otorgado]:
+class Baja(Estado):
+	TIPO = 6
+
+
+for Klass in [Solicitado, Visado, Completado, Publicado, Otorgado, Baja]:
 	Estado.register(Klass)
