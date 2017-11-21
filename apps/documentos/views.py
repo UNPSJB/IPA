@@ -37,7 +37,8 @@ class ListadoTipoDocumentos(ListView):
 		context['nombreLista'] = "Listado de tipos de documento"
 		context['headers'] = ['Nombre']
 		context['botones'] = {
-			'Alta': reverse('tipoDocumentos:alta')
+			'Alta': reverse('tipoDocumentos:alta'),
+			'Salir': reverse('index')
 			}
 		return context
 
@@ -258,11 +259,6 @@ class AgregarOposicion(CreateView):
 			resolucion = form.save()
 			permiso.hacer('darDeBaja',request.user,date.today(), resolucion)
 			return HttpResponseRedirect(self.get_success_url())
-		
-		context = {'form':form, 'message_error': 'La fecha de publicacion ingresada es posterior a la fecha de vencimiento del edicto'}
-		context['botones'] = {
-		'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[permiso.pk])}
-		context['nombreForm'] = 'Agregar Oposición a Permiso'
-		return render(request, self.template_name, context)	
-		
-		
+
+		return self.render_to_response(self.get_context_data(form=form))
+
