@@ -259,38 +259,6 @@ class AgregarOposicion(CreateView):
 			resolucion = form.save()
 			permiso.hacer('darDeBaja',request.user,date.today(), resolucion)
 			return HttpResponseRedirect(self.get_success_url())
-<<<<<<< HEAD
+
 		return self.render_to_response(self.get_context_data(form=form))
 
-class AgregarInfraccion(CreateView):
-	model = Documento
-	form_class = DocumentoForm
-	template_name = 'formsInput.html'
-	success_url = reverse_lazy('documentos:listar')
-
-	def get_context_data(self, *args, **kwargs):
-		context = super(AgregarExpediente, self).get_context_data(**kwargs)
-		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
-		}
-		context['nombreForm'] = 'Acta de Infraccion'
-		return context
-
-	def get (self, request, *args, **kwargs):
-		self.permiso_pk = kwargs.get('pk')
-		return super(AgregarInfraccion, self).get(request,*args,**kwargs)
-
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		form = self.form_class(request.POST, request.FILES)
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-=======
-		
-		context = {'form':form, 'message_error': 'La fecha de publicacion ingresada es posterior a la fecha de vencimiento del edicto'}
-		context['botones'] = {
-		'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[permiso.pk])}
-		context['nombreForm'] = 'Agregar Oposición a Permiso'
-		return render(request, self.template_name, context)	
-		
-		
->>>>>>> 9f1343a8b5b40ae0b4a78450855ef683dd8b2676
