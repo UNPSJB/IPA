@@ -10,23 +10,11 @@
 	<p>Observación: {{permiso.estado.observacion}}</p>
 	<p>Usuario: {{permiso.estado.usuario}}</p>
 	
-	<p>Utilizando: 
+	<p>Utilizando: {% if utilizando %}Si{% else %}No{% endif %}</p>
 
-	{% if utilizando %}  
-		Si
-	{% else %}
-		No
-	{% endif %}
-	</p>
-
-	<p> Obtenido en oficina: 
-	{% if not oficio %}  
-		Si
-	{% else %}
-		No
-	{% endif %}
-	</p>
+	<p> Obtenido en oficina: {% if not oficio %}Si{% else %}No{% endif %}</p>
 	
+	<p>Numero de Expediente: {{permiso.numero_exp}}</p>
 
 	<p> Este Permiso no tiene Edicto.</p>
 		<a href="{% url 'documentos:agregarEdicto' permiso.id %}" class="ui button"> Agregar Edicto.</a> 

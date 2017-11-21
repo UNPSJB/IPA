@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+{% load static semanticui %}
+
+{% load contextMenu %}
+
+{% block extra %} 
+<div class="row header-content">
+	<div class="titulo">
+		<h1 class="ui header blue">{{nombreForm}}</h1>
+	</div>
+</div>
+
+<form class="ui large form" action="{{ form.url_post }}" method="POST" enctype="multipart/form-data">
+	{% if message_error %}
+		<p style='color:red'>{{ message_error }}</p>
+	{% endif %}
+  {% csrf_token %}
+  {% render_form form %}
+  <div class="field">
+    <label>Numero de Expediente </label>
+    <input type="text" name="expediente" placeholder="Ingrese un numero de expediente">
+  </div>
+
+	<div class="row">
+		<div class="col-lg-12 text-right">
+		{% if not object %}
+			<input type="submit" class="ui primary button" name="cargarOtro" value="Guardar y Cargar otro">
+		{% endif%}
+			<input type="submit" class="ui positive button" name="guardar" value="Guardar">
+
+		</div>
+	</div>
+
+
+</form>
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
+{% endblock %}

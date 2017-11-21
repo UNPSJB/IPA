@@ -142,7 +142,7 @@ class DeleteDocumento(DeleteView):
 class AgregarExpediente(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
+	template_name = 'Documento/expediente.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, *args, **kwargs):
@@ -164,14 +164,14 @@ class AgregarExpediente(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			documento = form.save()
-			permiso.hacer('completar',request.user,datetime.now(), 33, documento)
+			permiso.hacer('completar',request.user,datetime.now(), request.POST['expediente'], documento)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarEdicto(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
+	template_name = 'Documento/edicto.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, *args, **kwargs):
@@ -193,7 +193,7 @@ class AgregarEdicto(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			edicto = form.save()
-			permiso.hacer('publicar',request.user,edicto.fecha, 30, edicto)
+			permiso.hacer('publicar',request.user,edicto.fecha, request.POST['tiempo'], edicto)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
