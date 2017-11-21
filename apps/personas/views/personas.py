@@ -39,7 +39,8 @@ class AltaPersona(CreateBaseView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaPersona, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Volver a listado de Personas':reverse('personas:listado')
+			#'Volver a listado de Personas':reverse('personas:listado')
+			'listado':reverse('personas:listado')
 		}
 		return context
 
@@ -85,7 +86,8 @@ class DetallePersona(DetailView):
 			'Nueva Persona': reverse('personas:alta'), 
 			'Directores': reverse('directores:listado'), 
 			'Administrativos':'', 
-			'Liquidadores':''
+			'Liquidadores':'',
+			'Salir': reverse('index'), 
 		}
 		context['roles'] = pmodels.Rol.TIPOS 
 		return context

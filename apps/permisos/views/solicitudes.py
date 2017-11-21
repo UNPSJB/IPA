@@ -21,7 +21,7 @@ class AltaSolicitud(View):
 		
 		context['botones'] = {
 				'Listado': reverse('solicitudes:listar'),
-				'Agregar Persona' : reverse('personas:alta'),
+				'Agregar Solicitante' : reverse('personas:alta'),
 				'Agregar Establecimiento': reverse('establecimientos:alta'),
 				'Agregar Tipo de Uso': reverse('tiposDeUso:alta'),
 				'Agregar Afluente': reverse('afluentes:alta'),
@@ -59,6 +59,8 @@ class DetalleSolicitud(DetailView):
 			'Ver Documentación presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
 			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
+			'Agregar Infraccion': reverse('documentos:alta', args=[self.object.pk]),
+			'Salir':reverse('index')
 		}
 		return context
 

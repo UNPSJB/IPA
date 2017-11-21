@@ -17,7 +17,8 @@ class ListadoPermisos(ListView):
 		'Otorgados': reverse('permisos:listarPermisosOtorgados'),
 		'Publicados': reverse('permisos:listarPermisosPublicados'),
 		'Con Expedientes': reverse('permisos:listarPermisosCompletos'),
-		'Solicitudes': reverse('solicitudes:listar')}
+		'Solicitudes': reverse('solicitudes:listar'),
+		'Salir': reverse('index')}
 		return context
 
 class PermisoDelete(DeleteView):

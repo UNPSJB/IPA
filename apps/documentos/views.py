@@ -37,7 +37,8 @@ class ListadoTipoDocumentos(ListView):
 		context['nombreLista'] = "Listado de tipos de documento"
 		context['headers'] = ['Nombre']
 		context['botones'] = {
-			'Alta': reverse('tipoDocumentos:alta')
+			'Alta': reverse('tipoDocumentos:alta'),
+			'Salir': reverse('index')
 			}
 		return context
 
@@ -225,3 +226,26 @@ class AgregarResolucion(CreateView):
 			permiso.hacer('resolver',request.user,date.today(), 30, resolucion)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
+
+class AgregarInfraccion(CreateView):
+	model = Documento
+	form_class = DocumentoForm
+	template_name = 'formsInput.html'
+	success_url = reverse_lazy('documentos:listar')
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(AgregarExpediente, self).get_context_data(**kwargs)
+		context['botones'] = {
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		}
+		context['nombreForm'] = 'Acta de Infraccion'
+		return context
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AgregarInfraccion, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
