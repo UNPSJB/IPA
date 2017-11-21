@@ -200,7 +200,7 @@ class AgregarEdicto(CreateView):
 class AgregarResolucion(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
+	template_name = 'Documento/resolucion.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, *args, **kwargs):
@@ -208,6 +208,7 @@ class AgregarResolucion(CreateView):
 		context['botones'] = {
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
+		context['permiso'] = Permiso.objects.get(pk=self.permiso_pk)
 		context['nombreForm'] = 'Agregar Resolución a Permiso'
 		return context
 
@@ -222,7 +223,7 @@ class AgregarResolucion(CreateView):
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			resolucion = form.save()
-			permiso.hacer('resolver',request.user,date.today(), 30, resolucion)
+			permiso.hacer('resolver',request.user,date.today(), request.POST['unidad'], resolucion)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
@@ -236,7 +237,7 @@ class AgregarOposicion(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarOposicion, self).get_context_data(**kwargs)
 		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+			'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
 		}
 		context['nombreForm'] = 'Agregar Oposición a Permiso'
 		context['message_error'] = ''
@@ -261,7 +262,7 @@ class AgregarOposicion(CreateView):
 		context = {'form':form, 'message_error': 'La fecha de publicacion ingresada es posterior a la fecha de vencimiento del edicto'}
 		context['botones'] = {
 		'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[permiso.pk])}
-
+		context['nombreForm'] = 'Agregar Oposición a Permiso'
 		return render(request, self.template_name, context)	
 		
 		
