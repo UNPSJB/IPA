@@ -33,7 +33,8 @@ class DetalleLocalidad(DetailView):
 			'Listado': reverse('localidades:listar'),
 			'Nueva localidad': reverse('localidades:alta'),
 			'Eliminar localidad': reverse('localidades:eliminar', args=[self.object.id]),
-			'Modificar localidad': reverse('localidades:modificar', args=[self.object.id])
+			'Modificar localidad': reverse('localidades:modificar', args=[self.object.id]),
+			'Salir': reverse('index')
 		}
 		return context
 
@@ -72,7 +73,7 @@ class ModificarLocalidad(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarLocalidad, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar tipo de uso"
+		context['nombreForm'] = "Modificar localidad"
 		context['botones'] = {
 			'Nuevo departamento': reverse('departamentos:alta'),
 			'Eliminar departamento': reverse('departamentos:eliminar', args=[self.object.id]),

@@ -17,6 +17,7 @@ class Persona(models.Model):
 
 	class Meta:
 		unique_together = ("tipoDocumento", "numeroDocumento")
+		ordering = ["nombre", "apellido"]
 
 	nombre = models.CharField(max_length=30)
 	apellido = models.CharField(max_length=30)
@@ -33,11 +34,17 @@ class Persona(models.Model):
 	def es_director(self):
 		return self.sos(Director)
 
+	def es_administrativo(self):
+		return self.sos(Administrativo)
+
 	def como(self, Klass):
 		return self.roles.get(tipo=Klass.TIPO).related()
 
 	def como_director(self):
 		return self.como(Director)
+
+	def como_administrativo(self):
+		return self.como(Administrativo)
 
 	def agregar_rol(self, rol):
 		if not self.sos(rol.__class__):

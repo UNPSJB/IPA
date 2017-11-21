@@ -1,0 +1,20 @@
+{%extends 'lists.html'%}
+{% load actionButton %}
+
+{% block contentList %} 
+
+{% for permiso in permisos %}
+	{% if permiso.estado.tipo == 6 %}
+	<tr>
+			<td>{{permiso.solicitante}}</td>
+			<td>{{permiso.establecimiento}}</td>
+			<td>{{permiso.tipo}}</td>
+			<td>{{permiso.estado.getEstadoString}}</td>
+			<td class="text-center">	
+			<a class="ui icon button" href="{%url 'permisos:detallePermisoDeBaja' permiso.id%} "><i class="info circle icon"></i></button>
+			</td>		
+	</tr>
+	{% endif %}
+{% endfor%}
+
+{% endblock %}

@@ -5,6 +5,8 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.views.generic import ListView,DeleteView,DetailView
 
+from datetime import datetime
+
 class AltaSolicitud(View):
 	model = Permiso
 	template_name = 'solicitudes/alta.html'
@@ -19,7 +21,7 @@ class AltaSolicitud(View):
 		
 		context['botones'] = {
 				'Listado': reverse('solicitudes:listar'),
-				'Agregar Persona' : reverse('personas:alta'),
+				'Agregar Solicitante' : reverse('personas:alta'),
 				'Agregar Establecimiento': reverse('establecimientos:alta'),
 				'Agregar Tipo de Uso': reverse('tiposDeUso:alta'),
 				'Agregar Afluente': reverse('afluentes:alta'),
@@ -48,14 +50,32 @@ class DetalleSolicitud(DetailView):
 	template_name = 'solicitudes/detalle.html'
 	context_object_name = 'solicitud'		
 
-	def get_context_data(self, **kwargs):
+	def get_context_data(self, *args, **kwargs):
 		context = super(DetalleSolicitud, self).get_context_data(**kwargs)
+		print(self.object)
 		context['nombreDetalle'] = 'Detalle de la solicitud'
 		context['botones'] = {
 			'Listado': reverse('solicitudes:listar'),
-			'Cargar documento': '#',
-			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.id]),
+			'Ver Documentación presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
+			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
+			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
+			'Agregar Infraccion': reverse('documentos:alta', args=[self.object.pk]),
+			'Salir':reverse('index')
 		}
+		return context
+
+class ListadoDocumentacionPresentada(DetailView):
+	model = Permiso
+	template_name = 'permisos/listadoDocumentacionPresentada.html'
+	context_object_name = 'permiso'
+
+	def get_context_data(self, **kwargs):
+		context = super(ListadoDocumentacionPresentada, self).get_context_data(**kwargs)
+		context['nombreLista'] = 'Listado de Documentos'
+		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
+		context['botones'] = {
+		#'Alta': reverse('documentos:alta') , 
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.object.pk])}
 		return context
 
 class ListadoSolicitudes(ListView):
@@ -68,10 +88,22 @@ class ListadoSolicitudes(ListView):
 		context['nombreLista'] = "Lista de Solicitudes"
 		context['nombreReverse'] = "solicitudes"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado']
-		context['botones'] = {'Alta': reverse('solicitudes:alta')}
+		context['botones'] = {
+		'Alta': reverse('solicitudes:alta'),
+		'Volver a Listado de Permisos': reverse('permisos:listar')}
 		return context
+
 
 class SolicitudDelete(DeleteView):
 	model = Permiso
 	template_name = 'delete.html'
 	success_url = reverse_lazy('solicitudes:listar')
+
+
+
+def visar_documento_solicitud(request,pks,pkd):
+	permiso = Permiso.objects.get(pk=pks)
+	documento = permiso.documentos.get(pk=pkd)
+	permiso.hacer('revisar',request.user, datetime.now(), [documento])
+	return redirect('solicitudes:listarDocumentacionPresentada', pks)
+

@@ -2,8 +2,8 @@
 
 <link rel="stylesheet" href="{% static 'page/styles/index.css' %}"> {% endblock %} {% block fonts %}
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> {% endblock %} {% block header%}
-<div class="ui huge borderless fluid menu">
-    <a class="header item" href="#"><img src="{% static 'page/img/logo.jpg' %}" alt="">IPA</a>
+<div class="ui huge borderless fluid menu" >
+    <a class="header item" href="#"><img src="{% static 'page/img/logo.jpg' %}" alt="">IPA - Instituto Provincial Del Agua</a>
     <div class="right menu">
         <div class="ui pointing dropdown item top">¡Bienvenido {{user}}! <i class="dropdown icon"></i>
             <div class="menu">
@@ -15,6 +15,7 @@
     </div>
 </div>
 {% endblock %} 
+
 
 {% block content %}
   <div class="ui grid">
@@ -28,25 +29,19 @@
           </div>
 
           <div class="ui dropdown item">
-            <i class="circle check icon"></i>  Permisos 
-            <div class="menu inverted blue">
+            <i class="circle check icon"></i>            
+            <div>
+              <a style="color:white" href="{% url 'permisos:listar' %}">Permisos </a>
+            </div>   
+            <!--<div class="menu inverted blue">
               <a href="{% url 'solicitudes:listar' %}" class="item "> Solicitudes</a>
               <a href="{% url 'permisos:listar' %}" class="item"> Otorgado</a>
-              <a href="{% url 'documentos:listar' %}" class="item"> Expedientes</a>
-            </div>
+              <a href="#" class="item"> Expedientes</a>
+              <a href="{% url 'documentos:listar' %}" class="item">Oposicion</a>
+            </div> -->
           </div>
           
-          <div class="ui dropdown item">
-            <i class="folder open icon"></i>  Expedientes 
-            <div class="menu inverted blue">
-              <a href="#" class="item ">Permisos de Uso</a>
-              <a href="" class="item"> Inspección</a>
-              <a href="#" class="item ">Oposicion</a>
-              <a href="#" class="item ">Modulo</a>
-            </div>
-          </div>
-          
-
+        
           <div class="ui dropdown item">
             <i class="users icon"></i>
             <div>
@@ -55,8 +50,6 @@
             </div>
              
         
-          
-
           <div class="ui dropdown item">
             <i class="users icon"></i>
             <div>
@@ -67,12 +60,9 @@
 
          
           <div class="ui dropdown item">
-            <i class="file icon"></i> Comisión/Actas
+            <i class="file icon"></i> Comisión
             <div class="menu inverted blue">
               <a href="{% url 'comisiones:listar' %}" class="item">Comisión</a>
-              <a href="#" class="item"> Inspección</a>
-              <a href="#" class="item "> Infracción</a>
-              <a href="#" class="item ">Reclamo</a>
             </div>
           </div>
           
@@ -83,11 +73,12 @@
             </div>
           </div>
 
-
+          
           <div class="ui dropdown item">
-              <i class="dollar icon"></i> Pagos
-              <div class="menu inverted blue">
-              </div>
+            <i class="dollar icon"></i>  Pagos 
+            <div class="menu inverted blue">
+              <a href="#" class="item ">Modulo</a>
+            </div>
           </div>
 
           <div class="ui dropdown item">
@@ -103,9 +94,17 @@
           </div>
         </div>
       </div>
+
+       
         <!-- column sidebar-->
         <div class="ten wide column extra">
-            {% block extra %} {% endblock %}
+            {% block extra %}
+              <div class="twelve wide stretched column">
+               <div class="ui segment">
+                <img src="{% static 'page/img/ipa2.png' %}" alt="" height="460xp;" width="600xp;">
+               </div>
+              </div>
+            {% endblock %}
         </div>
         <div class="three wide column">
             {% block secondaryMenu %} {% endblock %}

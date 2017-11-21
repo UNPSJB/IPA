@@ -53,6 +53,7 @@ class DirectorForm (forms.ModelForm):
 			'cargo',
 			'fechaInicio',
 		]
+		ordering = ["-legajo"]
 
 		#fields = '__all__'
 		#exclude = ['nombre','apellido']
@@ -67,10 +68,17 @@ class DirectorForm (forms.ModelForm):
 	#	except ValueError:
 	#		return None
 
-class AdministrativoForm (forms.Form):
-	pass
-	#class Meta:
-	#	model=Administrativo
+class AdministrativoForm (PersonaForm):
+	
+	class Meta:
+		model = Administrativo
+		fields = [
+			'tipo',
+		]
+
+		exclude = [
+			'tipo'
+		]
 
 class InspectorForm (PersonaForm):
 	pass
@@ -91,6 +99,7 @@ class LiquidadorForm (PersonaForm):
 	pass
 
 #AdministrativoForm.base_fields.update(PersonaForm.base_fields)
+AdministrativoForm.base_fields.update()
 
 
 

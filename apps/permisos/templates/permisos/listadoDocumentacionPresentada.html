@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% load actionButton %}
+{% load static semanticui %}
+{% load staticfiles %}
+{% load contextMenu %}
+
+{% block extra %}
+
+	<div class="ui four cards">
+	{% for documento in permiso.documentos.all %}
+	  <div class="card">
+	    <div class="image">
+	      <img src="{% static documento.thumbnail %}">
+	    </div>
+	    <div class="extra">Visado<i class="circle icon" style="color:
+	    {%if documento.visado%}green{%else%}red{%endif%}
+	    "></i></div>
+		<div class="content">
+	    <a class="header">{{documento.tipo.nombre}}</a>
+	    <div class="meta">
+      	<span class="date">{{documento.fecha}}</span>
+    	</div>
+	    <div class="description">{{documento.descripcion}}</div>
+	    <a href="{% url 'solicitudes:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
+	  </div>
+
+	  </div>
+
+		
+	{% endfor%}
+	</div>
+
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
+{% endblock %}
+
+ {% block pageStaticJs %}
+	<script type="text/javascript" src="{% static 'page/js/index.js'%}"></script>
+{% endblock %}
+

@@ -17,7 +17,7 @@ class AltaEstablecimiento(CreateView):
 		context = super(AltaEstablecimiento, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Listado': reverse('establecimientos:listar'),
-			'Nueva persona': reverse('personas:alta'),
+			'Nuevo Solicitante': reverse('personas:alta'),
 			'Nueva localidad': reverse('localidades:alta')
 			}
 		context['nombreForm'] = 'Nuevo establecimiento'

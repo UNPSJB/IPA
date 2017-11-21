@@ -12,5 +12,7 @@ vim.exe.stackdump
 *_BASE_*
 *_BACKUP_*
 
+#Carpeta de archivos subidos
+/archivos
 
 *.orig
