@@ -15,8 +15,8 @@ class AltaSolicitud(View):
 	def get(self,request): 
 		context = {}
 		context['forms'] = {
-			'permiso': PermisoForm(),
-			'solicitado': SolicitadoForm(),
+			'Permiso': PermisoForm(),
+			'Solicitado': SolicitadoForm(),
 		} 
 		
 		context['botones'] = {
@@ -53,13 +53,13 @@ class DetalleSolicitud(DetailView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(DetalleSolicitud, self).get_context_data(**kwargs)
 		print(self.object)
-		context['nombreDetalle'] = 'Detalle de la solicitud'
+		context['nombreDetalle'] = 'Detalle de la Solicitud'
 		context['botones'] = {
 			'Listado': reverse('solicitudes:listar'),
-			'Ver Documentación presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
+			'Ver Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
-			'Eliminar solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
-			'Agregar Infraccion': reverse('documentos:alta', args=[self.object.pk]),
+			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
+			'Agregar Infracción': reverse('documentos:alta', args=[self.object.pk]),
 			'Salir':reverse('index')
 		}
 		return context
@@ -72,7 +72,7 @@ class ListadoDocumentacionPresentada(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDocumentacionPresentada, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Documentos'
-		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
+		context['headers'] = ['Tipo', 'Descripción', 'Fecha']
 		context['botones'] = {
 		#'Alta': reverse('documentos:alta') , 
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.object.pk])}

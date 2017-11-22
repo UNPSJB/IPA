@@ -14,7 +14,7 @@ class CreateBaseView(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(CreateBaseView, self).get_context_data(**kwargs)
 		context['headers'] = []
-		context['nombreForm'] = 'Nueva persona'
+		context['nombreForm'] = 'Nueva Persona'
 		context['botones'] = {
 			'Nueva Persona': reverse('personas:alta'), 
 			'Directores':'', 
@@ -38,7 +38,7 @@ class AltaDirector(CreateBaseView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(AltaDirector, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Nuevo director'
+		context['nombreForm'] = 'Nuevo Director'
 		context['message'] = 'Director YA EXISTE'
 		return context
 
@@ -67,8 +67,8 @@ class ListadoDirectores(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDirectores, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Nuevo director'
-		context['botones'] = {'Volver a las Personas': reverse('personas:listado')}
+		context['nombreForm'] = 'Nuevo Director'
+		context['botones'] = {'Volver a Listado de Personas': reverse('personas:listado')}
 		context['nombreReverse'] = 'directores'
 		context['headers'] = ['Nombre y Apellido', 'Legajo','Cargo', 'Fecha de Inicio']
 		context['directores'] = pmodels.Director.objects.all()
@@ -82,8 +82,8 @@ class ModificarDirector(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarDirector, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Editar director:' + self.object.persona.nombre + self.object.persona.apellido
-		context['botones'] = {'Volver a los Directores': reverse('directores:listado')}
+		context['nombreForm'] = 'Editar Director:' + self.object.persona.nombre + self.object.persona.apellido
+		context['botones'] = {'Volver a Listado de Directores': reverse('directores:listado')}
 		return context
 
 class EliminarDirector(DeleteView):
@@ -93,6 +93,6 @@ class EliminarDirector(DeleteView):
 
 	def get_context_data(self, **kwargs):
 		context = super(EliminarDirector, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Editar director:' + self.object.persona.nombre + self.object.persona.apellido
+		context['nombreForm'] = 'Editar Director:' + self.object.persona.nombre + self.object.persona.apellido
 		context['botones'] = {}
 		return context

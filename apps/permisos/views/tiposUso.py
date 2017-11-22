@@ -15,10 +15,10 @@ class AltaTipoDeUso(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDeUso, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Nuevo tipo de uso': reverse('tiposDeUso:alta'),
-			'Nuevo documento': reverse('tipoDocumentos:alta'),
+			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
+			'Nuevo Documento': reverse('tipoDocumentos:alta'),
 			}
-		context['nombreForm'] = 'Nuevo tipo de uso'
+		context['nombreForm'] = 'Nuevo Tipo de Uso'
 		return context
 
 class DetalleTipoDeUso(DetailView):
@@ -28,12 +28,12 @@ class DetalleTipoDeUso(DetailView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(DetalleTipoDeUso, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de tipo de uso'
+		context['nombreDetalle'] = 'Detalle de Tipo de Uso'
 		context['botones'] = {
 			'Listado': reverse('tiposDeUso:listar'),
-			'Nuevo tipo de uso': reverse('tiposDeUso:alta'),
-			'Eliminar tipo de uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
-			'Modificar tipo de uso': reverse('tiposDeUso:modificar', args=[self.object.id]),
+			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
+			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
+			'Modificar Tipo de Uso': reverse('tiposDeUso:modificar', args=[self.object.id]),
 
 		}
 		return context
@@ -44,7 +44,7 @@ class ListadoTiposDeUso(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTiposDeUso, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Listado de tipos de uso"
+		context['nombreLista'] = "Listado de Tipos de Uso"
 		context['nombreReverse'] = "tiposDeUso"
 		context['headers'] = ['Nombre', 'Coeficiente', 'Periodo']
 		context['botones'] = {
@@ -76,10 +76,10 @@ class ModificarTipoDeUso(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarTipoDeUso, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar tipo de uso"
+		context['nombreForm'] = "Modificar Tipo de Uso"
 		context['botones'] = {
-			'Nuevo tipo de uso': reverse('tiposDeUso:alta'),
-			'Eliminar tipo de uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
+			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
+			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
 			'Listado': reverse('tiposDeUso:listar')
 			}
 		return context
