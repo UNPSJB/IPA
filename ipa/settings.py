@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from django.core.urlresolvers import reverse_lazy
-from apps.documentos.models import tipoDocumento
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -155,3 +154,15 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = 'ipa.desarrollo.unpsjb@gmail.com'
 EMAIL_HOST_PASSWORD = 'desarrollodesoftware'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+TIPOS_PROTEGIDOS = [
+    'resolucion', 
+    'reclamo', 
+    'permiso-de-uso-de-aguas', 
+    'pase', 
+    'oposicion', 
+    'nota-de-pago', 
+    'edicto', 
+    'boleta-de-cobro', 
+    'acta-de-inspeccion', 
+    'acta-de-infraccion'
+]
