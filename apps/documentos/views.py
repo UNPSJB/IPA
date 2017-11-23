@@ -143,8 +143,9 @@ class DeleteDocumento(DeleteView):
 class AgregarExpediente(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'Documento/expediente.html'
-	success_url = reverse_lazy('documentos:listar')
+
+	def get_success_url(self):
+		return reverse('permisos:detallePermisoCompleto', args=(self.permiso_pk, ))
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarExpediente, self).get_context_data(**kwargs)
@@ -160,8 +161,9 @@ class AgregarExpediente(CreateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			documento = form.save()
@@ -173,7 +175,9 @@ class AgregarEdicto(CreateView):
 	model = Documento
 	form_class = DocumentoForm
 	template_name = 'Documento/edicto.html'
-	success_url = reverse_lazy('documentos:listar')
+	
+	def get_success_url(self):
+		return reverse('permisos:detallePermisoPublicado', args=(self.permiso_pk, ))
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarEdicto, self).get_context_data(**kwargs)
@@ -189,8 +193,9 @@ class AgregarEdicto(CreateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			edicto = form.save()
@@ -202,7 +207,9 @@ class AgregarResolucion(CreateView):
 	model = Documento
 	form_class = DocumentoForm
 	template_name = 'Documento/resolucion.html'
-	success_url = reverse_lazy('documentos:listar')
+
+	def get_success_url(self):
+		return reverse('permisos:detallePermisoOtorgado', args=(self.permiso_pk, ))
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarResolucion, self).get_context_data(**kwargs)
@@ -219,8 +226,9 @@ class AgregarResolucion(CreateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			print(form.cleaned_data)

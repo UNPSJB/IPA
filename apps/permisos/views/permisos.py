@@ -15,11 +15,11 @@ class ListadoPermisos(ListView):
 		context['nombreLista'] = "Listado de Permisos"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
-		'Bajas': reverse('permisos:listarPermisosDeBaja'),
-		'Otorgados': reverse('permisos:listarPermisosOtorgados'),
-		'Publicados': reverse('permisos:listarPermisosPublicados'),
-		'Con Expedientes': reverse('permisos:listarPermisosCompletos'),
 		'Solicitudes': reverse('solicitudes:listar'),
+		'Con Expedientes': reverse('permisos:listarPermisosCompletos'),
+		'Publicados': reverse('permisos:listarPermisosPublicados'),
+		'Otorgados': reverse('permisos:listarPermisosOtorgados'),
+		'Bajas': reverse('permisos:listarPermisosDeBaja'),
 		'Salir': reverse('index')}
 		return context
 
@@ -164,9 +164,9 @@ class DetallePermiso(View):
 			url = reverse('permisos:detallePermisoCompleto', args=[id_permiso])
 		elif permiso.estado().tipo == 4:
 			return redirect(reverse('permisos:detallePermisoPublicado', args=[id_permiso]))
-		elif permisos.estado().tipo == 5:
+		elif permiso.estado().tipo == 5:
 			url = reverse('permisos:detallePermisoOtorgado', args=[id_permiso])
-		elif permisos.estado().tipo == 6:
+		elif permiso.estado().tipo == 6:
 			url = reverse('permisos:detallePermisoDeBaja', args=[id_permiso])
 		else:
 			url = reverse('permisos:listar')

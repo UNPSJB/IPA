@@ -2,7 +2,7 @@ from django.db import models
 from apps.personas.models import Persona
 from apps.establecimientos.models import Afluente
 from apps.documentos.models import Documento, TipoDocumento
-#from apps.pagos.models import Cobro
+from apps.pagos.models import Cobro
 from datetime import timedelta, date
 from apps.pagos.models import ValorDeModulo
 
@@ -90,7 +90,7 @@ class TipoUso(models.Model):
 		dias = (hasta - desde).days
 		horas = dias * 24
 		lapso = horas / self.periodo
-		return self.coeficiente * modulo * unidad * lapso
+		return round(self.coeficiente * Decimal(modulo) * unidad * Decimal(lapso),2)
 
 class Permiso(models.Model):
 	solicitante = models.ForeignKey(Persona)
@@ -160,7 +160,7 @@ class Estado(models.Model):
 		(0, 'estado'),
 		(1, 'Solicitado'),
 		(2, 'Visado'),
-		(3, 'Documentación completa'),
+		(3, 'Con Expediente'),
 		(4, 'Edicto publicado'),
 		(5, 'Otorgado'),
 		(6, 'Baja'),
@@ -285,20 +285,26 @@ class Otorgado(Estado):
 	#	return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
 
 		# Recalculando monto en base a inscpeccion o capricho del director
-	def recalcular(self, usuario, fecha, unidad, documento):
-		cobro = Cobro.objects.all()
-
-		if cobro is None:
+	#def recalcular(self, usuario, fecha, unidad, documento):
+	def recalcular(self, usuario, fecha, unidad):
+		cobros = self.permiso.cobros.all()
+		
+		if not cobros.exists():
 			desde = self.permiso.getEstados(1)[0].fecha
 			hasta = date.today()
 		else:
-			cobro = Cobro.objects.latest(field_name=fecha)
+			cobro = cobros.latest()
 			desde = cobro.fecha
 			hasta = date.today()
-		self.permiso.documentos.add(documento)
-		valorModulo = ValorDeModulo.objects.filter(fecha=hasta,modulo=self.permiso.tipo)
-		monto = self.tipo.calcular_monto(valorModulo, self.permiso.unidad, desde, hasta)
-		return Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
+		#self.permiso.documentos.add(documento)
+		modulos = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=self.permiso.tipo.tipo_modulo)
+		if not modulos.exists():
+			raise Exception("con que?")
+		precio = modulos.latest().precio
+		monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, desde, hasta)
+		#return Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
+		print(monto)
+		return Cobro(permiso=self.permiso, monto=monto, fecha=fecha)
 
 class Baja(Estado):
 	TIPO = 6
