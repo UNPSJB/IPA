@@ -26,20 +26,17 @@ class DocumentoForm(forms.ModelForm):
 				'tipo',
 				'descripcion',
 				'archivo',
-				'visado',
 				'fecha',
 			]
 		labels = {
 				'tipo':'Tipo',
 				'descripcion':'Descripcion',
 				'archivo':'Archivo',
-				'visado':'Visado',
 				'fecha':'Fecha',
 		}
 
 		widgets = {
 				'tipo':forms.Select(attrs={'class':'form-control'}),
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-				'visado':forms.CheckboxInput(attrs={'class':'form-control'}),
 				'fecha':forms.DateInput(attrs={'class':'form-control'}),
 		}

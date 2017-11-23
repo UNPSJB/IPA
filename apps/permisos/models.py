@@ -4,6 +4,9 @@ from apps.establecimientos.models import Afluente
 from apps.documentos.models import Documento, TipoDocumento
 #from apps.pagos.models import Cobro
 from datetime import timedelta, date
+from apps.pagos.models import ValorDeModulo
+
+from decimal import *
 
 # PERMISOS =================================================
 class PermisoBaseManager(models.Manager):
@@ -102,7 +105,7 @@ class Permiso(models.Model):
 	objects = PermisoManager()
 
 	def getEstados(self, tipo):
-		return [ estado for estado in self.estados_related() if estado.tipo == tipo ]
+		return [estado for estado in self.estados_related() if estado.tipo == tipo]
 
 	def estado(self):
 		if self.estados.exists():
@@ -275,11 +278,27 @@ class Otorgado(Estado):
 		return self
 
 	# Recalculando monto en base a inscpeccion o capricho del director
-	def recalcular(self, usuario, fecha, unidad, documento):
-		self.permiso.documentos.add(documento)
-		monto = self.permiso.tipo.calcular_monto(unidad)
+	#def recalcular(self, usuario, fecha, unidad, documento):
+	#	self.permiso.documentos.add(documento)
+	#	monto = self.permiso.tipo.calcular_monto(self.permiso.unidad)
 		#Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
-		return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
+	#	return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
+
+		# Recalculando monto en base a inscpeccion o capricho del director
+	def recalcular(self, usuario, fecha, unidad, documento):
+		cobro = Cobro.objects.all()
+
+		if cobro is None:
+			desde = self.permiso.getEstados(1)[0].fecha
+			hasta = date.today()
+		else:
+			cobro = Cobro.objects.latest(field_name=fecha)
+			desde = cobro.fecha
+			hasta = date.today()
+		self.permiso.documentos.add(documento)
+		valorModulo = ValorDeModulo.objects.filter(fecha=hasta,modulo=self.permiso.tipo)
+		monto = self.tipo.calcular_monto(valorModulo, self.permiso.unidad, desde, hasta)
+		return Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
 
 class Baja(Estado):
 	TIPO = 6
@@ -287,3 +306,14 @@ class Baja(Estado):
 
 for Klass in [Solicitado, Visado, Completado, Publicado, Otorgado, Baja]:
 	Estado.register(Klass)
+
+		#valorModulo = ValorDeModulo.objects.filter(fecha='2017-11-13',modulo=1)
+
+		#def calcular_monto(self, modulo, unidad, desde, hasta):
+		#dias = (hasta - desde).days
+		#horas = dias * 24
+		#lapso = horas / self.periodo
+		#return self.coeficiente * modulo * unidad * lapso*
+
+		#monto = self.permiso.tipo.calcular_monto(valorModulo, self.permiso.unidad,2017-11-13,2017-11-13)
+		#Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
