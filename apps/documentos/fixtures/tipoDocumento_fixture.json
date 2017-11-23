@@ -1,0 +1,78 @@
+[
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 1,
+    "fields": {
+      "nombre": "reclamo"
+    }
+  },
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 2,
+    "fields": {
+      "nombre": "oposicion"
+    }
+  },
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 3,
+    "fields": {
+      "nombre": "acta de inspección"
+    }
+  },
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 4,
+    "fields": {
+      "nombre": "acta de infracción"
+    }
+  },
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 5,
+    "fields": {
+      "nombre": "edicto"
+    }
+  },
+
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 6,
+    "fields": {
+      "nombre": "permiso de uso de aguas"
+    }
+  },
+
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 7,
+    "fields": {
+      "nombre": "nota de pago"
+    }
+  },
+
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 8,
+    "fields": {
+      "nombre": "boleta de cobro"
+    }
+  },
+
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 9,
+    "fields": {
+      "nombre": "resolución"
+    }
+  },
+
+  {
+    "model": "apps.documentos.models.TipoDocumento",
+    "pk": 10,
+    "fields": {
+      "nombre": "pase"
+    }
+  },
+
+]

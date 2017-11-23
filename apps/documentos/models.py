@@ -15,17 +15,25 @@ class TipoDocumento(models.Model):
 	def __str__(self):
 		return self.nombre
 
+	def configuracionInicial(self, tiposDocumentos):
+		for tipo in tiposDocumentos:
+			try:
+				TipoDocumento.objects.get(nombre=tipo)
+			except DoesNotExist:
+				tipoNuevo = TipoDocumento(nombre=tipo)
+				tipoNuevo.save()
+
 class Documento(models.Model):
 	tipo = models.ForeignKey(TipoDocumento, null=True, blank=True)
 	descripcion = models.CharField(max_length=100)
 	archivo = models.FileField(upload_to="documentos/%Y/%m/%d/")
 	thumbnail = models.ImageField(
-        verbose_name = 'Thumbnail',
-        help_text = 'The thumbnail',
-        upload_to = 'thumbnails/',
-        blank = True, 
-        null = True
-    )
+		verbose_name = 'Thumbnail',
+		help_text = 'The thumbnail',
+		upload_to = 'thumbnails/',
+		blank = True, 
+		null = True
+	)
 	visado = models.BooleanField()
 	fecha = models.DateField()
 
@@ -33,22 +41,22 @@ class Documento(models.Model):
 		thumbnail = "thumbnails/%s.png" % (datetime.now().strftime("%Y%m%d%H%M%S"),)
 		self.thumbnail = thumbnail
 		super(Documento, self).save()
-    
+	
 # Que se hace luego de guardar el documento
 def pdf_post_save(sender, instance=False, **kwargs):
-    """Esta funcion crea un thumbnail para el documento en pdf"""
-    documento = Documento.objects.get(pk=instance.pk)
-    command = "convert -quality 95 -thumbnail 222 %s[0] %s" % (
-    	os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, str(documento.archivo)),
-    	os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, str(documento.thumbnail)))
-    
-    proc = subprocess.Popen(command,
-        shell=True,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    stdout_value = proc.communicate()[0]
-    
+	"""Esta funcion crea un thumbnail para el documento en pdf"""
+	documento = Documento.objects.get(pk=instance.pk)
+	command = "convert -quality 95 -thumbnail 222 %s[0] %s" % (
+		os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, str(documento.archivo)),
+		os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, str(documento.thumbnail)))
+	
+	proc = subprocess.Popen(command,
+		shell=True,
+		stdin=subprocess.PIPE,
+		stdout=subprocess.PIPE,
+		stderr=subprocess.PIPE,
+	)
+	stdout_value = proc.communicate()[0]
+	
 # Hook up the signal
 post_save.connect(pdf_post_save, sender=Documento)
