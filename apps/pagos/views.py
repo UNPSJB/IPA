@@ -6,6 +6,9 @@ from .models import ValorDeModulo, Cobro
 from .forms import RegistrarValorDeModuloForm, CobroForm
 from django.views.generic import ListView,CreateView,DeleteView
 
+from apps.permisos.models import Permiso
+from datetime import date
+
 
 class AltaValorDeModulo(CreateView):
 	model = ValorDeModulo
@@ -44,8 +47,7 @@ class EliminarValorDeModulo(DeleteView):
 
 class AltaCobro(CreateView):
 	model = Cobro
-	form_class = CobroForm
-	template_name = 'forms.html'
+	template_name = 'cobros/detalleCobro.html'
 	success_url = reverse_lazy('pagos:listarModulos')
 
 	def get_context_data(self, **kwargs):
@@ -56,3 +58,8 @@ class AltaCobro(CreateView):
 			'Listado':reverse('tipoDocumentos:listar'),
 			}
 		return context
+
+	def get(self, request, *args, **kwargs):
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		cobro = permiso.estado().recalcular(request.user, date.today(), permiso.unidad)
+		return render(request, self.template_name, {'cobro': cobro, 'botones':''})
