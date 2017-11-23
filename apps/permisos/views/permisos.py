@@ -164,9 +164,9 @@ class DetallePermiso(View):
 			url = reverse('permisos:detallePermisoCompleto', args=[id_permiso])
 		elif permiso.estado().tipo == 4:
 			return redirect(reverse('permisos:detallePermisoPublicado', args=[id_permiso]))
-		elif permisos.estado().tipo == 5:
+		elif permiso.estado().tipo == 5:
 			url = reverse('permisos:detallePermisoOtorgado', args=[id_permiso])
-		elif permisos.estado().tipo == 6:
+		elif permiso.estado().tipo == 6:
 			url = reverse('permisos:detallePermisoDeBaja', args=[id_permiso])
 		else:
 			url = reverse('permisos:listar')

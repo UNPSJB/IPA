@@ -28,7 +28,7 @@ class ValorDeModulo (models.Model):
 		(DIESEL, 'Diesel'),
 		(KW, 'Kw')
 	]
-	#modulo = models.PositiveIntegerField(choices=TipoUso.TipoModulo)
+	
 	modulo = models.PositiveIntegerField(choices=TipoModulo)
 	precio = models.DecimalField(max_digits = 10, decimal_places = 2)
 	fecha = models.DateField()
