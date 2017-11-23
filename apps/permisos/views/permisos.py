@@ -3,7 +3,8 @@ from ..models import Permiso
 from ..forms import PermisoForm
 from django.views.generic import ListView,DeleteView,DetailView
 from django.shortcuts import redirect
-		
+from django.views import View
+
 class ListadoPermisos(ListView):
 	model = Permiso
 	template_name = 'permisos/listado.html'
@@ -152,3 +153,21 @@ class DetallePermisoDeBaja(DetailView):
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
 		}
 		return context
+
+class DetallePermiso(View):
+	def get(self, request,*args, **kwargs):
+		id_permiso = kwargs['pk']
+		permiso = Permiso.objects.get(pk=id_permiso)
+		if permiso.estado().tipo == 1 or permiso.estado().tipo == 2:
+			url = reverse('solicitudes:detalle', args=[id_permiso] )
+		elif permiso.estado().tipo == 3:
+			url = reverse('permisos:detallePermisoCompleto', args=[id_permiso])
+		elif permiso.estado().tipo == 4:
+			return redirect(reverse('permisos:detallePermisoPublicado', args=[id_permiso]))
+		elif permisos.estado().tipo == 5:
+			url = reverse('permisos:detallePermisoOtorgado', args=[id_permiso])
+		elif permisos.estado().tipo == 6:
+			url = reverse('permisos:detallePermisoDeBaja', args=[id_permiso])
+		else:
+			url = reverse('permisos:listar')
+		return redirect(url)

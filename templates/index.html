@@ -30,9 +30,11 @@
 
           <div class="ui dropdown item">
             <i class="circle check icon"></i>            
+              <a style="color:white" href="{% url 'permisos:listar' %}">
             <div>
-              <a style="color:white" href="{% url 'permisos:listar' %}">Permisos </a>
+              Permisos 
             </div>   
+              </a>
             <!--<div class="menu inverted blue">
               <a href="{% url 'solicitudes:listar' %}" class="item "> Solicitudes</a>
               <a href="{% url 'permisos:listar' %}" class="item"> Otorgado</a>
@@ -68,9 +70,11 @@
           
           <div class="ui dropdown item">
           <i class="id card icon"></i>
+              <a style="color:white" href="{% url 'personas:listado' %}">
             <div>
-              <a style="color:white" href="{% url 'personas:listado' %}">Personas </a>
+              Personas 
             </div>
+              </a>
           </div>
 
           
@@ -98,13 +102,7 @@
        
         <!-- column sidebar-->
         <div class="ten wide column extra">
-            {% block extra %}
-              <div class="twelve wide stretched column">
-               <div class="ui segment">
-                <img src="{% static 'page/img/ipa2.png' %}" alt="" height="460xp;" width="600xp;">
-               </div>
-              </div>
-            {% endblock %}
+            {% block extra %}{% endblock %}
         </div>
         <div class="three wide column">
             {% block secondaryMenu %} {% endblock %}

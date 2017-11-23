@@ -63,9 +63,9 @@ class ModificarTipoDeUso(UpdateView):
 	template_name = 'forms.html'
 	success_url = reverse_lazy('tiposDeUso:listar')
 
-	def post(self, request, *args, **kwargs):
+	def post(self, request, pk):
 		self.object = self.get_object
-		id_tipoDeUso = kwargs['pk']
+		id_tipoDeUso = pk
 		tipoDeuso = self.model.objects.get(id=id_tipoDeUso)
 		form = self.form_class(request.POST, instance=tipoDeUso)
 		if form.is_valid():

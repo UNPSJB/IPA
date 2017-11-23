@@ -2,11 +2,11 @@ from django.db import models
 from apps.personas.models import Persona
 from apps.establecimientos.models import Afluente
 from apps.documentos.models import Documento, TipoDocumento
-from apps.pagos.models import Cobro
+#from apps.pagos.models import Cobro
 from datetime import timedelta, date
 from apps.pagos.models import ValorDeModulo
 
-from decimal import * ######################################
+from decimal import *
 
 # PERMISOS =================================================
 class PermisoBaseManager(models.Manager):
@@ -90,7 +90,7 @@ class TipoUso(models.Model):
 		dias = (hasta - desde).days
 		horas = dias * 24
 		lapso = horas / self.periodo
-		return round(self.coeficiente * Decimal(modulo) * unidad * Decimal(lapso),2)
+		return self.coeficiente * modulo * unidad * lapso
 
 class Permiso(models.Model):
 	solicitante = models.ForeignKey(Persona)
@@ -160,7 +160,6 @@ class Estado(models.Model):
 		(0, 'estado'),
 		(1, 'Solicitado'),
 		(2, 'Visado'),
-		#(3, 'Con expediente'),
 		(3, 'Documentación completa'),
 		(4, 'Edicto publicado'),
 		(5, 'Otorgado'),

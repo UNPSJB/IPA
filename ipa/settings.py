@@ -154,3 +154,15 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = 'ipa.desarrollo.unpsjb@gmail.com'
 EMAIL_HOST_PASSWORD = 'desarrollodesoftware'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+TIPOS_PROTEGIDOS = [
+    'resolucion', 
+    'reclamo', 
+    'permiso-de-uso-de-aguas', 
+    'pase', 
+    'oposicion', 
+    'nota-de-pago', 
+    'edicto', 
+    'boleta-de-cobro', 
+    'acta-de-inspeccion', 
+    'acta-de-infraccion'
+]
