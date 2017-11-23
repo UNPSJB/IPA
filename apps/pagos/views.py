@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse_lazy, reverse
-from .models import ValorDeModulo
-from .forms import RegistrarValorDeModuloForm
+from .models import ValorDeModulo, Cobro
+from .forms import RegistrarValorDeModuloForm, CobroForm
 from django.views.generic import ListView,CreateView,DeleteView
 
 
@@ -41,3 +41,18 @@ class EliminarValorDeModulo(DeleteView):
 	model = ValorDeModulo
 	template_name = 'delete.html'
 	success_url = reverse_lazy('pagos:listarModulos')
+
+class AltaCobro(CreateView):
+	model = Cobro
+	form_class = CobroForm
+	template_name = 'forms.html'
+	success_url = reverse_lazy('pagos:listarModulos')
+
+	def get_context_data(self, **kwargs):
+		context = super(AltaCobro, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Alta Valor de Modulo"
+		context['headers'] = ['']
+		context['botones'] = {
+			'Listado':reverse('tipoDocumentos:listar'),
+			}
+		return context
