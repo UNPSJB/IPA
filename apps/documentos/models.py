@@ -8,7 +8,7 @@ import os
 import subprocess
 
 class TipoDocumentoManager(models.Manager):
-	def __init__(self, protegido):
+	def __init__(self, protegido=False):
 		super().__init__()
 		self.protegido = protegido
 
