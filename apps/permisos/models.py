@@ -102,7 +102,7 @@ class Permiso(models.Model):
 	objects = PermisoManager()
 
 	def getEstados(self, tipo):
-		return [(estado.tipo == tipo ) for estado in self.estados_related()]
+		return [ estado for estado in self.estados_related() if estado.tipo == tipo ]
 
 	def estado(self):
 		if self.estados.exists():

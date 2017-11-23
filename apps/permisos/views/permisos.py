@@ -155,14 +155,15 @@ class DetallePermiso(View):
 		id_permiso = kwargs['pk']
 		permiso = Permiso.objects.get(pk=id_permiso)
 		if permiso.estado().tipo == 1 or permiso.estado().tipo == 2:
-			redirect(reverse_lazy('solicitudes:detalle',id_permiso))
+			url = reverse('solicitudes:detalle', args=[id_permiso] )
 		elif permiso.estado().tipo == 3:
-			return redirect(reverse('permisos:detallePermisoCompleto', id_permiso))
+			url = reverse('permisos:detallePermisoCompleto', args=[id_permiso])
 		elif permiso.estado().tipo == 4:
-			return redirect(reverse('permisos:detallePermisoPublicado', id_permiso))
+			return redirect(reverse('permisos:detallePermisoPublicado', args=[id_permiso]))
 		elif permisos.estado().tipo == 5:
-			return redirect(reverse('permisos:detallePermisoOtorgado', id_permiso))
+			url = reverse('permisos:detallePermisoOtorgado', args=[id_permiso])
 		elif permisos.estado().tipo == 6:
-			return redirect(reverse('permisos:detallePermisoDeBaja', id_permiso))
+			url = reverse('permisos:detallePermisoDeBaja', args=[id_permiso])
 		else:
-			return redirect(reverse('permisos:listar'))
+			url = reverse('permisos:listar')
+		return redirect(url)
