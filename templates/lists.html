@@ -24,17 +24,17 @@
 </div>
 <div class="row lista">
 	<div class="sixteen wide column">
-		<table class="ui single line table">
-			<thead>
-				<tr style="text-align: center">
+		<table class="ui single line table ">
+			<thead class="center aligned">
+				<tr>
 		      		{% for header in headers%}
 						<th>{{header}}</th>
 		      		{% endfor %}
 		      		<th>  </th>
 
 			 	</tr>
-			</thead>
-			<tbody>
+			</thead1>
+			<tbody class="center aligned">
 				{% block contentList%} {% endblock%}
 				 	
 			</tbody>
