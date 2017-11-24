@@ -54,7 +54,7 @@ class Documento(models.Model):
 		blank = True, 
 		null = True
 	)
-	visado = models.BooleanField()
+	visado = models.BooleanField(default=False)
 	fecha = models.DateField()
 
 	def save(self):

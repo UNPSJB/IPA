@@ -32,7 +32,7 @@ class DocumentoForm(forms.ModelForm):
 				'tipo':'Tipo',
 				'descripcion':'Descripcion',
 				'archivo':'Archivo',
-				'fecha':'Fecha',
+				'fecha':'Fecha del Tipo de Documento',
 		}
 
 		widgets = {

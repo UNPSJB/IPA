@@ -24,19 +24,3 @@ class RegistrarValorDeModuloForm(forms.ModelForm):
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
 				'fecha':forms.DateInput(attrs={'class':'form-control'}),
 		}
-
-class CobroForm(forms.ModelForm):
-	class Meta:
-		model = Cobro
-
-		fields = [
-				'monto',
-				'documento',
-				'fecha',
-		]
-
-		labels = {
-				'monto': 'Monto',
-				'documento':'Documento',
-				'fecha':'Fecha',
-		}

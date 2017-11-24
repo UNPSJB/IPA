@@ -3,9 +3,10 @@ from django.shortcuts import render
 # Create your views here.
 from django.urls import reverse_lazy, reverse
 from .models import ValorDeModulo, Cobro
-from .forms import RegistrarValorDeModuloForm, CobroForm
+from django.http import HttpResponseRedirect
+from .forms import RegistrarValorDeModuloForm
+from apps.documentos.forms import DocumentoForm
 from django.views.generic import ListView,CreateView,DeleteView
-
 from apps.permisos.models import Permiso
 from datetime import date
 
@@ -62,7 +63,22 @@ class AltaCobro(CreateView):
 	def get(self, request, *args, **kwargs):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		cobro = permiso.estado().recalcular(request.user, date.today(), permiso.unidad)
-		return render(request, self.template_name, {'cobro': cobro, 'botones':''})
+		documento_form = DocumentoForm()
+		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
 
-	def post (self, request, *args, **kwargs):
-		pass
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+
+		documento_form = DocumentoForm(request.POST, request.FILES)
+
+		cobro = permiso.estado().recalcular(request.user, date.today(), permiso.unidad)
+		
+		if documento_form.is_valid():
+			documento = documento_form.save()
+			cobro.documento = documento
+			cobro.permiso = permiso
+			cobro.save()
+			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
+		return HttpResponseRedirect(self.get_success_url())
+
