@@ -169,3 +169,30 @@ class ListarPagos(ListView):
 			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
 			}
 		return context
+
+
+class ListarTodosLosCobros(ListView):
+	model = Cobro
+	template_name = 'cobros/listado.html'
+	context_object_name = 'cobros'
+
+	def get_context_data(self, **kwargs):
+		context = super(ListarTodosLosCobros, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Listado de Cobros Generales"
+		context['headers'] = ['Periodo', 'Fecha de Cobro', 'Monto($)', 'Documento de Cobro']
+		context['botones'] = {
+			}
+		return context
+
+class ListarTodosLosPagos(ListView):
+	model = Pago
+	template_name = 'pagos/listado.html'
+	context_object_name = 'pagos'
+
+	def get_context_data(self, **kwargs):
+		context = super(ListarTodosLosPagos, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Listado de Pagos Generales"
+		context['headers'] = ['Fecha de Pago', 'Monto($)', 'Documento de Pago']
+		context['botones'] = {
+			}
+		return context
