@@ -300,7 +300,7 @@ class Otorgado(Estado):
 		return Cobro(permiso=self.permiso, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
 
 		def isPermisoFinalizado(self):
-			return self.fecha + timedelta(days=self.fechaVencimiento) < date.today()
+			return self.fechaVencimiento < date.today()
 
 class Baja(Estado):
 	TIPO = 6
