@@ -274,7 +274,7 @@ class AgregarOposicion(CreateView):
 class AgregarInfraccion(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
+	template_name = 'Documento/infraccion.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, *args, **kwargs):
