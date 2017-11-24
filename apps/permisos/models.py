@@ -154,7 +154,22 @@ class Permiso(models.Model):
 			return False
 		else:
 			return True
-		
+	
+	def montoTotalCobros(self):
+		sumaTotalCobros = 0
+		for cobro in self.cobros.all():
+			sumaTotalCobros +=(cobro.monto)
+		return sumaTotalCobros
+
+	def montoTotalPagos(self):
+		sumaTotalPagos = 0
+		for pago in self.pagos.all():
+			sumaTotalPagos +=(pago.monto)
+		return sumaTotalPagos
+
+	def saldoActual(self):
+		return self.montoTotalPagos() - self.montoTotalCobros()
+
 class Estado(models.Model):
 	TIPO = 0
 	TIPOS = [
