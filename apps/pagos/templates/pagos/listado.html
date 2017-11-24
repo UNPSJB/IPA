@@ -14,7 +14,7 @@
 		<tr>
 			<td>{{pago.fecha}}</td>
 			<td>{{pago.monto}}</td>		
-			<td><div class="ui four cards">
+			<td><div class="ui one cards">
 		  		<div class="card">
 		    		<div class="image">
 		      			<img src="{% static pago.documento.thumbnail %}">
@@ -31,8 +31,5 @@
 			</td>
 		</tr>
 	{% endfor%}
-
-
-
 
 {% endblock %}
