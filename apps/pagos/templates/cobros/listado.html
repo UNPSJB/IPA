@@ -1,0 +1,17 @@
+{%extends 'lists.html'%}
+{% load actionButton %}
+
+{% block contentList %} 
+
+{% for cobro in cobros %}
+	<tr>
+			<td>{{cobro.fecha_desde}}</td>
+			<td>{{cobro.fecha_hasta}}</td>
+			<td>{{cobro.monto}}</td>
+			<td class="text-center">	
+			<a class="ui icon button" href="#"><i class="info circle icon"></i></button>
+			</td>		
+	</tr>
+{% endfor%}
+
+{% endblock %}

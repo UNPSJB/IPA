@@ -80,5 +80,20 @@ class AltaCobro(CreateView):
 			cobro.permiso = permiso
 			cobro.save()
 			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
-		return HttpResponseRedirect(self.get_success_url())
+		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
 
+
+class ListarCobros(ListView):
+	model = Cobro
+	template_name = 'cobros/listado.html'
+	context_object_name = 'cobros'
+
+	def get_context_data(self, **kwargs):
+		context = super(ListarCobros, self).get_context_data(**kwargs)
+		context['nombreLista'] = "Listado de tipos de documento"
+		context['headers'] = ['Fecha Desde', 'Fecha Hasta', 'Monto ($)', 'Detalle']
+		context['botones'] = {
+			'Alta Valor de Modulo': reverse('pagos:altaModulo'),
+			'Salir': reverse('index')
+			}
+		return context

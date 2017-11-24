@@ -114,9 +114,9 @@ class DetallePermisoOtorgado(DetailView):
 		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
 		context['botones'] = {
 			'Calcular Canon': reverse('pagos:altaCobro', args=[self.permiso_pk]),
+			'Ver Listado de Cobros': reverse('pagos:listarCobros', args=[self.permiso_pk]),
 			'Listado': reverse('solicitudes:listar'),
 			'Ver Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
-			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
 		}
 		return context

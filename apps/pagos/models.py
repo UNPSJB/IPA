@@ -15,7 +15,8 @@ class Cobro(models.Model):
 	permiso = models.ForeignKey('permisos.Permiso', blank=False, null=False, related_name="cobros")
 	monto = models.DecimalField(max_digits = 10, decimal_places = 2)
 	documento = models.ForeignKey(Documento, blank=False, null=False)
-	fecha = models.DateField()
+	fecha_desde = models.DateField()
+	fecha_hasta = models.DateField()
 
 	class Meta:
 		get_latest_by = "fecha"
