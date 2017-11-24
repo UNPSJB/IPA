@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from .models import ValorDeModulo, Cobro, Pago
 from django.http import HttpResponseRedirect
-from .forms import RegistrarValorDeModuloForm
+from .forms import RegistrarValorDeModuloForm, PagoForm
 from apps.documentos.forms import DocumentoForm
 from django.views.generic import ListView,CreateView,DeleteView
 from apps.permisos.models import Permiso
@@ -53,7 +53,7 @@ class AltaCobro(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaCobro, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Alta Valor de Modulo"
+		context['nombreForm'] = "Alta Cobro"
 		context['headers'] = ['']
 		context['botones'] = {
 			'Listado':reverse('tipoDocumentos:listar'),
@@ -66,7 +66,7 @@ class AltaCobro(CreateView):
 		documento_form = DocumentoForm()
 		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 
 			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
-			'permiso': permiso})
+			'permiso': permiso, 'nombreForm':"Alta Cobro"})
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -108,14 +108,49 @@ class ListarCobros(ListView):
 
 class AltaPago(CreateView):
 	model = Pago
+	form_class = DocumentoForm
+	second_form_class = PagoForm
 	template_name = 'pagos/alta.html'
 	success_url = reverse_lazy('pagos:listarModulos')
 
+
 	def get_context_data(self, **kwargs):
 		context = super(AltaPago, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Alta Valor de Modulo"
+		context['nombreForm'] = "Alta Pago"
 		context['headers'] = ['']
 		context['botones'] = {
 			'Listado':reverse('tipoDocumentos:listar'),
 			}
+		context['form'] = self.form_class()
+		context['form2'] = self.second_form_class()
 		return context
+
+	def get(self, request, *args, **kwargs):
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		documento_form = self.form_class()
+		pago_form = self.second_form_class()
+		return render(request, self.template_name, {'form':documento_form,'form2':pago_form, 
+			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
+			'permiso': permiso, 'nombreForm':"Alta Pago"})
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+
+		documento_form = DocumentoForm(request.POST, request.FILES)
+		pago_form = PagoForm(request.POST)
+		
+		if documento_form.is_valid() and pago_form.is_valid():
+			documento = documento_form.save()
+			pago = pago_form.save(commit=False)
+			pago.documento = documento
+			pago.permiso = permiso
+			pago.fecha = pago_form.data['fecha']
+			pago.monto = pago_form.data['fecha']
+			print(pago)
+			print(pago)
+			print(pago)
+			raise Exception
+			pago.save()
+			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
+		return render(request, self.template_name, {'form':documento_form,'form2':pago_form, 'botones':'', 'permiso': permiso})

@@ -112,7 +112,8 @@ class DetallePermisoOtorgado(DetailView):
 		context = super(DetallePermisoOtorgado, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
 		context['botones'] = {
-			'Calcular Canon': reverse('pagos:altaCobro', args=[self.permiso_pk]),
+			'Alta Cobro': reverse('pagos:altaCobro', args=[self.permiso_pk]),
+			'Alta Pago': reverse('pagos:altaPago', args=[self.permiso_pk]),
 			'Ver Listado de Cobros': reverse('pagos:listarCobros', args=[self.permiso_pk]),
 			'Listado Permisos Otorgados': reverse('permisos:listarPermisosOtorgados'),
 			'Ver Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),

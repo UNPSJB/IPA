@@ -34,8 +34,8 @@ class PagoForm(forms.ModelForm):
 				'fecha',
 			]
 		labels = {
-				'monto':'Monto',
-				'fecha':'Fecha',
+				'monto':'Monto ($)',
+				'fecha':'Fecha de Pago',
 		}
 
 		widgets = {
