@@ -10,27 +10,29 @@
 		</div>
 	</div> 
 
-	{% for cobro in cobros %}
+	{% for pago in pagos %}
 		<tr>
-			<td>{{cobro.fecha_desde}} - {{cobro.fecha_hasta}}</td>
-			<td>{{cobro.fecha_hasta}}</td>
-			<td>{{cobro.monto}}</td>
-			<td><div class="ui one cards">
+			<td>{{pago.fecha}}</td>
+			<td>{{pago.monto}}</td>		
+			<td><div class="ui four cards">
 		  		<div class="card">
 		    		<div class="image">
-		      			<img src="{% static cobro.documento.thumbnail %}">
+		      			<img src="{% static pago.documento.thumbnail %}">
 		    		</div>
 					<div class="content">
 		   				<div class="meta">
-	      					<span class="date">{{cobro.documento.fecha}}</span>
+	      					<span class="date">{{pago.documento.fecha}}</span>
 	    				</div>
-		    			<div class="description">{{cobro.documento.descripcion}}
+		    			<div class="description">{{pago.documento.descripcion}}
 		    			</div>
 		  			</div>
 				</div>
 				</div>
-			</td>						
+			</td>
 		</tr>
 	{% endfor%}
+
+
+
 
 {% endblock %}

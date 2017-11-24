@@ -113,8 +113,9 @@ class DetallePermisoOtorgado(DetailView):
 		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
 		context['botones'] = {
 			'Alta Cobro': reverse('pagos:altaCobro', args=[self.permiso_pk]),
-			'Alta Pago': reverse('pagos:altaPago', args=[self.permiso_pk]),
 			'Ver Listado de Cobros': reverse('pagos:listarCobros', args=[self.permiso_pk]),
+			'Alta Pago': reverse('pagos:altaPago', args=[self.permiso_pk]),
+			'Ver Listado de Pagos': reverse('pagos:listarPagos', args=[self.permiso_pk]),
 			'Listado Permisos Otorgados': reverse('permisos:listarPermisosOtorgados'),
 			'Ver Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),

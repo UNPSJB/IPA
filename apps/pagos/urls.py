@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import AltaValorDeModulo, ListadoValoresDeModulo, EliminarValorDeModulo, AltaCobro, ListarCobros, AltaPago
+from .views import AltaValorDeModulo, ListadoValoresDeModulo, EliminarValorDeModulo, AltaCobro, ListarCobros, AltaPago, ListarPagos
 
 app_name = 'pagos'
 
@@ -14,5 +14,6 @@ urlpatterns = [
 	url(r'^cobro/listar/(?P<pk>.+)/$', ListarCobros.as_view(), name='listarCobros'),
 	
 	url(r'^pago/alta/(?P<pk>.+)/$', AltaPago.as_view(), name='altaPago'),
+	url(r'^pago/listar/(?P<pk>.+)/$', ListarPagos.as_view(), name='listarPagos'),
 
 ]

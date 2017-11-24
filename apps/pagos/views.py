@@ -100,7 +100,7 @@ class ListarCobros(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListarCobros, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Listado de Cobros"
-		context['headers'] = ['Periodo', 'Fecha de Cobro', 'Monto($)']
+		context['headers'] = ['Periodo', 'Fecha de Cobro', 'Monto($)', 'Documento de Cobro']
 		context['botones'] = {
 			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
 			}
@@ -145,12 +145,27 @@ class AltaPago(CreateView):
 			pago = pago_form.save(commit=False)
 			pago.documento = documento
 			pago.permiso = permiso
-			pago.fecha = pago_form.data['fecha']
-			pago.monto = pago_form.data['fecha']
-			print(pago)
-			print(pago)
-			print(pago)
-			raise Exception
 			pago.save()
 			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
 		return render(request, self.template_name, {'form':documento_form,'form2':pago_form, 'botones':'', 'permiso': permiso})
+
+class ListarPagos(ListView):
+	model = Pago
+	template_name = 'pagos/listado.html'
+	context_object_name = 'pagos'
+
+	def get(self, request, *args, **kwargs):
+		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		return super(ListarPagos,self).get(request, *args, **kwargs)
+
+	def get_queryset(self):
+		return self.permiso.pagos.all()
+
+	def get_context_data(self, **kwargs):
+		context = super(ListarPagos, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Listado de Pagos"
+		context['headers'] = ['Fecha de Pago', 'Monto($)', 'Documento de Pago']
+		context['botones'] = {
+			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
+			}
+		return context
