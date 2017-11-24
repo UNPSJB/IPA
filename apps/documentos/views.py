@@ -143,6 +143,7 @@ class DeleteDocumento(DeleteView):
 class AgregarExpediente(CreateView):
 	model = Documento
 	form_class = DocumentoForm
+	template_name = 'Documento/expediente.html'
 
 	def get_success_url(self):
 		return reverse('permisos:detallePermisoCompleto', args=(self.permiso_pk, ))
