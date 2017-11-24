@@ -88,12 +88,18 @@ class ListarCobros(ListView):
 	template_name = 'cobros/listado.html'
 	context_object_name = 'cobros'
 
+	def get(self, request, *args, **kwargs):
+		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		return super(ListarCobros,self).get(request, *args, **kwargs)
+
+	def get_queryset(self):
+		return self.permiso.cobros.all()
+
 	def get_context_data(self, **kwargs):
 		context = super(ListarCobros, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Listado de tipos de documento"
-		context['headers'] = ['Fecha Desde', 'Fecha Hasta', 'Monto ($)', 'Detalle']
+		context['nombreForm'] = "Listado de Cobros"
+		context['headers'] = ['Periodo', 'Fecha de Cobro', 'Monto($)']
 		context['botones'] = {
-			'Alta Valor de Modulo': reverse('pagos:altaModulo'),
-			'Salir': reverse('index')
+			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
 			}
 		return context

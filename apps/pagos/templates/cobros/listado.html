@@ -3,15 +3,21 @@
 
 {% block contentList %} 
 
-{% for cobro in cobros %}
-	<tr>
-			<td>{{cobro.fecha_desde}}</td>
-			<td>{{cobro.fecha_hasta}}</td>
-			<td>{{cobro.monto}}</td>
-			<td class="text-center">	
-			<a class="ui icon button" href="#"><i class="info circle icon"></i></button>
-			</td>		
-	</tr>
-{% endfor%}
+	<div class="row header-content">
+		<div class="titulo">
+			<h1 class="ui header blue">{{nombreForm}}</h1>
+		</div>
+	</div> 
+
+	{% for cobro in cobros %}
+		<tr>
+				<td>{{cobro.fecha_desde}}-{{cobro.fecha_hasta}}</td>
+				<td>{{cobro.fecha_hasta}}</td>
+				<td>{{cobro.monto}}</td>
+				<td class="text-center">	
+				<a class="ui icon button" href="#"><i class="info circle icon"></i></button>
+				</td>		
+		</tr>
+	{% endfor%}
 
 {% endblock %}
