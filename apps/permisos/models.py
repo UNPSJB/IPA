@@ -287,15 +287,15 @@ class Otorgado(Estado):
 			hasta = date.today()
 		else:
 			cobro = cobros.latest()
-			desde = cobro.fecha
+			desde = cobro.fecha_hasta
 			hasta = date.today()
-		#self.permiso.documentos.add(documento)
+
 		modulos = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=self.permiso.tipo.tipo_modulo)
 		if not modulos.exists():
 			raise Exception("con que?")
 		precio = modulos.latest().precio
 		monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, desde, hasta)
-		#return Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
+
 		print(monto)
 		return Cobro(permiso=self.permiso, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
 

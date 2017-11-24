@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse_lazy, reverse
-from .models import ValorDeModulo, Cobro
+from .models import ValorDeModulo, Cobro, Pago
 from django.http import HttpResponseRedirect
 from .forms import RegistrarValorDeModuloForm
 from apps.documentos.forms import DocumentoForm
@@ -48,7 +48,7 @@ class EliminarValorDeModulo(DeleteView):
 
 class AltaCobro(CreateView):
 	model = Cobro
-	template_name = 'cobros/detalleCobro.html'
+	template_name = 'cobros/detalle.html'
 	success_url = reverse_lazy('pagos:listarModulos')
 
 	def get_context_data(self, **kwargs):
@@ -101,5 +101,19 @@ class ListarCobros(ListView):
 		context['headers'] = ['Periodo', 'Fecha de Cobro', 'Monto($)']
 		context['botones'] = {
 			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
+			}
+		return context
+
+class AltaPago(CreateView):
+	model = Pago
+	template_name = 'pagos/alta.html'
+	success_url = reverse_lazy('pagos:listarModulos')
+
+	def get_context_data(self, **kwargs):
+		context = super(AltaPago, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Alta Valor de Modulo"
+		context['headers'] = ['']
+		context['botones'] = {
+			'Listado':reverse('tipoDocumentos:listar'),
 			}
 		return context

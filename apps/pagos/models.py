@@ -19,7 +19,7 @@ class Cobro(models.Model):
 	fecha_hasta = models.DateField()
 
 	class Meta:
-		get_latest_by = "fecha"
+		get_latest_by = "fecha_hasta"
 
 # MODULOS ===================================================
 class ValorDeModulo (models.Model):
