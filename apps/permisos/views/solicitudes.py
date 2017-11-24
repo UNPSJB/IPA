@@ -74,8 +74,7 @@ class ListadoDocumentacionPresentada(DetailView):
 		context['nombreLista'] = 'Listado de Documentos'
 		context['headers'] = ['Tipo', 'Descripción', 'Fecha']
 		context['botones'] = {
-		#'Alta': reverse('documentos:alta') , 
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.object.pk])}
+			'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.object.pk])}
 		return context
 
 class ListadoSolicitudes(ListView):
