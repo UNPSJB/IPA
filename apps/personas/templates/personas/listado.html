@@ -1,58 +1,18 @@
-{% extends 'index.html' %}
+{% extends 'lists.html' %}
 {% load actionButton %}
-{% load staticfiles %}
-{% load contextMenu %}
 
-{% block extra %}
+{% block contentList%} 
 
-<div>
-	<table class="ui single line table">
-		<thead>
-			<tr>
-	      		{% for header in headers%}
-					<th>{{header}}</th>
-	      		{% endfor %}
-	      		<th>Más Info</th>
-		 	</tr>
-		</thead>
-		<tbody>
-			{% if personas %}
-			{% for persona in personas %}
-			 	<tr>
-					<td>{{ persona.nombre }}</td>
-					<td>{{ persona.apellido }}</td>
-					<td>{{ persona.get_tipoDocumento_display }}</td>
-					<td>{{ persona.numeroDocumento }}</td>
-    				{%renderActionButton persona.id %}
-				</tr>
-			{% endfor %}
-			{% endif %}
-
-
-		</tbody>
-	</table>
-</div>
+{% for persona in personas %}
+	<tr>
+		<td>{{ persona.nombre }}</td>
+		<td>{{ persona.apellido }}</td>
+		<td>{{ persona.get_tipoDocumento_display }}</td>
+		<td>{{ persona.numeroDocumento }}</td>
+    	{%renderActionButton persona.id %}
+			
+	</tr>
+{% endfor%}
 
 {% endblock %}
-
-{% block secondaryMenu %}
-	{% renderContextMenu %}
-{% endblock %}
-
- {% block pageStaticJs %}
-
-<!--<script type="text/javascript">
-$(document).ready(function(){
-
-    	$(".button.info").click(function(){
-    		var ID = $(this).attr('id');
-
-    		$(location).attr('href','/personas/detalle_persona/' + ID); 
-    	});
-});
-</script>
--->
-	<script type="text/javascript" src="{% static 'page/js/index.js'%}"></script>
-{% endblock %}
-
 
