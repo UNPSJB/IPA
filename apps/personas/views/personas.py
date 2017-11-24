@@ -71,6 +71,7 @@ class ListadoPersonas(ListView):
 		 }
 		context['nombreReverse'] = 'personas'
 		context['headers'] = ['Nombre', 'Apellido','Tipo de Documento', 'Número de Documento']
+		context['nombreLista'] = 'Listado de personas'
 		return context
 
 class DetallePersona(DetailView):
