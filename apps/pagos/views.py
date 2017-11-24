@@ -64,7 +64,9 @@ class AltaCobro(CreateView):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		cobro = permiso.estado().recalcular(request.user, date.today(), permiso.unidad)
 		documento_form = DocumentoForm()
-		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
+		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 
+			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
+			'permiso': permiso})
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
