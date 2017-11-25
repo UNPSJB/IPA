@@ -1,8 +1,9 @@
 {% extends 'index.html' %}
+{% load static semanticui %}
 
 {% block extra %}
 	<form action="" method="post">{% csrf_token %}
     	<p> ¿Estas seguro que desea eliminar "{{ object }}"?</p>
-    	<input type="submit" value="Eliminar" />
+    	<input class="negative ui button" type="submit" value="Eliminar" />
 	</form>
 {% endblock %}

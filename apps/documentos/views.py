@@ -247,7 +247,7 @@ class AgregarOposicion(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarOposicion, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
+			#'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
 		}
 		context['nombreForm'] = 'Agregar Oposición a Permiso'
 		context['message_error'] = ''

@@ -67,7 +67,7 @@ class ListadoDirectores(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDirectores, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Nuevo Director'
+		context['nombreForm'] = 'Listado de Directores'
 		context['botones'] = {'Volver a Listado de Personas': reverse('personas:listado')}
 		context['nombreReverse'] = 'directores'
 		context['headers'] = ['Nombre y Apellido', 'Legajo','Cargo', 'Fecha de Inicio']
