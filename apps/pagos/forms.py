@@ -22,7 +22,7 @@ class RegistrarValorDeModuloForm(forms.ModelForm):
 				'modulo': forms.TextInput(attrs={'class':'form-control'}),
 				'precio':forms.TextInput(attrs={'class':'form-control'}),
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-				'fecha':forms.DateInput(attrs={'class':'form-control'}),
+				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}
 
 class PagoForm(forms.ModelForm):
@@ -40,5 +40,5 @@ class PagoForm(forms.ModelForm):
 
 		widgets = {
 				'monto':forms.TextInput(attrs={'class':'form-control'}),
-				'fecha':forms.DateInput(attrs={'class':'form-control'}),
+				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}

@@ -74,6 +74,6 @@ class SolicitadoForm(forms.ModelForm):
 
 		widgets = {
 			'utilizando':forms.CheckboxInput(attrs={'class':'form-control'}),
-			'fecha':forms.DateInput(attrs={'class':'form-control'}),
+			'fecha': forms.DateInput(attrs={'type':'date'}),
 			'observacion': forms.Textarea(attrs={'class':'form-control'}), 
 	}

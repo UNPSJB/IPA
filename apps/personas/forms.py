@@ -55,8 +55,10 @@ class DirectorForm (forms.ModelForm):
 		]
 		ordering = ["-legajo"]
 
-		#fields = '__all__'
-		#exclude = ['nombre','apellido']
+		widgets = {
+
+			'fechaInicio': forms.DateInput(attrs={'type':'date'}),
+		}
 		
 	#def save(self):
 		#personaForm = PersonaForm(data=self.cleaned_data)
