@@ -166,10 +166,20 @@ class AgregarExpediente(CreateView):
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		
+		fechaExpediente=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		lista_fechas = [documento.fecha for documento in permiso.documentos.all() if documento.fecha > fechaExpediente]
+		if len(lista_fechas) != 0:
+			lista_fechas.sort()
+			ultima_fecha = lista_fechas.pop()
+
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
-			documento = form.save()
-			permiso.hacer('completar',request.user,datetime.now(), request.POST['expediente'], documento)
-			return HttpResponseRedirect(self.get_success_url())
+			if len(lista_fechas) == 0:
+				documento = form.save()
+				permiso.hacer('completar',request.user,datetime.now(), request.POST['expediente'], documento)
+				return HttpResponseRedirect(self.get_success_url())
+			else:
+				return self.render_to_response(self.get_context_data(form=form, 
+					message = 'La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')'))
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarEdicto(CreateView):
