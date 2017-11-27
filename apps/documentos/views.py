@@ -273,3 +273,21 @@ class AgregarOposicion(CreateView):
 
 		return self.render_to_response(self.get_context_data(form=form))
 
+class AltaInfraccion(CreateView):
+	model = Documento
+	form_class = DocumentoForm
+	template_name = 'formsInput.html'
+	success_url = reverse_lazy('documentos:listar')
+	
+	def get_context_data(self, *args, **kwargs):
+		context = super(AgregarOposicion, self).get_context_data(**kwargs)
+		context['botones'] = {
+			'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
+		}
+		context['nombreForm'] = 'Nueva infracción'
+		context['message_error'] = ''
+		return context
+	
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AltaInfraccion, self).get(request,*args,**kwargs)
