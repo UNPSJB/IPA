@@ -100,6 +100,7 @@ class Permiso(models.Model):
 	numero_exp = models.PositiveIntegerField(null=True)
 	documentos = models.ManyToManyField(Documento)
 	unidad = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+	fechaSolicitud = models.DateField(null=True)
 	fechaVencimiento = models.DateField(null=True)
 
 

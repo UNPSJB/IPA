@@ -7,6 +7,7 @@ from apps.permisos.models import Permiso
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from datetime import date, datetime
+from operator import attrgetter
 
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
@@ -252,13 +253,34 @@ class AgregarResolucion(CreateView):
 		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
+		documentos = permiso.documentos.all()
 
-		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
-			resolucion = form.save()
-			fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
-			fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
-			permiso.hacer('resolver',request.user,resolucion.fecha, int(request.POST['unidad']), resolucion, fechaPrimerCobro, fechaVencimiento)
-			return HttpResponseRedirect(self.get_success_url())
+		fechaResolucion=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
+		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
+		unidad = int(request.POST['unidad'])
+
+		lista_resoluciones = [documento for documento in documentos if (documento.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		lista_resoluciones_fecha = sorted(lista_resoluciones, key=attrgetter('fecha'), reverse=True)
+		
+		if len(lista_resoluciones_fecha) > 0:
+			ultimo_vencimiento_resolucion = lista_resoluciones_fecha[0].fechaVencimiento
+			fecha_correcta = fechaResolucion > ultimo_vencimiento_resolucion
+		else:
+			fecha_correcta = fechaResolucion > permiso.estado().vencimientoPublicacion()
+
+		if form.is_valid():
+			if fecha_correcta and (unidad > 0) and (fechaVencimiento > fechaResolucion):
+				raise Exception
+				resolucion = form.save()
+				permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
+				return HttpResponseRedirect(self.get_success_url())
+			elif (unidad <= 0) or (fechaVencimiento < fechaResolucion):
+				return self.render_to_response(self.get_context_data(form=form, 
+					message="La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución, y la Unidad mayor a CERO"))
+			else:
+				return self.render_to_response(self.get_context_data(form=form, 
+					message="La Fecha de la Resolucion debe ser mayor a la Fecha de Vencimiento de la Ultima Resolución cargada (" +  (ultimo_vencimiento_resolucion).strftime("%d-%m-%Y") + ")"))
 		return self.render_to_response(self.get_context_data(form=form))
 
 
