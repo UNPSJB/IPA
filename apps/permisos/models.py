@@ -279,7 +279,8 @@ class Publicado(Estado):
 				raise Exception("con que?")
 			precio = modulos.latest().precio
 			monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, fechaPrimerCobro, fecha)
-			Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha_hasta=fecha)
+			cobro = Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha_hasta=fecha)
+			cobro.save()
 			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)	
 		return self
 

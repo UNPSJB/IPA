@@ -176,7 +176,7 @@ class AgregarExpediente(CreateView):
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			if len(lista_fechas) == 0:
 				documento = form.save()
-				permiso.hacer('completar',request.user,datetime.now(), request.POST['expediente'], documento)
+				permiso.hacer('completar',request.user,fechaExpediente, request.POST['expediente'], documento)
 				return HttpResponseRedirect(self.get_success_url())
 			else:
 				return self.render_to_response(self.get_context_data(form=form, 
@@ -210,6 +210,7 @@ class AgregarEdicto(CreateView):
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		documentos = permiso.documentos.all()
 		pase = [documento for documento in documentos if (documento.tipo.nombre == 'Pase')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		
 		fecha_pase = pase[0].fecha
 
 		fechaEdicto=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
@@ -264,14 +265,13 @@ class AgregarResolucion(CreateView):
 		lista_resoluciones_fecha = sorted(lista_resoluciones, key=attrgetter('fecha'), reverse=True)
 		
 		if len(lista_resoluciones_fecha) > 0:
-			ultimo_vencimiento_resolucion = lista_resoluciones_fecha[0].fechaVencimiento
+			ultimo_vencimiento_resolucion = lista_resoluciones_fecha[0].fecha
 			fecha_correcta = fechaResolucion > ultimo_vencimiento_resolucion
 		else:
 			fecha_correcta = fechaResolucion > permiso.estado().vencimientoPublicacion()
 
 		if form.is_valid():
 			if fecha_correcta and (unidad > 0) and (fechaVencimiento > fechaResolucion):
-				raise Exception
 				resolucion = form.save()
 				permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 				return HttpResponseRedirect(self.get_success_url())
