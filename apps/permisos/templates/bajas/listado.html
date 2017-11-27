@@ -10,6 +10,7 @@
 			<td>{{permiso.establecimiento}}</td>
 			<td>{{permiso.tipo}}</td>
 			<td>{{permiso.estado.getEstadoString}}</td>
+			<td><a class="negative ui button" href="{% url 'permisos:eliminar' permiso.id %}"> Eliminar</a></td>
 			<td class="text-center">	
 			<a class="ui icon button" href="{%url 'permisos:detallePermisoDeBaja' permiso.id%} "><i class="info circle icon"></i></button>
 			</td>		

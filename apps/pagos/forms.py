@@ -1,5 +1,5 @@
 from django import forms
-from .models import ValorDeModulo, Cobro
+from .models import ValorDeModulo, Pago
 
 class RegistrarValorDeModuloForm(forms.ModelForm):
 	class Meta:
@@ -22,21 +22,23 @@ class RegistrarValorDeModuloForm(forms.ModelForm):
 				'modulo': forms.TextInput(attrs={'class':'form-control'}),
 				'precio':forms.TextInput(attrs={'class':'form-control'}),
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-				'fecha':forms.DateInput(attrs={'class':'form-control'}),
+				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}
 
-class CobroForm(forms.ModelForm):
+class PagoForm(forms.ModelForm):
 	class Meta:
-		model = Cobro
+		model = Pago
 
 		fields = [
 				'monto',
-				'documento',
 				'fecha',
-		]
-
+			]
 		labels = {
-				'monto': 'Monto',
-				'documento':'Documento',
-				'fecha':'Fecha',
+				'monto':'Monto ($)',
+				'fecha':'Fecha de Pago',
+		}
+
+		widgets = {
+				'monto':forms.TextInput(attrs={'class':'form-control'}),
+				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}

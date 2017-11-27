@@ -20,7 +20,7 @@
 {% block content %}
   <div class="ui grid">
     <div class="row">
-      <div class="three wide column" >
+      <div class="three wide column " >
         <div class="ui vertical fluid blue inverted large menu">
 
           <div class="item">
@@ -46,16 +46,20 @@
         
           <div class="ui dropdown item">
             <i class="users icon"></i>
-            <div>
-               <a style="color:white" href="{% url 'personas:listado' %}"> Usuarios</a>
-            </div>
+            <a style="color:white" href="{% url 'personas:listado' %}"> 
+              <div>
+              Usuarios
+              </div>
+            </a>
             </div>
              
         
           <div class="ui dropdown item">
             <i class="users icon"></i>
+              <a style="color:white" href="{% url 'establecimientos:listar' %}">
             <div>
-              <a style="color:white" href="{% url 'establecimientos:listar' %}">Establecimientos</a>
+              Establecimientos
+            </a>
             </div>         
           </div>
 
@@ -81,7 +85,9 @@
           <div class="ui dropdown item">
             <i class="dollar icon"></i>  Pagos 
             <div class="menu inverted blue">
-              <a href="{% url 'pagos:listarModulos' %}" class="item ">Modulo</a>
+              <a href="{% url 'pagos:listarModulos' %}" class="item ">Valor de Modulos</a>
+              <a href="{% url 'pagos:listarTodosLosCobros' %}" class="item ">Cobros</a>
+              <a href="{% url 'pagos:listarTodosLosPagos' %}" class="item ">Pagos</a>
             </div>
           </div>
 

@@ -32,11 +32,11 @@ class DocumentoForm(forms.ModelForm):
 				'tipo':'Tipo',
 				'descripcion':'Descripcion',
 				'archivo':'Archivo',
-				'fecha':'Fecha',
+				'fecha':'Fecha del Documento',
 		}
 
 		widgets = {
 				'tipo':forms.Select(attrs={'class':'form-control'}),
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-				'fecha':forms.DateInput(attrs={'class':'form-control'}),
+				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}

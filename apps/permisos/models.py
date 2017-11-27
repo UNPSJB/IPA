@@ -100,6 +100,8 @@ class Permiso(models.Model):
 	numero_exp = models.PositiveIntegerField(null=True)
 	documentos = models.ManyToManyField(Documento)
 	unidad = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+	fechaSolicitud = models.DateField()
+	fechaVencimiento = models.DateField(null=True)
 
 
 	objects = PermisoManager()
@@ -153,7 +155,22 @@ class Permiso(models.Model):
 			return False
 		else:
 			return True
-		
+	
+	def montoTotalCobros(self):
+		sumaTotalCobros = 0
+		for cobro in self.cobros.all():
+			sumaTotalCobros +=(cobro.monto)
+		return sumaTotalCobros
+
+	def montoTotalPagos(self):
+		sumaTotalPagos = 0
+		for pago in self.pagos.all():
+			sumaTotalPagos +=(pago.monto)
+		return sumaTotalPagos
+
+	def saldoActual(self):
+		return self.montoTotalPagos() - self.montoTotalCobros()
+
 class Estado(models.Model):
 	TIPO = 0
 	TIPOS = [
@@ -248,14 +265,22 @@ class Publicado(Estado):
 	# No contemplar dias habiles.... para no entrar en tema de feriados
 	tiempo = models.PositiveIntegerField()
 
-	def resolver(self, usuario, fecha, unidad, resolucion):
+	def resolver(self, usuario, fecha, unidad, resolucion, fechaPrimerCobro ,vencimiento):
+
 		if self.fecha + timedelta(days=self.tiempo) < fecha:
+
 			self.permiso.unidad = unidad
+			self.permiso.fechaVencimiento = vencimiento
 			self.permiso.documentos.add(resolucion)
 			self.permiso.save()
-			print(self.permiso.getEstados(1)[0])
-			#monto = self.permiso.tipo.calcular_monto(30, unidad, self.permiso.getEstados(1)[0].fecha, self.fecha )
-			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=10)
+			#print(self.permiso.getEstados(1)[0])
+			modulos = ValorDeModulo.objects.filter(fecha__lte=fecha, modulo=self.permiso.tipo.tipo_modulo)
+			if not modulos.exists():
+				raise Exception("con que?")
+			precio = modulos.latest().precio
+			monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, fechaPrimerCobro, fecha)
+			Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha_hasta=fecha)
+			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)	
 		return self
 
 	def isEdictoFinalizado(self):
@@ -271,22 +296,13 @@ class Publicado(Estado):
 
 class Otorgado(Estado):
 	TIPO = 5
-	monto = models.DecimalField(max_digits = 10, decimal_places = 2)
+	monto = models.DecimalField(max_digits = 10, decimal_places = 2) ###SIN USO
 
 	def cobrar(self, usuario, fecha, monto, pago):
 		self.permiso.documentos.add(pago)
 		return self
 
-	# Recalculando monto en base a inscpeccion o capricho del director
-	#def recalcular(self, usuario, fecha, unidad, documento):
-	#	self.permiso.documentos.add(documento)
-	#	monto = self.permiso.tipo.calcular_monto(self.permiso.unidad)
-		#Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
-	#	return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
-
-		# Recalculando monto en base a inscpeccion o capricho del director
-	#def recalcular(self, usuario, fecha, unidad, documento):
-	def recalcular(self, usuario, fecha, unidad):
+	def recalcular(self, usuario, documento, fecha, unidad):
 		cobros = self.permiso.cobros.all()
 		
 		if not cobros.exists():
@@ -294,17 +310,19 @@ class Otorgado(Estado):
 			hasta = date.today()
 		else:
 			cobro = cobros.latest()
-			desde = cobro.fecha
+			desde = cobro.fecha_hasta
 			hasta = date.today()
-		#self.permiso.documentos.add(documento)
+
 		modulos = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=self.permiso.tipo.tipo_modulo)
 		if not modulos.exists():
 			raise Exception("con que?")
 		precio = modulos.latest().precio
 		monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, desde, hasta)
-		#return Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
-		print(monto)
-		return Cobro(permiso=self.permiso, monto=monto, fecha=fecha)
+
+		return Cobro(permiso=self.permiso, documento=documento, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
+
+		def isPermisoFinalizado(self):
+			return self.fechaVencimiento < date.today()
 
 class Baja(Estado):
 	TIPO = 6

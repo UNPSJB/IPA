@@ -24,8 +24,8 @@
 </div>
 <div class="row lista">
 	<div class="sixteen wide column">
-		<table class="ui single line table">
-			<thead>
+		<table class="ui single line table ">
+			<thead class="center aligned">
 				<tr>
 		      		{% for header in headers%}
 						<th>{{header}}</th>
@@ -33,8 +33,8 @@
 		      		<th>  </th>
 
 			 	</tr>
-			</thead>
-			<tbody>
+			</thead1>
+			<tbody class="center aligned">
 				{% block contentList%} {% endblock%}
 				 	
 			</tbody>

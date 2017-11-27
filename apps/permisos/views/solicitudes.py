@@ -33,6 +33,8 @@ class AltaSolicitud(View):
 		permiso_form = PermisoForm(request.POST)
 		solicitado_form = SolicitadoForm(request.POST)
 		if permiso_form.is_valid() and solicitado_form.is_valid():
+			permiso = permiso_form.save(commit=False)
+			permiso.fechaSolicitud = datetime.strptime(solicitado_form.data['fecha'], "%Y-%m-%d").date()
 			permiso = permiso_form.save()
 			solicitado = solicitado_form.save(commit=False)
 			solicitado.permiso = permiso
@@ -57,8 +59,10 @@ class DetalleSolicitud(DetailView):
 		context['botones'] = {
 			'Listado': reverse('solicitudes:listar'),
 			'Ver Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
+			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
-			'Agregar Infracción': reverse('documentos:altaInfraccion', args=[self.object.pk]),
+			'Agregar Infracción': reverse('documentos:agregarInfraccion', args=[self.object.pk]),
+			'Salir':reverse('index')
 		}
 		return context
 
@@ -72,8 +76,7 @@ class ListadoDocumentacionPresentada(DetailView):
 		context['nombreLista'] = 'Listado de Documentos'
 		context['headers'] = ['Tipo', 'Descripción', 'Fecha']
 		context['botones'] = {
-		#'Alta': reverse('documentos:alta') , 
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.object.pk])}
+			'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.object.pk])}
 		return context
 
 class ListadoSolicitudes(ListView):
@@ -85,7 +88,7 @@ class ListadoSolicitudes(ListView):
 		context = super(ListadoSolicitudes, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Lista de Solicitudes"
 		context['nombreReverse'] = "solicitudes"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
 		'Alta': reverse('solicitudes:alta'),
 		'Volver a Listado de Permisos': reverse('permisos:listar')}

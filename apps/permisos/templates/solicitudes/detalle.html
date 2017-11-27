@@ -6,9 +6,10 @@
 	<p>Tipo de uso: {{solicitud.tipo}}</p>
 	<p>Afluente: {{solicitud.afluente}} </p>
 
-	<p>Fecha: {{solicitud.estado.fecha}}</p>
+	<p>Fecha de Solicitud de Permiso: {{solicitud.fechaSolicitud}}</p>
+	
 	<p>Observación: {{solicitud.estado.observacion}}</p>
-	<p>Usuario: {{solicitud.estado.usuario}}</p>
+	<p>Usuario que registro el alta de solicitud: {{solicitud.estado.usuario}}</p>
 	
 	<p>Utilizando: 
 
@@ -47,6 +48,6 @@
 	
 	
 	{% else %}
-		<p> Documentación completa</p>
+		<p style="color:red">DOCUMENTACION COMPLETA. FALTA VISAR DOCUMENTACION </p>
 	{% endif%}
 {% endblock %}

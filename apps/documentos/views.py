@@ -7,6 +7,7 @@ from apps.permisos.models import Permiso
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from datetime import date, datetime
+from operator import attrgetter
 
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
@@ -143,6 +144,7 @@ class DeleteDocumento(DeleteView):
 class AgregarExpediente(CreateView):
 	model = Documento
 	form_class = DocumentoForm
+	template_name = 'Documento/expediente.html'
 
 	def get_success_url(self):
 		return reverse('permisos:detallePermisoCompleto', args=(self.permiso_pk, ))
@@ -165,10 +167,20 @@ class AgregarExpediente(CreateView):
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		
+		fechaExpediente=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		lista_fechas = [documento.fecha for documento in permiso.documentos.all() if documento.fecha > fechaExpediente]
+		if len(lista_fechas) != 0:
+			lista_fechas.sort()
+			ultima_fecha = lista_fechas.pop()
+
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
-			documento = form.save()
-			permiso.hacer('completar',request.user,datetime.now(), request.POST['expediente'], documento)
-			return HttpResponseRedirect(self.get_success_url())
+			if len(lista_fechas) == 0:
+				documento = form.save()
+				permiso.hacer('completar',request.user,datetime.now(), request.POST['expediente'], documento)
+				return HttpResponseRedirect(self.get_success_url())
+			else:
+				return self.render_to_response(self.get_context_data(form=form, 
+					message = 'La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')'))
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarEdicto(CreateView):
@@ -196,11 +208,23 @@ class AgregarEdicto(CreateView):
 		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
-		
-		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
-			edicto = form.save()
-			permiso.hacer('publicar',request.user,edicto.fecha, request.POST['tiempo'], edicto)
-			return HttpResponseRedirect(self.get_success_url())
+		documentos = permiso.documentos.all()
+		pase = [documento for documento in documentos if (documento.tipo.nombre == 'Pase')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		fecha_pase = pase[0].fecha
+
+		fechaEdicto=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+
+		tiempo = int(form.data['tiempo'])
+
+		if form.is_valid():
+			if (fechaEdicto > fecha_pase) and (tiempo > 0):
+				edicto = form.save()
+				permiso.hacer('publicar',request.user,edicto.fecha, tiempo, edicto)
+				return HttpResponseRedirect(self.get_success_url())
+			else:
+				return self.render_to_response(self.get_context_data(form=form, 
+					message = 'La fecha del Edicto debe ser posterior a la fecha del Expediente ('+(fecha_pase).strftime("%d-%m-%Y")+
+					') y el tiempo de publicación mayor a CERO'))
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarResolucion(CreateView):
@@ -229,14 +253,34 @@ class AgregarResolucion(CreateView):
 		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
+		documentos = permiso.documentos.all()
+
+		fechaResolucion=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
+		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
+		unidad = int(request.POST['unidad'])
+
+		lista_resoluciones = [documento for documento in documentos if (documento.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		lista_resoluciones_fecha = sorted(lista_resoluciones, key=attrgetter('fecha'), reverse=True)
 		
-		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
-			print(form.cleaned_data)
-			print(form.data['fecha'])
-			#raise Exception()
-			resolucion = form.save()
-			permiso.hacer('resolver',request.user,resolucion.fecha, int(request.POST['unidad']), resolucion)
-			return HttpResponseRedirect(self.get_success_url())
+		if len(lista_resoluciones_fecha) > 0:
+			ultimo_vencimiento_resolucion = lista_resoluciones_fecha[0].fechaVencimiento
+			fecha_correcta = fechaResolucion > ultimo_vencimiento_resolucion
+		else:
+			fecha_correcta = fechaResolucion > permiso.estado().vencimientoPublicacion()
+
+		if form.is_valid():
+			if fecha_correcta and (unidad > 0) and (fechaVencimiento > fechaResolucion):
+				raise Exception
+				resolucion = form.save()
+				permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
+				return HttpResponseRedirect(self.get_success_url())
+			elif (unidad <= 0) or (fechaVencimiento < fechaResolucion):
+				return self.render_to_response(self.get_context_data(form=form, 
+					message="La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución, y la Unidad mayor a CERO"))
+			else:
+				return self.render_to_response(self.get_context_data(form=form, 
+					message="La Fecha de la Resolucion debe ser mayor a la Fecha de Vencimiento de la Ultima Resolución cargada (" +  (ultimo_vencimiento_resolucion).strftime("%d-%m-%Y") + ")"))
 		return self.render_to_response(self.get_context_data(form=form))
 
 
@@ -249,7 +293,7 @@ class AgregarOposicion(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarOposicion, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
+			#'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
 		}
 		context['nombreForm'] = 'Agregar Oposición a Permiso'
 		context['message_error'] = ''
@@ -273,21 +317,31 @@ class AgregarOposicion(CreateView):
 
 		return self.render_to_response(self.get_context_data(form=form))
 
-class AltaInfraccion(CreateView):
+class AgregarInfraccion(CreateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
+	template_name = 'Documento/infraccion.html'
 	success_url = reverse_lazy('documentos:listar')
-	
+
 	def get_context_data(self, *args, **kwargs):
-		context = super(AgregarOposicion, self).get_context_data(**kwargs)
+		context = super(AgregarInfraccion, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
-		context['nombreForm'] = 'Nueva infracción'
-		context['message_error'] = ''
+		context['nombreForm'] = 'Acta de Infraccion'
 		return context
-	
+
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
-		return super(AltaInfraccion, self).get(request,*args,**kwargs)
+		return super(AgregarInfraccion, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		if form.is_valid():
+			documento = form.save()
+			permiso.agregar_documentacion(documento)
+			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
+			return self.render_to_response(self.get_context_data(form=form))

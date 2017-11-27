@@ -5,8 +5,9 @@
 	<p>Establecimiento: {{permiso.establecimiento}}</p>
 	<p>Tipo de uso: {{permiso.tipo}}</p>
 	<p>Afluente: {{permiso.afluente}} </p>
-
+	<p>Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}}</p>
 	<p>Fecha de Otorgado: {{permiso.estado.fecha}}</p>
+	<p>Fecha de Vencimiento: {{permiso.fechaVencimiento}}</p>
 	<p>Observación: {{permiso.estado.observacion}}</p>
 	<p>Usuario: {{permiso.estado.usuario}}</p>
 	<p>Unidad: {{permiso.unidad}}</p>	
@@ -27,5 +28,16 @@
 		No
 	{% endif %}
 	</p>
+
+	{% if permiso.estado.isPermisoFinalizado %}
+	<p style="color:red"> Este Permiso esta VENCIDO</p>
+	{% else %}
+	<p style="color:green"> Este Permiso esta VIGENTE</p>
+	{% endif %}
+
+
+	<p>Monto total de cobros generados: $ {{permiso.montoTotalCobros}} </p>
+	<p>Monto total de pagos ingresados: $ {{permiso.montoTotalPagos}} </p>
+	<p>Monto TOTAL (Pagos - Cobros): $ {{permiso.saldoActual}}</p>
 
 {% endblock %}

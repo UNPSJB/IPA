@@ -11,17 +11,15 @@
 	</div>
 </div>
 
-	{% if message %}
-		<p style='color:red'>{{ message }}</p>
-	{% endif %}
-
 <form class="ui large form" action="{{ form.url_post }}" method="POST" enctype="multipart/form-data">
+	{% if message_error %}
+		<p style='color:red'>{{ message_error }}</p>
+	{% endif %}
   {% csrf_token %}
-
   {% render_form form %}
   <div class="field">
-    <label>Numero de Expediente </label>
-    <input type="text" name="expediente" placeholder="Ingrese un numero de expediente">
+    <label>Numero de Acta de Infraccion </label>
+    <input type="text" name="infraccion" placeholder="Ingrese un numero de acta de Infraccion">
   </div>
 
 	<div class="row">
@@ -36,8 +34,6 @@
 
 
 </form>
-
-
 
 {% endblock %}
 

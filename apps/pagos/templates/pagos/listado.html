@@ -1,0 +1,35 @@
+{%extends 'lists.html'%}
+{% load actionButton %}
+{% load static semanticui %}
+{% load staticfiles %}
+{% block contentList %} 
+
+	<div class="row header-content">
+		<div class="titulo">
+			<h1 class="ui header blue">{{nombreForm}}</h1>
+		</div>
+	</div> 
+
+	{% for pago in pagos %}
+		<tr>
+			<td>{{pago.fecha}}</td>
+			<td>{{pago.monto}}</td>		
+			<td><div class="ui one cards">
+		  		<div class="card">
+		    		<div class="image">
+		      			<img src="{% static pago.documento.thumbnail %}">
+		    		</div>
+					<div class="content">
+		   				<div class="meta">
+	      					<span class="date">{{pago.documento.fecha}}</span>
+	    				</div>
+		    			<div class="description">{{pago.documento.descripcion}}
+		    			</div>
+		  			</div>
+				</div>
+				</div>
+			</td>
+		</tr>
+	{% endfor%}
+
+{% endblock %}

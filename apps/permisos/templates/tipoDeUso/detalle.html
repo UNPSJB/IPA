@@ -6,5 +6,6 @@
 	<p> Tipo de módulo: {{tipo.getTipoModuloString}}</p>
 	<p> Periodo: {{tipo.getPeriodoString}}</p>
 	<p> Medida: {{tipo.getMedidaString}}</p>
+	<p> documentos a presentar: <li>{{tipo.documentos.all | join:"<li>"  }} </p>
 
 {% endblock%}	
