@@ -33,6 +33,8 @@ class AltaSolicitud(View):
 		permiso_form = PermisoForm(request.POST)
 		solicitado_form = SolicitadoForm(request.POST)
 		if permiso_form.is_valid() and solicitado_form.is_valid():
+			permiso = permiso_form.save(commit=False)
+			permiso.fechaSolicitud = datetime.strptime(solicitado_form.data['fecha'], "%Y-%m-%d").date()
 			permiso = permiso_form.save()
 			solicitado = solicitado_form.save(commit=False)
 			solicitado.permiso = permiso

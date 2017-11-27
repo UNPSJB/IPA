@@ -14,7 +14,8 @@ class ListadoPermisos(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisos, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Listado de Permisos"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente', 'Estado', 'Acción', 'Detalle']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente', 
+		'Estado', 'Fecha de Solicitud', 'Fecha de Vencimiento', 'Acción', 'Detalle']
 		context['botones'] = {
 		'Solicitudes': reverse('solicitudes:listar'),
 		'Con Expedientes': reverse('permisos:listarPermisosCompletos'),
@@ -109,7 +110,6 @@ class DetallePermisoOtorgado(DetailView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(DetallePermisoOtorgado, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
-		context['fechaSolicitud'] = self.object.getEstados(1)[0].fecha
 		context['botones'] = {
 			'Nuevo Cobro': reverse('pagos:altaCobro', args=[self.permiso_pk]),
 			'Listado de Cobros': reverse('pagos:listarCobros', args=[self.permiso_pk]),

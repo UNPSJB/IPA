@@ -9,6 +9,8 @@
 		<td>{{permiso.tipo.descripcion}}</td>
 		<td>{{permiso.afluente.nombre}}</td>
 		<td>{{permiso.estado.getEstadoString}}</td>
+		<td>{{permiso.fechaSolicitud}}</td>
+		<td>{{permiso.fechaVencimiento}}</td>
 		<td><a class="negative ui button" href="{% url 'permisos:eliminar' permiso.id %}"> Eliminar</a></td>
 		<td class="text-center">	
 		<a class="ui icon button" href="{% url 'permisos:detalle' permiso.id %}"><i class="info circle icon"></i></a>
