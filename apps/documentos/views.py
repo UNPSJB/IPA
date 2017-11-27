@@ -265,7 +265,7 @@ class AgregarResolucion(CreateView):
 		lista_resoluciones_fecha = sorted(lista_resoluciones, key=attrgetter('fecha'), reverse=True)
 		
 		if len(lista_resoluciones_fecha) > 0:
-			ultimo_vencimiento_resolucion = lista_resoluciones_fecha[0].fechaVencimiento
+			ultimo_vencimiento_resolucion = lista_resoluciones_fecha[0].fecha
 			fecha_correcta = fechaResolucion > ultimo_vencimiento_resolucion
 		else:
 			fecha_correcta = fechaResolucion > permiso.estado().vencimientoPublicacion()
