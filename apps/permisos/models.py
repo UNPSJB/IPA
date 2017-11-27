@@ -265,10 +265,6 @@ class Publicado(Estado):
 	tiempo = models.PositiveIntegerField()
 
 	def resolver(self, usuario, fecha, unidad, resolucion, fechaPrimerCobro ,vencimiento):
-		#print(self.fecha)	
-		#print(timedelta(days=self.tiempo))
-		#print(self.fecha + timedelta(days=self.tiempo))
-		#print(fecha)
 
 		if self.fecha + timedelta(days=self.tiempo) < fecha:
 

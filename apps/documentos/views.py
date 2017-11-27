@@ -207,11 +207,23 @@ class AgregarEdicto(CreateView):
 		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
-		
-		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
-			edicto = form.save()
-			permiso.hacer('publicar',request.user,edicto.fecha, request.POST['tiempo'], edicto)
-			return HttpResponseRedirect(self.get_success_url())
+		documentos = permiso.documentos.all()
+		pase = [documento for documento in documentos if (documento.tipo.nombre == 'Pase')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		fecha_pase = pase[0].fecha
+
+		fechaEdicto=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+
+		tiempo = int(form.data['tiempo'])
+
+		if form.is_valid():
+			if (fechaEdicto > fecha_pase) and (tiempo > 0):
+				edicto = form.save()
+				permiso.hacer('publicar',request.user,edicto.fecha, tiempo, edicto)
+				return HttpResponseRedirect(self.get_success_url())
+			else:
+				return self.render_to_response(self.get_context_data(form=form, 
+					message = 'La fecha del Edicto debe ser posterior a la fecha del Expediente ('+(fecha_pase).strftime("%d-%m-%Y")+
+					') y el tiempo de publicación mayor a CERO'))
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarResolucion(CreateView):
