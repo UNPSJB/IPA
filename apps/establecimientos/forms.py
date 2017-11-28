@@ -28,8 +28,8 @@ class EstablecimientoForm(forms.ModelForm):
 
 		widgets = {
 			'duenio':forms.Select(attrs={'class':'form-control'}),
-			'codigoCatastral':forms.TextInput(attrs={'class':'form-control'}),
-			'superficie':forms.TextInput(attrs={'class':'form-control'}),
+			'codigoCatastral':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1'}),
+			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'step':'0.01', 'min':'1'}),
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),
 			'descripcion':forms.Textarea(attrs={'class':'form-control'}),
 			'localidad':forms.Select(attrs={'class':'form-control'}),
@@ -59,9 +59,9 @@ class AfluenteForm(forms.ModelForm):
 		widgets = {
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),
 			'localidad':forms.Select(attrs={'class':'form-control'}),
-			'caudal':forms.TextInput(attrs={'class':'form-control'}),
-			'longitud':forms.TextInput(attrs={'class':'form-control'}),
-			'superficie':forms.TextInput(attrs={'class':'form-control'}),
+			'caudal':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'1'}),
+			'longitud':forms.TextInput(attrs={'class':'form-control', 'type':'number','step':'0.01', 'min':'1'}),
+			'superficie':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'1'}),
 			'descripcion':forms.Textarea(attrs={'class':'form-control'}),
 		}
 
@@ -86,8 +86,8 @@ class DepartamentoForm(forms.ModelForm):
 
 		widgets = {
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),
-			'superficie':forms.TextInput(attrs={'class':'form-control'}),
-			'poblacion':forms.TextInput(attrs={'class':'form-control'}),
+			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1'}),
+			'poblacion':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'min':'1'}),
 			'descripcion':forms.Textarea(attrs={'class':'form-control'}),
 		}
 
@@ -109,7 +109,7 @@ class LocalidadForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'codpostal':forms.TextInput(attrs={'class':'form-control'}),
+			'codpostal':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'min':'1'}),
 			'nombre':forms.TextInput(attrs={'class':'form-control'}),
 			'departamento':forms.Select(attrs={'class':'form-control'}),
 		}
