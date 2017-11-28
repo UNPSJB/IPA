@@ -18,29 +18,6 @@ class TipoDocumentoForm(forms.ModelForm):
 	
 		}
 
-class DocumentoForm(forms.ModelForm):
-	class Meta:
-		model = Documento
-
-		fields = [
-				'tipo',
-				'descripcion',
-				'archivo',
-				'fecha',
-			]
-		labels = {
-				'tipo':'Tipo',
-				'descripcion':'Descripcion',
-				'archivo':'Archivo',
-				'fecha':'Fecha del Documento',
-		}
-
-		widgets = {
-				'tipo':forms.Select(attrs={'class':'form-control'}),
-				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-				'fecha': forms.DateInput(attrs={'type':'date'}),
-		}
-
 
 class DocumentoForm(forms.ModelForm):
 	class Meta:
