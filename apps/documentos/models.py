@@ -28,6 +28,7 @@ class TipoDocumento(models.Model):
 		ordering = ["-nombre"]
 		permissions = (
 			("cargar_acta_inspeccion", "Puede cargar actas de inspeccion"),
+
 		)
 
 	def save(self, *args, **kwargs):

@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy, reverse
 from .models import TipoDocumento, Documento
-from .forms import TipoDocumentoForm, DocumentoForm
+from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from django.views import View
 from apps.permisos.models import Permiso
@@ -143,7 +143,7 @@ class DeleteDocumento(DeleteView):
 
 class AgregarExpediente(CreateView):
 	model = Documento
-	form_class = DocumentoForm
+	form_class = DocumentoProtegidoForm
 	template_name = 'Documento/expediente.html'
 
 	def get_success_url(self):
@@ -168,14 +168,18 @@ class AgregarExpediente(CreateView):
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		
 		fechaExpediente=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		#Refactorizar a una funcion de modelo
 		lista_fechas = [documento.fecha for documento in permiso.documentos.all() if documento.fecha > fechaExpediente]
 		if len(lista_fechas) != 0:
 			lista_fechas.sort()
 			ultima_fecha = lista_fechas.pop()
-
+		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			if len(lista_fechas) == 0:
 				documento = form.save()
+				documento.tipo = TipoDocumento.get_protegido('pase')
+				documento.visado = True
+				documento.save()
 				permiso.hacer('completar',request.user,fechaExpediente, request.POST['expediente'], documento)
 				return HttpResponseRedirect(self.get_success_url())
 			else:
@@ -185,9 +189,10 @@ class AgregarExpediente(CreateView):
 
 class AgregarEdicto(CreateView):
 	model = Documento
-	form_class = DocumentoForm
+	form_class = DocumentoProtegidoForm
 	template_name = 'Documento/edicto.html'
 	
+
 	def get_success_url(self):
 		return reverse('permisos:detallePermisoPublicado', args=(self.permiso_pk, ))
 
@@ -201,6 +206,7 @@ class AgregarEdicto(CreateView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+
 		return super(AgregarEdicto, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
@@ -209,7 +215,7 @@ class AgregarEdicto(CreateView):
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		documentos = permiso.documentos.all()
-		pase = [documento for documento in documentos if (documento.tipo.nombre == 'PASE')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		pase = [documento for documento in documentos if (documento.tipo.slug == 'pase')] #FIXME: VA TIPO DEFINIDO PARA PASE
 		
 		fecha_pase = pase[0].fecha
 
@@ -220,6 +226,9 @@ class AgregarEdicto(CreateView):
 		if form.is_valid():
 			if (fechaEdicto > fecha_pase) and (tiempo > 0):
 				edicto = form.save()
+				edicto.tipo = TipoDocumento.get_protegido('edicto')
+				edicto.visado = True
+				edicto.save()
 				permiso.hacer('publicar',request.user,edicto.fecha, tiempo, edicto)
 				return HttpResponseRedirect(self.get_success_url())
 			else:
@@ -230,7 +239,7 @@ class AgregarEdicto(CreateView):
 
 class AgregarResolucion(CreateView):
 	model = Documento
-	form_class = DocumentoForm
+	form_class = DocumentoProtegidoForm
 	template_name = 'Documento/resolucion.html'
 
 	def get_success_url(self):
@@ -283,8 +292,14 @@ class AgregarResolucion(CreateView):
 		if form.is_valid():
 			if fechaCorrecta and (unidad > 0):
 				resolucion = form.save()
+				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
+				resolucion.visado = True
+				resolucion.save()
 				permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 				return HttpResponseRedirect(self.get_success_url())
+			elif (unidad <= 0) or (fechaVencimiento < fechaResolucion):
+				return self.render_to_response(self.get_context_data(form=form, 
+					message="La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución, y la Unidad mayor a CERO"))
 			else:
 				return self.render_to_response(self.get_context_data(form=form, messages=messages))
 		return self.render_to_response(self.get_context_data(form=form))
@@ -292,7 +307,7 @@ class AgregarResolucion(CreateView):
 
 class AgregarOposicion(CreateView):
 	model = Documento
-	form_class = DocumentoForm
+	form_class = DocumentoProtegidoForm
 	template_name = 'formsInput.html'
 	success_url = reverse_lazy('documentos:listar')
 
@@ -315,17 +330,19 @@ class AgregarOposicion(CreateView):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		
 		fechaVencimiento = permiso.estado().vencimientoPublicacion()
-
+		
 		if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
-			resolucion = form.save()
-			permiso.hacer('darDeBaja',request.user,date.today(), resolucion)
+			oposicion = form.save()
+			oposicion.tipo = TipoDocumento.get_protegido('oposicion')
+			oposicion.visado = True
+			permiso.hacer('darDeBaja',request.user,date.today(), oposicion)
 			return HttpResponseRedirect(self.get_success_url())
 
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarInfraccion(CreateView):
 	model = Documento
-	form_class = DocumentoForm
+	form_class = DocumentoProtegidoForm
 	template_name = 'Documento/infraccion.html'
 	success_url = reverse_lazy('documentos:listar')
 
@@ -348,6 +365,8 @@ class AgregarInfraccion(CreateView):
 		
 		if form.is_valid():
 			documento = form.save()
+			documento.tipo = TipoDocumento.get_protegido('infraccion')
+			documento.visado = True
 			permiso.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
 			return self.render_to_response(self.get_context_data(form=form))
