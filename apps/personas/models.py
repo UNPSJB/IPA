@@ -26,7 +26,7 @@ class Persona(models.Model):
 	numeroDocumento = models.CharField(max_length=13)
 	razonSocial = models.CharField(max_length=30, null=True, blank=True)
 	direccion = models.CharField(max_length=60)
-	telefono = models.IntegerField()
+	telefono = models.CharField(max_length=11)
 
 	def __str__(self):
 		return "{}, {}".format(self.apellido, self.nombre)
