@@ -4,7 +4,7 @@ from apps.personas.models import Persona
 # Create your models here.
 
 class Departamento(models.Model):
-	nombre = models.CharField(max_length = 50)
+	nombre = models.CharField(max_length = 50, unique=True)
 	superficie = models.CharField(max_length = 50)
 	poblacion = models.IntegerField()
 	descripcion = models.TextField()
@@ -14,9 +14,12 @@ class Departamento(models.Model):
 
 
 class Localidad(models.Model):
-	codpostal = models.IntegerField()
+	codpostal = models.IntegerField(unique=True)
 	nombre = models.CharField(max_length = 50)
 	departamento = models.ForeignKey(Departamento, null=False, blank=False)
+
+	class Meta:
+		ordering = ["nombre"]
 
 	def __str__(self):
 		return self.nombre
