@@ -297,9 +297,9 @@ class AgregarResolucion(CreateView):
 				resolucion.save()
 				permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 				return HttpResponseRedirect(self.get_success_url())
-			elif (unidad <= 0) or (fechaVencimiento < fechaResolucion):
+			elif (unidad <= 0) or fechaCorrecta:
 				return self.render_to_response(self.get_context_data(form=form, 
-					message="La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución, y la Unidad mayor a CERO"))
+					messages = messages))
 			else:
 				return self.render_to_response(self.get_context_data(form=form, messages=messages))
 		return self.render_to_response(self.get_context_data(form=form))

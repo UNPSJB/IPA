@@ -6,27 +6,24 @@ class ComisionForm(forms.ModelForm):
 		model = Comision
 
 		fields = [
-				'empleado',
-				'reclamos',
-				'departamento',
-				'localidad',
+				'empleados',
+				'documentos',
+				'localidades',
 				'fechaInicio',
 				'fechaFin',
 			]
 		labels = {
-				'empleado':'Empleado',
-				'reclamos':'Reclamos',
-				'departamento':'Departamento',
-				'localidad':'Localidad',
+				'empleados':'Empleados',
+				'documentos':'Documentos',
+				'localidades':'Localidades',
 				'fechaInicio':'Fecha de inicio',
 				'fechaFin':'Fecha de finalizacion',
 		}
 
 		widgets = {
-			'empleado':forms.Select(attrs={'class':'form-control'}),
-			'reclamos':forms.Select(attrs={'class':'form-control'}),
-			'departamento':forms.Select(attrs={'class':'form-control'}),
-			'localidad':forms.Select(attrs={'class':'form-control'}),
-			'fechaInicio':forms.TextInput(attrs={'class':'form-control'}),
-			'fechaFin':forms.TextInput(attrs={'class':'form-control'}),
+			'empleado':forms.SelectMultiple(attrs={'class':'form-control', 'min':'1', 'max':'3'}),
+			'documentos':forms.SelectMultiple(attrs={'class':'form-control'}),
+			'localidades':forms.SelectMultiple(attrs={'class':'form-control'}),
+			'fechaInicio':forms.DateInput(attrs={'type':'date'}),
+			'fechaFin':forms.DateInput(attrs={'type':'date'}),
 		}
