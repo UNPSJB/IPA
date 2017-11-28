@@ -21,7 +21,7 @@ class ComisionForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'empleado':forms.SelectMultiple(attrs={'class':'form-control', 'min':'1', 'max':'3'}),
+			'empleados':forms.SelectMultiple(attrs={'class':'form-control'}),
 			'documentos':forms.SelectMultiple(attrs={'class':'form-control'}),
 			'localidades':forms.SelectMultiple(attrs={'class':'form-control'}),
 			'fechaInicio':forms.DateInput(attrs={'type':'date'}),

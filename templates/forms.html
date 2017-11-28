@@ -18,6 +18,8 @@
   {% csrf_token %}
   {% render_form form %}
 
+<div class="ui error message">
+</div>
 	<div class="row">
 		<div class="col-lg-12 text-right">
 		{% if not object %}
@@ -30,7 +32,6 @@
 
 
 </form>
-
 {% endblock %}
 
 {% block secondaryMenu %}

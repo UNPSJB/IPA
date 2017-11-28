@@ -8,7 +8,7 @@ from django.views.generic import ListView,CreateView,DeleteView,DetailView,Updat
 class AltaComision(CreateView):
 	model = Comision
 	form_class = ComisionForm
-	template_name = 'forms.html'
+	template_name = 'comision/forms.html'
 	success_url = reverse_lazy('comisiones:listar')
 
 	def get_context_data(self, **kwargs):
