@@ -209,7 +209,7 @@ class AgregarEdicto(CreateView):
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		documentos = permiso.documentos.all()
-		pase = [documento for documento in documentos if (documento.tipo.nombre == 'Pase')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		pase = [documento for documento in documentos if (documento.tipo.nombre == 'PASE')] #FIXME: VA TIPO DEFINIDO PARA PASE
 		
 		fecha_pase = pase[0].fecha
 
@@ -261,26 +261,32 @@ class AgregarResolucion(CreateView):
 		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
 		unidad = int(request.POST['unidad'])
 
-		lista_resoluciones = [documento for documento in documentos if (documento.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
-		lista_resoluciones_fecha = sorted(lista_resoluciones, key=attrgetter('fecha'), reverse=True)
+		listaResoluciones = [documento for documento in documentos if (documento.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		listaResolucionesFecha = sorted(listaResoluciones, key=attrgetter('fecha'), reverse=True)
 		
-		if len(lista_resoluciones_fecha) > 0:
-			ultimo_vencimiento_resolucion = lista_resoluciones_fecha[0].fecha
-			fecha_correcta = fechaResolucion > ultimo_vencimiento_resolucion
-		else:
-			fecha_correcta = fechaResolucion > permiso.estado().vencimientoPublicacion()
 
+		if len(listaResolucionesFecha) > 0:
+			ultimoVencimientoResolucion = listaResolucionesFecha[0].fecha
+			fechaCorrecta = fechaResolucion >= ultimoVencimientoResolucion
+		else:
+			vencimientoPublicacion = permiso.estado().vencimientoPublicacion()
+			fechaCorrecta = fechaResolucion > vencimientoPublicacion
+
+		fechaCorrecta = fechaCorrecta and (fechaVencimiento >= fechaResolucion) and (fechaResolucion <= date.today())
+
+		messages = []
+		messages = ['La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion, y menor o igual a la fecha actual',
+		'La Fecha de Resolucion debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (si la hubiera)',
+		'La Fecha de Vencimiento debe ser mayor o igual a la Fecha de la Resolución',
+		'La Unidad mayor a CERO']
+		
 		if form.is_valid():
-			if fecha_correcta and (unidad > 0) and (fechaVencimiento > fechaResolucion):
+			if fechaCorrecta and (unidad > 0):
 				resolucion = form.save()
 				permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 				return HttpResponseRedirect(self.get_success_url())
-			elif (unidad <= 0) or (fechaVencimiento < fechaResolucion):
-				return self.render_to_response(self.get_context_data(form=form, 
-					message="La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución, y la Unidad mayor a CERO"))
 			else:
-				return self.render_to_response(self.get_context_data(form=form, 
-					message="La Fecha de la Resolucion debe ser mayor a la Fecha de Vencimiento de la Ultima Resolución cargada (" +  (ultimo_vencimiento_resolucion).strftime("%d-%m-%Y") + ")"))
+				return self.render_to_response(self.get_context_data(form=form, messages=messages))
 		return self.render_to_response(self.get_context_data(form=form))
 
 

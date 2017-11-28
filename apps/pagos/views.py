@@ -4,12 +4,13 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from .models import ValorDeModulo, Cobro, Pago
 from django.http import HttpResponseRedirect
-from .forms import RegistrarValorDeModuloForm, PagoForm
+from .forms import RegistrarValorDeModuloForm
 from apps.documentos.forms import DocumentoForm
 from django.views.generic import ListView,CreateView,DeleteView
 from apps.permisos.models import Permiso
-from datetime import date
+from datetime import date, datetime
 
+from django.shortcuts import redirect
 
 class AltaValorDeModulo(CreateView):
 	model = ValorDeModulo
@@ -106,10 +107,10 @@ class ListarCobros(ListView):
 class AltaPago(CreateView):
 	model = Pago
 	form_class = DocumentoForm
-	second_form_class = PagoForm
 	template_name = 'pagos/alta.html'
-	success_url = reverse_lazy('pagos:listarModulos')
 
+	def get_success_url(self):
+		return reverse('permisos:detallePermisoOtorgado', args=(self.permiso_pk, ))
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaPago, self).get_context_data(**kwargs)
@@ -119,14 +120,13 @@ class AltaPago(CreateView):
 			'Listado':reverse('tipoDocumentos:listar'),
 			}
 		context['form'] = self.form_class()
-		context['form2'] = self.second_form_class()
 		return context
 
 	def get(self, request, *args, **kwargs):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		documento_form = self.form_class()
-		pago_form = self.second_form_class()
-		return render(request, self.template_name, {'form':documento_form,'form2':pago_form, 
+		documento_form.fields['fecha'].label = 'Fecha de Pago'
+		return render(request, self.template_name, {'form':documento_form, 
 			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
 			'permiso': permiso, 'nombreForm':"Alta Pago"})
 
@@ -135,16 +135,25 @@ class AltaPago(CreateView):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 
 		documento_form = DocumentoForm(request.POST, request.FILES)
-		pago_form = PagoForm(request.POST)
-		
-		if documento_form.is_valid() and pago_form.is_valid():
-			documento = documento_form.save()
-			pago = pago_form.save(commit=False)
-			pago.documento = documento
-			pago.permiso = permiso
-			pago.save()
-			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
-		return render(request, self.template_name, {'form':documento_form,'form2':pago_form, 'botones':'', 'permiso': permiso})
+		documentos = permiso.documentos.all()
+
+		monto = float(request.POST['monto'])
+		fecha_de_pago = datetime.strptime(documento_form.data['fecha'], "%Y-%m-%d").date()
+		lista_resoluciones = [doc for doc in documentos if (doc.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		fecha_primer_resolucion = lista_resoluciones[0].fecha
+
+		if documento_form.is_valid():
+			if (monto > 0) and (fecha_de_pago > fecha_primer_resolucion) and (fecha_de_pago <= date.today()):
+				raise Exception
+				documento = documento_form.save()
+				pago = Pago(permiso=permiso, monto=monto, documento=documento, fecha=fecha_de_pago)
+				pago.save()
+				return HttpResponseRedirect(self.get_success_url())
+			else:
+				return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso, message = 'La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
+				+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')'))
+		raise Exception
+		return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso))
 
 class ListarPagos(ListView):
 	model = Pago

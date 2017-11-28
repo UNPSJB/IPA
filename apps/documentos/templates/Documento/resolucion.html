@@ -11,8 +11,16 @@
 	</div>
 </div>
 
-	{% if message %}
-		<p style='color:red'>{{ message }}</p>
+	{% if messages %}
+		<div class="ui error message">
+		  <i class="close icon"></i>
+		  <div class="header">Errores en la carga de la Resolución</div>
+		  <ul class="list">
+			{% for message in messages %}
+		    	<li> {{ message }}</li>
+			{% endfor %}
+		  </ul>
+		</div>
 	{% endif %}
 
 <form class="ui large form" action="{{ form.url_post }}" method="POST" enctype="multipart/form-data">
@@ -43,8 +51,6 @@
 		</div>
 	</div>
 	
-
-
 </form>
 
 {% endblock %}
