@@ -61,7 +61,7 @@ class DetalleSolicitud(DetailView):
 			'Ver Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
-			'Agregar Infracción': reverse('documentos:agregarInfraccion', args=[self.object.pk]),
+			#'Agregar Infracción': reverse('documentos:agregarInfraccion', args=[self.object.pk]),
 			'Salir':reverse('index')
 		}
 		return context
