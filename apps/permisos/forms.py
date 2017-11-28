@@ -49,7 +49,7 @@ class TipoDeUsoForm(forms.ModelForm):
 
 		widgets = {
 			'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-			'coeficiente':forms.TextInput(attrs={'class':'form-control'}),
+			'coeficiente':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'1'}),
 			'periodo':forms.Select(attrs={'class':'form-control'}),
 			'medida':forms.Select(attrs={'class':'form-control'}),
 			'tipo_modulo':forms.Select(attrs={'class':'form-control'}),
