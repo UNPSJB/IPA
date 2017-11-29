@@ -59,7 +59,7 @@ class DetalleSolicitud(DetailView):
 		context['botones'] = {
 			'Listado': reverse('solicitudes:listar'),
 			'Ver Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
-			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
+			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
 			#'Agregar Infracción': reverse('documentos:agregarInfraccion', args=[self.object.pk]),
 			'Salir':reverse('index')
@@ -90,7 +90,8 @@ class ListadoSolicitudes(ListView):
 		context['nombreReverse'] = "solicitudes"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
-		'Alta': reverse('solicitudes:alta'),
+
+		'Nuevo': reverse('solicitudes:alta'),
 		'Volver a Listado de Permisos': reverse('permisos:listar')}
 		return context
 

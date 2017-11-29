@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy, reverse
 from .models import TipoDocumento, Documento
-from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm
+from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, DocumentoActaProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from django.views import View
 from apps.permisos.models import Permiso
@@ -370,3 +370,40 @@ class AgregarInfraccion(CreateView):
 			permiso.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
 			return self.render_to_response(self.get_context_data(form=form))
+
+class AltaActaDeInspeccion(CreateView):
+	model = Documento
+	form_class = DocumentoActaProtegidoForm
+	template_name = 'Acta/actaInspeccion.html'
+	success_url = reverse_lazy('comisiones:listar')
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AltaActaDeInspeccion, self).get(request,*args,**kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(AltaActaDeInspeccion, self).get_context_data(**kwargs)
+		context['botones'] = {
+			'Listado Comisiones': reverse('comisiones:listar'),
+			'Nuevo Empleado': reverse('personas:alta'),
+			'Nueva Localidad': reverse('localidades:alta'),
+			'Nuevo Departamento': reverse('departamentos:alta'),
+			'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+			}
+		context['nombreForm'] = 'Nueva Acta de Inspección'
+		return context
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
+		form = self.form_class(request.POST, request.FILES)
+		permiso = Permiso.objects.get(pk=self.permiso_pk)
+
+		if form.is_valid():
+			documento = form.save(commit=False)
+			documento.tipo = TipoDocumento.get_protegido('acta-de-inspeccion')
+			documento.visado = True
+			documento = form.save()
+			permiso.agregar_documentacion(documento)
+			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
+		return self.render_to_response(self.get_context_data(form=form))

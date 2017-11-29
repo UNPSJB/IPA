@@ -1,7 +1,19 @@
 {% extends 'detail.html' %}
 
-{% block detailBlock %}
-	<p>Empleados: {{comision.empleado}}</p>
-	<p>Departamento: {{comision.departamento}}</p>
-	<p>Localidad: {{comision.localidad}}</p>
+{% block detailblock %}
+
+	<p>Empleados:</p>
+	<ul>
+		{% for empleado in comision.empleados.all %}
+			<li>{{empleado}}</li>
+		{% endfor %}
+	</ul>
+	<p>Localidades:</p>
+	<ul>
+		{% for localidad in comision.localidades.all %}
+			<li>{{localidad}}</li>
+		{% endfor %}
+	</ul>
+	<p>Fecha de Inicio de Comision: {{ comision.fechaInicio }}</p>
+	<p>Fecha de Cierre de Comision: {{ comision.fechaFin }}</p>
 {% endblock%}

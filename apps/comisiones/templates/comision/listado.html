@@ -1,4 +1,6 @@
-{% extends 'lists.html' %}
+ {% extends 'lists.html' %}
+{% load actionButton %}
+
 {% block contentList%} 
 
 {% for comision in comisiones %}
@@ -6,7 +8,7 @@
 		<td>{{comision.empleado}}</td>
 		<td>{{comision.fechaInicio}}</td>
 		<td>{{comision.fechaFin }}</td>
-		{% include 'formButtons.html' %}
+    	{%renderActionButton comision.id %}
 		
 	</tr>
 {% endfor%}
