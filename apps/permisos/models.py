@@ -213,7 +213,9 @@ class Estado(models.Model):
 
 class Solicitado(Estado):
 	TIPO = 1
-	utilizando = models.BooleanField(default=False)
+	utilizando = models.BooleanField(
+			help_text="Indica si el Solicitante esta utilizando actualmente el recurso hidrico",
+			default=False)
 	oficio = models.BooleanField(
 			help_text="Indica si el permiso se inicia por una solicitud formal (solicitud) o una inspeccion (de oficio)",
 			default=False)

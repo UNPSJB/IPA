@@ -27,12 +27,12 @@ class EstablecimientoForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'duenio':forms.Select(attrs={'class':'form-control'}),
-			'codigoCatastral':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1'}),
-			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'step':'0.01', 'min':'1'}),
-			'nombre':forms.TextInput(attrs={'class':'form-control'}),
+			'duenio':forms.Select(attrs={'class':'form-control', 'placeholder':'Dueño del establecimiento'}),
+			'codigoCatastral':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1', 'placeholder':'Codigo Catastral'}),
+			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'step':'0.01', 'min':'1', 'placeholder':'Superficie'}),
+			'nombre':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre del establecimiento'}),
 			'descripcion':forms.Textarea(attrs={'class':'form-control'}),
-			'localidad':forms.Select(attrs={'class':'form-control'}),
+			'localidad':forms.Select(attrs={'class':'form-control', 'placeholder':'Localidad'}),
 		}
 
 class AfluenteForm(forms.ModelForm):
@@ -57,11 +57,11 @@ class AfluenteForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'nombre':forms.TextInput(attrs={'class':'form-control'}),
-			'localidad':forms.Select(attrs={'class':'form-control'}),
-			'caudal':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'1'}),
-			'longitud':forms.TextInput(attrs={'class':'form-control', 'type':'number','step':'0.01', 'min':'1'}),
-			'superficie':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'1'}),
+			'nombre':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre'}),
+			'localidad':forms.Select(attrs={'class':'form-control', 'placeholder':'Localidad'}),
+			'caudal':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'1', 'placeholder':'Caudal (en metros cubicos)'}),
+			'longitud':forms.TextInput(attrs={'class':'form-control', 'type':'number','step':'0.01', 'min':'1', 'placeholder':'Longitud (en metros cuadrados)'}),
+			'superficie':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'1', 'placeholder':'Superficie'}),
 			'descripcion':forms.Textarea(attrs={'class':'form-control'}),
 		}
 
@@ -85,9 +85,9 @@ class DepartamentoForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'nombre':forms.TextInput(attrs={'class':'form-control'}),
-			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1'}),
-			'poblacion':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'min':'1'}),
+			'nombre':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre'}),
+			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1', 'placeholder':'Superficie (en metros cuadrados)'}),
+			'poblacion':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'min':'1', 'placeholder':'Cantidad de habitantes'}),
 			'descripcion':forms.Textarea(attrs={'class':'form-control'}),
 		}
 
@@ -109,7 +109,7 @@ class LocalidadForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'codpostal':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'min':'1'}),
-			'nombre':forms.TextInput(attrs={'class':'form-control'}),
-			'departamento':forms.Select(attrs={'class':'form-control'}),
+			'codpostal':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'min':'1', 'placeholder':'Codigo Postal'}),
+			'nombre':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre'}),
+			'departamento':forms.Select(attrs={'class':'form-control', 'placeholder':'Departamento'}),
 		}

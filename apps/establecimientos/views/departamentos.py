@@ -33,8 +33,8 @@ class DetalleDepartamento(DetailView):
 		context['botones'] = {
 			'Listado': reverse('departamentos:listar'),
 			'Nuevo Departamento': reverse('departamentos:alta'),
-			'Eliminar Departamento': reverse('departamentos:eliminar', args=[self.object.id]),
 			'Modificar Departamento': reverse('departamentos:modificar', args=[self.object.id]),
+			'Eliminar Departamento': reverse('departamentos:eliminar', args=[self.object.id]),
 			'Salir': reverse('index')
 		}
 		return context
@@ -73,15 +73,11 @@ class ModificarDepartamento(UpdateView):
 		else:
 			return HttpResponseRedirect(self.get_success_url())
 
-		return context
-
 	def get_context_data(self, **kwargs):
 		context = super(ModificarDepartamento, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar Tipo de Uso"
+		context['nombreForm'] = "Modificar Departamento"
 		context['botones'] = {
-			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
-			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
-			'Listado': reverse('tiposDeUso:listar')
+			'Listado': reverse('departamentos:listar')
 			}
 		return context
 
