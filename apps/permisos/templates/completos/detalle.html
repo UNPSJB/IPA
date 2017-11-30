@@ -1,20 +1,56 @@
 {% extends 'detail.html' %}
 
 {% block detailblock %}
-	<p>Nombre del solicitante: {{permiso.solicitante}} </p>
-	<p>Establecimiento: {{permiso.establecimiento}}</p>
-	<p>Tipo de uso: {{permiso.tipo}}</p>
-	<p>Afluente: {{permiso.afluente}} </p>
-	<p>Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}}</p>
-	<p>Fecha de Expediente: {{permiso.estado.fecha}}</p>
-	<p>Numero de Expediente: {{permiso.numero_exp}}</p>
-	<p>Observación: {{permiso.estado.observacion}}</p>
-	<p>Usuario: {{permiso.estado.usuario}}</p>
-	
-	<p>Utilizando: {% if utilizando %}Si{% else %}No{% endif %}</p>
+	 <table class="ui definition table">
+ 		 <tbody>
+    		<tr>
+      			<td class="two wide column">Nombre del solicitante</td>
+      			<td>{{permiso.solicitante}}</td>
+    		</tr>
+    		<tr>
+      			<td>Establecimiento</td>
+      			<td>{{permiso.establecimiento}}</td>
+    		</tr>
+    		<tr>
+      			<td>Tipo de uso</td>
+      			<td>{{permiso.tipo}}</td>
+    		</tr>
+    		<tr>
+      			<td>Afluente</td>
+      			<td>{{permiso.afluente}}</td>
+    		</tr>
+    		<tr>
+      			<td>Fecha de Solicitud de Permiso</td>
+      			<td>{{permiso.fechaSolicitud}}</td>
+    		</tr>
 
-	<p> Obtenido en oficina: {% if not oficio %}Si{% else %}No{% endif %}</p>
-	
+    		<tr>
+      			<td>Fecha de Expediente</td>
+      			<td>{{permiso.numero_exp}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Observacion</td>
+      			<td>{{permiso.estado.observacion}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Usuario</td>
+      			<td>{{permiso.estado.usuario}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Utilizando</td>
+      			<td>{% if utilizando %}Si{% else %}No{% endif %}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Obtenido en oficina</td>
+      			<td>{% if not oficio %}Si{% else %}No{% endif %}</td>
+    		</tr>
+
+  		</tbody>
+	</table>
 
 	<p> Este Permiso no tiene Edicto.</p>
 		<a href="{% url 'documentos:agregarEdicto' permiso.id %}" class="ui button"> Agregar Edicto.</a> 
