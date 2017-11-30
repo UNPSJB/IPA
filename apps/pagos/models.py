@@ -9,6 +9,15 @@ class Pago(models.Model):
 	monto = models.DecimalField(max_digits = 10, decimal_places = 2)
 	documento = models.ForeignKey(Documento, blank=False, null=False)
 	fecha = models.DateField()
+	es_por_canon = models.BooleanField(default=True)
+
+	@classmethod
+	def getPagosCanon(Klass):
+		return Pago.objects.all().filter(es_por_canon=True)
+
+	@classmethod
+	def getPagosInfraccion(Klass):
+		return Pago.objects.all().filter(es_por_canon=False)
 
 #ipa registra el cobro
 class Cobro(models.Model):

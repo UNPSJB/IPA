@@ -372,36 +372,50 @@ class AgregarOposicion(CreateView):
 
 		return self.render_to_response(self.get_context_data(form=form))
 
-class AgregarInfraccion(CreateView):
+class AltaActaDeInfraccion(CreateView):
 	model = Documento
-	form_class = DocumentoProtegidoForm
-	template_name = 'Documento/infraccion.html'
-	success_url = reverse_lazy('documentos:listar')
+	form_class = DocumentoActaInspeccionProtegidoForm
+	template_name = 'Acta/actaInspeccion.html'
+	success_url = reverse_lazy('comisiones:listar')
 
-	def get_context_data(self, *args, **kwargs):
-		context = super(AgregarInfraccion, self).get_context_data(**kwargs)
+	def get_context_data(self, **kwargs):
+		context = super(AltaActaDeInfraccion, self).get_context_data(**kwargs)
 		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
-		}
-		context['nombreForm'] = 'Acta de Infraccion'
+			'Listado Comisiones': reverse('comisiones:listar'),
+			'Volver al permiso': reverse('permisos:detalle', args=[self.permiso_pk])
+			}
+		context['nombreForm'] = 'Nueva Acta de Infraccion'
 		return context
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
-		return super(AgregarInfraccion, self).get(request,*args,**kwargs)
+		return super(AltaActaDeInfraccion, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		
-		if form.is_valid():
-			documento = form.save()
-			documento.tipo = TipoDocumento.get_protegido('infraccion')
+		permiso = Permiso.objects.get(pk=self.permiso_pk)
+
+		comision_pk = (int(form.data['comision']))
+		comision = Comision.objects.get(pk=comision_pk)
+		fechaSolicitud = permiso.fechaSolicitud
+		fechaSolicitudString = fechaSolicitud.strftime("%d-%m-%Y")
+		fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		fechaCorrecta = ( fechaActa >= fechaSolicitud) and (fechaActa <= date.today()) and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
+
+		if form.is_valid() and fechaCorrecta:
+			documento = form.save(commit=False)
+			documento.tipo = TipoDocumento.get_protegido('acta-de-infraccion')
 			documento.visado = True
+			documento = form.save()
 			permiso.agregar_documentacion(documento)
+			comision.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
-			return self.render_to_response(self.get_context_data(form=form))
+		messages = []
+		messages = ['La fecha del acta de infraccion debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
+		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']
+		return self.render_to_response(self.get_context_data(form=form, messages=messages))
 
 class AltaActaDeInspeccion(CreateView):
 	model = Documento
@@ -417,9 +431,6 @@ class AltaActaDeInspeccion(CreateView):
 		context = super(AltaActaDeInspeccion, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Listado Comisiones': reverse('comisiones:listar'),
-			'Nuevo Empleado': reverse('personas:alta'),
-			'Nueva Localidad': reverse('localidades:alta'),
-			'Nuevo Departamento': reverse('departamentos:alta'),
 			'Volver al permiso': reverse('permisos:detalle', args=[self.permiso_pk])
 			}
 		context['nombreForm'] = 'Nueva Acta de Inspección'
@@ -434,7 +445,12 @@ class AltaActaDeInspeccion(CreateView):
 		comision_pk = (int(form.data['comision']))
 		comision = Comision.objects.get(pk=comision_pk)
 
-		if form.is_valid():
+		fechaSolicitud = permiso.fechaSolicitud
+		fechaSolicitudString = fechaSolicitud.strftime("%d-%m-%Y")
+		fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		fechaCorrecta = ( fechaActa >= fechaSolicitud) and (fechaActa <= date.today()) and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
+
+		if form.is_valid() and fechaCorrecta:
 			documento = form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('acta-de-inspeccion')
 			documento.visado = True
@@ -442,4 +458,7 @@ class AltaActaDeInspeccion(CreateView):
 			permiso.agregar_documentacion(documento)
 			comision.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
-		return self.render_to_response(self.get_context_data(form=form))
+		messages = []
+		messages = ['La fecha del acta de Inspección debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
+		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']
+		return self.render_to_response(self.get_context_data(form=form, messages=messages))

@@ -1,5 +1,5 @@
 from django import forms
-from .models import ValorDeModulo
+from .models import ValorDeModulo, Pago
 
 class RegistrarValorDeModuloForm(forms.ModelForm):
 	class Meta:

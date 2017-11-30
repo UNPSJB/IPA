@@ -157,7 +157,6 @@ class AltaPago(CreateView):
 			else:
 				return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso, message = 'La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
 				+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')'))
-		raise Exception
 		return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso))
 
 class ListarPagos(ListView):
@@ -169,9 +168,6 @@ class ListarPagos(ListView):
 		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		return super(ListarPagos,self).get(request, *args, **kwargs)
 
-	def get_queryset(self):
-		return self.permiso.pagos.all()
-
 	def get_context_data(self, **kwargs):
 		context = super(ListarPagos, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Listado de Pagos"
@@ -179,6 +175,8 @@ class ListarPagos(ListView):
 		context['botones'] = {
 			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
 			}
+		context['pagosCanon'] = Pago.getPagosCanon()
+		context['pagosInfraccion'] = Pago.getPagosInfraccion()
 		return context
 
 
@@ -257,3 +255,50 @@ class AltaCobroInfraccion(CreateView):
 		return render(request, self.template_name, {'form':documento_form, 'permiso': permiso, 'botones':''})
 
 
+class AltaPagoInfraccion(CreateView):
+	model = Pago
+	form_class = DocumentoProtegidoForm
+	template_name = 'pagos/infraccion.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(AltaPagoInfraccion, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Nuevo Pago de Infraccion"
+		context['headers'] = ['']
+		context['botones'] = {
+			'Listado':reverse('tipoDocumentos:listar'),
+			}
+		context['form'] = self.form_class()
+		return context
+
+	def get(self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		documento_form = self.form_class()
+		documento_form.fields['fecha'].label = 'Fecha de Pago'
+		return render(request, self.template_name, {'form':documento_form, 
+			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
+			'permiso': permiso, 'nombreForm':"Nuevo Pago de Infraccion"})
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+
+		documento_form = self.form_class(request.POST, request.FILES)
+
+		monto = float(request.POST['monto'])
+		fecha_de_pago = datetime.strptime(documento_form.data['fecha'], "%Y-%m-%d").date()
+		fechaSolicitud = permiso.fechaSolicitud
+
+		if documento_form.is_valid():
+			if (monto > 0) and (fecha_de_pago >= fechaSolicitud) and (fecha_de_pago <= date.today()):
+				documento = documento_form.save(commit=False)
+				documento.tipo = TipoDocumento.get_protegido('pago-infraccion')
+				documento.visado = True
+				documento.save()
+				pago = Pago(permiso=permiso, monto=monto, documento=documento, fecha=fecha_de_pago, es_por_canon=False)
+				pago.save()
+				return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id,]))
+			else:
+				return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso, message = 'La fecha de Pago debe ser mayor o igual a la fecha de Solicitud de permiso y menor o igual a la fecha actual ('
+				+ (fechaSolicitud).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')'))
+		return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso))

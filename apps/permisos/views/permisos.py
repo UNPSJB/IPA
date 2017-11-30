@@ -54,7 +54,8 @@ class DetallePermisoCompleto(DetailView):
 		context = super(DetallePermisoCompleto, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Completo'
 		context['botones'] = {
-			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.object.pk]),
+			'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
+			'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
 			'Listado Permisos Completos': reverse('permisos:listarPermisosCompletos'),
 			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
@@ -85,7 +86,8 @@ class DetallePermisoPublicado(DetailView):
 		context = super(DetallePermisoPublicado, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Publicado'
 		context['botones'] = {
-			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.object.pk]),
+			'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
+			'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
 			'Listado Permisos Publicados': reverse('permisos:listarPermisosPublicados'),
 			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
@@ -114,11 +116,13 @@ class DetallePermisoOtorgado(DetailView):
 		context = super(DetallePermisoOtorgado, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
 		context['botones'] = {
-			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.permiso_pk]),
+			'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
+			'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
 			'Nuevo Cobro de Infraccion': reverse('pagos:altaCobroInfraccion', args=[self.permiso_pk,]),
 			'Nuevo Cobro de Canon': reverse('pagos:altaCobro', args=[self.permiso_pk]),
 			'Listado de Cobros': reverse('pagos:listarCobros', args=[self.permiso_pk]),
-			'Nuevo Pago': reverse('pagos:altaPago', args=[self.permiso_pk]),
+			'Nuevo Pago de Infraccion': reverse('pagos:AltaPagoInfraccion', args=[self.permiso_pk]),
+			'Nuevo Pago de Canon': reverse('pagos:altaPago', args=[self.permiso_pk]),
 			'Listado de Pagos': reverse('pagos:listarPagos', args=[self.permiso_pk]),
 			'Listado Permisos Otorgados': reverse('permisos:listarPermisosOtorgados'),
 			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
@@ -153,7 +157,8 @@ class DetallePermisoDeBaja(DetailView):
 		context = super(DetallePermisoDeBaja, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso dado de Baja'
 		context['botones'] = {
-			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.object.pk]),
+			'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
+			'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
 			'Volver a Lista de Permisos dados de Baja': reverse('permisos:listarPermisosDeBaja'),
 			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),

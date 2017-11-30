@@ -12,7 +12,7 @@
 	    <div class="image">
 	      <img src="{% static documento.thumbnail %}">
 	    </div>
-	    {%if not documento.protegido%}
+	    {%if not documento.tipo.protegido%}
 	    <div class="extra">Visado<i class="circle icon" style="color:
 	    {%if documento.visado%}green{%else%}red{%endif%}
 	    "></i></div>
