@@ -282,7 +282,7 @@ class Publicado(Estado):
 			if self.permiso.getEstados(1)[0].utilizando:
 				modulos = ValorDeModulo.objects.filter(fecha__lte=fecha, modulo=self.permiso.tipo.tipo_modulo)
 				if not modulos.exists():
-					raise Exception("con que?")
+					raise Exception('No existe el valor de modulo')
 				precio = modulos.latest().precio
 				monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, fechaPrimerCobro, fecha)
 				cobro = Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha_hasta=fecha)

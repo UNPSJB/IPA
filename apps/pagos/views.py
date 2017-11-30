@@ -5,11 +5,11 @@ from django.urls import reverse_lazy, reverse
 from .models import ValorDeModulo, Cobro, Pago
 from django.http import HttpResponseRedirect
 from .forms import RegistrarValorDeModuloForm
-from apps.documentos.forms import DocumentoForm
+from apps.documentos.forms import DocumentoForm, DocumentoProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView
 from apps.permisos.models import Permiso
 from datetime import date, datetime
-
+from apps.documentos.models import TipoDocumento
 from django.shortcuts import redirect
 
 class AltaValorDeModulo(CreateView):
@@ -49,6 +49,7 @@ class EliminarValorDeModulo(DeleteView):
 
 class AltaCobro(CreateView):
 	model = Cobro
+	form_class = DocumentoProtegidoForm
 	template_name = 'cobros/detalle.html'
 	success_url = reverse_lazy('pagos:listarModulos')
 
@@ -63,22 +64,24 @@ class AltaCobro(CreateView):
 
 	def get(self, request, *args, **kwargs):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		documento_form = DocumentoForm()
 		cobro = permiso.estado().recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
-		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 
+		return render(request, self.template_name, {'form':self.form_class(), 'cobro': cobro, 
 			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
 			'permiso': permiso, 'nombreForm':"Alta Cobro"})
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-
-		documento_form = DocumentoForm(request.POST, request.FILES)
+		documento_form = self.form_class(request.POST, request.FILES)
 
 		if documento_form.is_valid():
-			documento = documento_form.save()
+			documento = documento_form.save(commit=False)
+			documento.tipo = TipoDocumento.get_protegido('cobro')
+			documento.visado = True
+			documento.save()
 			cobro = permiso.estado().recalcular(request.user, documento, date.today(), permiso.unidad)
 			cobro.save()
+
 			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
 		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
 
@@ -106,11 +109,8 @@ class ListarCobros(ListView):
 
 class AltaPago(CreateView):
 	model = Pago
-	form_class = DocumentoForm
+	form_class = DocumentoProtegidoForm
 	template_name = 'pagos/alta.html'
-
-	def get_success_url(self):
-		return reverse('permisos:detallePermisoOtorgado', args=(self.permiso_pk, ))
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaPago, self).get_context_data(**kwargs)
@@ -123,6 +123,7 @@ class AltaPago(CreateView):
 		return context
 
 	def get(self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		documento_form = self.form_class()
 		documento_form.fields['fecha'].label = 'Fecha de Pago'
@@ -134,21 +135,23 @@ class AltaPago(CreateView):
 		self.object = self.get_object
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 
-		documento_form = DocumentoForm(request.POST, request.FILES)
+		documento_form = self.form_class(request.POST, request.FILES)
 		documentos = permiso.documentos.all()
 
 		monto = float(request.POST['monto'])
 		fecha_de_pago = datetime.strptime(documento_form.data['fecha'], "%Y-%m-%d").date()
-		lista_resoluciones = [doc for doc in documentos if (doc.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		lista_resoluciones = [doc for doc in documentos if (doc.tipo.nombre == 'Resolución')] #FIXME: VA TIPO DEFINIDO PARA PASE
 		fecha_primer_resolucion = lista_resoluciones[0].fecha
 
 		if documento_form.is_valid():
 			if (monto > 0) and (fecha_de_pago > fecha_primer_resolucion) and (fecha_de_pago <= date.today()):
-				raise Exception
-				documento = documento_form.save()
+				documento = documento_form.save(commit=False)
+				documento.tipo = TipoDocumento.get_protegido('pago')
+				documento.visado = True
+				documento.save()
 				pago = Pago(permiso=permiso, monto=monto, documento=documento, fecha=fecha_de_pago)
 				pago.save()
-				return HttpResponseRedirect(self.get_success_url())
+				return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id,]))
 			else:
 				return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso, message = 'La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
 				+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')'))
@@ -202,3 +205,38 @@ class ListarTodosLosPagos(ListView):
 		context['botones'] = {
 			}
 		return context
+
+
+class AltaCobroInfraccion(CreateView):
+	model = Cobro
+	template_name = 'cobros/detalle.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(AltaCobroInfraccion, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Alta Cobro Infraccion"
+		context['headers'] = ['']
+		context['botones'] = {
+			'Listado':reverse('tipoDocumentos:listar'),
+			}
+		return context
+
+	def get(self, request, *args, **kwargs):
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		documento_form = DocumentoForm()
+		cobro = permiso.estado().recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
+		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 
+			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
+			'permiso': permiso, 'nombreForm':"Alta Cobro"})
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+
+		documento_form = DocumentoForm(request.POST, request.FILES)
+
+		if documento_form.is_valid():
+			documento = documento_form.save()
+			cobro = permiso.estado().recalcular(request.user, documento, date.today(), permiso.unidad)
+			cobro.save()
+			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
+		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})

@@ -207,7 +207,7 @@ class AgregarExpediente(CreateView):
 				documento.tipo = TipoDocumento.get_protegido('pase')
 				documento.visado = True
 				documento.save()
-				permiso.hacer('completar',request.user,fechaExpediente, request.POST['expediente'], documento)
+				permiso.hacer('completar',request.user,fechaExpediente, int(request.POST['expediente']), documento)
 				return HttpResponseRedirect(self.get_success_url())
 			else:
 				return self.render_to_response(self.get_context_data(form=form, 
@@ -251,7 +251,7 @@ class AgregarEdicto(CreateView):
 		tiempo = int(form.data['tiempo'])
 
 		if form.is_valid():
-			if (fechaEdicto > fecha_pase) and (tiempo > 0):
+			if (fechaEdicto >= fecha_pase) and (tiempo > 0):
 				edicto = form.save()
 				edicto.tipo = TipoDocumento.get_protegido('edicto')
 				edicto.visado = True
@@ -260,7 +260,7 @@ class AgregarEdicto(CreateView):
 				return HttpResponseRedirect(self.get_success_url())
 			else:
 				return self.render_to_response(self.get_context_data(form=form, 
-					message = 'La fecha del Edicto debe ser posterior a la fecha del Expediente ('+(fecha_pase).strftime("%d-%m-%Y")+
+					message = 'La fecha del Edicto debe igual o posterior a la fecha del Expediente ('+(fecha_pase).strftime("%d-%m-%Y")+
 					') y el tiempo de publicación mayor a CERO'))
 		return self.render_to_response(self.get_context_data(form=form))
 
@@ -322,8 +322,11 @@ class AgregarResolucion(CreateView):
 				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
 				resolucion.visado = True
 				resolucion.save()
-				permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
-				return HttpResponseRedirect(self.get_success_url())
+				try:
+					permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
+					return HttpResponseRedirect(self.get_success_url())
+				except:
+					return self.render_to_response(self.get_context_data(form=form, message_modulo='Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion ' + form.data['fecha']))
 			elif (unidad <= 0) or fechaCorrecta:
 				return self.render_to_response(self.get_context_data(form=form, 
 					messages = messages))

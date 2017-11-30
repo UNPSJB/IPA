@@ -17,6 +17,7 @@ class Cobro(models.Model):
 	documento = models.ForeignKey(Documento, blank=False, null=False)
 	fecha_desde = models.DateField()
 	fecha_hasta = models.DateField()
+	es_por_canon = models.BooleanField(default=True)
 
 	class Meta:
 		get_latest_by = "fecha_hasta"
