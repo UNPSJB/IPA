@@ -95,7 +95,23 @@ class JefeDepartamentoForm (PersonaForm):
 	pass
 
 class ChoferForm (PersonaForm):
-	pass
+	class Meta:
+		model=Chofer
+		fields = [
+			'licencia',
+			'vencimientoLicencia',
+		]
+		ordering = ["-vencimientoLicencia"]
+
+		labels = {
+				'licencia': 'Licencia',
+				'vencimientoLicencia': 'Vencimiento de la Licencia',
+		}
+
+		widgets = {
+			'licencia':forms.TextInput(attrs={'class':'form-control'}),
+			'vencimientoLicencia': forms.DateInput(attrs={'type':'date'}),
+		}
 
 class SolicitanteForm (PersonaForm):
 	pass

@@ -57,11 +57,14 @@
 $(document).ready(function(){
 		var pluralizeUrl = function(nombre) {
 			return {
+				'solicitante': '/solicitudes',
 				'director': '/directores',
 				'administrativo': '/administrativos',
 				'inspector': '/inspectores',
-				'jefedepartamento': '/jefedepartamento',
-				'chofer': '/chofer'
+				'sumariante': '/sumariantes',
+				'liquidador': '/liquidadores',
+				'jefedepartamento': '/jefesdepartamento',
+				'chofer': '/choferes'
 			}[nombre];
 		}
     	$("button").click(function(){

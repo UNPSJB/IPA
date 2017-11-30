@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+{% load contextMenu %}
+{% load static semanticui %}
+{% block extra %}
+
+	<div class="row header-content">
+		<div class="titulo">
+			<h1 class="ui header blue">{{nombreForm}}</h1>
+		</div>
+	</div> 
+
+<div>
+	<table class="ui single line table">
+		<thead>
+			<tr>
+	      		{% for header in headers%}
+					<th>{{header}}</th>
+	      		{% endfor %}
+	      		<th>Editar</th>
+	      		<th>Eliminar</th>
+		 	</tr>
+		</thead>
+		<tbody>
+			{% if choferes %}
+			{% for chofer in choferes %}
+			 	<tr>
+					<td>{{ chofer}}</td>
+					<td>{{ chofer.licencia}}</td>
+					<td>{{ chofer.vencimientoLicencia }}</td>
+					<td><a class="positive ui button" href="{% url 'choferes:modificar' chofer.id %}">Modificar</a></td>
+					<td><a class="negative ui button" href="{% url 'choferes:eliminar' chofer.id %}">Eliminar</a></td>
+				</tr>
+			{% endfor %}
+			{% endif %}
+
+
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{% renderContextMenu %}
+{% endblock %}
+
+ {% block pageStaticJs %}
+ {% endblock %}

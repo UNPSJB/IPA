@@ -115,6 +115,9 @@ class Chofer(Rol):
 	licencia = models.CharField(max_length=20)
 	vencimientoLicencia = models.DateField()
 
+	def __str__(self):
+		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
+
 class Solicitante(Rol):
 	TIPO = 5
 	

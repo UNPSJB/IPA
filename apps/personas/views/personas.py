@@ -65,6 +65,7 @@ class ListadoPersonas(ListView):
 		context['botones'] = {
 			'Alta Persona': reverse('personas:alta'),
 		 	'Directores':reverse('directores:listado'), 
+		 	'Choferes':reverse('choferes:listado'),
 		 	'Administrativos':'', 
 		 	'Liquidadores':''
 		 }
@@ -109,4 +110,39 @@ def promover_a_inspector(request,pk):
 	inspector = Inspector()
 	inspector.save()
 	persona.agregar_rol(inspector)
+	return redirect(reverse('personas:detalle', args=[pk]))
+
+def promover_a_jefe_departamento(request,pk):
+	persona = pmodels.Persona.objects.get(pk=pk)
+	jefe_departamento = JefeDepartamento()
+	jefe_departamento.save()
+	persona.agregar_rol(jefe_departamento)
+	return redirect(reverse('personas:detalle', args=[pk]))
+
+def promover_a_sumariante(request,pk):
+	persona = pmodels.Persona.objects.get(pk=pk)
+	sumariante = pmodels.Sumariante()
+	sumariante.save()
+	persona.agregar_rol(sumariante)
+	return redirect(reverse('personas:detalle', args=[pk]))
+
+def promover_a_solicitante(request,pk):
+	persona = pmodels.Persona.objects.get(pk=pk)
+	solicitante = Solicitante()
+	solicitante.save()
+	persona.agregar_rol(solicitante)
+	return redirect(reverse('personas:detalle', args=[pk]))
+
+def promover_a_liquidador(request,pk):
+	persona = pmodels.Persona.objects.get(pk=pk)
+	liquidador = Liquidador()
+	liquidador.save()
+	persona.agregar_rol(liquidador)
+	return redirect(reverse('personas:detalle', args=[pk]))
+
+def promover_a_administrativo(request,pk):
+	persona = pmodels.Persona.objects.get(pk=pk)
+	administrativo = Administrativo()
+	administrativo.save()
+	persona.agregar_rol(administrativo)
 	return redirect(reverse('personas:detalle', args=[pk]))

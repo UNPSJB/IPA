@@ -2,6 +2,13 @@
 {% load static semanticui %}
 
 {% block extra %}
+
+<div class="row header-content">
+	<div class="titulo">
+		<h1 class="ui header blue">{{nombreForm}}</h1>
+	</div>
+</div>
+
 	<form action="" method="post">{% csrf_token %}
     	<p> ¿Estas seguro que desea eliminar "{{ object }}"?</p>
     	<input class="negative ui button" type="submit" value="Eliminar" />
