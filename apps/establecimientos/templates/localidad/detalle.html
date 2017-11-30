@@ -1,8 +1,21 @@
 {% extends 'detail.html' %}
 
 {% block detailblock %}
-	<p> Nombre: {{localidad.nombre}}</p>
-	<p> Código postal: {{localidad.codpostal}}</p>
-	<p> Departamento: {{localidad.departamento.nombre}}</p>
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Nombre</td>
+      <td>{{localidad.nombre}}</td>
+    </tr>
+    <tr>
+      <td>Código Postal</td>
+      <td>{{localidad.codpostal}}</td>
+    </tr>
+    <tr>
+      <td>Departamento</td>
+      <td>{{localidad.departamento.nombre}}</td>
+    </tr>
+  </tbody>
+</table>
 	
 {% endblock%}	

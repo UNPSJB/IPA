@@ -1,6 +1,7 @@
 from django import forms
 from .models import TipoDocumento, Documento
 from apps.comisiones.models import Comision
+from apps.pagos.models import Pago
 
 class TipoDocumentoForm(forms.ModelForm):
 	class Meta:
@@ -86,8 +87,33 @@ class DocumentoProtegidoForm(forms.ModelForm):
 				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}
 
-class DocumentoActaProtegidoForm(forms.ModelForm):
-	comision = forms.ModelChoiceField(queryset=Comision.objects.all())
+class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
+	comision = forms.ModelChoiceField(queryset=Comision.getUltimas())
+	
+	class Meta:
+		model = Documento
+
+		fields = [
+				'descripcion',
+				'archivo',
+				'fecha',
+				'comision'
+			]
+			
+		labels = {
+				'descripcion':'Descripcion',
+				'archivo':'Archivo',
+				'fecha':'Fecha del Documento',
+		}
+
+		widgets = {
+				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
+				'fecha': forms.DateInput(attrs={'type':'date'}),
+		}
+
+class DocumentoActaInsfraccionProtegidoForm(forms.ModelForm):
+	comision = forms.ModelChoiceField(queryset=Comision.getUltimas())
+	pago = forms.ModelChoiceField(queryset=Pago.objects.all())
 	
 	class Meta:
 		model = Documento

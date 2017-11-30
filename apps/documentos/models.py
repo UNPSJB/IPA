@@ -89,6 +89,9 @@ class Documento(models.Model):
 		self.thumbnail = thumbnail
 		super(Documento, self).save()
 	
+	def __str__(self):
+		return self.descripcion
+
 # Que se hace luego de guardar el documento
 def pdf_post_save(sender, instance=False, **kwargs):
 	"""Esta funcion crea un thumbnail para el documento en pdf"""

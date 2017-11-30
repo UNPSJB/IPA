@@ -1,11 +1,38 @@
 {% extends 'detail.html' %}
 
 {% block detailblock %}
-	<p> Descripción: {{tipo.descripcion}}</p>
-	<p> Coeficiente: {{tipo.coeficiente}}</p>
-	<p> Tipo de módulo: {{tipo.getTipoModuloString}}</p>
-	<p> Periodo: {{tipo.getPeriodoString}}</p>
-	<p> Medida: {{tipo.getMedidaString}}</p>
-	<p> documentos a presentar: <li>{{tipo.documentos.all | join:"<li>"  }} </p>
+
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Descripción</td>
+      <td>{{tipo.descripcion}}</td>
+    </tr>
+    <tr>
+      <td>Coeficiente</td>
+      <td>{{tipo.coeficiente}}</td>
+    </tr>
+    <tr>
+      <td>Tipo de módulo</td>
+      <td>{{tipo.getTipoModuloString}}</td>
+    </tr>
+    <tr>
+      <td>Periodo</td>
+      <td>{{tipo.getPeriodoString}}</td>
+    </tr>
+    <tr>
+      <td>Medida</td>
+      <td>{{tipo.getMedidaString}}</td>
+    </tr>
+    <tr>
+      <td>Documentos a presentar</td>
+      <td>
+        {% for documento in tipo.documentos.all %}
+            <p> {{ documento }} </p>
+        {% endfor %}
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 {% endblock%}	

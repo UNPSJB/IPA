@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-
 # Create your models here.
 class Persona(models.Model):
 
@@ -56,7 +55,11 @@ class Persona(models.Model):
 
 	def sos(self, Klass):
 		return any([isinstance(rol, Klass) for rol in self.roles_related()])
-		
+	
+
+	@classmethod
+	def getEmpleadosParaComision(Klass):
+		return Persona.objects.all().filter(roles__tipo=3).filter(roles__tipo=4)
 
 class Rol(models.Model):
 	TIPO = 0
@@ -105,7 +108,7 @@ class Inspector(Rol):
 	TIPO = 3
 	
 class JefeDepartamento(Rol):
-	TIPO = 3
+	TIPO = 8
 
 class Chofer(Rol):
 	TIPO = 4
