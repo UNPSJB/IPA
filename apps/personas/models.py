@@ -126,6 +126,9 @@ class Chofer(Rol):
 class Solicitante(Rol):
 	TIPO = 5
 	
+	def __str__(self):
+		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
+	
 class Liquidador(Rol):
 	TIPO = 6
 	

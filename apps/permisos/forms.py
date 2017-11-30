@@ -1,5 +1,6 @@
 from django import forms
-from .models import Permiso, TipoUso, Estado, Solicitado
+from .models import Permiso, TipoUso, Solicitado
+from ..personas.models import Persona
 
 class PermisoForm(forms.ModelForm):
 	class Meta:
@@ -25,6 +26,9 @@ class PermisoForm(forms.ModelForm):
 			'afluente':forms.Select(attrs={'class':'form-control', 'placeholder':'Afluente de donde toma el recurso hidrico'}),
 			}
 
+	def __init__(self, *args, **kwargs):
+		super(PermisoForm, self).__init__(*args,**kwargs)
+		self.fields['solicitante'].queryset = Persona.objects.all().filter(roles__tipo=5)
 
 class TipoDeUsoForm(forms.ModelForm):
 	class Meta:
