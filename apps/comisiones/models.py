@@ -27,11 +27,4 @@ class Comision (models.Model):
 
 	@classmethod
 	def getUltimas(self):
-		cantidadComisiones = Comision.objects.count()
-		if cantidadComisiones > 20:
-			return Comision.objects.all()[cantidadComisiones-20:]
-		elif cantidadComisiones == 0:
-			return Comision.objects.none()
-		else:
-			return Comision.objects.all()
-		
+		return Comision.objects.order_by('-fechaInicio')[:20]
