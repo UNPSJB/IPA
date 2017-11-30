@@ -450,6 +450,7 @@ class AltaActaDeInspeccion(CreateView):
 		fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
 		fechaCorrecta = ( fechaActa >= fechaSolicitud) and (fechaActa <= date.today()) and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
 
+
 		if form.is_valid() and fechaCorrecta:
 			documento = form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('acta-de-inspeccion')

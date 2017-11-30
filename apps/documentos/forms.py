@@ -65,7 +65,7 @@ class DocumentoProtegidoForm(forms.ModelForm):
 		}
 
 class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
-	comision = forms.ModelChoiceField(queryset=Comision.getUltimas())
+	comision = forms.ModelChoiceField(queryset=Comision.objects.all())
 	
 	class Meta:
 		model = Documento
@@ -88,8 +88,9 @@ class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
 				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}
 
+
 class DocumentoActaInsfraccionProtegidoForm(forms.ModelForm):
-	comision = forms.ModelChoiceField(queryset=Comision.getUltimas())
+	comision = forms.ModelChoiceField(queryset=Comision.objects.all())
 	pago = forms.ModelChoiceField(queryset=Pago.objects.all())
 	
 	class Meta:
