@@ -16,7 +16,7 @@ class AltaEstablecimiento(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaEstablecimiento, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Listado': reverse('establecimientos:listar'),
+			'Ir a Listado': reverse('establecimientos:listar'),
 			'Nuevo Solicitante': reverse('personas:alta'),
 			'Nueva Localidad': reverse('localidades:alta')
 			}
@@ -47,29 +47,40 @@ class DetalleEstablecimiento(DetailView):
 		context = super(DetalleEstablecimiento, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Establecimiento'
 		context['botones'] = {
-			'Listado': reverse('establecimientos:listar'),
+			'Ir a Listado': reverse('establecimientos:listar'),
 			'Nuevo Establecimiento': reverse('establecimientos:alta'),
-			'Eliminar Establecimiento': reverse('establecimientos:eliminar', args=[self.object.codigoCatastral])
-
+			'Modificar Establecimiento': reverse('establecimientos:modificar', args=[self.object.codigoCatastral]),
+			'Eliminar Establecimiento': reverse('establecimientos:eliminar', args=[self.object.codigoCatastral]),
+			'Salir': reverse('index')
 		}
 		return context
 
 class ModificarEstablecimiento(UpdateView):
 	model = Establecimiento
 	form_class = EstablecimientoForm
-	template_name = 'form.html'
+	template_name = 'forms.html'
 	success_url = reverse_lazy('establecimientos:listar')
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		id_establecimiento = kwargs['pk']
-		establecimiento = self.mod-el.objects.get(id=id_establecimiento)
+		establecimiento = self.model.objects.get(codigoCatastral=id_establecimiento)
 		form = self.form_class(request.POST, instance=establecimiento)
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect(self.get_success_url())
 		else:
 			return HttpResponseRedirect(self.get_success_url())
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarEstablecimiento, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar Establecimiento"
+		context['botones'] = {
+			'Ir a Listado': reverse('establecimientos:listar'),
+			'Nueva Localidad': reverse('localidades:alta')
+			}
+		return context
+
 
 class DeleteEstablecimiento(DeleteView):
 	model = Establecimiento

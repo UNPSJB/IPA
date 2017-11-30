@@ -1,11 +1,33 @@
 {% extends 'detail.html' %}
 
 {% block detailblock %}
-	<p> Dueño: {{establecimiento.duenio.nombre}}</p>
-	<p> Código catastral: {{establecimiento.codigoCatastral}}</p>
-	<p> Superficie: {{establecimiento.superficie}}</p>
-	<p> Nombre: {{establecimiento.nombre}}</p>
-	<p> Descripción: {{establecimiento.descripcion}}</p>
-	<p> Localidad: {{establecimiento.localidad.nombre}}</p>
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Dueño</td>
+      <td>{{establecimiento.duenio.nombre}}, {{establecimiento.duenio.apellido}} </td>
+    </tr>
+    <tr>
+      <td>Código Catastral</td>
+      <td>{{establecimiento.codigoCatastral}}</td>
+    </tr>
+    <tr>
+      <td>Superficie</td>
+      <td>{{establecimiento.superficie}}</td>
+    </tr>
+    <tr>
+      <td>Nombre</td>
+      <td>{{establecimiento.nombre}}</td>
+    </tr>
+    <tr>
+      <td>Descripción</td>
+      <td>{{establecimiento.descripcion}}</td>
+    </tr>
+    <tr>
+      <td>Localidad</td>
+      <td>{{establecimiento.localidad.nombre}}</td>
+    </tr>
+  </tbody>
+</table>
 	
 {% endblock%}	
