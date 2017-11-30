@@ -11,10 +11,16 @@
 	</div>
 </div>
 
-<form class="ui large form" action="{{ form.url_post }}" method="POST">
+
 	{% if message %}
-		<p>{{ message }}</p>
+		<div class="ui error message">
+		  <i class="close icon"></i>
+		  <div class="header">Errores en la carga del Tipo de Uso</div>
+		    	<li> {{ message }}</li>
+		</div>
 	{% endif %}
+
+<form class="ui large form" action="{{ form.url_post }}" method="POST">
   {% csrf_token %}
   {% render_form form %}
 
