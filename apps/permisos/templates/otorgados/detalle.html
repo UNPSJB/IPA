@@ -1,43 +1,90 @@
 {% extends 'detail.html' %}
 
 {% block detailblock %}
-	<p>Nombre del solicitante: {{permiso.solicitante}} </p>
-	<p>Establecimiento: {{permiso.establecimiento}}</p>
-	<p>Tipo de uso: {{permiso.tipo}}</p>
-	<p>Afluente: {{permiso.afluente}} </p>
-	<p>Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}}</p>
-	<p>Fecha de Otorgado: {{permiso.estado.fecha}}</p>
-	<p>Fecha de Vencimiento: {{permiso.fechaVencimiento}}</p>
-	<p>Observación: {{permiso.estado.observacion}}</p>
-	<p>Usuario: {{permiso.estado.usuario}}</p>
-	<p>Unidad: {{permiso.unidad}}</p>	
-	
-	<p>Utilizando: 
+		<table class="ui definition table">
+ 		 <tbody>
+    		<tr>
+      			<td class="two wide column">Nombre del solicitante</td>
+      			<td>{{permiso.solicitante}}</td>
+    		</tr>
+    		<tr>
+      			<td>Establecimiento</td>
+      			<td>{{permiso.establecimiento}}</td>
+    		</tr>
+    		<tr>
+      			<td>Tipo de uso</td>
+      			<td>{{permiso.tipo}}</td>
+    		</tr>
+    		<tr>
+      			<td>Afluente</td>
+      			<td>{{permiso.afluente}}</td>
+    		</tr>
+    		<tr>
+      			<td>Fecha de Solicitud de Permiso</td>
+      			<td>{{permiso.fechaSolicitud}}</td>
+    		</tr>
 
-	{% if utilizando %}  
-		Si
-	{% else %}
-		No
-	{% endif %}
-	</p>
+    		<tr>
+      			<td>Fecha de Otorgado</td>
+      			<td>{{permiso.estado.fecha}}</td>
+    		</tr>
 
-	<p> Obtenido en oficina: 
-	{% if not oficio %}  
-		Si
-	{% else %}
-		No
-	{% endif %}
-	</p>
+    		<tr>
+      			<td>Fecha de Vencimiento</td>
+      			<td>{{permiso.fechaVencimiento}}</td>
+    		</tr>
 
-	{% if permiso.estado.isPermisoFinalizado %}
-	<p style="color:red"> Este Permiso esta VENCIDO</p>
-	{% else %}
-	<p style="color:green"> Este Permiso esta VIGENTE</p>
-	{% endif %}
+    		<tr>
+      			<td>Observacion</td>
+      			<td>{{permiso.estado.observacion}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Usuario</td>
+      			<td>{{permiso.estado.usuario}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Unidad</td>
+      			<td>{{permiso.unidad}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Utilizando</td>
+      			<td>{% if utilizando %}Si{% else %}No{% endif %}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Obtenido en oficina</td>
+      			<td>{% if not oficio %}Si{% else %}No{% endif %}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Monto total de cobros generados $</td>
+      			<td>{{permiso.montoTotalCobros}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Monto total de pagos ingresados $</td>
+      			<td>{{permiso.montoTotalPagos}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Monto Total(Pagos - Cobros) $</td>
+      			<td>{{permiso.saldoActual}}</td>
+    		</tr>
+
+    		<tr>
+    		    <td>Estado del Permiso</td>
+    		    <td style="color:red">{% if permiso.isPermisoFinalizado %} Este Permiso esta VENCIDO
+    		     {% else %}
+				<p style="color:green"> Este Permiso esta VIGENTE</p>
+				{% endif %}
+    		    </td>
+    		</tr>
 
 
-	<p>Monto total de cobros generados: $ {{permiso.montoTotalCobros}} </p>
-	<p>Monto total de pagos ingresados: $ {{permiso.montoTotalPagos}} </p>
-	<p>Monto TOTAL (Pagos - Cobros): $ {{permiso.saldoActual}}</p>
+  		</tbody>
+	</table>
 
 {% endblock %}

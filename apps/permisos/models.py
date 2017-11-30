@@ -171,6 +171,9 @@ class Permiso(models.Model):
 	def saldoActual(self):
 		return self.montoTotalPagos() - self.montoTotalCobros()
 
+	def isPermisoFinalizado(self):
+			return self.fechaVencimiento < date.today()
+
 class Estado(models.Model):
 	TIPO = 0
 	TIPOS = [
@@ -325,8 +328,7 @@ class Otorgado(Estado):
 
 		return Cobro(permiso=self.permiso, documento=documento, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
 
-		def isPermisoFinalizado(self):
-			return self.fechaVencimiento < date.today()
+
 
 class Baja(Estado):
 	TIPO = 6
