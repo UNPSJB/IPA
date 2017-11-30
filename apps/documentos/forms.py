@@ -99,7 +99,7 @@ class DocumentoActaInsfraccionProtegidoForm(forms.ModelForm):
 				'descripcion',
 				'archivo',
 				'fecha',
-	#			'comision'
+				'comision'
 			]
 			
 		labels = {
