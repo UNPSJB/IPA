@@ -22,6 +22,14 @@ class Cobro(models.Model):
 	class Meta:
 		get_latest_by = "fecha_hasta"
 
+	@classmethod
+	def getCobrosCanon(Klass):
+		return Cobro.objects.all().filter(es_por_canon=True)
+
+	@classmethod
+	def getCobrosInfraccion(Klass):
+		return Cobro.objects.all().filter(es_por_canon=False)
+
 # MODULOS ===================================================
 class ValorDeModulo (models.Model):
 	DIESEL = 1

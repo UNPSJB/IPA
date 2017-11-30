@@ -55,7 +55,7 @@ class AltaCobro(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaCobro, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Alta Cobro"
+		context['nombreForm'] = "Nuevo Cobro de Canon"
 		context['headers'] = ['']
 		context['botones'] = {
 			'Listado':reverse('tipoDocumentos:listar'),
@@ -67,7 +67,7 @@ class AltaCobro(CreateView):
 		cobro = permiso.estado().recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
 		return render(request, self.template_name, {'form':self.form_class(), 'cobro': cobro, 
 			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
-			'permiso': permiso, 'nombreForm':"Alta Cobro"})
+			'permiso': permiso, 'nombreForm':"Nuevo Cobro de Canon"})
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -96,7 +96,7 @@ class ListarCobros(ListView):
 		return super(ListarCobros,self).get(request, *args, **kwargs)
 
 	def get_queryset(self):
-		return self.permiso.cobros.all()
+		return Cobro.getCobrosCanon().union(Cobro.getCobrosInfraccion())
 
 	def get_context_data(self, **kwargs):
 		context = super(ListarCobros, self).get_context_data(**kwargs)
@@ -105,6 +105,8 @@ class ListarCobros(ListView):
 		context['botones'] = {
 			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
 			}
+		context['cobrosCanon'] = Cobro.getCobrosCanon()
+		context['cobrosInfraccion'] = Cobro.getCobrosInfraccion()
 		return context
 
 class AltaPago(CreateView):
@@ -114,7 +116,7 @@ class AltaPago(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaPago, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Alta Pago"
+		context['nombreForm'] = "Nuevo Pago"
 		context['headers'] = ['']
 		context['botones'] = {
 			'Listado':reverse('tipoDocumentos:listar'),
@@ -129,7 +131,7 @@ class AltaPago(CreateView):
 		documento_form.fields['fecha'].label = 'Fecha de Pago'
 		return render(request, self.template_name, {'form':documento_form, 
 			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
-			'permiso': permiso, 'nombreForm':"Alta Pago"})
+			'permiso': permiso, 'nombreForm':"Nuevo Pago"})
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -209,34 +211,49 @@ class ListarTodosLosPagos(ListView):
 
 class AltaCobroInfraccion(CreateView):
 	model = Cobro
-	template_name = 'cobros/detalle.html'
+	form_class = DocumentoProtegidoForm
+	template_name = 'cobros/infraccion/alta.html'
+
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaCobroInfraccion, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Alta Cobro Infraccion"
+		context['nombreForm'] = "Nuevo Cobro de Infraccion"
 		context['headers'] = ['']
 		context['botones'] = {
-			'Listado':reverse('tipoDocumentos:listar'),
-			}
+		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		}
+		context['permiso'] = Permiso.objects.get(pk=self.permiso_pk)
 		return context
 
-	def get(self, request, *args, **kwargs):
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		documento_form = DocumentoForm()
-		cobro = permiso.estado().recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
-		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 
-			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
-			'permiso': permiso, 'nombreForm':"Alta Cobro"})
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(AltaCobroInfraccion, self).get(request,*args,**kwargs)	
+
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 
-		documento_form = DocumentoForm(request.POST, request.FILES)
+		documento_form = DocumentoProtegidoForm(request.POST, request.FILES)
+		documento = documento_form.save(commit=False)
+		fecha_de_cobro = documento.fecha
+		monto = float(request.POST['monto'])
 
 		if documento_form.is_valid():
-			documento = documento_form.save()
-			cobro = permiso.estado().recalcular(request.user, documento, date.today(), permiso.unidad)
-			cobro.save()
-			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
-		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
+			if fecha_de_cobro >= permiso.fechaSolicitud:
+
+				documento.tipo = TipoDocumento.get_protegido('cobro-infraccion')
+				documento.visado = True
+				documento = documento_form.save()
+				cobro = Cobro(permiso=permiso, monto=monto, documento=documento, 
+					fecha_desde=fecha_de_cobro, fecha_hasta=fecha_de_cobro, es_por_canon=False)
+				cobro.save()
+				return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.pk,]))
+			else:
+				return render(request, self.template_name, {'form': documento_form, 'permiso':permiso, 'botones':'', 'nombreForm': 'Nuevo Cobro de Infraccion',
+					'message_error': 'La fecha de cobro debe ser igual o mayor a la fecha de solicitud (' + permiso.fechaSolicitud.strftime('%d/%m/%Y'+')')
+					})
+		return render(request, self.template_name, {'form':documento_form, 'permiso': permiso, 'botones':''})
+
+
