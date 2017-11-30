@@ -16,7 +16,7 @@ class AltaTipoDocumento(CreateView):
 	success_url = reverse_lazy('tipoDocumentos:listar')
 
 	def get(self, request, *args, **kwargs):
-		return super(AltaDocumento, self).get(request,*args,**kwargs)
+		return super(AltaTipoDocumento, self).get(request,*args,**kwargs)
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDocumento, self).get_context_data(**kwargs)

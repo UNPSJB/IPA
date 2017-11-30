@@ -27,8 +27,12 @@
 					<li>Fecha Inicio: {{persona.como_director.fechaInicio}}</li>
 				</ul>
 				
-				{% elif persona.es_administrativo %}
-					<li> {{rol.related.get_tipo_display | title}} </li>
+				{% elif persona.es_chofer %}
+				<li> {{rol.related.get_tipo_display | title}} </li>
+				<ul>
+					<li>Licencia: {{persona.como_chofer.licencia}}</li>
+					<li>Fecha de Vencimiento de Licencia: {{persona.como_chofer.vencimientoLicencia}}</li>
+				</ul>
 				{% else %}
 					<li> {{rol.related.get_tipo_display | title}} </li>
 				{% endif %}

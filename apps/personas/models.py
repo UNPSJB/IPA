@@ -34,8 +34,8 @@ class Persona(models.Model):
 	def es_director(self):
 		return self.sos(Director)
 
-	def es_administrativo(self):
-		return self.sos(Administrativo)
+	def es_chofer(self):
+		return self.sos(Chofer)
 
 	def como(self, Klass):
 		return self.roles.get(tipo=Klass.TIPO).related()
@@ -43,8 +43,8 @@ class Persona(models.Model):
 	def como_director(self):
 		return self.como(Director)
 
-	def como_administrativo(self):
-		return self.como(Administrativo)
+	def como_chofer(self):
+		return self.como(Chofer)
 
 	def agregar_rol(self, rol):
 		if not self.sos(rol.__class__):
