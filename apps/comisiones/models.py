@@ -30,6 +30,8 @@ class Comision (models.Model):
 		cantidadComisiones = Comision.objects.count()
 		if cantidadComisiones > 20:
 			return Comision.objects.all()[cantidadComisiones-20:]
+		elif cantidadComisiones == 0:
+			return Comision.objects.none()
 		else:
 			return Comision.objects.all()
 		
