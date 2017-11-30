@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models import Q
 
 # Create your models here.
 class Persona(models.Model):
@@ -59,7 +60,11 @@ class Persona(models.Model):
 
 	@classmethod
 	def getEmpleadosParaComision(Klass):
-		return Persona.objects.all().filter(roles__tipo=3).filter(roles__tipo=4)
+
+		#return Persona.objects.all().filter(roles__tipo=3).filter(roles__tipo=4)
+		Q1 = Persona.objects.all().filter(roles__tipo=3)
+		Q2 = Persona.objects.all().filter(roles__tipo=4)
+		return Q1.union(Q2)
 
 class Rol(models.Model):
 	TIPO = 0

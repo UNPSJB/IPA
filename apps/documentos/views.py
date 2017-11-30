@@ -8,19 +8,6 @@ from django.http import HttpResponseRedirect
 from datetime import date, datetime
 from operator import attrgetter
 
-<<<<<<< HEAD
-from django.urls import reverse_lazy, reverse
-from .models import TipoDocumento, Documento
-from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, DocumentoActaProtegidoForm
-from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
-from django.views import View
-from apps.permisos.models import Permiso
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from datetime import date, datetime
-from operator import attrgetter
-=======
->>>>>>> 24d13e201e643b1155559eef9def98cdde7a3fd7
 
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
