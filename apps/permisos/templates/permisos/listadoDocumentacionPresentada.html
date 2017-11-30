@@ -12,11 +12,13 @@
 	    <div class="image">
 	      <img src="{% static documento.thumbnail %}">
 	    </div>
+	    {%if not documento.protegido%}
 	    <div class="extra">Visado<i class="circle icon" style="color:
 	    {%if documento.visado%}green{%else%}red{%endif%}
 	    "></i></div>
+	    {% endif %}
 		<div class="content">
-	    <a class="header">{{documento.tipo.nombre}}</a>
+	    <a href="/{{documento.archivo.url}}" class="header">{{documento.tipo.nombre}}</a>
 	    <div class="meta">
       	<span class="date">{{documento.fecha}}</span>
     	</div>

@@ -47,8 +47,7 @@ INSTALLED_APPS = [
     'apps.semanticuiforms',
     #'django_extensions'
     'apps.tags',
-    
-]
+] 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,9 +137,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/assets/'
-MEDIA_ROOT = "archivos"
+MEDIA_ROOT = 'archivos'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'assets'), os.path.join(BASE_DIR, MEDIA_ROOT))
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets'), 
+                    os.path.join(BASE_DIR, MEDIA_ROOT)]
 
 LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = reverse_lazy('index')

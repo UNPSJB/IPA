@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import *
+from apps.documentos.models import Documento
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import Comision
@@ -22,9 +23,19 @@ class AltaComision(CreateView):
 		context['nombreForm'] = 'Nueva Comisión'
 		return context
 
+
 class DetalleComision(DetailView):
 	model = Comision
 	template_name = 'comision/detalle.html'
+	context_object_name = 'comisiones'
+
+	def get_context_data(self, **kwargs):
+		context = super(DetalleComision, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle de Comision'
+		context['botones'] = {
+		}
+		return context
+
 
 class ListadoComision(ListView):
 	model = Comision
@@ -33,6 +44,7 @@ class ListadoComision(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoComision, self).get_context_data(**kwargs)
+		context['nombreReverse'] = 'comisiones'
 		context['nombreLista'] = 'Listado de Comisiones'
 		context['headers'] = ['Empleado', 'Departamento']
 		context['botones'] = {'Nueva Comisión': reverse('comisiones:alta')}

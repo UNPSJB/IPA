@@ -107,3 +107,4 @@ def pdf_post_save(sender, instance=False, **kwargs):
 	
 # Hook up the signal
 post_save.connect(pdf_post_save, sender=Documento)
+

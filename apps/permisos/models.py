@@ -171,6 +171,9 @@ class Permiso(models.Model):
 	def saldoActual(self):
 		return self.montoTotalPagos() - self.montoTotalCobros()
 
+	def isPermisoFinalizado(self):
+			return self.fechaVencimiento < date.today()
+
 class Estado(models.Model):
 	TIPO = 0
 	TIPOS = [
@@ -213,7 +216,9 @@ class Estado(models.Model):
 
 class Solicitado(Estado):
 	TIPO = 1
-	utilizando = models.BooleanField(default=False)
+	utilizando = models.BooleanField(
+			help_text="Indica si el Solicitante esta utilizando actualmente el recurso hidrico",
+			default=False)
 	oficio = models.BooleanField(
 			help_text="Indica si el permiso se inicia por una solicitud formal (solicitud) o una inspeccion (de oficio)",
 			default=False)
@@ -323,8 +328,7 @@ class Otorgado(Estado):
 
 		return Cobro(permiso=self.permiso, documento=documento, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
 
-		def isPermisoFinalizado(self):
-			return self.fechaVencimiento < date.today()
+
 
 class Baja(Estado):
 	TIPO = 6

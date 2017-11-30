@@ -1,8 +1,25 @@
-{% extends 'detail.html' %}
+{% extends 'detail.html' %} 
 
 {% block detailblock %}
-	<p>Nombre: {{departamento.nombre}}</p>
-	<p>Superficie: {{departamento.superficie}}</p>
-	<p>Poblacion: {{departamento.poblacion}}</p>
-	<p>Descripción: {{departamento.descripcion}} </p>
+
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Nombre</td>
+      <td>{{departamento.nombre}}</td>
+    </tr>
+    <tr>
+      <td>Superficie</td>
+      <td>{{departamento.superficie}}</td>
+    </tr>
+    <tr>
+      <td>Población</td>
+      <td>{{departamento.poblacion}}</td>
+    </tr>
+    <tr>
+      <td>Descripción</td>
+      <td>{{departamento.descripcion}}</td>
+    </tr>
+  </tbody>
+</table>
 {% endblock%}	
