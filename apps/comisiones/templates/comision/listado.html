@@ -5,20 +5,22 @@
 
 {% for comision in comisiones %}
 	<tr>
+		<td>{{ comision.fechaInicio }}</td>
+		<td>{{ comision.fechaFin }}</td>
+		<td>
+			{% for localidad in comision.localidades.all %}
+			<p>{{localidad}}</p>
+			{% endfor %}
+		</td>			
 		<td>
 			{% for empleado in comision.empleados.all %}
-			<tr>
-				<td>{{empleado}}</td>
-			</tr>
-			{% endfor %}			
-		</td>
-		<td>dsasd</td>
-		<td>dsasadsda</td>
-		<td>{{comision.fechaInicio}} - {{comision.fechaFin }}</td>
-    	
-    	{%renderActionButton comision.id %}
-		
+			<p>{{empleado}}</p>
+			{% endfor %}
+		</td>	
+					
+		{%renderActionButton comision.id %}
 	</tr>
+
 {% endfor%}
 
 {% endblock %}
