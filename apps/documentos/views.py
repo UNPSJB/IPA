@@ -1,10 +1,9 @@
 from django.urls import reverse_lazy, reverse
 from .models import TipoDocumento, Documento
-from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, DocumentoActaProtegidoForm
+from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, DocumentoActaInspeccionProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
-from django.views import View
 from apps.permisos.models import Permiso
-from django.shortcuts import render
+from apps.comisiones.models import Comision
 from django.http import HttpResponseRedirect
 from datetime import date, datetime
 from operator import attrgetter
@@ -14,6 +13,9 @@ class AltaTipoDocumento(CreateView):
 	form_class = TipoDocumentoForm
 	template_name = 'forms.html'
 	success_url = reverse_lazy('tipoDocumentos:listar')
+
+	def get(self, request, *args, **kwargs):
+		return super(AltaDocumento, self).get(request,*args,**kwargs)
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDocumento, self).get_context_data(**kwargs)
@@ -100,21 +102,21 @@ class DetalleDocumento(DetailView):
 	model = Documento
 	template_name = 'Documento/detalle.html'
 
-class ListadoDocumentacionPresentada(ListView):
-	model = Documento
-	template_name = 'Documento/listado.html'
-	context_object_name = 'documentos'
-
-	def get_context_data(self, **kwargs):
-		context = super(ListadoDocumentacionPresentada, self).get_context_data(**kwargs)
-		context['nombreLista'] = 'Listado de Documentos'
-		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
-		context['botones'] = {
-		#'Alta': reverse('documentos:alta') , 
-		'Listado': reverse('documentos:listar'),
-        #'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
-		}
-		return context
+#class ListadoDocumentacionPresentada(ListView):
+#	model = Documento
+#	template_name = 'Documento/listado.html'
+#	context_object_name = 'documentos'
+#
+#	def get_context_data(self, **kwargs):
+#		context = super(ListadoDocumentacionPresentada, self).get_context_data(**kwargs)
+#		context['nombreLista'] = 'Listado de Documentos'
+#		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
+#		context['botones'] = {
+#		#'Alta': reverse('documentos:alta') , 
+#		'Listado': reverse('documentos:listar'),
+ #       #'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+#		}
+#		return context
 
 	
 
@@ -373,7 +375,7 @@ class AgregarInfraccion(CreateView):
 
 class AltaActaDeInspeccion(CreateView):
 	model = Documento
-	form_class = DocumentoActaProtegidoForm
+	form_class = DocumentoActaInspeccionProtegidoForm
 	template_name = 'Acta/actaInspeccion.html'
 	success_url = reverse_lazy('comisiones:listar')
 
@@ -388,7 +390,7 @@ class AltaActaDeInspeccion(CreateView):
 			'Nuevo Empleado': reverse('personas:alta'),
 			'Nueva Localidad': reverse('localidades:alta'),
 			'Nuevo Departamento': reverse('departamentos:alta'),
-			'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+			'Volver al permiso': reverse('permisos:detalle', args=[self.permiso_pk])
 			}
 		context['nombreForm'] = 'Nueva Acta de Inspección'
 		return context
@@ -399,11 +401,15 @@ class AltaActaDeInspeccion(CreateView):
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 
+		comision_pk = (int(form.data['comision']))
+		comision = Comision.objects.get(pk=comision_pk)
+
 		if form.is_valid():
 			documento = form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('acta-de-inspeccion')
 			documento.visado = True
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
+			comision.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
 		return self.render_to_response(self.get_context_data(form=form))

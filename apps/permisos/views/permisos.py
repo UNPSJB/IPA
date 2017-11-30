@@ -53,6 +53,7 @@ class DetallePermisoCompleto(DetailView):
 		context = super(DetallePermisoCompleto, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Completo'
 		context['botones'] = {
+			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.object.pk]),
 			'Listado Permisos Completos': reverse('permisos:listarPermisosCompletos'),
 			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
@@ -83,6 +84,7 @@ class DetallePermisoPublicado(DetailView):
 		context = super(DetallePermisoPublicado, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Publicado'
 		context['botones'] = {
+			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.object.pk]),
 			'Listado Permisos Publicados': reverse('permisos:listarPermisosPublicados'),
 			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
@@ -111,6 +113,7 @@ class DetallePermisoOtorgado(DetailView):
 		context = super(DetallePermisoOtorgado, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
 		context['botones'] = {
+			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.object.pk]),
 			'Nuevo Cobro': reverse('pagos:altaCobro', args=[self.permiso_pk]),
 			'Listado de Cobros': reverse('pagos:listarCobros', args=[self.permiso_pk]),
 			'Nuevo Pago': reverse('pagos:altaPago', args=[self.permiso_pk]),
@@ -148,6 +151,7 @@ class DetallePermisoDeBaja(DetailView):
 		context = super(DetallePermisoDeBaja, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso dado de Baja'
 		context['botones'] = {
+			'Nueva acta de inspeccion': reverse('actas:alta',  args=[self.object.pk]),
 			'Volver a Lista de Permisos dados de Baja': reverse('permisos:listarPermisosDeBaja'),
 			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),

@@ -21,3 +21,15 @@ class Comision (models.Model):
 		fechaInicio = self.fechaInicio.strftime('%d/%m/%Y')
 		fechaFin = self.fechaFin.strftime('%d/%m/%Y')
 		return '{} | {} - {}'.format(self.id, fechaInicio, fechaFin)
+
+	def agregar_documentacion(self, documento):
+		self.documentos.add(documento)
+
+	@classmethod
+	def getUltimas(self):
+		cantidadComisiones = Comision.objects.count()
+		if cantidadComisiones > 20:
+			return Comision.objects.all()[cantidadComisiones-20:]
+		else:
+			return Comision.objects.all()
+		
