@@ -90,4 +90,4 @@ COUNTRY_TEMPLATE = getattr(settings, "SUI_COUNTRY_TEMPLATE", (
 
 HELP_TEMPLATE = getattr(settings, "SUI_HELP_TEMPLATE", (
 	"<div class=\"%s\">{}</div>"
-) % getattr(settings, "SUI_HELP_CLASS", "ui help"))
+) % getattr(settings, "SUI_HELP_CLASS", "ui pointing label"))

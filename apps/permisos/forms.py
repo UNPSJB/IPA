@@ -14,15 +14,15 @@ class PermisoForm(forms.ModelForm):
 		labels = {
 			'solicitante' : 'Solicitante',
 			'establecimiento' : 'Establecimiento',
-			'tipo' : 'Tipo',
+			'tipo' : 'Tipo de uso de agua',
 			'afluente' : 'Afluente',
 			}
 
 		widgets = {
-			'solicitante':forms.Select(attrs={'class':'form-control'}),
-			'establecimiento':forms.Select(attrs={'class':'form-control'}),
-			'tipo':forms.Select(attrs={'class':'form-control'}),
-			'afluente':forms.Select(attrs={'class':'form-control'}),
+			'solicitante':forms.Select(attrs={'class':'form-control', 'placeholder':'Solicitante'}),
+			'establecimiento':forms.Select(attrs={'class':'form-control', 'placeholder':'Establecimiento'}),
+			'tipo':forms.Select(attrs={'class':'form-control', 'placeholder':'Tipo de Uso'}),
+			'afluente':forms.Select(attrs={'class':'form-control', 'placeholder':'Afluente de donde toma el recurso hidrico'}),
 			}
 
 
@@ -48,12 +48,12 @@ class TipoDeUsoForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-			'coeficiente':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'1'}),
-			'periodo':forms.Select(attrs={'class':'form-control'}),
-			'medida':forms.Select(attrs={'class':'form-control'}),
-			'tipo_modulo':forms.Select(attrs={'class':'form-control'}),
-			'documentos':forms.SelectMultiple(attrs={'class':'form-control'}),
+			'descripcion':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Descripcion' }),
+			'coeficiente':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'0.01', 'placeholder':'Coeficiente'}),
+			'periodo':forms.Select(attrs={'class':'form-control', 'placeholder':'Periodo'}),
+			'medida':forms.Select(attrs={'class':'form-control', 'placeholder':'Medida'}),
+			'tipo_modulo':forms.Select(attrs={'class':'form-control', 'placeholder':'Tipo de Modulo'}),
+			'documentos':forms.SelectMultiple(attrs={'class':'form-control', 'placeholder':'Documentos'}),
 		}
 
 class SolicitadoForm(forms.ModelForm):

@@ -7,7 +7,10 @@ from django.core.exceptions import ObjectDoesNotExist
 class PersonaForm(forms.ModelForm):
 	class Meta:
 		model = Persona
-
+		help_texts = {
+			'nombre': "El nombre de la persona",
+            'razonSocial': 'Razon Social alternativa para la persona si corresponde a una empresa',
+        }
 		fields = [
 				'nombre',
 				'apellido',
@@ -34,10 +37,10 @@ class PersonaForm(forms.ModelForm):
 			'apellido':forms.TextInput(attrs={'class':'form-control'}),
 			'email':forms.TextInput(attrs={'class':'form-control'}),
 			'tipoDocumento':forms.Select(attrs={'class':'form-control'}),
-			'numeroDocumento':forms.TextInput(attrs={'class':'form-control'}),
+			'numeroDocumento':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1000000'}),
 			'razonSocial':forms.TextInput(attrs={'class':'form-control'}),
 			'direccion':forms.TextInput(attrs={'class':'form-control'}),
-			'telefono':forms.TextInput(attrs={'class':'form-control'}),
+			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'150000000'}),
 		}
 		
 
