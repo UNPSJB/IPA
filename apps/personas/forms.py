@@ -8,7 +8,6 @@ class PersonaForm(forms.ModelForm):
 	class Meta:
 		model = Persona
 		help_texts = {
-			'nombre': "El nombre de la persona",
             'razonSocial': 'Razon Social alternativa para la persona si corresponde a una empresa',
         }
 		fields = [
@@ -33,14 +32,14 @@ class PersonaForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'nombre':forms.TextInput(attrs={'class':'form-control'}),
-			'apellido':forms.TextInput(attrs={'class':'form-control'}),
-			'email':forms.TextInput(attrs={'class':'form-control'}),
-			'tipoDocumento':forms.Select(attrs={'class':'form-control'}),
-			'numeroDocumento':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1000000'}),
+			'nombre':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Nombre'}),
+			'apellido':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Apellido'}),
+			'email':forms.TextInput(attrs={'class':'form-control', 'placehorder':'email@email.com'}),
+			'tipoDocumento':forms.Select(attrs={'class':'form-control', 'placehorder':'Seleccione el tipo de documento'}),
+			'numeroDocumento':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1000000', 'placehorder':'Numero de documento sin .'}),
 			'razonSocial':forms.TextInput(attrs={'class':'form-control'}),
-			'direccion':forms.TextInput(attrs={'class':'form-control'}),
-			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'150000000'}),
+			'direccion':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Domicilio del solicitante'}),
+			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'150000000', 'placehorder':'Telefono con o sin catacteristica'}),
 		}
 		
 
