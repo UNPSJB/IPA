@@ -44,7 +44,9 @@
 					<td>{{pago.fecha}}</td>
 					<td>{{pago.monto}}</td>
 					<td><div> 
-						<a href="/archivos/{{pago.documento.archivo.url}}" class="header">{{pago.documento.tipo.nombre}}</a> <i class="file icon"></i>
+						<a href="/archivos/{{pago.documento.archivo.url}}" class="ui icon">{{pago.documento.tipo.nombre}}
+						<i class="file icon"></i>
+						</a> 
 					</div></td>
 				</tr>
 				{% endfor%}				 	
@@ -68,6 +70,11 @@
 				<tr>
 					<td>{{pagoinfra.fecha}}</td>
 					<td>{{pagoinfra.monto}}</td>
+					<td><div> 
+						<a href="/archivos/{{pago.documento.archivo.url}}" class="ui icon">{{pagoinfra.documento.tipo.nombre}}
+						<i class="file icon"></i>
+						</a> 
+					</div></td>
 				</tr>
 				{% endfor%}				 	
 			</tbody>

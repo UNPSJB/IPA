@@ -26,12 +26,23 @@ class AltaTipoDeUso(CreateView):
 		return context
 
 	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
 		medida = int(request.POST['medida'])
 		tipoModulo = int(request.POST['tipo_modulo'])
+		tipoUsoForm = self.form_class(request.POST)
 		
-		if ((medida==6) and (tipoModulo == 2)) or ((medida != 6) and (tipoModulo == 1)):
-			return super(AltaTipoDeUso, self).get(request,*args,**kwargs)
-		return render(request, self.template_name, {'form':self.form_class, 'botones':'', 'nombreForm':'Nuevo Tipo de Uso',
+		if tipoUsoForm.is_valid():
+			if ((medida==6) and (tipoModulo == 2)):
+				tipoUso = tipoUsoForm.save()
+				return HttpResponseRedirect(self.get_success_url())
+			elif (medida != 6) and (tipoModulo != 2):
+				tipoUso = tipoUsoForm.save()
+				return HttpResponseRedirect(self.get_success_url())
+			else:
+				return render(request, self.template_name, {'form':self.form_class, 'botones':'', 'nombreForm':'Nuevo Tipo de Uso',
+			'message':'Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico'})
+		else:
+			return render(request, self.template_name, {'form':self.form_class, 'botones':'', 'nombreForm':'Nuevo Tipo de Uso',
 			'message':'Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico'})
 
 class DetalleTipoDeUso(DetailView):
