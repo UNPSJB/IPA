@@ -1,21 +1,72 @@
 {% extends 'detail.html' %}
 
 {% block detailblock %}
-	<p>Nombre del solicitante: {{permiso.solicitante}} </p>
-	<p>Establecimiento: {{permiso.establecimiento}}</p>
-	<p>Tipo de uso: {{permiso.tipo}}</p>
-	<p>Afluente: {{permiso.afluente}} </p>
-	<p>Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}}</p>
-	<p>Observación: {{permiso.estado.observacion}}</p>
-	<p>Usuario: {{permiso.estado.usuario}}</p>
-	
-	<p>Utilizando: {% if utilizando %}Si{% else %}No{% endif %}</p>
 
-	<p>Obtenido en oficina: {% if not oficio %}Si{% else %}No{% endif %}</p>
+	<table class="ui definition table">
+ 		 <tbody>
+    		<tr>
+      			<td class="two wide column">Nombre del solicitante</td>
+      			<td>{{permiso.solicitante}}</td>
+    		</tr>
+    		<tr>
+      			<td>Establecimiento</td>
+      			<td>{{permiso.establecimiento}}</td>
+    		</tr>
+    		<tr>
+      			<td>Tipo de uso</td>
+      			<td>{{permiso.tipo}}</td>
+    		</tr>
+    		<tr>
+      			<td>Afluente</td>
+      			<td>{{permiso.afluente}}</td>
+    		</tr>
+    		<tr>
+      			<td>Fecha de Solicitud de Permiso</td>
+      			<td>{{permiso.fechaSolicitud}}</td>
+    		</tr>
 
-	<p>Fecha de Publicación: {{permiso.estado.fecha}}</p>
-	<p>Dias de Publicación: {{permiso.estado.tiempo}}</p>
-	<p>Fecha de Vencimiento de Publicación: {{permiso.estado.vencimientoPublicacion}}</p>
+    		<tr>
+      			<td>Fecha de Expediente</td>
+      			<td>{{permiso.numero_exp}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Observacion</td>
+      			<td>{{permiso.estado.observacion}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Usuario</td>
+      			<td>{{permiso.estado.usuario}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Utilizando</td>
+      			<td>{% if utilizando %}Si{% else %}No{% endif %}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Obtenido en oficina</td>
+      			<td>{% if not oficio %}Si{% else %}No{% endif %}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Fecha de Publicacion</td>
+      			<td>{{permiso.estado.fecha}}</td>
+    		</tr>
+    		<tr>
+      			<td>Dias de Publicacion</td>
+      			<td>{{permiso.estado.tiempo}}</td>
+    		</tr>
+
+    		<tr>
+      			<td>Fecha de Vencimiento de Publicacion</td>
+      			<td>{{permiso.estado.vencimientoPublicacion}}</td>
+    		</tr>
+
+  		</tbody>
+	</table>
+
 	
 	{% if permiso.estado.isEdictoFinalizado %}
 	<p> Este Permiso no tiene Resolucion.</p>
