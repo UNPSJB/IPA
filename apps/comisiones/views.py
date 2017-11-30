@@ -33,6 +33,9 @@ class DetalleComision(DetailView):
 		context = super(DetalleComision, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Comision'
 		context['botones'] = {
+		'Listado Comisiones': reverse('comisiones:listar'),
+		'Modificar Comision': reverse('comisiones:modificar', args=[self.object.id]),
+		'Salir': reverse('index'),
 		}
 		return context
 
@@ -53,21 +56,32 @@ class ListadoComision(ListView):
 class ModificarComision(UpdateView):
 	model = Comision
 	form_class = ComisionForm
-	template_name = 'comision/form.html'
+	template_name = 'comision/forms.html'
 	success_url = reverse_lazy('comisiones:listar')
 
-	def post(self, request, *args, **kwargs):
+	def post(self, request, pk):
 		self.object = self.get_object
-		id_comision = kwargs['pk']
-		comision = self.mod-el.objects.get(id=id_comision)
+		id_comision = pk
+		comision = self.model.objects.get(id=id_comision)
 		form = self.form_class(request.POST, instance=comision)
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect(self.get_success_url())
 		else:
 			return HttpResponseRedirect(self.get_success_url())
+	def get_context_data(self, **kwargs):
+		context = super(ModificarComision, self).get_context_data(**kwargs)
+		context['botones'] = {
+			'Listado Comisiones': reverse('comisiones:listar'),
+			'Nuevo Empleado': reverse('personas:alta'),
+			'Nueva Localidad': reverse('localidades:alta'),
+			'Nuevo Departamento': reverse('departamentos:alta')
+			}
+		context['nombreForm'] = 'Nueva Comisión'
+		return context
+
 
 class DeleteComision(DeleteView):
 	model = Comision
 	template_name = 'delete.html'
-	success_url = reverse_lazy('comisiones:listar')
+	success_url = reverse_lazy('comisiones:listar') 

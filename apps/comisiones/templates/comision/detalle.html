@@ -2,27 +2,46 @@
 
 {% block detailblock %}
 
-	<p>Empleados que participaron en la comision:</p>
-	<ul>
-		{% for empleado in comision.empleados.all %}
-			<li>{{empleado}}</li>
-		{% endfor %}
-	</ul>
-	<p>Localidades recorridas:</p>
-	<ul>
-		{% for localidad in comision.localidades.all %}
-			<li>{{localidad}}</li>
-		{% endfor %}
-	</ul>
+<table class="ui definition table">
+	<tbody>
+  	
+		<tr>
+			<td class="two wide column">Fecha Inicio de Comision</td>
+			<td>{{ comision.fechaInicio }}</td>
+		</tr>
 
-	<p>Actas de Inspeccion:</p>
+		<tr>
+			<td class="two wide column">Fecha fin de Comision</td>
+			<td>{{ comision.fechaFin }}</td>
+		</tr>
 
-	<ul>
-		{% for documento in comision.documentos.all %}
-			<li>{{documento}}</li>
-		{% endfor %}
-	</ul>
+		<tr>
+			<td>Empleados de la Comision</td>
+			<td>
+			{% for empleado in comision.empleados.all %}
+			<p>{{empleado}}</p>
+			{% endfor %}
+      		</td>
+    	</tr>
 
-	<p>Fecha de Inicio de Comision: {{ comision.fechaInicio }}</p>
-	<p>Fecha de Cierre de Comision: {{ comision.fechaFin }}</p>
+    	<tr>
+			<td>Localidades Recorridas</td>
+			<td>
+			{% for localidad in comision.localidades.all %}
+			<p>{{localidad}}</p>
+			{% endfor %}
+      		</td>
+    	</tr>
+    
+    	<tr>
+			<td>Actas Realizadas</td>
+			<td>
+			{% for documento in comision.documentos.all %}
+			<p>{{documento}}</p>
+			{% endfor %}
+			</td>
+		</tr>
+	</tbody>
+</table>
+
 {% endblock%}
