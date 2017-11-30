@@ -29,3 +29,4 @@ class PasswordReset(PasswordResetView):
 	def form_invalid(self, form):
 		"""If the form is invalid, render the invalid form."""
 		return self.redirect(self.failure_url)
+

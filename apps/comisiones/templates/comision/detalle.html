@@ -2,18 +2,27 @@
 
 {% block detailblock %}
 
-	<p>Empleados:</p>
+	<p>Empleados que participaron en la comision:</p>
 	<ul>
 		{% for empleado in comision.empleados.all %}
 			<li>{{empleado}}</li>
 		{% endfor %}
 	</ul>
-	<p>Localidades:</p>
+	<p>Localidades recorridas:</p>
 	<ul>
 		{% for localidad in comision.localidades.all %}
 			<li>{{localidad}}</li>
 		{% endfor %}
 	</ul>
+
+	<p>Actas de Inspeccion:</p>
+
+	<ul>
+		{% for documento in comision.documentos.all %}
+			<li>{{documento}}</li>
+		{% endfor %}
+	</ul>
+
 	<p>Fecha de Inicio de Comision: {{ comision.fechaInicio }}</p>
 	<p>Fecha de Cierre de Comision: {{ comision.fechaFin }}</p>
 {% endblock%}

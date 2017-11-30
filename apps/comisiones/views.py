@@ -27,7 +27,7 @@ class AltaComision(CreateView):
 class DetalleComision(DetailView):
 	model = Comision
 	template_name = 'comision/detalle.html'
-	context_object_name = 'comisiones'
+	context_object_name = 'comision'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleComision, self).get_context_data(**kwargs)
@@ -46,7 +46,7 @@ class ListadoComision(ListView):
 		context = super(ListadoComision, self).get_context_data(**kwargs)
 		context['nombreReverse'] = 'comisiones'
 		context['nombreLista'] = 'Listado de Comisiones'
-		context['headers'] = ['Empleado', 'Departamento']
+		context['headers'] = ['Empleados', 'Localidades', 'Fecha Inicio - Fecha Fin', 'Acción', 'Detalle']
 		context['botones'] = {'Nueva Comisión': reverse('comisiones:alta')}
 		return context
 

@@ -26,10 +26,11 @@
 					<li>Cargo: {{persona.como_director.cargo}}</li>
 					<li>Fecha Inicio: {{persona.como_director.fechaInicio}}</li>
 				</ul>
-				{% endif %}
 				
-				{% if persona.es_administrativo %}
-				<li> {{rol.related.get_tipo_display | title}} </li>
+				{% elif persona.es_administrativo %}
+					<li> {{rol.related.get_tipo_display | title}} </li>
+				{% else %}
+					<li> {{rol.related.get_tipo_display | title}} </li>
 				{% endif %}
 				<!--{% renderInfoRol rol %}-->
 			{% endfor %}

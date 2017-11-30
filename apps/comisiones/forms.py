@@ -1,7 +1,9 @@
 from django import forms
 from .models import Comision
+from ..personas.models import Persona
 
 class ComisionForm(forms.ModelForm):
+
 	class Meta:
 		model = Comision
 
@@ -24,3 +26,7 @@ class ComisionForm(forms.ModelForm):
 			'fechaInicio':forms.DateInput(attrs={'type':'date'}),
 			'fechaFin':forms.DateInput(attrs={'type':'date'}),
 		}
+
+	def __init__(self, *args, **kwargs):
+		super(ComisionForm, self).__init__(*args,**kwargs)
+		self.fields['empleados'].queryset = Persona.getEmpleadosParaComision()		
