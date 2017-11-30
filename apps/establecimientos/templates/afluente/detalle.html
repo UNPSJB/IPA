@@ -1,7 +1,29 @@
 {% extends 'detail.html' %}
 
 {% block detailblock %}
-	<p> Nombre: {{afluente.nombre}}</p>
-	<p> Caudal: {{afluente.caudal}}</p>
-	<p> Descripción: {{afluente.descripcion}} </p>
+
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Nombre</td>
+      <td>{{afluente.nombre}}</td>
+    </tr>
+    <tr>
+      <td>Localidad</td>
+      <td>{{afluente.localidad.nombre}}</td>
+    </tr>
+    <tr>
+      <td>Caudal</td>
+      <td>{{afluente.caudal}}</td>
+    </tr>
+    <tr>
+      <td>Longitud</td>
+      <td>{{afluente.longitud}}</td>
+    </tr>
+    <tr>
+      <td>Superficie</td>
+      <td>{{afluente.superficie}}</td>
+    </tr>
+  </tbody>
+</table>
 {% endblock%}	
