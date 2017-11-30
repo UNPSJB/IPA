@@ -297,12 +297,14 @@ class AgregarResolucion(CreateView):
 		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
 		unidad = int(request.POST['unidad'])
 
-		listaResoluciones = [documento for documento in documentos if (documento.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
-		listaResolucionesFecha = sorted(listaResoluciones, key=attrgetter('fecha'), reverse=True)
+		#listaResoluciones = [documento for documento in documentos if (documento.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
+		#listaResolucionesFecha = sorted(listaResoluciones, key=attrgetter('fecha'), reverse=True)
 		
 
-		if len(listaResolucionesFecha) > 0:
-			ultimoVencimientoResolucion = listaResolucionesFecha[0].fecha
+		#if len(listaResolucionesFecha) > 0:
+		if permiso.fechaVencimiento != None:
+			#ultimoVencimientoResolucion = listaResolucionesFecha[0].fecha
+			ultimoVencimientoResolucion = permiso.fechaVencimiento
 			fechaCorrecta = fechaResolucion >= ultimoVencimientoResolucion
 		else:
 			vencimientoPublicacion = permiso.estado().vencimientoPublicacion()

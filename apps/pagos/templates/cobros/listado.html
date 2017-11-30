@@ -1,36 +1,80 @@
-{%extends 'lists.html'%}
-{% load actionButton %}
-{% load static semanticui %}
-{% load staticfiles %}
-{% block contentList %} 
-
-	<div class="row header-content">
+{% extends 'index.html' %}
+{% load contextMenu %}
+{% block extra %}
+<div class="ui grid"> 
+<div class="row header-content">
+	<div class="one wide column"></div>
+	<div class="seven wide column">
 		<div class="titulo">
-			<h1 class="ui header blue">{{nombreForm}}</h1>
+			<h1 class="ui header blue "> {{ nombreForm }}</h1>
 		</div>
-	</div> 
+	</div>
+	<div class="two wide column"></div>
+	<div class="six wide column">
+		<div class="center buscador">
+			<div class="ui search">
+			  <div class="ui icon input">
+			    <input class="prompt" type="text" placeholder="Buscar">
+			    <i class="search icon"></i>
+			  </div>
+			  <div class="results"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row lista">
+	<div class="sixteen wide column">
+		<table class="ui single line table "><h3>Cobros Canon:</h3>
+			<thead class="center aligned">
+				<tr>
+		      		{% for header in headers%}
+						<th>{{header}}</th>
+		      		{% endfor %}
+		      		<th>  </th>
 
-	{% for cobro in cobros %}
-		<tr>
-			<td>{{cobro.fecha_desde}} - {{cobro.fecha_hasta}}</td>
-			<td>{{cobro.fecha_hasta}}</td>
-			<td>{{cobro.monto}}</td>
-			<td><div class="ui one cards">
-		  		<div class="card">
-		    		<div class="image">
-		      			<img src="{% static cobro.documento.thumbnail %}">
-		    		</div>
-					<div class="content">
-		   				<div class="meta">
-	      					<span class="date">{{cobro.documento.fecha}}</span>
-	    				</div>
-		    			<div class="description">{{cobro.documento.descripcion}}
-		    			</div>
-		  			</div>
-				</div>
-				</div>
-			</td>						
-		</tr>
-	{% endfor%}
+			 	</tr>
+			</thead1>
+			<tbody class="center aligned">
+				{% for cobro in cobrosCanon %}
+				<tr>
+					<td>{{cobro.fecha_desde}} - {{cobro.fecha_hasta}}</td>
+					<td>{{cobro.fecha_hasta}}</td>
+					<td>{{cobro.monto}}</td>
+				</tr>
+				{% endfor%}				 	
+			</tbody>
+		</table>
+	</div>
 
+	<div class="sixteen wide column">
+		<table class="ui single line table"><h3>Cobros Infraccion:</h3>
+			<thead class="center aligned">
+				<tr>
+		      		{% for header in headers%}
+						<th>{{header}}</th>
+		      		{% endfor %}
+		      		<th>  </th>
+
+			 	</tr>
+			</thead1>
+			<tbody class="center aligned">
+				{% for cobroinfra in cobrosInfraccion %}
+				<tr>
+					<td>{{cobroinfra.fecha_desde}} - {{cobroinfra.fecha_hasta}}</td>
+					<td>{{cobroinfra.fecha_hasta}}</td>
+					<td>{{cobroinfra.monto}}</td>
+				</tr>
+				{% endfor%}				 	
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+</div>
+
+{% endblock %}
+
+{% block secondaryMenu %}
+	{%renderContextMenu%} 
 {% endblock %}
