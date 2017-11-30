@@ -1,13 +1,13 @@
 {%extends 'lists.html'%}
+{% load actionButton %}
 
 {% block contentList%} 
 
-{% for documento in documentos %}
+{% for tipoDocumento in tipoDocumentos %}
 	<tr>
-		<td>{{documento.nombre}}</td>
+		<td>{{tipoDocumento.nombre}}</td>
 
-		{% include 'formButtons.html' %}
-		
+		{%renderActionButton tipoDocumento.id %}
 	</tr>
 {% endfor%}
 

@@ -9,6 +9,17 @@ from django.http import HttpResponseRedirect
 from datetime import date, datetime
 from operator import attrgetter
 
+from django.urls import reverse_lazy, reverse
+from .models import TipoDocumento, Documento
+from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, DocumentoActaProtegidoForm
+from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
+from django.views import View
+from apps.permisos.models import Permiso
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from datetime import date, datetime
+from operator import attrgetter
+
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm
@@ -20,25 +31,41 @@ class AltaTipoDocumento(CreateView):
 		context['nombreForm'] = "Nuevo Tipo de Documento"
 		context['headers'] = ['Nombre']
 		context['botones'] = {
-			'Listado':reverse('tipoDocumentos:listar'),
+			'Ir a Listado':reverse('tipoDocumentos:listar'),
 			}
 		return context
 
 class DetalleTipoDocumento(DetailView):
 	model = TipoDocumento
 	template_name = 'tipoDocumento/detalle.html'		
+	context_object_name = 'tipoDocumento'
+	
+	def get_context_data(self, **kwargs):
+		context = super(DetalleTipoDocumento, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle de Tipo de Documento'
+		context['botones'] = {
+			'ir a Listado': reverse('tipoDocumentos:listar'),
+			'Nuevo Tipo de Documento': reverse ('tipoDocumentos:alta'),
+			'Modificar Tipo de Documento': reverse('tipoDocumentos:modificar', args=[self.object.id]),
+			'Eliminar Tipo de Documento': reverse('tipoDocumentos:eliminar', args=[self.object.id]),
+			'Salir': reverse('index')
+		}
+		return context
+
 
 class ListadoTipoDocumentos(ListView):
 	model = TipoDocumento
 	template_name = 'tipoDocumento/listado.html'
-	context_object_name = 'documentos'
+	context_object_name = 'tipoDocumentos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTipoDocumentos, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Listado de Tipos de Documento"
+		context['nombreLista'] = "Listado Tipos de Documento"
+		context['nombreReverse'] = 'tipoDocumentos'
 		context['headers'] = ['Nombre']
 		context['botones'] = {
 			'Nuevo Tipo de Documento': reverse('tipoDocumentos:alta'),
+			'Ir a Tipos de Uso': reverse ('tiposDeUso:listar'),
 			'Salir': reverse('index')
 			}
 		return context
@@ -52,14 +79,22 @@ class ModificarTipoDocumento(UpdateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
-		id_afluente = kwargs['pk']
-		afluente = self.model.objects.get(id=id_tipoDocumento)
+		id_tipoDocumento = kwargs['pk']
+		tipoDocumento = self.model.objects.get(id=id_tipoDocumento)
 		form = self.form_class(request.POST, instance=tipoDocumento)
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect(self.get_success_url())
 		else:
 			return HttpResponseRedirect(self.get_success_url())
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarTipoDocumento, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar Tipo Documento"
+		context['botones'] = {
+			'Ir a Listado': reverse('tipoDocumentos:listar'),
+			}
+		return context
 
 class DeleteTipoDocumento(DeleteView):
 	model = TipoDocumento
