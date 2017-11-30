@@ -19,6 +19,8 @@ from django.contrib.auth.views import logout, password_reset, password_reset_don
 from django.views.generic import TemplateView
 from . import views
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.views.static import serve
 
 urlpatterns = [
     # Ruta de index
@@ -52,5 +54,7 @@ urlpatterns = [
     url(r'^comision/', include('apps.comisiones.urls')),
     url(r'^pagos/', include('apps.pagos.urls')),
     url(r'^actas/', include('apps.documentos.urls.actas')),
+    
+    url(r'^archivos/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),    
 
 ]

@@ -5,6 +5,7 @@ from django.views.generic import ListView,DeleteView,DetailView
 from django.shortcuts import redirect
 from django.views import View
 from datetime import date
+from apps.documentos.views import AltaDocumento
 
 class ListadoPermisos(ListView):
 	model = Permiso
@@ -175,3 +176,10 @@ class DetallePermiso(View):
 		else:
 			url = reverse('permisos:listar')
 		return redirect(url)
+
+class NuevaDocumentacionRequerida(AltaDocumento):
+	def get_form(self, form_class):
+		form  = self_form_class()
+		permiso = Permiso.objects.get(id= self.permiso.pk)
+		
+		return form 
