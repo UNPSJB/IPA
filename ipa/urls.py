@@ -48,6 +48,7 @@ urlpatterns = [
     url(r'^personas/', include('apps.personas.urls.personas')),
     url(r'^directores/', include('apps.personas.urls.directores')),
     url(r'^administrativos/', include('apps.personas.urls.administrativos')),
+    url(r'^inspectores/', include('apps.personas.urls.inspectores')),
     url(r'^comision/', include('apps.comisiones.urls')),
     url(r'^pagos/', include('apps.pagos.urls')),
     url(r'^actas/', include('apps.documentos.urls.actas')),

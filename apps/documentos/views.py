@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from datetime import date, datetime
 from operator import attrgetter
 
+
 class AltaTipoDocumento(CreateView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm

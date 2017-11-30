@@ -1,11 +1,10 @@
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy, reverse
 from apps.personas import models as pmodels
 # Create your views here.
-
+from django.shortcuts import redirect
 from apps.personas.forms import *
-from django.views.generic import CreateView, ListView, DetailView, FormView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
 
 class CreateBaseView(CreateView):
@@ -103,3 +102,11 @@ class EliminarPersona(DeleteView):
 		context['nombreForm'] = 'Eliminar Persona:' + self.object.nombre + self.object.apellido
 		context['botones'] = {}
 		return context
+
+
+def promover_a_inspector(request,pk):
+	persona = pmodels.Persona.objects.get(pk=pk)
+	inspector = Inspector()
+	inspector.save()
+	persona.agregar_rol(inspector)
+	return redirect(reverse('personas:detalle', args=[pk]))
