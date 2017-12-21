@@ -2,7 +2,7 @@ from django.db import models
 from apps.personas.models import Persona
 from apps.establecimientos.models import Afluente
 from apps.documentos.models import Documento, TipoDocumento
-from apps.pagos.models import Cobro
+#from apps.pagos.models import Cobro
 from datetime import timedelta, date
 
 # PERMISOS =================================================
@@ -96,6 +96,8 @@ class Permiso(models.Model):
 	afluente = models.ForeignKey(Afluente)
 	numero_exp = models.PositiveIntegerField(null=True)
 	documentos = models.ManyToManyField(Documento)
+	unidad = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+
 
 	objects = PermisoManager()
 
@@ -246,7 +248,9 @@ class Publicado(Estado):
 
 	def resolver(self, usuario, fecha, unidad, resolucion):
 		if self.fecha + timedelta(days=self.tiempo) < fecha:
+			self.permiso.unidad = unidad
 			self.permiso.documentos.add(resolucion)
+			self.permiso.save()
 			print(self.permiso.getEstados(1)[0])
 			#monto = self.permiso.tipo.calcular_monto(30, unidad, self.permiso.getEstados(1)[0].fecha, self.fecha )
 			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=10)
@@ -275,7 +279,7 @@ class Otorgado(Estado):
 	def recalcular(self, usuario, fecha, unidad, documento):
 		self.permiso.documentos.add(documento)
 		monto = self.permiso.tipo.calcular_monto(unidad)
-		Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
+		#Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
 		return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
 
 class Baja(Estado):

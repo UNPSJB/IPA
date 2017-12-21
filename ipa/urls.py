@@ -49,5 +49,5 @@ urlpatterns = [
     url(r'^directores/', include('apps.personas.urls.directores')),
     url(r'^administrativos/', include('apps.personas.urls.administrativos')),
     url(r'^comision/', include('apps.comisiones.urls')),
-         
+    url(r'^pagos/', include('apps.pagos.urls'))
 ]

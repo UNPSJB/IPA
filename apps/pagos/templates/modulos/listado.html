@@ -1,0 +1,17 @@
+{%extends 'lists.html'%}
+{% load actionButton %}
+
+{% block contentList %} 
+
+{% for modulo in modulos %}
+	<tr>
+			<td>{{modulo.precio}}</td>
+			<td>{{modulo.fecha}}</td>
+			<td>{{modulo.descripcion}}</td>
+			<td class="text-center">	
+			<a class="ui icon button" href="#"><i class="info circle icon"></i></button></td>
+			<td><a href="{% url 'pagos:eliminarModulo' modulo.id %}"> Eliminar</a></td>		
+	</tr>
+{% endfor%}
+
+{% endblock %}

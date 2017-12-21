@@ -223,8 +223,10 @@ class AgregarResolucion(CreateView):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
+			print(form.cleaned_data)
+			#raise Exception()
 			resolucion = form.save()
-			permiso.hacer('resolver',request.user,date.today(), request.POST['unidad'], resolucion)
+			permiso.hacer('resolver',request.user,date.today(), int(request.POST['unidad']), resolucion)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 

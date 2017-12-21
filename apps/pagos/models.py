@@ -1,5 +1,5 @@
 from django.db import models
-#from apps.permisos.models import Permiso
+from apps.permisos.models import TipoUso
 from apps.documentos.models import Documento
 # Create your models here.
 
@@ -18,8 +18,8 @@ class Cobro(models.Model):
 	fecha = models.DateField()
 
 # MODULOS ===================================================
-class RegistrarValorDeModulo (models.Model):
-	#modulo = models.ForeignKey(Modulo, blank=False, null=False)
+class ValorDeModulo (models.Model):
+	modulo = models.PositiveIntegerField(choices=TipoUso.TipoModulo)
 	precio = models.DecimalField(max_digits = 10, decimal_places = 2)
 	fecha = models.DateField()
 	descripcion = models.TextField()
