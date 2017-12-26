@@ -109,6 +109,7 @@ class DetallePermisoOtorgado(DetailView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(DetallePermisoOtorgado, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
+		context['fechaSolicitud'] = self.object.getEstados(1)[0].fecha
 		context['botones'] = {
 			'Nuevo Cobro': reverse('pagos:altaCobro', args=[self.permiso_pk]),
 			'Listado de Cobros': reverse('pagos:listarCobros', args=[self.permiso_pk]),

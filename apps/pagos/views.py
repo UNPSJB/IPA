@@ -62,8 +62,8 @@ class AltaCobro(CreateView):
 
 	def get(self, request, *args, **kwargs):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		cobro = permiso.estado().recalcular(request.user, date.today(), permiso.unidad)
 		documento_form = DocumentoForm()
+		cobro = permiso.estado().recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
 		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 
 			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
 			'permiso': permiso, 'nombreForm':"Alta Cobro"})
@@ -74,12 +74,9 @@ class AltaCobro(CreateView):
 
 		documento_form = DocumentoForm(request.POST, request.FILES)
 
-		cobro = permiso.estado().recalcular(request.user, date.today(), permiso.unidad)
-		
 		if documento_form.is_valid():
 			documento = documento_form.save()
-			cobro.documento = documento
-			cobro.permiso = permiso
+			cobro = permiso.estado().recalcular(request.user, documento, date.today(), permiso.unidad)
 			cobro.save()
 			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
 		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})

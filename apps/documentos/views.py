@@ -230,10 +230,12 @@ class AgregarResolucion(CreateView):
 		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
-		
+
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			resolucion = form.save()
-			permiso.hacer('resolver',request.user,resolucion.fecha, int(request.POST['unidad']), resolucion, form.data['fechaVencimiento'])
+			fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
+			fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
+			permiso.hacer('resolver',request.user,resolucion.fecha, int(request.POST['unidad']), resolucion, fechaPrimerCobro, fechaVencimiento)
 			return HttpResponseRedirect(self.get_success_url())
 		return self.render_to_response(self.get_context_data(form=form))
 
