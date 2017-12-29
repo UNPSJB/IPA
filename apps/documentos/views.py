@@ -208,7 +208,7 @@ class AgregarResolucion(CreateView):
 	form_class = DocumentoForm
 	template_name = 'Documento/resolucion.html'
 
-def get_success_url(self):
+	def get_success_url(self):
 		return reverse('permisos:detallePermisoOtorgado', args=(self.permiso_pk, ))
 
 	def get_context_data(self, *args, **kwargs):
