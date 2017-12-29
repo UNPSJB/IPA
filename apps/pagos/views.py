@@ -63,3 +63,6 @@ class AltaCobro(CreateView):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		cobro = permiso.estado().recalcular(request.user, date.today(), permiso.unidad)
 		return render(request, self.template_name, {'cobro': cobro, 'botones':''})
+
+	def post (self, request, *args, **kwargs):
+		pass
