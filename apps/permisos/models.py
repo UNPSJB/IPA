@@ -160,7 +160,7 @@ class Estado(models.Model):
 		(0, 'estado'),
 		(1, 'Solicitado'),
 		(2, 'Visado'),
-		(3, 'Documentación completa'),
+		(3, 'Con Expediente'),
 		(4, 'Edicto publicado'),
 		(5, 'Otorgado'),
 		(6, 'Baja'),

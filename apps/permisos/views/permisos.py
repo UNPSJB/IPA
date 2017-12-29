@@ -15,11 +15,11 @@ class ListadoPermisos(ListView):
 		context['nombreLista'] = "Listado de Permisos"
 		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
-		'Bajas': reverse('permisos:listarPermisosDeBaja'),
-		'Otorgados': reverse('permisos:listarPermisosOtorgados'),
-		'Publicados': reverse('permisos:listarPermisosPublicados'),
-		'Con Expedientes': reverse('permisos:listarPermisosCompletos'),
 		'Solicitudes': reverse('solicitudes:listar'),
+		'Con Expedientes': reverse('permisos:listarPermisosCompletos'),
+		'Publicados': reverse('permisos:listarPermisosPublicados'),
+		'Otorgados': reverse('permisos:listarPermisosOtorgados'),
+		'Bajas': reverse('permisos:listarPermisosDeBaja'),
 		'Salir': reverse('index')}
 		return context
 
