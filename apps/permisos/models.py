@@ -297,7 +297,7 @@ class Otorgado(Estado):
 		monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, desde, hasta)
 		#return Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
 		print(monto)
-		return Cobro(permiso=self.permiso, monto=monto, fecha=hasta)
+		return Cobro(permiso=self.permiso, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
 
 		def isPermisoFinalizado(self):
 			return self.fecha + timedelta(days=self.fechaVencimiento) < date.today()
