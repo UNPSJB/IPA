@@ -100,6 +100,7 @@ class Permiso(models.Model):
 	numero_exp = models.PositiveIntegerField(null=True)
 	documentos = models.ManyToManyField(Documento)
 	unidad = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+	fechaVencimiento = models.DateField(null=True)
 
 
 	objects = PermisoManager()
@@ -248,9 +249,10 @@ class Publicado(Estado):
 	# No contemplar dias habiles.... para no entrar en tema de feriados
 	tiempo = models.PositiveIntegerField()
 
-	def resolver(self, usuario, fecha, unidad, resolucion):
+	def resolver(self, usuario, fecha, unidad, resolucion, vencimiento):
 		if self.fecha + timedelta(days=self.tiempo) < fecha:
 			self.permiso.unidad = unidad
+			self.permiso.fechaVencimiento = vencimiento
 			self.permiso.documentos.add(resolucion)
 			self.permiso.save()
 			print(self.permiso.getEstados(1)[0])
@@ -277,15 +279,6 @@ class Otorgado(Estado):
 		self.permiso.documentos.add(pago)
 		return self
 
-	# Recalculando monto en base a inscpeccion o capricho del director
-	#def recalcular(self, usuario, fecha, unidad, documento):
-	#	self.permiso.documentos.add(documento)
-	#	monto = self.permiso.tipo.calcular_monto(self.permiso.unidad)
-		#Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
-	#	return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
-
-		# Recalculando monto en base a inscpeccion o capricho del director
-	#def recalcular(self, usuario, fecha, unidad, documento):
 	def recalcular(self, usuario, fecha, unidad):
 		cobros = self.permiso.cobros.all()
 		
@@ -305,6 +298,9 @@ class Otorgado(Estado):
 		#return Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)
 		print(monto)
 		return Cobro(permiso=self.permiso, monto=monto, fecha=hasta)
+
+		def isPermisoFinalizado(self):
+			return self.fecha + timedelta(days=self.fechaVencimiento) < date.today()
 
 class Baja(Estado):
 	TIPO = 6

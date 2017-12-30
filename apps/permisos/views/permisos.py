@@ -4,6 +4,7 @@ from ..forms import PermisoForm
 from django.views.generic import ListView,DeleteView,DetailView
 from django.shortcuts import redirect
 from django.views import View
+from datetime import date
 
 class ListadoPermisos(ListView):
 	model = Permiso
@@ -116,10 +117,10 @@ class DetallePermisoOtorgado(DetailView):
 			'Calcular Canon': reverse('pagos:altaCobro', args=[self.permiso_pk]),
 			'Listado': reverse('solicitudes:listar'),
 			'Ver Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
-			#'Cargar documento': reverse('documentos:alta', pk=kwargs.get.('pk'),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
 		}
 		return context
+
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')

@@ -28,4 +28,10 @@
 	{% endif %}
 	</p>
 
+	{% if permiso.estado.isPermisoFinalizado %}
+	<p> Este Permiso esta VIGENTE</p>
+	{% else %}
+	<p> Este Permiso esta VENCIDO</p>
+	{% endif %}
+
 {% endblock %}
