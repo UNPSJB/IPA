@@ -1,7 +1,13 @@
 from django.urls import reverse_lazy, reverse
+from django.shortcuts import render
+from django.core.urlresolvers import reverse_lazy, reverse
 from ..models import TipoUso
 from ..forms import TipoDeUsoForm
+from ..forms import *
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
+from django.http import HttpResponseRedirect
+
+
 
 # Create your views here.
 class AltaTipoDeUso(CreateView):
@@ -10,12 +16,10 @@ class AltaTipoDeUso(CreateView):
 	template_name = 'forms.html'
 	success_url = reverse_lazy('tiposDeUso:listar')
 	
-
-
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDeUso, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
+			'Ir a Listado': reverse('tiposDeUso:listar'),
 			'Nuevo Documento': reverse('tipoDocumentos:alta'),
 			}
 		context['nombreForm'] = 'Nuevo Tipo de Uso'
@@ -30,13 +34,14 @@ class DetalleTipoDeUso(DetailView):
 		context = super(DetalleTipoDeUso, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Tipo de Uso'
 		context['botones'] = {
-			'Listado': reverse('tiposDeUso:listar'),
+			'Ir a Listado': reverse('tiposDeUso:listar'),
 			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
-			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
 			'Modificar Tipo de Uso': reverse('tiposDeUso:modificar', args=[self.object.id]),
-
+			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
+			'Salir': reverse('index')
 		}
 		return context
+
 class ListadoTiposDeUso(ListView):
 	model = TipoUso
 	template_name = 'tipoDeUso/listado.html'
@@ -48,7 +53,7 @@ class ListadoTiposDeUso(ListView):
 		context['nombreReverse'] = "tiposDeUso"
 		context['headers'] = ['Nombre', 'Coeficiente', 'Periodo']
 		context['botones'] = {
-			'Alta': reverse('tiposDeUso:alta') 
+			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta') 
 			}
 		return context
 
@@ -66,7 +71,7 @@ class ModificarTipoDeUso(UpdateView):
 	def post(self, request, pk):
 		self.object = self.get_object
 		id_tipoDeUso = pk
-		tipoDeuso = self.model.objects.get(id=id_tipoDeUso)
+		tipoDeUso = self.model.objects.get(id=id_tipoDeUso)
 		form = self.form_class(request.POST, instance=tipoDeUso)
 		if form.is_valid():
 			form.save()
@@ -78,8 +83,7 @@ class ModificarTipoDeUso(UpdateView):
 		context = super(ModificarTipoDeUso, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Tipo de Uso"
 		context['botones'] = {
-			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
-			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
-			'Listado': reverse('tiposDeUso:listar')
+			'Ir a Listado': reverse('tiposDeUso:listar'),
+			'Nuevo Documento': reverse('tipoDocumentos:alta'),
 			}
 		return context
