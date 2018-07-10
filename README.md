@@ -1,6 +1,7 @@
 ## Desarrollo de Software 2017 - ISFPP
 ### IPA - "Dirección General de Aguas - Permisos de Usos de Aguas"
 ### Organización: Instituto Provincial de Aguas
+---
 
 #### Cátedra
     * Lic. Diego van Haaster
@@ -13,22 +14,22 @@
     * Foletto, Lucas
     * Quinta, Carolina
 
-Maquetación del sitio con: 
-#### [ Admin Template](https://github.com/)
+----
+## Como Instalarlo
 
-##### Get the code
-    git clone https://github.com/
+Clona el repositorio en el directorio que desees
+    
+    git clone https://github.com/UNPSJB/IPA.git
 
-##### Install requirements 
+Instala los requerimientos. Se recomienda utilizar un virtualenv para evitar conflictos de versiones con [virtualenv](https://virtualenv.pypa.io/).
+
     pip install -r requirements.txt
 
-##### Run the code
+## Correr el servicio
+
+Para correr el servidor, tan sólo utiliza las siguientes lineas: 
+
     cd IPA/
     python manage.py runserver 
     
-##### Behold!
-Go to http://localhost:8000/
-
-######  Contributors  
-[](https://github.com/)  
-[](https://github.com/)
+El servicio debe estar corriendo en  http://localhost:8000/
