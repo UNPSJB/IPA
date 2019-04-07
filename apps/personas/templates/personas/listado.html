@@ -1,18 +1,83 @@
-{% extends 'lists.html' %}
+{% extends 'index.html' %}
+{% load contextMenu %}
 {% load actionButton %}
+ 
 
-{% block contentList%} 
+{% block extra %}
+<div class="ui grid"> 
+<div class="row header-content">
+	<div class="one wide column"></div>
+	<div class="seven wide column">
+		<div class="titulo">
+			<h1 class="ui header blue "> {{ nombreLista }}</h1>
+		</div>
+	</div>
+	<div class="two wide column"></div>
+	<div class="six wide column">
+		<div class="center buscador">
+			<div class="ui search">
+			  <div class="ui icon input">
+			    <input class="prompt" type="text" placeholder="Buscar">
+			    <i class="search icon"></i>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row lista">
+	<div class="sixteen wide column">
+		<table class="ui single line table ">
+			<thead class="center aligned">
+				<tr>
+		      		{% for header in headers%}
+						<th>{{header}}</th>
+		      		{% endfor %}
+		      		<th>  </th>
 
-{% for persona in personas %}
-	<tr>
-		<td>{{ persona.nombre }}</td>
-		<td>{{ persona.apellido }}</td>
-		<td>{{ persona.get_tipoDocumento_display }}</td>
-		<td>{{ persona.numeroDocumento }}</td>
-    	{%renderActionButton persona.id %}
-			
-	</tr>
-{% endfor%}
+			 	</tr>
+			</thead>
+			<tbody class="center aligned">
+				
+				<select name="rol-select" id="">
+					<option value="todos">Todos</option>
+					{% for rol in tipoRoles %}
+						<option value="{{ rol }}">{{ rol }}</option>
+					{% endfor %}
+				</select>
+				{% for persona in personas %}
+					<tr id="{{persona.id}}">
+						<td>{{ persona.nombre }}</td>
+						<td>{{ persona.apellido }}</td>
+						<td>{{ persona.get_tipoDocumento_display }}</td>
+						<td>{{ persona.numeroDocumento }}</td>
+						{%renderActionButton persona.id %}
+							
+					</tr>
+				{% endfor%}
+									 
+			</tbody>
+		</table>
+	</div>
+</div>
+
+</div>
 
 {% endblock %}
 
+{% block secondaryMenu %}
+	{%renderContextMenu%} 
+{% endblock %}
+
+
+{% block pageStaticJs %}
+	<script>
+		var lista_de_personas = [];
+		{% for persona in personas %}
+			lista_de_personas.push({id: {{persona.id}}, rol: 
+				{{ persona.getRolesName | safe}}
+			})
+		{% endfor %}
+
+		console.log(lista_de_personas)
+	</script>
+{% endblock %}

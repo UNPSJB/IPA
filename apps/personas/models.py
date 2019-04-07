@@ -7,6 +7,17 @@ from django.db.models import Q
 # Create your models here.
 class Persona(models.Model):
 
+	tipoRol = [ 
+		'Director', 
+		'Administrativo', 
+		'Inspector', 
+		'JefeDepartamento', 
+		'Chofer', 
+		'Solicitante', 
+		'Liquidador', 
+		'Sumariante'
+	]
+
 	TipoDocumento = [
 		('1', 'DNI'),
 		('2', 'LC'),
@@ -57,7 +68,14 @@ class Persona(models.Model):
 	def sos(self, Klass):
 		return any([isinstance(rol, Klass) for rol in self.roles_related()])
 	
-
+	def getRolesName(self):
+		lista_de_roles = [rol.__class__.__name__ for rol in self.roles_related()]
+		cadena_de_retorno = '['
+		for i in lista_de_roles:
+			cadena_de_retorno += "'" + i + "'" + ","
+		cadena_de_retorno += ']'
+		return cadena_de_retorno
+	
 	@classmethod
 	def getEmpleadosParaComision(Klass):
 
@@ -97,6 +115,9 @@ class Rol(models.Model):
 	def getInfo(self):
 		return { 's':  'aa',  'otra': 'cosa'}
 
+	def roleName(self):
+		return 'N/N'
+
 class Director(Rol):
 	TIPO = 1
 	legajo =  models.IntegerField()
@@ -106,14 +127,32 @@ class Director(Rol):
 	def __str__(self):
 		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
 
+	@classmethod
+	def roleName(self):
+		return 'Director'
+
+
 class Administrativo(Rol):
 	TIPO = 2
 
+	@classmethod
+	def roleName(self):
+		return 'Administrativo'
+
 class Inspector(Rol):
 	TIPO = 3
+
+	@classmethod
+	def roleName(self):
+		return 'Inspector'
 	
 class JefeDepartamento(Rol):
 	TIPO = 8
+
+	@classmethod
+	def roleName(self):
+		return 'Jefe de departamento'
+
 
 class Chofer(Rol):
 	TIPO = 4
@@ -123,17 +162,34 @@ class Chofer(Rol):
 	def __str__(self):
 		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
 
+	@classmethod
+	def roleName(self):
+		return 'Chofer'
+
+
 class Solicitante(Rol):
 	TIPO = 5
 	
 	def __str__(self):
 		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
-	
+
+	@classmethod
+	def roleName(self):
+		return 'Solicitante'
+
 class Liquidador(Rol):
 	TIPO = 6
+
+	@classmethod
+	def roleName(self):
+		return 'Liquidador'
 	
 class Sumariante(Inspector):
 	TIPO = 7
+
+	@classmethod
+	def roleName(self):
+		return 'Oficial sumariante'
 	
-for Klass in [Director, Administrativo, Inspector, JefeDepartamento, Chofer, Solicitante, Liquidador, Sumariante]:
-    Rol.register(Klass)
+for Klass in Persona.tipoRol:
+    Rol.register(eval(Klass))

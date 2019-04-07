@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from apps.personas.forms import *
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
-
 class CreateBaseView(CreateView):
 	message_error = "PERSONA YA EXISTE - REINGRESE DATOS"
 	
@@ -72,6 +71,9 @@ class ListadoPersonas(ListView):
 		context['nombreReverse'] = 'personas'
 		context['headers'] = ['Nombre', 'Apellido','Tipo de Documento', 'Número de Documento']
 		context['nombreLista'] = 'Listado de personas'
+
+		context['tipoRoles'] = Persona.tipoRol
+		print(Persona.tipoRol)
 		return context
 
 class DetallePersona(DetailView):
