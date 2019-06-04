@@ -27,34 +27,25 @@
 <div class="row lista">
 	<div class="sixteen wide column">
 		<table class="ui single line table ">
+				<select name="rol-select" id="rolSelect">
+						<option value="todos">Todos</option>
+						{% for rol in tipoRoles %}
+							<option value="{{ rol }}">{{ rol }}</option>
+						{% endfor %}
+					</select>
 			<thead class="center aligned">
 				<tr>
 		      		{% for header in headers%}
 						<th>{{header}}</th>
 		      		{% endfor %}
 		      		<th>  </th>
-
+					  
 			 	</tr>
 			</thead>
-			<tbody class="center aligned">
+
+			<tbody class="center aligned" id="display">
 				
-				<select name="rol-select" id="">
-					<option value="todos">Todos</option>
-					{% for rol in tipoRoles %}
-						<option value="{{ rol }}">{{ rol }}</option>
-					{% endfor %}
-				</select>
-				{% for persona in personas %}
-					<tr id="{{persona.id}}">
-						<td>{{ persona.nombre }}</td>
-						<td>{{ persona.apellido }}</td>
-						<td>{{ persona.get_tipoDocumento_display }}</td>
-						<td>{{ persona.numeroDocumento }}</td>
-						{%renderActionButton persona.id %}
-							
-					</tr>
-				{% endfor%}
-									 
+						 
 			</tbody>
 		</table>
 	</div>
@@ -71,13 +62,58 @@
 
 {% block pageStaticJs %}
 	<script>
+		function display_lista(lista){
+			var listaDisplay = document.getElementById("display");
+			var lista_render = "";
+			for(persona of lista){
+				lista_render += '<tr id=" ' + persona.id + '">' +
+						'<td>' + persona.nombre + '</td>' +
+									'<td>' + persona.apellido + '</td>' +
+									'<td>' + persona.tipoDocumento+ '</td>' +
+									'<td>' + persona.nroDoc + '</td>' +
+									'<td><a class="positive ui button" href="/personas/detalle/'+ persona.id +'">Ver</a></td>' +
+									'<td><a class="positive ui button" href="/personas/modificar/'+ persona.id +'">Modificar</a></td>' +
+									'<td><a class="negative ui button" href="/personas/eliminar/'+ persona.id + '">Eliminar</a></td>' 
+
+						'</tr>';
+			}
+
+			listaDisplay.innerHTML = lista_render;
+		}
+
+		function get_personas_rol(personas, rol){
+			let lista_final = [];
+			for(persona of personas){
+				for(rol_persona of persona.roles){
+					if (rol == rol_persona) lista_final.push(persona)
+				}
+			}
+			return lista_final;
+		}
+
 		var lista_de_personas = [];
 		{% for persona in personas %}
-			lista_de_personas.push({id: {{persona.id}}, rol: 
-				{{ persona.getRolesName | safe}}
+			lista_de_personas.push({
+				id: {{persona.id}}, 
+				roles: {{ persona.getRolesName | safe}},
+				nombre: "{{persona.nombre | safe}}",
+				apellido: "{{persona.apellido | safe}}",
+				tipoDocumento: "{{persona.get_tipoDocumento_display | safe}}",
+				nroDoc: {{persona.numeroDocumento}}					
 			})
 		{% endfor %}
 
-		console.log(lista_de_personas)
+		display_lista(lista_de_personas);
+
+		var rolSelect = document.getElementById('rolSelect');
+		rolSelect.addEventListener("change", function(){
+			if(rolSelect.value == "todos"){
+				display_lista(lista_de_personas);
+			} else {
+				display_lista(get_personas_rol(lista_de_personas, rolSelect.value));
+			}
+						
+		})
+
 	</script>
 {% endblock %}
