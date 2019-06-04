@@ -118,6 +118,15 @@ class Rol(models.Model):
 	def roleName(self):
 		return 'N/N'
 
+	def es(self, rol):
+		return str(self) == rol
+
+	def es_director(self):
+		return self.es('Director')
+
+	def es_chofer(self):
+		return self.es('Chofer')
+		
 class Director(Rol):
 	TIPO = 1
 	legajo =  models.IntegerField()

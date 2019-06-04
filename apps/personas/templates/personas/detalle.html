@@ -15,11 +15,12 @@
 		<a class="negative ui button" href="{% url 'personas:eliminar' persona.id %}">Eliminar Persona</a>
 	</div>
 	<hr>
-	<h3>ROLES:</h3>
-	<ul>
-		{% if persona.roles.all %}
+	{% if persona.roles.all %}
+		
+		<h3>ROLES:</h3>
+		<ul>
 			{% for rol in persona.roles.all %}
-				{% if persona.es_director %}
+				{% if rol.es_director %}
 				<li> {{rol.related.get_tipo_display | title}} </li>
 				<ul>
 					<li>Legajo: {{persona.como_director.legajo}}</li>
@@ -27,7 +28,7 @@
 					<li>Fecha Inicio: {{persona.como_director.fechaInicio}}</li>
 				</ul>
 				
-				{% elif persona.es_chofer %}
+				{% elif rol.es_chofer %}
 				<li> {{rol.related.get_tipo_display | title}} </li>
 				<ul>
 					<li>Licencia: {{persona.como_chofer.licencia}}</li>
@@ -38,18 +39,18 @@
 				{% endif %}
 				<!--{% renderInfoRol rol %}-->
 			{% endfor %}
-		{% endif %}
-	</ul>
+		</ul>
+	{% endif %}
 	<div>
-		<h3>Promover a rol:
+		<h3>Promover a rol:</h3>
 		<select class="ui search dropdown" id="select">
 	  		{% for tipoRol in roles %}
 	  			<option value="{{tipoRol.1}}" id={{tipoRol.0}}>{{tipoRol.1}}</option>
 	  		{% endfor %}
 
 		</select>
-		<button type="button" class="ui positive button" id="2123">Agregar</button>
-		</h3>
+		<button type="button" class="ui positive button">Agregar</button>
+		<div id="message"></div>
 	</div>
 	<hr>
 
@@ -73,9 +74,12 @@ $(document).ready(function(){
 		}
     	$("button").click(function(){
     		var x = document.getElementById("select"); 
-    		var rol = x.value;
-    		//$(location).attr('href','/personas/promover_a_' + ID + '/' + {{persona.id}}); 
-			document.location.href = pluralizeUrl(rol) + '/promover/' + {{persona.id}}; 
+			var rol = x.value;
+			if(rol != 'rol'){
+				document.location.href = pluralizeUrl(rol) + '/promover/' + {{persona.id}}; 
+			} else {
+				document.getElementById('message').innerHTML = 'Por favor, seleccione un rol'
+			}
     	});
 
 		$('#select')
