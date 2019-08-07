@@ -45,3 +45,11 @@ body {
   margin-bottom: 15px;
  }
 
+
+.label {
+  display:inline;
+}
+
+.submenu-item {
+  color:white !important;
+}
