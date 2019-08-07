@@ -38,7 +38,6 @@ class ListadoValoresDeModulo(ListView):
 		context['headers'] = ['Precio', 'Fecha', 'Descripcion', 'Detalle']
 		context['botones'] = {
 			'Alta Valor de Modulo': reverse('pagos:altaModulo'),
-			'Salir': reverse('index')
 			}
 		return context
 

@@ -40,7 +40,6 @@ class DetalleTipoDocumento(DetailView):
 			'Nuevo Tipo de Documento': reverse ('tipoDocumentos:alta'),
 			'Modificar Tipo de Documento': reverse('tipoDocumentos:modificar', args=[self.object.id]),
 			'Eliminar Tipo de Documento': reverse('tipoDocumentos:eliminar', args=[self.object.id]),
-			'Salir': reverse('index')
 		}
 		return context
 
@@ -58,7 +57,6 @@ class ListadoTipoDocumentos(ListView):
 		context['botones'] = {
 			'Nuevo Tipo de Documento': reverse('tipoDocumentos:alta'),
 			'Ir a Tipos de Uso': reverse ('tiposDeUso:listar'),
-			'Salir': reverse('index')
 			}
 		return context
 

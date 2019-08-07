@@ -51,7 +51,6 @@ class DetalleEstablecimiento(DetailView):
 			'Nuevo Establecimiento': reverse('establecimientos:alta'),
 			'Modificar Establecimiento': reverse('establecimientos:modificar', args=[self.object.codigoCatastral]),
 			'Eliminar Establecimiento': reverse('establecimientos:eliminar', args=[self.object.codigoCatastral]),
-			'Salir': reverse('index')
 		}
 		return context
 

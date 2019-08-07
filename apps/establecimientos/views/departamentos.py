@@ -35,7 +35,6 @@ class DetalleDepartamento(DetailView):
 			'Nuevo Departamento': reverse('departamentos:alta'),
 			'Modificar Departamento': reverse('departamentos:modificar', args=[self.object.id]),
 			'Eliminar Departamento': reverse('departamentos:eliminar', args=[self.object.id]),
-			'Salir': reverse('index')
 		}
 		return context
 
@@ -52,7 +51,6 @@ class ListadoDepartamentos(ListView):
 		context['botones'] = {
 				'Nuevo Departamento': reverse('departamentos:alta'),
 				'Ir a Localidades': reverse('localidades:listar'),
-				'Salir': reverse('index')
 			}
 		return context
 

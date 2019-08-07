@@ -35,7 +35,6 @@ class DetalleAfluente(DetailView):
 			'Nuevo Afluente': reverse('afluentes:alta'),
 			'Modificar Afluente': reverse('afluentes:modificar', args=[self.object.id]),
 			'Eliminar Afluente': reverse('afluentes:eliminar', args=[self.object.id]),
-			'Salir': reverse('index')
 		}
 		return context	
 

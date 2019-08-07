@@ -63,7 +63,6 @@ class DetalleSolicitud(DetailView):
 			'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
 			#'Agregar Infracción': reverse('documentos:agregarInfraccion', args=[self.object.pk]),
-			'Salir':reverse('index')
 		}
 		return context
 

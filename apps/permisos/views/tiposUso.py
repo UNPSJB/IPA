@@ -58,7 +58,6 @@ class DetalleTipoDeUso(DetailView):
 			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
 			'Modificar Tipo de Uso': reverse('tiposDeUso:modificar', args=[self.object.id]),
 			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
-			'Salir': reverse('index')
 		}
 		return context
 

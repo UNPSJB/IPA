@@ -34,7 +34,6 @@ class DetalleLocalidad(DetailView):
 			'Nueva Localidad': reverse('localidades:alta'),
 			'Modificar Localidad': reverse('localidades:modificar', args=[self.object.id]),
 			'Eliminar Localidad': reverse('localidades:eliminar', args=[self.object.id]),
-			'Salir': reverse('index')
 		}
 		return context
 

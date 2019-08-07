@@ -90,7 +90,6 @@ class DetallePersona(DetailView):
 			'Directores': reverse('directores:listado'), 
 			'Administrativos':'', 
 			'Liquidadores':'',
-			'Salir': reverse('index'), 
 		}
 		context['roles'] = pmodels.Rol.TIPOS 
 		return context

@@ -36,7 +36,6 @@ class DetalleComision(DetailView):
 		'Listado Comisiones': reverse('comisiones:listar'),
 		'Modificar Comision': reverse('comisiones:modificar', args=[self.object.id]),
 		'Eliminar Comision': reverse('comisiones:eliminar', args=[self.object.id]),
-		'Salir': reverse('index'),
 		}
 		return context
 
