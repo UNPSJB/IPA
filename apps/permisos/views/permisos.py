@@ -15,7 +15,7 @@ class ListadoPermisos(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisos, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Listado de Permisos"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Afluente', 
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo de Uso', 'Afluente', 
 		'Estado', 'Fecha de Solicitud', 'Fecha de Vencimiento', 'Acción', 'Detalle']
 		context['botones'] = {
 		'Solicitudes': reverse('solicitudes:listar'),
@@ -40,7 +40,7 @@ class ListadoPermisosDocumentacionCompleta(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisosDocumentacionCompleta, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Lista de Permisos con Documentación Completa"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado', 'Acción', 'Detalle']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo de Uso', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
 		'Volver a Listado de Permisos': reverse('permisos:listar')}
 		return context
@@ -71,7 +71,7 @@ class ListadoPermisosPublicados(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisosPublicados, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Lista de Permisos Publicados"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado', 'Acción', 'Detalle']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo de Uso', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
 		'Nuevo Permiso': reverse('solicitudes:alta'),
 		'Volver a Listado de Permisos': reverse('permisos:listar')}
@@ -102,7 +102,7 @@ class ListadoPermisosOtorgados(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisosOtorgados, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Lista de Permisos Otorgados"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado', 'Acción', 'Detalle']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo de Uso', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
 		'Volver a Listado de Permisos': reverse('permisos:listar')}
 		return context
@@ -143,7 +143,7 @@ class ListadoPermisosDeBaja(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPermisosDeBaja, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Lista de Permisos dados de Baja"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado', 'Acción', 'Detalle']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo de Uso', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
 		'Volver a Listado de Permisos': reverse('permisos:listar')}
 		return context
