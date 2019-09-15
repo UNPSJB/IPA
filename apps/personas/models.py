@@ -208,3 +208,4 @@ class Empresa(models.Model):
 	cuit = models.CharField(max_length=13)
 	direccion = models.CharField(max_length=60)
 	telefono = models.CharField(max_length=11)
+	representantes = models.ManyToManyField(Persona)
