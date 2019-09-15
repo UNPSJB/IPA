@@ -114,3 +114,26 @@ class LiquidadorForm (PersonaForm):
 
 #AdministrativoForm.base_fields.update(PersonaForm.base_fields)
 AdministrativoForm.base_fields.update()
+
+class EmpresaForm(forms.ModelForm):
+	class Meta:
+		model = Empresa
+		fields = [
+				'cuit',
+				'razonSocial',
+				'direccion',
+				'telefono'
+			]
+		labels = {
+				'cuit': 'CUIT',
+				'razonSocial': 'Razón Social',
+				'direccion': 'Dirección',
+				'telefono': 'Teléfono'
+		}
+		widgets = {
+			'cuit':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'10000000000', 'placehorder':'Número de CUIT'}),
+			'razonSocial':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Razón Social'}),
+			'direccion':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Domicilio del solicitante'}),
+			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'150000000', 'placehorder':'Telefono con o sin catacteristica'}),
+		}
+		

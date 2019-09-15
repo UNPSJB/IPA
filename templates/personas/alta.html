@@ -27,23 +27,19 @@
 	<div class="ui grid">
 		<div class="row">
 			<div class="fifteen wide column">
-				<div class="ui selection dropdown" style="width: 100%;">
-					<input type="hidden" name="empresas" id="id_empresas">
-					<i class="dropdown icon"></i>
-					<div class="default text">Empresas</div>
-					<div class="menu" style="width: 100%;">
-						{% for empresa in empresas%}
-						<div class="item" data-value="{{empresa.cuit}}">
+				<select class="ui fluid search dropdown" multiple="">
+					<option value="">Empresas</option>
+					{% for empresa in empresas%}
+						<option value="{{empresa.cuit}}">
 							{{empresa.razonSocial }} - {{ empresa.cuit }}
-						</div>
-						{% endfor%}
-					</div>
-				</div>
+						</option>
+					{% endfor%}
+				</select>
 			</div>
 			<div class="one wide column">
 				<button class="ui primary icon button" id="agregarEmpresa" type="button" data-tooltip="Agrega una nueva empresa">
 					<i class="plus icon" ></i>
-				</button>
+				</button> 
 			</div>
 		</div>
 	</div>

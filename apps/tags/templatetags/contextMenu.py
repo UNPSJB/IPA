@@ -10,7 +10,6 @@ def renderContextMenu(context):
     botones = context['botones']
     for boton in botones:
     	url = botones[boton]
-   
-    	menu += '<a class="item" href=" ' +  url + ' "></i> ' + boton + ' </a>'
+    	menu += '<a class="item" href=" ' +  str(url) + ' "></i> ' + boton + ' </a>'
     menu += '</div>'	
     return mark_safe(menu)

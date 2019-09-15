@@ -1,39 +1,26 @@
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy, reverse
 from apps.personas import models as pmodels
-# Create your views here.
 from django.shortcuts import redirect
 from apps.personas.forms import *
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from apps.generales.views import GenericAltaView
 
-class CreateBaseView(CreateView):
-	message_error = "PERSONA YA EXISTE - REINGRESE DATOS"
-
-	def form_valid(self,form):
-		self.object = form.save()
-		if self.object != None:
-			return HttpResponseRedirect(self.get_success_url())
-		else:
-			return self.render_to_response(self.get_context_data(form=form, message = "PERSONA YA EXISTE - REINGRESE DATOS"))
-
-class AltaPersona(CreateBaseView):
+class AltaPersona(GenericAltaView):
 	model = pmodels.Persona
 	form_class = PersonaForm
 	template_name = 'personas/alta.html'
 	success_url = reverse_lazy('personas:listado')
-
-	def post(self, request, *args, **kwargs):
-		super(AltaPersona, self).post(request,*args,**kwargs)
-		if 'cargarOtro' in request.POST:
-			self.success_url = reverse_lazy('personas:alta')
-		return redirect(self.success_url)
+	message_error = "PERSONA YA EXISTE - REINGRESE DATOS"
+	cargar_otro_url = reverse_lazy('personas:alta')
+	botones = {
+		'Volver a listado de Personas':reverse_lazy('personas:listado')
+	}
 
 	def get_context_data(self, **kwargs):
-		context = super(AltaPersona, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Volver a listado de Personas':reverse('personas:listado')
-		}
-		return context
+	 context = super().get_context_data(**kwargs)
+	 context['empresas'] = pmodels.Empresa.objects.all()
+	 return context
 
 class ModificarPersona(UpdateView):
 	model = pmodels.Persona
