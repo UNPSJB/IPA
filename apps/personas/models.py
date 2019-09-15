@@ -208,6 +208,8 @@ class Empresa(models.Model):
 	direccion = models.CharField(max_length=60)
 	telefono = models.CharField(max_length=11)
 	representantes = models.ManyToManyField(Persona)
-	
+
 	def __str__(self):
 		return self.razonSocial
+
+	

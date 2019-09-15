@@ -8,18 +8,6 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 
 class CreateBaseView(CreateView):
 	message_error = "PERSONA YA EXISTE - REINGRESE DATOS"
-	
-	def get_context_data(self, **kwargs):
-		context = super(CreateBaseView, self).get_context_data(**kwargs)
-		context['headers'] = []
-		context['nombreForm'] = 'Nueva Persona'
-		context['botones'] = {
-			'Nueva Persona': reverse('personas:alta'), 
-			'Directores':'', 
-			'Administrativos':'', 
-			'Liquidadores':''
-		}
-		return context
 
 	def form_valid(self,form):
 		self.object = form.save()
@@ -34,11 +22,16 @@ class AltaPersona(CreateBaseView):
 	template_name = 'forms.html'
 	success_url = reverse_lazy('personas:listado')
 
+	def post(self, request, *args, **kwargs):
+		super(AltaPersona, self).post(request,*args,**kwargs)
+		if 'cargarOtro' in request.POST:
+			self.success_url = reverse_lazy('personas:alta')
+		return redirect(self.success_url)
+
 	def get_context_data(self, **kwargs):
 		context = super(AltaPersona, self).get_context_data(**kwargs)
 		context['botones'] = {
-			#'Volver a listado de Personas':reverse('personas:listado')
-			'listado':reverse('personas:listado')
+			'Volver a listado de Personas':reverse('personas:listado')
 		}
 		return context
 
@@ -62,18 +55,12 @@ class ListadoPersonas(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoPersonas, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Alta Persona': reverse('personas:alta'),
-		 	'Directores':reverse('directores:listado'), 
-		 	'Choferes':reverse('choferes:listado'),
-		 	'Administrativos':'', 
-		 	'Liquidadores':''
-		 }
+			'Nueva Persona': reverse('personas:alta'),
+		}
 		context['nombreReverse'] = 'personas'
 		context['headers'] = ['Nombre', 'Apellido','Tipo de Documento', 'Número de Documento']
 		context['nombreLista'] = 'Listado de personas'
-
 		context['tipoRoles'] = Persona.tipoRol
-		print(Persona.tipoRol)
 		return context
 
 class DetallePersona(DetailView):
