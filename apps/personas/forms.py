@@ -7,16 +7,12 @@ from django.core.exceptions import ObjectDoesNotExist
 class PersonaForm(forms.ModelForm):
 	class Meta:
 		model = Persona
-		help_texts = {
-            'razonSocial': 'Razon Social alternativa para la persona si corresponde a una empresa',
-        }
 		fields = [
 				'nombre',
 				'apellido',
 				'email',
 				'tipoDocumento',
 				'numeroDocumento',
-				'razonSocial',
 				'direccion',
 				'telefono',
 			]
@@ -26,7 +22,6 @@ class PersonaForm(forms.ModelForm):
 				'email': 'Email',
 				'tipoDocumento': 'Tipo Documento',
 				'numeroDocumento': 'Nro. Documento',
-				'razonSocial': 'Razon Social',
 				'direccion': 'Dirección',
 				'telefono': 'Teléfono',
 		}
@@ -37,7 +32,6 @@ class PersonaForm(forms.ModelForm):
 			'email':forms.TextInput(attrs={'class':'form-control', 'placehorder':'email@email.com'}),
 			'tipoDocumento':forms.Select(attrs={'class':'form-control', 'placehorder':'Seleccione el tipo de documento'}),
 			'numeroDocumento':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1000000', 'placehorder':'Numero de documento sin .'}),
-			'razonSocial':forms.TextInput(attrs={'class':'form-control'}),
 			'direccion':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Domicilio del solicitante'}),
 			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'150000000', 'placehorder':'Telefono con o sin catacteristica'}),
 		}
@@ -120,7 +114,3 @@ class LiquidadorForm (PersonaForm):
 
 #AdministrativoForm.base_fields.update(PersonaForm.base_fields)
 AdministrativoForm.base_fields.update()
-
-
-
-
