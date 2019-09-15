@@ -26,8 +26,8 @@
 	</div>
 	<div class="ui grid">
 		<div class="row">
-			<div class="fifteen wide column">
-				<select class="ui fluid search dropdown" multiple="">
+			<div class="fifteen wide column" >
+				<select class="ui fluid search dropdown empresasDropdown" multiple="" id="empresasDropdown">
 					<option value="">Empresas</option>
 					{% for empresa in empresas%}
 						<option value="{{empresa.cuit}}">
@@ -71,6 +71,23 @@
 		$('#agregarEmpresa').click(function(){
 			var win = window.open('{% url 'empresas:alta' %}', '_blank');
 			win.focus();
+		})
+
+		$(".empresasDropdown").click(function(){
+			//Retrieve data
+			console.log("retrieving data")
+			var options = '<option value="">Empresas</option>'
+			$.get('{% url 'empresas:data' %}', function(data) {
+				console.log(data.data)
+				console.log(typeof(data.data))
+				for(empresa of data.data){
+					console.log(empresa)
+					options += '<option value="' + empresa.cuit + '">' + empresa.razonSocial + ' - ' + empresa.cuit + '</option>'
+				}
+				$("#empresasDropdown").html(options)
+			}, "json")
+
+			
 		})
 	})
 
