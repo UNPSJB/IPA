@@ -27,7 +27,7 @@
 	<div class="ui grid">
 		<div class="row">
 			<div class="fifteen wide column" >
-				<select class="ui fluid search dropdown empresasDropdown" multiple="" id="empresasDropdown">
+				<select class="ui fluid search dropdown empresasDropdown" multiple="" id="empresasDropdown" name="empresas">
 					<option value="">Empresas</option>
 					{% for empresa in empresas%}
 						<option value="{{empresa.cuit}}">
@@ -82,7 +82,7 @@
 				console.log(typeof(data.data))
 				for(empresa of data.data){
 					console.log(empresa)
-					options += '<option value="' + empresa.cuit + '">' + empresa.razonSocial + ' - ' + empresa.cuit + '</option>'
+					options += '<option value="' + empresa.cuit + '">' + empresa.razonSocial + ' - ' empresa + '</option>'
 				}
 				$("#empresasDropdown").html(options)
 			}, "json")

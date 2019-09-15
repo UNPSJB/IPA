@@ -23,7 +23,7 @@ class Persona(models.Model):
 		('2', 'LC'),
 		('3', 'LE'),
 		('4', 'PASS'),
-		('5', 'CUIT')
+		('5', 'CUIL')
 	]
 
 	class Meta:
@@ -34,7 +34,7 @@ class Persona(models.Model):
 	apellido = models.CharField(max_length=30)
 	email = models.EmailField()
 	tipoDocumento = models.CharField(max_length=1, choices=TipoDocumento)
-	numeroDocumento = models.CharField(max_length=13)
+	numeroDocumento = models.CharField(max_length=13, unique=True)
 	direccion = models.CharField(max_length=60)
 	telefono = models.CharField(max_length=11)
 

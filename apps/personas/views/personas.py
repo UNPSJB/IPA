@@ -18,9 +18,20 @@ class AltaPersona(GenericAltaView):
 	}
 
 	def get_context_data(self, **kwargs):
-	 context = super().get_context_data(**kwargs)
-	 context['empresas'] = pmodels.Empresa.objects.all()
-	 return context
+		context = super().get_context_data(**kwargs)
+		context['empresas'] = pmodels.Empresa.objects.all()
+		return context
+
+	def post(self,request, *args, **kwargs):
+		response = super(AltaPersona, self).post(request, *args, **kwargs)
+		cuitList = request.POST.getlist('empresas')
+		persona = pmodels.Persona.objects.get(numeroDocumento=request.POST['numeroDocumento'])
+		for cuit in cuitList:
+			empresa = pmodels.Empresa.objects.get(cuit=cuit)
+			empresa.representantes.add(persona)
+			empresa.save()
+		return response
+
 
 class ModificarPersona(UpdateView):
 	model = pmodels.Persona
