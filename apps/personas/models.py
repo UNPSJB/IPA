@@ -22,7 +22,8 @@ class Persona(models.Model):
 		('1', 'DNI'),
 		('2', 'LC'),
 		('3', 'LE'),
-		('4', 'PASS')
+		('4', 'PASS'),
+		('5', 'CUIT')
 	]
 
 	class Meta:
@@ -34,8 +35,8 @@ class Persona(models.Model):
 	email = models.EmailField()
 	tipoDocumento = models.CharField(max_length=1, choices=TipoDocumento)
 	numeroDocumento = models.CharField(max_length=13)
-	direccion = models.CharField(max_length=60, null=True)
-	telefono = models.CharField(max_length=11, null=True)
+	direccion = models.CharField(max_length=60)
+	telefono = models.CharField(max_length=11)
 
 	def __str__(self):
 		return "{}, {}".format(self.apellido, self.nombre)
@@ -203,13 +204,7 @@ for Klass in Persona.tipoRol:
 
 
 class Empresa(models.Model):
-	cuit = models.CharField(max_length=11)
-	razonSocial = models.CharField(max_length=30)
+	razonSocial = models.CharField(max_length=30, null=True, blank=True)
+	cuit = models.CharField(max_length=13)
 	direccion = models.CharField(max_length=60)
 	telefono = models.CharField(max_length=11)
-	representantes = models.ManyToManyField(Persona)
-
-	def __str__(self):
-		return self.razonSocial
-
-	

@@ -19,7 +19,7 @@ class CreateBaseView(CreateView):
 class AltaPersona(CreateBaseView):
 	model = pmodels.Persona
 	form_class = PersonaForm
-	template_name = 'forms.html'
+	template_name = 'personas/alta.html'
 	success_url = reverse_lazy('personas:listado')
 
 	def post(self, request, *args, **kwargs):

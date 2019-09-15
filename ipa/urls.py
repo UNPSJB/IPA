@@ -60,6 +60,7 @@ urlpatterns = [
     url(r'^pagos/', include('apps.pagos.urls')),
     url(r'^actas/', include('apps.documentos.urls.actas')),
     
+    url(r'^empresas/', include('apps.personas.urls.empresas')),    
     url(r'^archivos/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),    
 
 ]
