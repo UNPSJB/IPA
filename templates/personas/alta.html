@@ -21,8 +21,7 @@
     {% csrf_token %}
 	{% render_form form %}
 	<div class="field">
-		<label for="id_empresas">Empresas</label>
-		
+		<label for="id_empresas">Empresas</label>		
 	</div>
 	<div class="ui grid">
 		<div class="row">
@@ -42,6 +41,11 @@
 				</button> 
 			</div>
 		</div>
+	</div>
+	<div class="field">
+		<label for="id_roles">Roles</label>		
+		<select class="ui fluid search dropdown" multiple="" name="roles" id="rolesDropdown">
+		</select>
 	</div>
 	<div class="ui grid">
 		<div class="row">
@@ -78,17 +82,38 @@
 			console.log("retrieving data")
 			var options = '<option value="">Empresas</option>'
 			$.get('{% url 'empresas:data' %}', function(data) {
-				console.log(data.data)
-				console.log(typeof(data.data))
 				for(empresa of data.data){
-					console.log(empresa)
-					options += '<option value="' + empresa.cuit + '">' + empresa.razonSocial + ' - ' empresa + '</option>'
+					options += '<option value="' + empresa.cuit + '">' + empresa.razonSocial + ' - ' + empresa.cuit + '</option>'
 				}
 				$("#empresasDropdown").html(options)
 			}, "json")
-
-			
 		})
+
+		function sanitize(str){
+			var tuplas = {
+				'Director': 'Director', 
+				'Administrativo': 'Administrativo', 
+				'Inspector': 'Inspector', 
+				'JefeDepartamento': 'Jefe de Departamento', 
+				'Chofer': 'Chofer', 
+				'Solicitante': 'Solicitante', 
+				'Liquidador': 'Liquidador', 
+				'Sumariante': 'Sumariante'
+			}
+
+			return tuplas[str]
+		}
+
+		var rolesOptions ='<option value="">Roles</option>'
+		
+		{% for rol in roles %}
+			rolesOptions += '<option value="{{rol}}">' + sanitize('{{rol}}') + '</option>'
+		{% endfor %}
+
+		$("#rolesDropdown").html(rolesOptions)
+
 	})
+
+	
 
 {% endblock %}

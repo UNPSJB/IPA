@@ -4,7 +4,7 @@ from apps.personas import models as pmodels
 from django.shortcuts import redirect
 from apps.personas.forms import *
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
-from apps.generales.views import GenericAltaView
+from apps.generales.views import GenericAltaView, GenericModificacionView
 
 class AltaPersona(GenericAltaView):
 	model = pmodels.Persona
@@ -20,30 +20,31 @@ class AltaPersona(GenericAltaView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['empresas'] = pmodels.Empresa.objects.all()
+		context['roles'] = pmodels.Persona.tipoRol
 		return context
 
 	def post(self,request, *args, **kwargs):
 		response = super(AltaPersona, self).post(request, *args, **kwargs)
 		cuitList = request.POST.getlist('empresas')
+		rolesList = request.POST.getlist('roles')
 		persona = pmodels.Persona.objects.get(numeroDocumento=request.POST['numeroDocumento'])
 		for cuit in cuitList:
 			empresa = pmodels.Empresa.objects.get(cuit=cuit)
 			empresa.representantes.add(persona)
 			empresa.save()
+		for rol in rolesList:
+			persona.agregar_rol(eval(rol)())
 		return response
 
 
-class ModificarPersona(UpdateView):
+class ModificarPersona(GenericModificacionView):
 	model = pmodels.Persona
-	template_name = 'forms.html'
 	form_class = PersonaForm
 	success_url = reverse_lazy('personas:listado')
-
-	def get_context_data(self, **kwargs):
-		context = super(ModificarPersona, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Editar Persona:'
-		context['botones'] = {'Volver a Listado de Personas':reverse('personas:listado')}
-		return context
+	nombre_form = 'Editar persona'
+	botones = {
+		'Volver a listado de Personas':reverse_lazy('personas:listado')
+	}
 
 class ListadoPersonas(ListView):
 	model = pmodels.Persona

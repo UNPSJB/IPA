@@ -106,8 +106,6 @@ class Rol(models.Model):
 	def register(cls, klass):
 		cls.TIPOS.append((klass.TIPO, klass.__name__.lower()))
 
-	#def __str__(self):
-	#	return "{rol}: {persona}".format(rol=self.__class__.__name__, persona=self.persona)
 	def __str__(self):
 		return "{rol}".format(rol=self.__class__.__name__)
 
