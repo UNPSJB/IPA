@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'apps.permisos',
     'apps.personas',
     'apps.pagos',
-
+    'django_tables2',
     'apps.semanticuiforms',
-    #'django_extensions'
+    'django_extensions',
     'apps.tags',
 ] 
 
@@ -166,3 +166,4 @@ TIPOS_PROTEGIDOS = [
     'acta-de-inspeccion', 
     'acta-de-infraccion'
 ]
+DJANGO_TABLES2_TEMPLATE = "django_tables2/semantic.html"

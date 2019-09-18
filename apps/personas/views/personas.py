@@ -5,6 +5,8 @@ from django.shortcuts import redirect
 from apps.personas.forms import *
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from apps.generales.views import GenericAltaView, GenericModificacionView
+from django_tables2 import SingleTableView
+from apps.personas.tables import PersonaTable
 
 class AltaPersona(GenericAltaView):
 	model = pmodels.Persona
@@ -46,21 +48,11 @@ class ModificarPersona(GenericModificacionView):
 		'Volver a listado de Personas':reverse_lazy('personas:listado')
 	}
 
-class ListadoPersonas(ListView):
+class ListadoPersonas(SingleTableView):
 	model = pmodels.Persona
 	template_name = 'personas/listado.html'
-	context_object_name = 'personas'
-
-	def get_context_data(self, **kwargs):
-		context = super(ListadoPersonas, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Nueva Persona': reverse('personas:alta'),
-		}
-		context['nombreReverse'] = 'personas'
-		context['headers'] = ['Nombre', 'Apellido','Tipo de Documento', 'Número de Documento']
-		context['nombreLista'] = 'Listado de personas'
-		context['tipoRoles'] = Persona.tipoRol
-		return context
+	table_class = PersonaTable
+	paginate_by = 8
 
 class DetallePersona(DetailView):
 	model = pmodels.Persona

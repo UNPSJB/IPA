@@ -1,3 +1,11 @@
-<td class="text-center">	
-	<a class="ui icon button" href=""><i class="info circle icon"></i></button>
-</td>
+<div class="ui small basic icon buttons">
+	<button class="ui button" onclick="window.location.href='detalle/{{record.id}}/'" >
+		<i class="eye icon"></i>
+	</button>
+	<button class="ui button" onclick="window.location.href='modificar/{{record.id}}/'">
+		<i class="edit icon"></i>
+	</button>
+	<button class="ui button" onclick="window.location.href='eliminar/{{record.id}}/'">
+		<i class="trash alternate icon"></i>
+	</button>
+</div>

@@ -1,0 +1,110 @@
+{% extends 'base/base.html' %} {% load staticfiles %} {% load contextMenu%} {% block pageStaticStyles %}
+
+<link rel="stylesheet" href="{% static 'page/styles/index.css' %}"> {% endblock %} {% block fonts %}
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> {% endblock %} {% block header%}
+<div class="ui huge borderless fluid menu" >
+    <a class="header item" href="http://localhost:8000/"><img src="{% static 'page/img/logo.jpg' %}" alt="">IPA - Instituto Provincial Del Agua</a>
+    <div class="right menu">
+        <div class="ui pointing dropdown item top">¡Bienvenido {{user}}! <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item"><i class="configure icon"></i>Editar información</a>
+                <a class="item"><i class="help icon"></i>Ayuda</a>
+                <a class="item" href="{% url 'logout' %}"><i class="sign out icon"></i> Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+
+
+{% block content %}
+  <div class="ui grid">
+    <div class="row">
+      <div class="three wide column " >
+        <div class="ui vertical fluid blue inverted large menu">
+
+          <div class="item">
+            <h2 class="ui center aligned icon header"><i class="blue inverted circular user icon"></i> {{ user }} </h2>
+            <p class="roles">Administrativo</p>
+          </div>
+
+          <a class="ui dropdown item" href="{% url 'permisos:listar' %}">
+            <i class="circle check icon"></i>            
+            <div>
+              Permisos 
+            </div>   
+          </a>
+          
+        
+          <a class="ui dropdown item" style="color:white" href="{% url 'personas:listado' %}">
+            
+            <i class="users icon"></i>
+              <div>
+              Usuarios
+              </div>
+          </a>
+             
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
+            <i class="users icon"></i>
+              <div>
+              Establecimientos
+              </div>
+          </a>
+
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'comisiones:listar' %}">
+           
+            <i class="file icon"></i>
+              <div>
+              Comision
+              </div>
+          </a>
+          
+          
+          <a class="ui dropdown item" style="color:white" href="{% url 'personas:listado' %}">
+            <i class="id card icon"></i>
+            <div>
+              Personas 
+            </div>
+          </a>
+          
+
+          
+          <a class="ui dropdown item">
+            <i class="dollar icon"></i>  Pagos 
+            <div class="menu inverted blue">
+              <a href="{% url 'pagos:listarModulos' %}" class="item submenu-item ">Valor de Modulos</a>
+              <a href="{% url 'pagos:listarTodosLosCobros' %}" class="item submenu-item ">Cobros</a>
+              <a href="{% url 'pagos:listarTodosLosPagos' %}" class="item submenu-item ">Pagos</a>
+            </div>
+          </a>
+
+          <a class="ui dropdown item">
+              <i class="settings icon"></i> Generales
+              <div class="menu inverted blue">
+                <a href="{% url 'afluentes:listar' %}" class="item submenu-item"> Afluentes</a> 
+                <a href="{% url 'localidades:listar' %}" class="item submenu-item"> Localidades</a>
+                <a href="{% url 'tiposDeUso:listar' %}" class="item submenu-item "> Tipos de Uso</a>
+                <a href="{% url 'tipoDocumentos:listar' %}" class="item submenu-item "> Tipos de Documentos</a>
+                <a href="{% url 'departamentos:listar' %}" class="item submenu-item "> Departamentos</a>
+                <a href="{% url 'admin:index' %}" class="item submenu-item "> Administración</a>
+              </div>
+          </a>
+        </div>
+      </div>
+        <!-- column sidebar-->
+        <div class="twelve wide column extra">
+            {% block wrapper %}{% endblock %}
+        </div>
+    </div>
+    <!-- row -->
+</div>
+<!-- ui grid -->
+
+{% endblock %} {% block pageStaticJs %}
+<script type="text/javascript" src="{% static 'page/js/index.js'%}"></script>
+{% endblock %}
+{% block customPageJs %}
+
+{% endblock %}

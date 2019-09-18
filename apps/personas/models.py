@@ -41,6 +41,10 @@ class Persona(models.Model):
 	def __str__(self):
 		return "{}, {}".format(self.apellido, self.nombre)
 
+	@property
+	def nombre_completo(self):
+		return "{} {}".format(self.nombre, self.apellido)
+
 	def es_director(self):
 		return self.sos(Director)
 

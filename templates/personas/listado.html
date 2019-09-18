@@ -1,119 +1,27 @@
-{% extends 'index.html' %}
-{% load contextMenu %}
+{% extends 'index2.html' %}
 {% load actionButton %}
- 
+{% load render_table from django_tables2 %}
 
-{% block extra %}
+
+{% block wrapper %}
 <div class="ui grid"> 
 <div class="row header-content">
-	<div class="one wide column"></div>
-	<div class="seven wide column">
-		<div class="titulo">
-			<h1 class="ui header blue "> Personas </h1>
-		</div>
+	<div class="three wide column"></div>
+	<div class="ten wide column">
+		<h1 class="ui center aligned header blue "> Personas </h1>
 	</div>
-	<div class="two wide column"></div>
-	<div class="six wide column">
-		<div class="center buscador">
-			<div class="ui search">
-			  <div class="ui icon input">
-			    <input class="prompt" type="text" placeholder="Buscar">
-			    <i class="search icon"></i>
-			  </div>
-			</div>
-		</div>
+	<div class="three wide column">
+		<button class="ui icon right floated blue button">
+			<i class="plus icon"></i>
+			Nueva persona
+		</button>
 	</div>
 </div>
 <div class="row lista">
-	<div class="sixteen wide column">
-		<table class="ui single line table ">
-				<select name="rol-select" id="rolSelect">
-						<option value="todos">Todos</option>
-						{% for rol in tipoRoles %}
-							<option value="{{ rol }}">{{ rol }}</option>
-						{% endfor %}
-					</select>
-			<thead class="center aligned">
-				<tr>
-		      		{% for header in headers%}
-						<th>{{header}}</th>
-		      		{% endfor %}
-		      		<th>  </th>
-					  
-			 	</tr>
-			</thead>
-
-			<tbody class="center aligned" id="display">
-				
-						 
-			</tbody>
-		</table>
-	</div>
+	{% render_table table %}
 </div>
 
 </div>
 
 {% endblock %}
 
-{% block secondaryMenu %}
-	{%renderContextMenu%} 
-{% endblock %}
-
-
-{% block pageStaticJs %}
-	<script>
-		function display_lista(lista){
-			var listaDisplay = document.getElementById("display");
-			var lista_render = "";
-			for(persona of lista){
-				lista_render += '<tr id=" ' + persona.id + '">' +
-						'<td>' + persona.nombre + '</td>' +
-									'<td>' + persona.apellido + '</td>' +
-									'<td>' + persona.tipoDocumento+ '</td>' +
-									'<td>' + persona.nroDoc + '</td>' +
-									'<td><a class="positive ui button" href="/personas/detalle/'+ persona.id +'">Ver</a></td>' +
-									'<td><a class="positive ui button" href="/personas/modificar/'+ persona.id +'">Modificar</a></td>' +
-									'<td><a class="negative ui button" href="/personas/eliminar/'+ persona.id + '">Eliminar</a></td>' 
-
-						'</tr>';
-			}
-
-			listaDisplay.innerHTML = lista_render;
-		}
-
-		function get_personas_rol(personas, rol){
-			let lista_final = [];
-			for(persona of personas){
-				for(rol_persona of persona.roles){
-					if (rol == rol_persona) lista_final.push(persona)
-				}
-			}
-			return lista_final;
-		}
-
-		var lista_de_personas = [];
-		{% for persona in personas %}
-			lista_de_personas.push({
-				id: {{persona.id}}, 
-				roles: {{ persona.getRolesName | safe}},
-				nombre: "{{persona.nombre | safe}}",
-				apellido: "{{persona.apellido | safe}}",
-				tipoDocumento: "{{persona.get_tipoDocumento_display | safe}}",
-				nroDoc: {{persona.numeroDocumento}}					
-			})
-		{% endfor %}
-
-		display_lista(lista_de_personas);
-
-		var rolSelect = document.getElementById('rolSelect');
-		rolSelect.addEventListener("change", function(){
-			if(rolSelect.value == "todos"){
-				display_lista(lista_de_personas);
-			} else {
-				display_lista(get_personas_rol(lista_de_personas, rolSelect.value));
-			}
-						
-		})
-
-	</script>
-{% endblock %}
