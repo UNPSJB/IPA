@@ -1,23 +1,20 @@
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy, reverse
-from apps.personas import models as pmodels
-from django.shortcuts import redirect
-from apps.personas.forms import *
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import DetailView, DeleteView
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
 from apps.generales.views import GenericAltaView, GenericModificacionView
-from django_tables2 import SingleTableView
+from apps.personas import models as pmodels
+from apps.personas.forms import PersonaForm, DetallePersonaForm
 from apps.personas.tables import PersonaTable
+
+
 
 class AltaPersona(GenericAltaView):
 	model = pmodels.Persona
 	form_class = PersonaForm
 	template_name = 'personas/alta.html'
 	success_url = reverse_lazy('personas:listado')
-	message_error = "PERSONA YA EXISTE - REINGRESE DATOS"
 	cargar_otro_url = reverse_lazy('personas:alta')
-	botones = {
-		'Volver a listado de Personas':reverse_lazy('personas:listado')
-	}
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -48,7 +45,7 @@ class ModificarPersona(GenericModificacionView):
 		'Volver a listado de Personas':reverse_lazy('personas:listado')
 	}
 
-class ListadoPersonas(SingleTableView):
+class ListadoPersonas(SingleTableMixin, FilterView):
 	model = pmodels.Persona
 	template_name = 'personas/listado.html'
 	table_class = PersonaTable
@@ -82,46 +79,3 @@ class EliminarPersona(DeleteView):
 		context['nombreForm'] = 'Eliminar Persona:' + self.object.nombre + self.object.apellido
 		context['botones'] = {}
 		return context
-
-
-def promover_a_inspector(request,pk):
-	persona = pmodels.Persona.objects.get(pk=pk)
-	inspector = Inspector()
-	inspector.save()
-	persona.agregar_rol(inspector)
-	return redirect(reverse('personas:detalle', args=[pk]))
-
-def promover_a_jefe_departamento(request,pk):
-	persona = pmodels.Persona.objects.get(pk=pk)
-	jefe_departamento = JefeDepartamento()
-	jefe_departamento.save()
-	persona.agregar_rol(jefe_departamento)
-	return redirect(reverse('personas:detalle', args=[pk]))
-
-def promover_a_sumariante(request,pk):
-	persona = pmodels.Persona.objects.get(pk=pk)
-	sumariante = pmodels.Sumariante()
-	sumariante.save()
-	persona.agregar_rol(sumariante)
-	return redirect(reverse('personas:detalle', args=[pk]))
-
-def promover_a_solicitante(request,pk):
-	persona = pmodels.Persona.objects.get(pk=pk)
-	solicitante = Solicitante()
-	solicitante.save()
-	persona.agregar_rol(solicitante)
-	return redirect(reverse('personas:detalle', args=[pk]))
-
-def promover_a_liquidador(request,pk):
-	persona = pmodels.Persona.objects.get(pk=pk)
-	liquidador = Liquidador()
-	liquidador.save()
-	persona.agregar_rol(liquidador)
-	return redirect(reverse('personas:detalle', args=[pk]))
-
-def promover_a_administrativo(request,pk):
-	persona = pmodels.Persona.objects.get(pk=pk)
-	administrativo = Administrativo()
-	administrativo.save()
-	persona.agregar_rol(administrativo)
-	return redirect(reverse('personas:detalle', args=[pk]))

@@ -52,19 +52,8 @@ class DirectorForm (forms.ModelForm):
 		ordering = ["-legajo"]
 
 		widgets = {
-
 			'fechaInicio': forms.DateInput(attrs={'type':'date'}),
 		}
-		
-	#def save(self):
-		#personaForm = PersonaForm(data=self.cleaned_data)
-	#	try:
-			#persona = personaForm.save()
-	#		director = super().save()
-	#		persona.agregar_rol(director)
-	#		return director
-	#	except ValueError:
-	#		return None
 
 class AdministrativoForm (PersonaForm):
 	
