@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.semanticuiforms',
     'django_extensions',
     'apps.tags',
+    'django_filters',
 ] 
 
 MIDDLEWARE = [

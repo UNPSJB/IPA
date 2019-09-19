@@ -47,7 +47,7 @@ urlpatterns = [
     url(r'^permisos/', include('apps.permisos.urls.permisos'), name='permisos'),
     url(r'^tiposDeUso/', include('apps.permisos.urls.tiposUso'), name='tiposDeUso'),
     url(r'^solicitudes/', include('apps.permisos.urls.solicitudes'), name='solicitudes'),
-    url(r'^personas/', include('apps.personas.urls.personas')),
+    url(r'^personas/', include('apps.personas.urls.personas'), name='persona'),
     url(r'^comision/', include('apps.comisiones.urls')),
     url(r'^pagos/', include('apps.pagos.urls')),
     url(r'^actas/', include('apps.documentos.urls.actas')),

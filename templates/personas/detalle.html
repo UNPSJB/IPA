@@ -41,52 +41,6 @@
 			{% endfor %}
 		</ul>
 	{% endif %}
-	<div>
-		<h3>Promover a rol:</h3>
-		<select class="ui search dropdown" id="select">
-	  		{% for tipoRol in roles %}
-	  			<option value="{{tipoRol.1}}" id={{tipoRol.0}}>{{tipoRol.1}}</option>
-	  		{% endfor %}
-
-		</select>
-		<button type="button" class="ui positive button">Agregar</button>
-		<div id="message"></div>
-	</div>
 	<hr>
 
 {% endblock%}	
-
- {% block pageStaticJs %}
- <script type="text/javascript" src="{% static 'page/js/index.js'%}"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-		var pluralizeUrl = function(nombre) {
-			return {
-				'solicitante': '/solicitantes',
-				'director': '/directores',
-				'administrativo': '/administrativos',
-				'inspector': '/inspectores',
-				'sumariante': '/sumariantes',
-				'liquidador': '/liquidadores',
-				'jefedepartamento': '/jefesdepartamento',
-				'chofer': '/choferes'
-			}[nombre];
-		}
-    	$("button").click(function(){
-    		var x = document.getElementById("select"); 
-			var rol = x.value;
-			if(rol != 'rol'){
-				document.location.href = pluralizeUrl(rol) + '/promover/' + {{persona.id}}; 
-			} else {
-				document.getElementById('message').innerHTML = 'Por favor, seleccione un rol'
-			}
-    	});
-
-		$('#select')
-		  .dropdown({
-		    action: 'activate'
-		  });
-
-});
-</script>
-{% endblock %}

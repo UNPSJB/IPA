@@ -1,13 +1,20 @@
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.views.generic import DetailView, DeleteView
+from django.views import View
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from apps.generales.views import GenericAltaView, GenericModificacionView
 from apps.personas import models as pmodels
 from apps.personas.forms import PersonaForm, DetallePersonaForm
-from apps.personas.tables import PersonaTable
+from apps.personas.tables import PersonaTable, PersonaFilter
+from django.http import JsonResponse
 
-
+class ListadoPersonas(SingleTableMixin, FilterView):
+	model = pmodels.Persona
+	template_name = 'personas/listado.html'
+	table_class = PersonaTable
+	paginate_by = 12
+	filterset_class = PersonaFilter
 
 class AltaPersona(GenericAltaView):
 	model = pmodels.Persona
@@ -45,29 +52,20 @@ class ModificarPersona(GenericModificacionView):
 		'Volver a listado de Personas':reverse_lazy('personas:listado')
 	}
 
-class ListadoPersonas(SingleTableMixin, FilterView):
-	model = pmodels.Persona
-	template_name = 'personas/listado.html'
-	table_class = PersonaTable
-	paginate_by = 8
+class DetallePersona(View):
+	def get(self, request, *args, **kwargs):
+		persona = pmodels.Persona.objects.get(id=kwargs.get('pk'))
+		return JsonResponse({
+			"nombre": persona.nombre,
+			"apellido" : persona.apellido,
+			"email": persona.email,
+			"tipoDocumento": persona.tipoDocumento,
+			"numeroDocumento":persona.numeroDocumento,
+			"direccion": persona.direccion,
+			"telefono": persona.telefono
+		})
 
-class DetallePersona(DetailView):
-	model = pmodels.Persona
-	form_class = DetallePersonaForm
-	template_name = 'personas/detalle.html'
-	context_object_name = 'persona'
 
-	def get_context_data(self, **kwargs):
-		context = super(DetallePersona, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Volver a Listado de Personas': reverse('personas:listado'),
-			'Nueva Persona': reverse('personas:alta'), 
-			'Directores': reverse('directores:listado'), 
-			'Administrativos':'', 
-			'Liquidadores':'',
-		}
-		context['roles'] = pmodels.Rol.TIPOS 
-		return context
 
 class EliminarPersona(DeleteView):
 	model = pmodels.Persona

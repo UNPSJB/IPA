@@ -5,23 +5,72 @@
 
 {% block wrapper %}
 <div class="ui grid"> 
-<div class="row header-content">
-	<div class="three wide column"></div>
-	<div class="ten wide column">
-		<h1 class="ui center aligned header blue "> Personas </h1>
+	<div class="row header-content">
+		<div class="six wide column">
+			{% if filter %}
+				<form action="" method="get" class="ui form">
+					<div class="inline field">
+						{{ filter.form }}
+						<button class="ui icon button">
+								<i class="filter icon"></i>
+						</button>				
+					</div>
+				</form>
+			{% endif %}
+		</div>
+		<div class="four wide column">
+			<h1 class="ui center aligned header blue "> Personas </h1>
+		</div>
+		<div class="six wide column">
+			<button class="ui icon right floated blue button" onclick="window.location.href='alta'">
+				<i class="plus icon"></i>
+				Nueva persona
+			</button>
+		</div>
 	</div>
-	<div class="three wide column">
-		<button class="ui icon right floated blue button" onclick="window.location.href='alta'">
-			<i class="plus icon"></i>
-			Nueva persona
-		</button>
+	<div class="row lista">
+		{% render_table table %}
 	</div>
-</div>
-<div class="row lista">
-	{% render_table table %}
 </div>
 
+<div class="ui modal">
+	<div class="ui center aligned header" id="modal-header"></div>
+	<div class="content">
+	  <p>Nombre completo: <span id="nombre"></span></p>
+	  <div class="ui divider"></div> 
+	  <p>Email: <span id="email"></span></p>
+	  <div class="ui divider"></div>
+	  <p>Documento: <span id="documento"></span></p>
+	  <div class="ui divider"></div>
+	  <p>Dirección: <span id="direccion"></span></p>
+	  <div class="ui divider"></div>
+	  <p>Teléfono: <span id="telefono"></span></p>
+
+	</div>
+	<div class="actions">
+		<div class="ui cancel blue button">Cerrar</div>
+	</div>
 </div>
 
 {% endblock %}
 
+{% block customPageJs %}
+	$(".ui.button.detalle").click(function(){
+		$.get('/personas/detalle/' + this.id, function(data) {
+			$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido)
+			$("#nombre").html(data.nombre + " " + data.apellido)
+			$("#email").html(data.email)
+			$("#documento").html(data.tipoDocumento + " "+ data.numeroDocumento)
+			$("#direccion").html(data.direccion)
+			$("#telefono").html(data.telefono)
+			
+			$('.ui.modal').modal('show');
+		})
+		//pido los datos
+		//Si hay error
+		//	Mostrar mensajito de error
+		//Los agrego al modal
+		//Muestro el modal
+	})
+
+{% endblock %}
