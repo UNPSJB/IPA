@@ -62,10 +62,41 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="ui grid">
+	<div class="field director" style="margin-top:25px;">
+		<h2> Información de director: </h2>		
+	</div>
+	<div class="required field director">
+		{{ director_form.legajo.errors }}
+		<label for="director_form.legajo.id_for_label">Legajo:</label>
+		{{ director_form.legajo }}
+	</div>
+	<div class="required field director">
+		{{ director_form.cargo.errors }}
+		<label for="director_form.cargo.id_for_label">Cargo:</label>
+		{{ director_form.cargo }}
+	</div>
+	<div class="required field director">
+		{{ director_form.fechaInicio.errors }}
+		<label for="director_form.fechaInicio.id_for_label">Fecha de inicio:</label>
+		{{ director_form.fechaInicio }}
+	</div>
+			
+	<div class="field chofer">
+		<h2> Información de chofer: </h2>		
+	</div>
+	<div class="required field chofer">
+		{{ chofer_form.licencia.errors }}
+		<label for="chofer_form.licencia.id_for_label">Licencia:</label>
+		{{ chofer_form.licencia }}
+	</div>
+	<div class="required field chofer">
+		{{ chofer_form.vencimientoLicencia.errors }}
+		<label for="chofer_form.vencimientoLicencia.id_for_label">Vencimiento de la licencia:</label>
+		{{ chofer_form.vencimientoLicencia }}
+	</div>
+	<div class="ui grid" >
 		<div class="row">
-			<div class="sixteen wide column" style="margin-bottom: 20px">
+			<div class="sixteen wide column" style="margin: 20px 0">
 				{% if not object %}
 					<input type="submit" class="ui primary button" name="cargarOtro" value="Guardar y Cargar otro">
 				{% endif%}
@@ -77,20 +108,19 @@
 	</div>
 
 
-
 </form>
 {% endblock %}
 
 {% block customPageJs %}
 	$(document).ready(function(){
+		$('.field.director').css('display','none');
+		$('.field.chofer').css('display','none')
 		$('#agregarEmpresa').click(function(){
 			var win = window.open('{% url 'empresas:alta' %}', '_blank');
 			win.focus();
 		})
 
 		$(".empresasDropdown").click(function(){
-			//Retrieve data
-			console.log("retrieving data")
 			var options = '<option value="">Empresas</option>'
 			$.get('{% url 'empresas:data' %}', function(data) {
 				for(empresa of data.data){

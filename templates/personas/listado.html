@@ -52,11 +52,43 @@
 	</div>
 </div>
 
+<div class="ui modal" id="informacion-modal">
+	<div class="ui center aligned header" id="modal-header"></div>
+	<div class="content">
+	  <p>Nombre completo: <span id="nombre"></span></p>
+	  <div class="ui divider"></div> 
+	  <p>Email: <span id="email"></span></p>
+	  <div class="ui divider"></div>
+	  <p>Documento: <span id="documento"></span></p>
+	  <div class="ui divider"></div>
+	  <p>Dirección: <span id="direccion"></span></p>
+	  <div class="ui divider"></div>
+	  <p>Teléfono: <span id="telefono"></span></p>
+
+	</div>
+	<div class="actions">
+		<div class="ui cancel blue button">Cerrar</div>
+	</div>
+</div>
+
+<div class="ui small modal" id="eliminar-modal">
+	<div class="ui center aligned header" id="modal-header">¡Cuidado!</div>
+	<div class="content">
+		<p>¿Está seguro de que desea eliminar a <span id="eliminar-modal-nombre"></span>?</p>
+	</div>
+	<div class="actions">
+		<div class="ui positive button">Eliminar</div>
+		<div class="ui negative button">Cancelar</div>
+	</div>
+</div>
+
+
 {% endblock %}
 
 {% block customPageJs %}
 	$(".ui.button.detalle").click(function(){
 		$.get('/personas/detalle/' + this.id, function(data) {
+			console.log(data)
 			$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido)
 			$("#nombre").html(data.nombre + " " + data.apellido)
 			$("#email").html(data.email)
@@ -64,13 +96,23 @@
 			$("#direccion").html(data.direccion)
 			$("#telefono").html(data.telefono)
 			
-			$('.ui.modal').modal('show');
+			$('#informacion-modal').modal('show');
 		})
-		//pido los datos
 		//Si hay error
 		//	Mostrar mensajito de error
-		//Los agrego al modal
-		//Muestro el modal
+	})
+
+	$(".ui.button.eliminar").click(function(){
+		var splitted_data = this.id.split('-');
+		var nombre = splitted_data[0]
+		var apellido = splitted_data[1]
+		var id = splitted_data[2]
+		$("#eliminar-modal-nombre").html(nombre + " " + apellido)
+		$('#eliminar-modal').modal({
+			onApprove : function() {
+				//mandar a borrar
+			}
+		}).modal('show');
 	})
 
 {% endblock %}

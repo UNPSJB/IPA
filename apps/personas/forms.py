@@ -3,7 +3,6 @@ from .models import *
 
 from django.core.exceptions import ObjectDoesNotExist
 
-
 class PersonaForm(forms.ModelForm):
 	class Meta:
 		model = Persona
@@ -35,11 +34,6 @@ class PersonaForm(forms.ModelForm):
 			'direccion':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Domicilio del solicitante'}),
 			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'150000000', 'placehorder':'Telefono con o sin catacteristica'}),
 		}
-		
-
-class DetallePersonaForm(forms.Form):
-	pass
-
 
 class DirectorForm (forms.ModelForm):
 	class Meta:
@@ -55,28 +49,7 @@ class DirectorForm (forms.ModelForm):
 			'fechaInicio': forms.DateInput(attrs={'type':'date'}),
 		}
 
-class AdministrativoForm (PersonaForm):
-	
-	class Meta:
-		model = Administrativo
-		fields = [
-			'tipo',
-		]
-
-		exclude = [
-			'tipo'
-		]
-
-class InspectorForm (PersonaForm):
-	pass
-
-class OficialSumarianteForm (InspectorForm):
-	pass
-
-class JefeDepartamentoForm (PersonaForm):
-	pass
-
-class ChoferForm (PersonaForm):
+class ChoferForm (forms.ModelForm):
 	class Meta:
 		model=Chofer
 		fields = [
@@ -94,15 +67,6 @@ class ChoferForm (PersonaForm):
 			'licencia':forms.TextInput(attrs={'class':'form-control'}),
 			'vencimientoLicencia': forms.DateInput(attrs={'type':'date'}),
 		}
-
-class SolicitanteForm (PersonaForm):
-	pass
-
-class LiquidadorForm (PersonaForm):
-	pass
-
-#AdministrativoForm.base_fields.update(PersonaForm.base_fields)
-AdministrativoForm.base_fields.update()
 
 class EmpresaForm(forms.ModelForm):
 	class Meta:

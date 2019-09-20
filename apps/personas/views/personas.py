@@ -5,7 +5,7 @@ from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from apps.generales.views import GenericAltaView, GenericModificacionView
 from apps.personas import models as pmodels
-from apps.personas.forms import PersonaForm, DetallePersonaForm
+from apps.personas.forms import PersonaForm, ChoferForm, DirectorForm
 from apps.personas.tables import PersonaTable, PersonaFilter
 from django.http import JsonResponse
 
@@ -27,6 +27,8 @@ class AltaPersona(GenericAltaView):
 		context = super().get_context_data(**kwargs)
 		context['empresas'] = pmodels.Empresa.objects.all()
 		context['roles'] = pmodels.Persona.tipoRol
+		context['director_form'] = DirectorForm
+		context['chofer_form'] = ChoferForm
 		return context
 
 	def post(self,request, *args, **kwargs):
@@ -59,7 +61,7 @@ class DetallePersona(View):
 			"nombre": persona.nombre,
 			"apellido" : persona.apellido,
 			"email": persona.email,
-			"tipoDocumento": persona.tipoDocumento,
+			"tipoDocumento": persona.get_tipoDocumento_display(),
 			"numeroDocumento":persona.numeroDocumento,
 			"direccion": persona.direccion,
 			"telefono": persona.telefono
