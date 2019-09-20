@@ -56,7 +56,7 @@
 			<div class="sixteen wide column" >
 				<div class="field">
 					<label for="id_roles">Roles</label>		
-					<select class="ui fluid search dropdown" multiple="" name="roles" id="rolesDropdown" onchange="printForm(this)">
+					<select class="ui fluid search dropdown" multiple="" name="roles" id="rolesDropdown">
 					</select>
 				</div>	
 			</div>
@@ -150,9 +150,27 @@
 		{% for rol in roles %}
 			rolesOptions += '<option value="{{rol}}">' + sanitize('{{rol}}') + '</option>'
 		{% endfor %}
+		
 
 		$("#rolesDropdown").html(rolesOptions)
-
+		$("#rolesDropdown").change(function(e){
+			function any(arr, fn){
+				arr.some(fn);
+			}
+				
+			var optionSelected = Array.from($("#rolesDropdown option:selected"))
+			if (any(optionSelected, x => x.value == 'Director')) {
+				$('.field.director').css('display','inherit');
+			} else {
+				$('.field.director').css('display','none');
+			}
+			if (any(optionSelected, function(x){ return x.value == 'Chofer'})) {
+				$('.field.chofer').css('display','inherit');
+			} else {
+				$('.field.chofer').css('display','none');
+			}
+		})
+		
 
 
 	})
