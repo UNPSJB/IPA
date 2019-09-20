@@ -158,13 +158,14 @@
 				arr.some(fn);
 			}
 				
-			var optionSelected = Array.from($("#rolesDropdown option:selected"))
-			if (any(optionSelected, x => x.value == 'Director')) {
+			var optionSelected = Array.from($("#rolesDropdown option:selected"), x=> x.value)
+			console.log(optionSelected)
+			if (optionSelected.includes('Director') ) {	
 				$('.field.director').css('display','inherit');
 			} else {
 				$('.field.director').css('display','none');
 			}
-			if (any(optionSelected, function(x){ return x.value == 'Chofer'})) {
+			if (optionSelected.includes('Chofer')) {
 				$('.field.chofer').css('display','inherit');
 			} else {
 				$('.field.chofer').css('display','none');
