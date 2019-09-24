@@ -1,0 +1,168 @@
+[
+ {
+   "model": "establecimientos.departamento",
+   "pk": 1,
+   "fields": {
+   "nombre": "Biedma",
+   "superficie": 12940,
+   "poblacion": 112626,
+   "descripcion": "departamento",
+   "slug": "biedma",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 2,
+   "fields": {
+   "nombre": "Cushamen",
+   "superficie": 16250,
+   "poblacion": 24228,
+   "descripcion": "departamento",
+   "slug": "cushamen",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 3,
+   "fields": {
+   "nombre": "Escalante",
+   "superficie": 14015,
+   "poblacion": 229821,
+   "descripcion": "departamento",
+   "slug": "escalante",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 4,
+  "fields": {
+   "nombre": "Florentino Ameghino",
+   "superficie": 16088,
+   "poblacion": 1776,
+   "descripcion": "departamento",
+   "slug": "florentino-ameguino",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 5,
+  "fields": {
+   "nombre": "Futaleufu",
+   "superficie": 9435,
+   "poblacion": 48515,
+   "descripcion": "departamento",
+   "slug": "futaleufu",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 6,
+   "fields": {
+   "nombre": "Gaiman",
+   "superficie": 11076,
+   "poblacion": 12759,
+   "descripcion": "departamento",
+   "slug": "gaiman",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 7,
+   "fields": {
+   "nombre": "Gastre",
+   "superficie": 16335,
+   "poblacion": 1377,
+   "descripcion": "departamento",
+   "slug": "gastre",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 8,
+   
+   "fields" :{
+   "nombre": "Languineo",
+   "superficie": 15339,
+   "poblacion": 3135,
+   "descripcion": "departamento",
+   "slug": "languineo",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 9,
+   "fields": {
+   "nombre": "Martires",
+   "superficie": 15445,
+   "poblacion": 725,
+   "descripcion": "departamento",
+   "slug": "martires",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 10,
+   "fields": {
+   "nombre": "Paso de Indios",
+   "superficie": 22300,
+   "poblacion": 1822,
+   "descripcion": "departamento",
+   "slug": "paso-de-indios",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 11,
+   "fields" :{
+   "nombre": "Rawson",
+   "superficie": 3922,
+   "poblacion": 143968,
+   "descripcion": "departamento",
+   "slug": "rawson",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 12,
+   "fields" :{
+   "nombre": "Rio Senguer",
+   "superficie": 22335,
+   "poblacion": 6227,
+   "descripcion": "departamento",
+   "slug": "rio-senguer",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 13,
+   "fields": {
+   "nombre": "Sarmiento",
+   "superficie": 14563,
+   "poblacion": 14683,
+   "descripcion": "departamento",
+   "slug": "sarmiento",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 14,
+   "fields": {
+   "nombre": "Tehuelches",
+   "superficie": 14750,
+   "poblacion": 5523,
+   "descripcion": "departamento",
+   "slug": "tehuelches",
+   "protegido": true
+ }},
+ {
+   "model": "establecimientos.departamento",
+   "pk": 15,
+   "fields" :{
+   "nombre": "Telsen",
+   "superficie": 19893,
+   "poblacion": 1544,
+   "descripcion": "departamento",
+   "slug": "telsen",
+   "protegido": true
+ }}
+]
