@@ -193,6 +193,7 @@
 	
 				if (nuevo == 'Sumariante' && accion == 'ingresado' && listaRoles.includes('Inspector')){
 					$(this).dropdown('remove selected', 'Inspector')				
+					$(".ui.large.form").form('add prompt', 'roles')
 					$('.form .error.message.roles p').html('No se puede ser inspector y sumariante, ya que son cargos relacionados.')
 					$('.form .error.message.roles').show()
 				}
@@ -281,7 +282,7 @@
 		})
 
 		$('.message .close').on('click', function() {
-			$(this).closest('.message').transition('fade');
+			$(this).closest('.message').hide();
   		});
 	})
 
