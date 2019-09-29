@@ -25,14 +25,16 @@ class PersonaForm(forms.ModelForm):
 				'telefono': 'Teléfono',
 		}
 
+		# TODO: Validaciones de numero documento y telefono.
+
 		widgets = {
 			'nombre':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Nombre'}),
 			'apellido':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Apellido'}),
-			'email':forms.TextInput(attrs={'class':'form-control', 'placehorder':'email@email.com'}),
+			'email':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Email'}),
 			'tipoDocumento':forms.Select(attrs={'class':'form-control', 'placehorder':'Seleccione el tipo de documento'}),
-			'numeroDocumento':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1000000', 'placehorder':'Numero de documento sin .'}),
+			'numeroDocumento':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Numero de documento'}),
 			'direccion':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Domicilio del solicitante'}),
-			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'150000000', 'placehorder':'Telefono con o sin catacteristica'}),
+			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'placehorder':'Telefono con o sin catacteristica'}),
 		}
 
 class DirectorForm (forms.ModelForm):

@@ -73,39 +73,8 @@
 	
 		</p>
 	</div>
-	
-	<div class="field director" style="margin-top:25px;">
-		<h2> Información de director: </h2>		
-	</div>
-	<div class="field director">
-		{{ director_form.legajo.errors }}
-		<label for="director_form.legajo.id_for_label">Legajo:</label>
-		{{ director_form.legajo }}
-	</div>
-	<div class="field director">
-		{{ director_form.cargo.errors }}
-		<label for="director_form.cargo.id_for_label">Cargo:</label>
-		{{ director_form.cargo }}
-	</div>
-	<div class="field director">
-		{{ director_form.fechaInicio.errors }}
-		<label for="director_form.fechaInicio.id_for_label">Fecha de inicio:</label>
-		{{ director_form.fechaInicio }}
-	</div>
-			
-	<div class="field chofer" style="margin-top:25px;">
-		<h2> Información de chofer: </h2>		
-	</div>
-	<div class="field chofer">
-		{{ chofer_form.licencia.errors }}
-		<label for="chofer_form.licencia.id_for_label">Licencia:</label>
-		{{ chofer_form.licencia }}
-	</div>
-	<div class="field chofer">
-		{{ chofer_form.vencimientoLicencia.errors }}
-		<label for="chofer_form.vencimientoLicencia.id_for_label">Vencimiento de la licencia:</label>
-		{{ chofer_form.vencimientoLicencia }}
-	</div>
+	<div id="directorForm"></div>
+	<div id="choferForm"></div>
 	<div class="ui grid" >
 		<div class="row">
 			<div class="sixteen wide column" style="margin: 20px 0">
@@ -125,6 +94,46 @@
 {% endblock %}
 
 {% block customPageJs %}
+	DIRECTOR_FORM = `	
+		<div class="field director" style="margin-top:25px;">
+			<h2> Información de director: </h2>		
+		</div>
+		<div class="field director ">
+			{{ director_form.legajo.errors }}
+			<label for="director_form.legajo.id_for_label">Legajo:</label>
+			{{ director_form.legajo }}
+		</div>
+		<div class="field director">
+			{{ director_form.cargo.errors }}
+			<label for="director_form.cargo.id_for_label">Cargo:</label>
+			{{ director_form.cargo }}
+		</div>
+		<div class="field director">
+			{{ director_form.fechaInicio.errors }}
+			<label for="director_form.fechaInicio.id_for_label">Fecha de inicio:</label>
+			{{ director_form.fechaInicio }}
+		</div> 
+
+		<div id="directorForm"></div>
+	`
+	
+	CHOFER_FORM = `
+		<div class="field chofer" style="margin-top:25px;">
+			<h2> Información de chofer: </h2>		
+		</div>
+		<div class="field chofer">
+			{{ chofer_form.licencia.errors }}
+			<label for="chofer_form.licencia.id_for_label">Licencia:</label>
+			{{ chofer_form.licencia }}
+		</div>
+		<div class="field chofer">
+			{{ chofer_form.vencimientoLicencia.errors }}
+			<label for="chofer_form.vencimientoLicencia.id_for_label">Vencimiento de la licencia:</label>
+			{{ chofer_form.vencimientoLicencia }}
+		</div>
+		<div id="choferForm"></div>
+	`
+
 	$(document).ready(function(){
 		$('.field.director').css('display','none');
 		$('.field.chofer').css('display','none')
@@ -176,19 +185,19 @@
 				$('.form .error.message.roles').hide()
 
 				if (nuevo=='Director' && accion == 'ingresado' ) {	
-					$('.field.director').show();
+					$('#directorForm').replaceWith(DIRECTOR_FORM)
 				} 
 	
 				if (nuevo=='Director' && accion == 'borrado' ){
-					$('.field.director').hide();
+					$('.field.director').remove();
 				}
 	
 				if (nuevo=='Chofer' && accion == 'ingresado' ) {
-					$('.field.chofer').show();
+					$('#directorForm').replaceWith(CHOFER_FORM)
 				} 
 				
 				if (nuevo=='Chofer' && accion == 'borrado' ){
-					$('.field.chofer').hide();
+					$('.field.chofer').remove();
 				}
 	
 				if (nuevo == 'Sumariante' && accion == 'ingresado' && listaRoles.includes('Inspector')){
