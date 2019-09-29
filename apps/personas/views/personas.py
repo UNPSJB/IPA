@@ -93,11 +93,18 @@ class DetallePersona(View):
 
 class EliminarPersona(DeleteView):
 	model = Persona
-	template_name = 'delete.html'
 	success_url = reverse_lazy('personas:listado')
+	
+	def delete(self, request, *args, **kwargs):
+		try:
+			self.object = self.get_object()
+			self.object.delete()
 
-	def get_context_data(self, **kwargs):
-		context = super(EliminarPersona, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Eliminar Persona:' + self.object.nombre + self.object.apellido
-		context['botones'] = {}
-		return context
+			return JsonResponse({
+				"success": True
+			})
+		except Error as e:
+			return JsonResponse({
+				"success": False,
+				"message": e.value()
+			})
