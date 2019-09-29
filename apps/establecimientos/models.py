@@ -3,26 +3,68 @@ from apps.personas.models import Persona
 
 # Create your models here.
 
+class DepartamentoManager(models.Manager):
+	def __init__(self, protegido=False):
+		super().__init__()
+		self.protegido = protegido
+
+	def get_queryset(self):
+		return super().get_queryset().filter(protegido=self.protegido)
+
+# Create your models here.
 class Departamento(models.Model):
-	nombre = models.CharField(max_length = 50, unique=True)
+	nombre = models.CharField(max_length=50)
 	superficie = models.CharField(max_length = 50)
 	poblacion = models.IntegerField()
 	descripcion = models.TextField()
+	slug = models.SlugField()
+	protegido = models.BooleanField(default=False)
 
+	objects = DepartamentoManager(False)
+	protegidos = DepartamentoManager(True)
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = slugify(self.nombre)
+		return super().save(*args, **kwargs)
+	
 	def __str__(self):
-		return '{}'.format(self.nombre)
+		return self.nombre
+
+	@classmethod
+	def get_protegido(klass, slug):
+		return klass.protegidos.get(slug=slug)
+
+
+class LocalidadManager(models.Manager):
+	def __init__(self, protegido=False):
+		super().__init__()
+		self.protegido = protegido
+
+	def get_queryset(self):
+		return super().get_queryset().filter(protegido=self.protegido)
 
 
 class Localidad(models.Model):
-	codpostal = models.IntegerField(unique=True)
+	codpostal = models.IntegerField(unique=False)
 	nombre = models.CharField(max_length = 50)
 	departamento = models.ForeignKey(Departamento, null=False, blank=False)
+	slug = models.SlugField()
+	protegido = models.BooleanField(default=False)
 
-	class Meta:
-		ordering = ["nombre"]
-
+	objects = LocalidadManager(False)
+	protegidos = LocalidadManager(True)
+	
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = slugify(self.nombre)
+		return super().save(*args, **kwargs)
+	
 	def __str__(self):
 		return self.nombre
+
+	@classmethod
+	def get_protegido(klass, slug):
+		return klass.protegidos.get(slug=slug)
 
 
 class Establecimiento(models.Model):

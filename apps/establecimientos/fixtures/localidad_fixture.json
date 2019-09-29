@@ -1,0 +1,3258 @@
+[
+ {
+   "model": "establecimientos.localidad",
+   "pk": 1,
+   "fields" : {
+   "codpostal": 8415,
+   "nombre": "Norquinco Sud",
+   "departamento_id": 2,
+   "slug": "norquinco-sud",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 2,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "28 de Julio",
+   "departamento_id": 6,
+   "slug": "28-de-julio",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 3,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Aguada De Las Tejas",
+   "departamento_id": 15,
+   "slug": "aguada-de-las-tejas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 4,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Aguada Del Pito",
+   "departamento_id": 15,
+   "slug": "aguada-del-pito",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 5,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "Aldea Apeleg",
+   "departamento_id": 12,
+   "slug": "aldea-apeleg",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 6,
+   "fields" : {
+   "codpostal": 9037,
+   "nombre": "Aldea Beleiro",
+   "departamento_id": 12,
+   "slug": "aldea-beleiro",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 7,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Aldea Escolar",
+   "departamento_id": 5,
+   "slug": "aldea-escolar",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 8,
+   "fields" : {
+   "codpostal": 9101,
+   "nombre": "Alto De Las Plumas",
+   "departamento_id": 9,
+   "slug": "alto-de-las-plumas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 9,
+   "fields" : {
+   "codpostal": 9037,
+   "nombre": "Alto Rio Mayo",
+   "departamento_id": 12,
+   "slug": "alto-rio-mayo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 10,
+   "fields" : {
+   "codpostal": 9225,
+   "nombre": "Alto Rio Pico",
+   "departamento_id": 14,
+   "slug": "alto-rio-pico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 11,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "Alto Rio Senguer",
+   "departamento_id": 12,
+   "slug": "alto-rio-senguer",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 12,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Angostura",
+   "departamento_id": 6,
+   "slug": "angostura",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 13,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Angostura Segunda",
+   "departamento_id": 6,
+   "slug": "angostura-segunda",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 14,
+   "fields" : {
+   "codpostal": 9225,
+   "nombre": "Arenoso",
+   "departamento_id": 14,
+   "slug": "arenoso",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 15,
+   "fields" : {
+   "codpostal": 9035,
+   "nombre": "Arroyo Chalia",
+   "departamento_id": 12,
+   "slug": "arroyo-chalia",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 16,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "Arroyo Gato",
+   "departamento_id": 12,
+   "slug": "arroyo-gato",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 17,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Arroyo Guilaia",
+   "departamento_id": 10,
+   "slug": "arroyo-guilaia",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 18,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Arroyo Percy",
+   "departamento_id": 5,
+   "slug": "arroyo-percy",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 19,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Arroyo Pescado",
+   "departamento_id": 5,
+   "slug": "arroyo-pescado",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 20,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Arroyo Quilla",
+   "departamento_id": 13,
+   "slug": "arroyo-quilla",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 21,
+   "fields" : {
+   "codpostal": 8532,
+   "nombre": "Arroyo Verde",
+   "departamento_id": 1,
+   "slug": "arroyo-verde",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 22,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "Bahia Bustamante",
+   "departamento_id": 3,
+   "slug": "bahia-bustamante",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 23,
+   "fields" : {
+   "codpostal": 9120,
+   "nombre": "Bahia Cracher",
+   "departamento_id": 1,
+   "slug": "bahia-cracher",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 24,
+   "fields" : {
+   "codpostal": 9003,
+   "nombre": "Bahia Solano",
+   "departamento_id": 3,
+   "slug": "bahia-solano",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 25,
+   "fields" : {
+   "codpostal": 9101,
+   "nombre": "Bajada Del Diablo",
+   "departamento_id": 9,
+   "slug": "bajada-del-diablo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 26,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Bajada Moreno",
+   "departamento_id": 7,
+   "slug": "bajada-moreno",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 27,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Bajo Bartolo",
+   "departamento_id": 15,
+   "slug": "bajo-bartolo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 28,
+   "fields" : {
+   "codpostal": 9103,
+   "nombre": "Bajo De Los Huesos",
+   "departamento_id": 11,
+   "slug": "bajo-de-los-huesos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 29,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Bajo Del Gualicho",
+   "departamento_id": 15,
+   "slug": "bajo-del-gualicho",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 30,
+   "fields" : {
+   "codpostal": 9031,
+   "nombre": "Bajo La Cancha",
+   "departamento_id": 12,
+   "slug": "bajo-la-cancha",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 31,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Bajo Las Damajuanas",
+   "departamento_id": 15,
+   "slug": "bajo-las-damajuanas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 32,
+   "fields" : {
+   "codpostal": 9003,
+   "nombre": "Barrio Astra",
+   "departamento_id": 3,
+   "slug": "barrio-astra",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 33,
+   "fields" : {
+   "codpostal": 9101,
+   "nombre": "Base Aeronaval Almirante Zar",
+   "departamento_id": 11,
+   "slug": "base-aeronaval-almirante-zar",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 34,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Betesta",
+   "departamento_id": 6,
+   "slug": "betesta",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 35,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Blancuntre",
+   "departamento_id": 7,
+   "slug": "blancuntre",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 36,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "Boca De La Zanja",
+   "departamento_id": 6,
+   "slug": "boca-de-la-zanja",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 37,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "Boca Zanja Sud",
+   "departamento_id": 6,
+   "slug": "boca-zanja-sud",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 38,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Bryn Brown",
+   "departamento_id": 6,
+   "slug": "bryn-brown",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 39,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Bryn Gwyn",
+   "departamento_id": 6,
+   "slug": "bryn-gwyn",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 40,
+   "fields" : {
+   "codpostal": 9023,
+   "nombre": "Buen Pasto",
+   "departamento_id": 13,
+   "slug": "buen-pasto",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 41,
+   "fields" : {
+   "codpostal": 9210,
+   "nombre": "Buenos Aires Chico",
+   "departamento_id": 2,
+   "slug": "buenos-aires-chico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 42,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Caba�a Del Valle",
+   "departamento_id": 6,
+   "slug": "caba�a-del-valle",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 43,
+   "fields" : {
+   "codpostal": 9101,
+   "nombre": "Cabeza De Buey",
+   "departamento_id": 9,
+   "slug": "cabeza-de-buey",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 44,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "Cabo Raso",
+   "departamento_id": 4,
+   "slug": "cabo-raso",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 45,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Cachel",
+   "departamento_id": 8,
+   "slug": "cachel",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 46,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Ca�ada Bagual",
+   "departamento_id": 10,
+   "slug": "ca�ada-bagual",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 47,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Ca�adon Bagual",
+   "departamento_id": 15,
+   "slug": "ca�adon-bagual",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 48,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Ca�adon Blanco",
+   "departamento_id": 15,
+   "slug": "ca�adon-blanco",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 49,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Ca�adon Carril",
+   "departamento_id": 13,
+   "slug": "ca�adon-carril",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 50,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Ca�adon Chileno",
+   "departamento_id": 15,
+   "slug": "ca�adon-chileno",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 51,
+   "fields" : {
+   "codpostal": 9001,
+   "nombre": "Ca�adon Ferrais",
+   "departamento_id": 3,
+   "slug": "ca�adon-ferrais",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 52,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Ca�adon La Madera",
+   "departamento_id": 14,
+   "slug": "ca�adon-la-madera",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 53,
+   "fields" : {
+   "codpostal": 9009,
+   "nombre": "Ca�adon Lagarto",
+   "departamento_id": 3,
+   "slug": "ca�adon-lagarto",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 54,
+   "fields" : {
+   "codpostal": 9009,
+   "nombre": "Ca�adon Lopez",
+   "departamento_id": 3,
+   "slug": "ca�adon-lopez",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 55,
+   "fields" : {
+   "codpostal": 9009,
+   "nombre": "Ca�adon Pedro Ex Valle Hermoso",
+   "departamento_id": 3,
+   "slug": "ca�adon-pedro-ex-valle-hermoso",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 56,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Ca�adon Tacho",
+   "departamento_id": 13,
+   "slug": "ca�adon-tacho",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 57,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Cajon De Ginebra Chico",
+   "departamento_id": 8,
+   "slug": "cajon-de-ginebra-chico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 58,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Cajon De Ginebra Grande",
+   "departamento_id": 8,
+   "slug": "cajon-de-ginebra-grande",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 59,
+   "fields" : {
+   "codpostal": 9003,
+   "nombre": "Caleta Cordova",
+   "departamento_id": 3,
+   "slug": "caleta-cordova",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 60,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Caleta Valdez",
+   "departamento_id": 15,
+   "slug": "caleta-valdez",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 61,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "Camarones",
+   "departamento_id": 4,
+   "slug": "camarones",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 62,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "Campamento Villegas",
+   "departamento_id": 6,
+   "slug": "campamento-villegas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 63,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Carhue Niyeo",
+   "departamento_id": 7,
+   "slug": "carhue-niyeo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 64,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Carrenleufu",
+   "departamento_id": 8,
+   "slug": "carrenleufu",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 65,
+   "fields" : {
+   "codpostal": 9103,
+   "nombre": "Casa Blanca",
+   "departamento_id": 11,
+   "slug": "casa-blanca",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 66,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Casa Blanca",
+   "departamento_id": 14,
+   "slug": "casa-blanca",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 67,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Cataico",
+   "departamento_id": 15,
+   "slug": "cataico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 68,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Cerro Centinela",
+   "departamento_id": 5,
+   "slug": "cerro-centinela",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 69,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Cerro Condor",
+   "departamento_id": 10,
+   "slug": "cerro-condor",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 70,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Cerro Lonco Trapial",
+   "departamento_id": 8,
+   "slug": "cerro-lonco-trapial",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 71,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Cerro Mallaco",
+   "departamento_id": 5,
+   "slug": "cerro-mallaco",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 72,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Cerro Negro",
+   "departamento_id": 14,
+   "slug": "cerro-negro",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 73,
+   "fields" : {
+   "codpostal": 9120,
+   "nombre": "Cerro Pichalao",
+   "departamento_id": 1,
+   "slug": "cerro-pichalao",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 74,
+   "fields" : {
+   "codpostal": 9100,
+   "nombre": "Cerro Santa Ana",
+   "departamento_id": 7,
+   "slug": "cerro-santa-ana",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 75,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Chacay Este",
+   "departamento_id": 15,
+   "slug": "chacay-este",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 76,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Chacay Oeste",
+   "departamento_id": 15,
+   "slug": "chacay-oeste",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 77,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Chacra De Austin",
+   "departamento_id": 5,
+   "slug": "chacra-de-austin",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 78,
+   "fields" : {
+   "codpostal": 9103,
+   "nombre": "Charque Chico",
+   "departamento_id": 11,
+   "slug": "charque-chico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 79,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Chasico",
+   "departamento_id": 15,
+   "slug": "chasico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 80,
+   "fields" : {
+   "codpostal": 9217,
+   "nombre": "Cholila",
+   "departamento_id": 2,
+   "slug": "cholila",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 81,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Colan Conhue",
+   "departamento_id": 8,
+   "slug": "colan-conhue",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 82,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Colelache",
+   "departamento_id": 7,
+   "slug": "colelache",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 83,
+   "fields" : {
+   "codpostal": 9021,
+   "nombre": "Colhue Huapi",
+   "departamento_id": 13,
+   "slug": "colhue-huapi",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 84,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Colonia 16 De Octubre",
+   "departamento_id": 5,
+   "slug": "colonia-16-de-octubre",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 85,
+   "fields" : {
+   "codpostal": 9213,
+   "nombre": "Colonia Cushamen",
+   "departamento_id": 2,
+   "slug": "colonia-cushamen",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 86,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Colonia Epulef",
+   "departamento_id": 8,
+   "slug": "colonia-epulef",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 87,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Colonia Germania",
+   "departamento_id": 13,
+   "slug": "colonia-germania",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 88,
+   "fields" : {
+   "codpostal": 9000,
+   "nombre": "Comodoro Rivadavia",
+   "departamento_id": 3,
+   "slug": "comodoro-rivadavia",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 89,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Corcovado",
+   "departamento_id": 5,
+   "slug": "corcovado",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 90,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Corralitos",
+   "departamento_id": 14,
+   "slug": "corralitos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 91,
+   "fields" : {
+   "codpostal": 9210,
+   "nombre": "Costa Chubut",
+   "departamento_id": 2,
+   "slug": "costa-chubut",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 92,
+   "fields" : {
+   "codpostal": 9210,
+   "nombre": "Costa Del Lepa",
+   "departamento_id": 2,
+   "slug": "costa-del-lepa",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 93,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Costa Rio Chico",
+   "departamento_id": 13,
+   "slug": "costa-rio-chico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 94,
+   "fields" : {
+   "codpostal": 9211,
+   "nombre": "Cushamen",
+   "departamento_id": 2,
+   "slug": "cushamen",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 95,
+   "fields" : {
+   "codpostal": 9101,
+   "nombre": "Dique Florentino Ameghino",
+   "departamento_id": 6,
+   "slug": "dique-florentino-ameghino",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 96,
+   "fields" : {
+   "codpostal": 9035,
+   "nombre": "Doctor Ricardo Rojas",
+   "departamento_id": 12,
+   "slug": "doctor-ricardo-rojas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 97,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "Dolavon",
+   "departamento_id": 6,
+   "slug": "dolavon",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 98,
+   "fields" : {
+   "codpostal": 9100,
+   "nombre": "Dos Pozos",
+   "departamento_id": 4,
+   "slug": "dos-pozos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 99,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "Ebenecer",
+   "departamento_id": 6,
+   "slug": "ebenecer",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 100,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "El Alamo",
+   "departamento_id": 15,
+   "slug": "el-alamo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 101,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "El Argentino",
+   "departamento_id": 6,
+   "slug": "el-argentino",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 102,
+   "fields" : {
+   "codpostal": 9210,
+   "nombre": "El Boquete",
+   "departamento_id": 2,
+   "slug": "el-boquete",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 103,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "El Calafate",
+   "departamento_id": 8,
+   "slug": "el-calafate",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 104,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "El Canquel",
+   "departamento_id": 10,
+   "slug": "el-canquel",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 105,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "El Chalet",
+   "departamento_id": 10,
+   "slug": "el-chalet",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 106,
+   "fields" : {
+   "codpostal": 9211,
+   "nombre": "El Coihue",
+   "departamento_id": 2,
+   "slug": "el-coihue",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 107,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "El Coyte",
+   "departamento_id": 12,
+   "slug": "el-coyte",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 108,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "El Cronometro",
+   "departamento_id": 8,
+   "slug": "el-cronometro",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 109,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "El Cuche",
+   "departamento_id": 8,
+   "slug": "el-cuche",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 110,
+   "fields" : {
+   "codpostal": 9120,
+   "nombre": "El Desempe�o",
+   "departamento_id": 1,
+   "slug": "el-desempe�o",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 111,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "El Escorial",
+   "departamento_id": 7,
+   "slug": "el-escorial",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 112,
+   "fields" : {
+   "codpostal": 9211,
+   "nombre": "El Hoyo",
+   "departamento_id": 2,
+   "slug": "el-hoyo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 113,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "El Jaguel",
+   "departamento_id": 4,
+   "slug": "el-jaguel",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 114,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "El Kaquel",
+   "departamento_id": 8,
+   "slug": "el-kaquel",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 115,
+   "fields" : {
+   "codpostal": 9210,
+   "nombre": "El Maiten",
+   "departamento_id": 2,
+   "slug": "el-maiten",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 116,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "El Mirador",
+   "departamento_id": 8,
+   "slug": "el-mirador",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 117,
+   "fields" : {
+   "codpostal": 9101,
+   "nombre": "El Mirasol",
+   "departamento_id": 9,
+   "slug": "el-mirasol",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 118,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "El Molle",
+   "departamento_id": 14,
+   "slug": "el-molle",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 119,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "El Pajarito",
+   "departamento_id": 8,
+   "slug": "el-pajarito",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 120,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "El Pastizal",
+   "departamento_id": 15,
+   "slug": "el-pastizal",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 121,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "El Piquillin",
+   "departamento_id": 15,
+   "slug": "el-piquillin",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 122,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "El Portezuelo",
+   "departamento_id": 8,
+   "slug": "el-portezuelo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 123,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "El Porvenir",
+   "departamento_id": 12,
+   "slug": "el-porvenir",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 124,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "El Poyo",
+   "departamento_id": 8,
+   "slug": "el-poyo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 125,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "El Quilimuay",
+   "departamento_id": 15,
+   "slug": "el-quilimuay",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 126,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "El Ruano",
+   "departamento_id": 15,
+   "slug": "el-ruano",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 127,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "El Salitral",
+   "departamento_id": 15,
+   "slug": "el-salitral",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 128,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "El Sombrero",
+   "departamento_id": 10,
+   "slug": "el-sombrero",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 129,
+   "fields" : {
+   "codpostal": 9037,
+   "nombre": "El Triana",
+   "departamento_id": 12,
+   "slug": "el-triana",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 130,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "El Tropezon",
+   "departamento_id": 14,
+   "slug": "el-tropezon",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 131,
+   "fields" : {
+   "codpostal": 9003,
+   "nombre": "Empalme A Astra",
+   "departamento_id": 3,
+   "slug": "empalme-a-astra",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 132,
+   "fields" : {
+   "codpostal": 8532,
+   "nombre": "Empalme Puerto Lobos",
+   "departamento_id": 1,
+   "slug": "empalme-puerto-lobos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 133,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Enrique Hermitte",
+   "departamento_id": 13,
+   "slug": "enrique-hermitte",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 134,
+   "fields" : {
+   "codpostal": 9211,
+   "nombre": "Epuyen",
+   "departamento_id": 2,
+   "slug": "epuyen",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 135,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Esquel",
+   "departamento_id": 5,
+   "slug": "esquel",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 136,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Estancia El Moro",
+   "departamento_id": 15,
+   "slug": "estancia-el-moro",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 137,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Estancia La Mimosa",
+   "departamento_id": 8,
+   "slug": "estancia-la-mimosa",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 138,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Estancia Pampa Chica",
+   "departamento_id": 8,
+   "slug": "estancia-pampa-chica",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 139,
+   "fields" : {
+   "codpostal": 9031,
+   "nombre": "Facundo",
+   "departamento_id": 12,
+   "slug": "facundo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 140,
+   "fields" : {
+   "codpostal": 9210,
+   "nombre": "Fithen Verin",
+   "departamento_id": 2,
+   "slug": "fithen-verin",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 141,
+   "fields" : {
+   "codpostal": 9210,
+   "nombre": "Fitirhuin",
+   "departamento_id": 2,
+   "slug": "fitirhuin",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 142,
+   "fields" : {
+   "codpostal": 9100,
+   "nombre": "Florentino Ameghino",
+   "departamento_id": 4,
+   "slug": "florentino-ameghino",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 143,
+   "fields" : {
+   "codpostal": 9213,
+   "nombre": "Fotocahuel",
+   "departamento_id": 2,
+   "slug": "fotocahuel",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 144,
+   "fields" : {
+   "codpostal": 9225,
+   "nombre": "Frontera De Rio Pico",
+   "departamento_id": 14,
+   "slug": "frontera-de-rio-pico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 145,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Futaleufu",
+   "departamento_id": 5,
+   "slug": "futaleufu",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 146,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Gaiman",
+   "departamento_id": 6,
+   "slug": "gaiman",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 147,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Gan Gan",
+   "departamento_id": 15,
+   "slug": "gan-gan",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 148,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "Garayalde",
+   "departamento_id": 4,
+   "slug": "garayalde",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 149,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Gastre",
+   "departamento_id": 7,
+   "slug": "gastre",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 150,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Glasfryn",
+   "departamento_id": 6,
+   "slug": "glasfryn",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 151,
+   "fields" : {
+   "codpostal": 9223,
+   "nombre": "Gobernador Costa",
+   "departamento_id": 14,
+   "slug": "gobernador-costa",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 152,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Gualjaina",
+   "departamento_id": 2,
+   "slug": "gualjaina",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 153,
+   "fields" : {
+   "codpostal": 9039,
+   "nombre": "Hito 45",
+   "departamento_id": 12,
+   "slug": "hito-45",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 154,
+   "fields" : {
+   "codpostal": 9039,
+   "nombre": "Hito 50",
+   "departamento_id": 12,
+   "slug": "hito-50",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 155,
+   "fields" : {
+   "codpostal": 9009,
+   "nombre": "Holdich",
+   "departamento_id": 3,
+   "slug": "holdich",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 156,
+   "fields" : {
+   "codpostal": 9210,
+   "nombre": "Ing Bruno J Thomae",
+   "departamento_id": 2,
+   "slug": "ing-bruno-j-thomae",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 157,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Jose de San Martin",
+   "departamento_id": 14,
+   "slug": "jose-de-san-martin",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 158,
+   "fields" : {
+   "codpostal": 9000,
+   "nombre": "Kilometro 11",
+   "departamento_id": 3,
+   "slug": "kilometro-11",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 159,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Kilometro 191",
+   "departamento_id": 13,
+   "slug": "kilometro-191",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 160,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "La Bombilla",
+   "departamento_id": 10,
+   "slug": "la-bombilla",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 161,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "La Cancha",
+   "departamento_id": 5,
+   "slug": "la-cancha",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 162,
+   "fields" : {
+   "codpostal": 9039,
+   "nombre": "La Cancha",
+   "departamento_id": 12,
+   "slug": "la-cancha",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 163,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "La Castellana",
+   "departamento_id": 4,
+   "slug": "la-castellana",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 164,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "La Castellana",
+   "departamento_id": 4,
+   "slug": "la-castellana",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 165,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "La Corona",
+   "departamento_id": 15,
+   "slug": "la-corona",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 166,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "La Lancha",
+   "departamento_id": 5,
+   "slug": "la-lancha",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 167,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "La Laurita",
+   "departamento_id": 12,
+   "slug": "la-laurita",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 168,
+   "fields" : {
+   "codpostal": 9039,
+   "nombre": "La Nicolasa",
+   "departamento_id": 12,
+   "slug": "la-nicolasa",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 169,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "La Pepita",
+   "departamento_id": 12,
+   "slug": "la-pepita",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 170,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "La Primavera",
+   "departamento_id": 8,
+   "slug": "la-primavera",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 171,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "La Rosilla",
+   "departamento_id": 15,
+   "slug": "la-rosilla",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 172,
+   "fields" : {
+   "codpostal": 9007,
+   "nombre": "La Salamanca",
+   "departamento_id": 3,
+   "slug": "la-salamanca",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 173,
+   "fields" : {
+   "codpostal": 9039,
+   "nombre": "La Siberia",
+   "departamento_id": 12,
+   "slug": "la-siberia",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 174,
+   "fields" : {
+   "codpostal": 9039,
+   "nombre": "Lago Blanco",
+   "departamento_id": 12,
+   "slug": "lago-blanco",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 175,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "Lago Fontana",
+   "departamento_id": 12,
+   "slug": "lago-fontana",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 176,
+   "fields" : {
+   "codpostal": 9023,
+   "nombre": "Lago Musters",
+   "departamento_id": 13,
+   "slug": "lago-musters",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 177,
+   "fields" : {
+   "codpostal": 9211,
+   "nombre": "Lago Puelo",
+   "departamento_id": 2,
+   "slug": "lago-puelo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 178,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Lago Rosario",
+   "departamento_id": 5,
+   "slug": "lago-rosario",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 179,
+   "fields" : {
+   "codpostal": 9225,
+   "nombre": "Lago Vintter",
+   "departamento_id": 14,
+   "slug": "lago-vintter",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 180,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Laguna Blanca",
+   "departamento_id": 14,
+   "slug": "laguna-blanca",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 181,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Laguna De Vacas",
+   "departamento_id": 15,
+   "slug": "laguna-de-vacas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 182,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Laguna De Vacas",
+   "departamento_id": 15,
+   "slug": "laguna-de-vacas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 183,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Laguna Del Mate",
+   "departamento_id": 13,
+   "slug": "laguna-del-mate",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 184,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Laguna Fria",
+   "departamento_id": 15,
+   "slug": "laguna-fria",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 185,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "Laguna Grande",
+   "departamento_id": 6,
+   "slug": "laguna-grande",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 186,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Laguna Palacio",
+   "departamento_id": 13,
+   "slug": "laguna-palacio",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 187,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Laguna Rincon Del Moro",
+   "departamento_id": 10,
+   "slug": "laguna-rincon-del-moro",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 188,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Laguna Terraplen",
+   "departamento_id": 5,
+   "slug": "laguna-terraplen",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 189,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Laguna Verde",
+   "departamento_id": 14,
+   "slug": "laguna-verde",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 190,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Lagunita Salada",
+   "departamento_id": 7,
+   "slug": "lagunita-salada",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 191,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Langui�eo",
+   "departamento_id": 8,
+   "slug": "langui�eo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 192,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Larralde",
+   "departamento_id": 15,
+   "slug": "larralde",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 193,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "Las Chapas",
+   "departamento_id": 6,
+   "slug": "las-chapas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 194,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Las Cortaderas",
+   "departamento_id": 10,
+   "slug": "las-cortaderas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 195,
+   "fields" : {
+   "codpostal": 8431,
+   "nombre": "Las Golondrinas",
+   "departamento_id": 2,
+   "slug": "las-golondrinas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 196,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Las Horquetas",
+   "departamento_id": 10,
+   "slug": "las-horquetas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 197,
+   "fields" : {
+   "codpostal": 9101,
+   "nombre": "Las Plumas",
+   "departamento_id": 9,
+   "slug": "las-plumas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 198,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Las Pulgas",
+   "departamento_id": 13,
+   "slug": "las-pulgas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 199,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Las Salinas",
+   "departamento_id": 8,
+   "slug": "las-salinas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 200,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Legua 24",
+   "departamento_id": 5,
+   "slug": "legua-24",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 201,
+   "fields" : {
+   "codpostal": 9217,
+   "nombre": "Leleque",
+   "departamento_id": 2,
+   "slug": "leleque",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 202,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Lenzanilleo",
+   "departamento_id": 14,
+   "slug": "lenzanilleo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 203,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Loma Redonda",
+   "departamento_id": 6,
+   "slug": "loma-redonda",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 204,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Loreto",
+   "departamento_id": 15,
+   "slug": "loreto",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 205,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Los Altares",
+   "departamento_id": 10,
+   "slug": "los-altares",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 206,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Los Cipreces",
+   "departamento_id": 5,
+   "slug": "los-cipreces",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 207,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Los Corralitos",
+   "departamento_id": 14,
+   "slug": "los-corralitos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 208,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Los Manantiales",
+   "departamento_id": 10,
+   "slug": "los-manantiales",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 209,
+   "fields" : {
+   "codpostal": 9031,
+   "nombre": "Los Tamariscos",
+   "departamento_id": 12,
+   "slug": "los-tamariscos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 210,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Maesteg",
+   "departamento_id": 6,
+   "slug": "maesteg",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 211,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "Malaspina",
+   "departamento_id": 4,
+   "slug": "malaspina",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 212,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Mallin Blanco",
+   "departamento_id": 8,
+   "slug": "mallin-blanco",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 213,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Mallin Grande",
+   "departamento_id": 15,
+   "slug": "mallin-grande",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 214,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Mallin Grande Corcobado",
+   "departamento_id": 15,
+   "slug": "mallin-grande-corcobado",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 215,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Manantial Grande",
+   "departamento_id": 13,
+   "slug": "manantial-grande",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 216,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Mata Grande",
+   "departamento_id": 14,
+   "slug": "mata-grande",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 217,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Matucana",
+   "departamento_id": 5,
+   "slug": "matucana",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 218,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Mayoco",
+   "departamento_id": 2,
+   "slug": "mayoco",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 219,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Medanos",
+   "departamento_id": 15,
+   "slug": "medanos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 220,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Nahuel Pan Estacion Fcgr",
+   "departamento_id": 5,
+   "slug": "nahuel-pan-estacion-fcgr",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 221,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Painaluf",
+   "departamento_id": 15,
+   "slug": "painaluf",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 222,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Pampa De Agnia",
+   "departamento_id": 8,
+   "slug": "pampa-de-agnia",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 223,
+   "fields" : {
+   "codpostal": 9000,
+   "nombre": "Pampa Del Castillo",
+   "departamento_id": 3,
+   "slug": "pampa-del-castillo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 224,
+   "fields" : {
+   "codpostal": 9007,
+   "nombre": "Pampa Pelada",
+   "departamento_id": 3,
+   "slug": "pampa-pelada",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 225,
+   "fields" : {
+   "codpostal": 9000,
+   "nombre": "Pampa Salamanca",
+   "departamento_id": 3,
+   "slug": "pampa-salamanca",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 226,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Pampa Tepuel",
+   "departamento_id": 8,
+   "slug": "pampa-tepuel",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 227,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Parque Nacional Los Alerces",
+   "departamento_id": 8,
+   "slug": "parque-nacional-los-alerces",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 228,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Paso de Indios",
+   "departamento_id": 10,
+   "slug": "paso-de-indios",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 229,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Paso De Torres",
+   "departamento_id": 13,
+   "slug": "paso-de-torres",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 230,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Paso del Sapo",
+   "departamento_id": 8,
+   "slug": "paso-del-sapo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 231,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "Paso Moreno",
+   "departamento_id": 12,
+   "slug": "paso-moreno",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 232,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "Pastos Blancos",
+   "departamento_id": 12,
+   "slug": "pastos-blancos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 233,
+   "fields" : {
+   "codpostal": 9000,
+   "nombre": "Pico Salamanca",
+   "departamento_id": 3,
+   "slug": "pico-salamanca",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 234,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Piedra Parada",
+   "departamento_id": 8,
+   "slug": "piedra-parada",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 235,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Pirre Mahuida",
+   "departamento_id": 15,
+   "slug": "pirre-mahuida",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 236,
+   "fields" : {
+   "codpostal": 9103,
+   "nombre": "Playa Union",
+   "departamento_id": 11,
+   "slug": "playa-union",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 237,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Pocitos De Quichaura",
+   "departamento_id": 8,
+   "slug": "pocitos-de-quichaura",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 238,
+   "fields" : {
+   "codpostal": 9101,
+   "nombre": "Puente Hendre",
+   "departamento_id": 11,
+   "slug": "puente-hendre",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 239,
+   "fields" : {
+   "codpostal": 8532,
+   "nombre": "Puerto Lobos",
+   "departamento_id": 1,
+   "slug": "puerto-lobos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 240,
+   "fields" : {
+   "codpostal": 9120,
+   "nombre": "Puerto Madryn",
+   "departamento_id": 1,
+   "slug": "puerto-madryn",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 241,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Puerto Piramides",
+   "departamento_id": 1,
+   "slug": "puerto-piramides",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 242,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Puerto San Roman",
+   "departamento_id": 15,
+   "slug": "puerto-san-roman",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 243,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Punta Bajos",
+   "departamento_id": 15,
+   "slug": "punta-bajos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 244,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Punta Delgada",
+   "departamento_id": 15,
+   "slug": "punta-delgada",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 245,
+   "fields" : {
+   "codpostal": 9103,
+   "nombre": "Punta Ninfas",
+   "departamento_id": 11,
+   "slug": "punta-ninfas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 246,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Punta Norte",
+   "departamento_id": 15,
+   "slug": "punta-norte",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 247,
+   "fields" : {
+   "codpostal": 9120,
+   "nombre": "Punta Quiroga",
+   "departamento_id": 1,
+   "slug": "punta-quiroga",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 248,
+   "fields" : {
+   "codpostal": 9001,
+   "nombre": "Rada Tilly",
+   "departamento_id": 3,
+   "slug": "rada-tilly",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 249,
+   "fields" : {
+   "codpostal": 9103,
+   "nombre": "Rawson",
+   "departamento_id": 11,
+   "slug": "rawson",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 250,
+   "fields" : {
+   "codpostal": 9000,
+   "nombre": "Rio Chico",
+   "departamento_id": 3,
+   "slug": "rio-chico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 251,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Rio Corinto",
+   "departamento_id": 5,
+   "slug": "rio-corinto",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 252,
+   "fields" : {
+   "codpostal": 9033,
+   "nombre": "Rio Frias",
+   "departamento_id": 12,
+   "slug": "rio-frias",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 253,
+   "fields" : {
+   "codpostal": 9030,
+   "nombre": "Rio Mayo",
+   "departamento_id": 12,
+   "slug": "rio-mayo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 254,
+   "fields" : {
+   "codpostal": 9225,
+   "nombre": "Rio Pico",
+   "departamento_id": 14,
+   "slug": "rio-pico",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 255,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "Ruta 3 Kilometro 1646",
+   "departamento_id": 4,
+   "slug": "ruta-3-kilometro-1646",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 256,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "Ruta 3 Kilometro 1711",
+   "departamento_id": 4,
+   "slug": "ruta-3-kilometro-1711",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 257,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Sacanana",
+   "departamento_id": 7,
+   "slug": "sacanana",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 258,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Salinas Chicas",
+   "departamento_id": 15,
+   "slug": "salinas-chicas",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 259,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Salinas Grandes",
+   "departamento_id": 15,
+   "slug": "salinas-grandes",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 260,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "San Jose",
+   "departamento_id": 15,
+   "slug": "san-jose",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 261,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Sarmiento",
+   "departamento_id": 13,
+   "slug": "sarmiento",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 262,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Seprucal",
+   "departamento_id": 15,
+   "slug": "seprucal",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 263,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Sierra Chata",
+   "departamento_id": 15,
+   "slug": "sierra-chata",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 264,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Sierra Chica",
+   "departamento_id": 15,
+   "slug": "sierra-chica",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 265,
+   "fields" : {
+   "codpostal": 9111,
+   "nombre": "Sierra Colorada",
+   "departamento_id": 4,
+   "slug": "sierra-colorada",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 266,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Sierra Corrientes",
+   "departamento_id": 13,
+   "slug": "sierra-corrientes",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 267,
+   "fields" : {
+   "codpostal": 9007,
+   "nombre": "Sierra Cuadrada",
+   "departamento_id": 3,
+   "slug": "sierra-cuadrada",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 268,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Sierra De Tecka",
+   "departamento_id": 5,
+   "slug": "sierra-de-tecka",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 269,
+   "fields" : {
+   "codpostal": 9023,
+   "nombre": "Sierra Nevada Buen Pasto",
+   "departamento_id": 13,
+   "slug": "sierra-nevada-buen-pasto",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 270,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Sierra Nevada Paso De Indios",
+   "departamento_id": 10,
+   "slug": "sierra-nevada-paso-de-indios",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 271,
+   "fields" : {
+   "codpostal": 9007,
+   "nombre": "Sierra Overa Chicas Y Grandes",
+   "departamento_id": 3,
+   "slug": "sierra-overa-chicas-y-grandes",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 272,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Sierra Rosada",
+   "departamento_id": 15,
+   "slug": "sierra-rosada",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 273,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Sierra Victoria",
+   "departamento_id": 13,
+   "slug": "sierra-victoria",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 274,
+   "fields" : {
+   "codpostal": 9103,
+   "nombre": "Sol De Mayo",
+   "departamento_id": 11,
+   "slug": "sol-de-mayo",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 275,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Sunica",
+   "departamento_id": 5,
+   "slug": "sunica",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 276,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Talagapa",
+   "departamento_id": 15,
+   "slug": "talagapa",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 277,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Taquetren",
+   "departamento_id": 7,
+   "slug": "taquetren",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 278,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Tatuen",
+   "departamento_id": 15,
+   "slug": "tatuen",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 279,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Tecka",
+   "departamento_id": 8,
+   "slug": "tecka",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 280,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Telsen",
+   "departamento_id": 15,
+   "slug": "telsen",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 281,
+   "fields" : {
+   "codpostal": 9107,
+   "nombre": "Toma De Los Canales",
+   "departamento_id": 6,
+   "slug": "toma-de-los-canales",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 282,
+   "fields" : {
+   "codpostal": 9207,
+   "nombre": "Toro Hosco",
+   "departamento_id": 10,
+   "slug": "toro-hosco",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 283,
+   "fields" : {
+   "codpostal": 9100,
+   "nombre": "Trelew",
+   "departamento_id": 11,
+   "slug": "trelew",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 284,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Treorki",
+   "departamento_id": 6,
+   "slug": "treorki",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 285,
+   "fields" : {
+   "codpostal": 9220,
+   "nombre": "Tres Picos",
+   "departamento_id": 14,
+   "slug": "tres-picos",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 286,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Trevelin",
+   "departamento_id": 5,
+   "slug": "trevelin",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 287,
+   "fields" : {
+   "codpostal": 9100,
+   "nombre": "Uzcudun",
+   "departamento_id": 4,
+   "slug": "uzcudun",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 288,
+   "fields" : {
+   "codpostal": 9121,
+   "nombre": "Valle Del Rio Chubut",
+   "departamento_id": 15,
+   "slug": "valle-del-rio-chubut",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 289,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Valle Del Tecka",
+   "departamento_id": 8,
+   "slug": "valle-del-tecka",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 290,
+   "fields" : {
+   "codpostal": 9203,
+   "nombre": "Valle Frio",
+   "departamento_id": 5,
+   "slug": "valle-frio",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 291,
+   "fields" : {
+   "codpostal": 9201,
+   "nombre": "Valle Garin",
+   "departamento_id": 8,
+   "slug": "valle-garin",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 292,
+   "fields" : {
+   "codpostal": 9020,
+   "nombre": "Valle Hermoso",
+   "departamento_id": 13,
+   "slug": "valle-hermoso",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 293,
+   "fields" : {
+   "codpostal": 9039,
+   "nombre": "Valle Huemules",
+   "departamento_id": 12,
+   "slug": "valle-huemules",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 294,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Valle Los Martires",
+   "departamento_id": 6,
+   "slug": "valle-los-martires",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 295,
+   "fields" : {
+   "codpostal": 9200,
+   "nombre": "Villa Futalaufquen",
+   "departamento_id": 5,
+   "slug": "villa-futalaufquen",
+   "protegido": true
+   }
+ },
+ {
+   "model": "establecimientos.localidad",
+   "pk": 296,
+   "fields" : {
+   "codpostal": 9105,
+   "nombre": "Villa Ines",
+   "departamento_id": 6,
+   "slug": "villa-ines",
+   "protegido": true
+   }
+ }
+]
