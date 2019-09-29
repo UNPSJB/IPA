@@ -33,38 +33,26 @@
 	</div>
 </div>
 
-<div class="ui modal">
-	<div class="ui center aligned header" id="modal-header"></div>
-	<div class="content">
-	  <p>Nombre completo: <span id="nombre"></span></p>
-	  <div class="ui divider"></div> 
-	  <p>Email: <span id="email"></span></p>
-	  <div class="ui divider"></div>
-	  <p>Documento: <span id="documento"></span></p>
-	  <div class="ui divider"></div>
-	  <p>Dirección: <span id="direccion"></span></p>
-	  <div class="ui divider"></div>
-	  <p>Teléfono: <span id="telefono"></span></p>
-
-	</div>
-	<div class="actions">
-		<div class="ui cancel blue button">Cerrar</div>
-	</div>
-</div>
-
 <div class="ui modal" id="informacion-modal">
 	<div class="ui center aligned header" id="modal-header"></div>
 	<div class="content">
-	  <p>Nombre completo: <span id="nombre"></span></p>
+	  <p>Nombre completo: <span id="detail-nombre"></span></p>
 	  <div class="ui divider"></div> 
-	  <p>Email: <span id="email"></span></p>
+	  <p>Email: <span id="detail-email"></span></p>
 	  <div class="ui divider"></div>
-	  <p>Documento: <span id="documento"></span></p>
+	  <p>Documento: <span id="detail-documento"></span></p>
 	  <div class="ui divider"></div>
-	  <p>Dirección: <span id="direccion"></span></p>
+	  <p>Dirección: <span id="detail-direccion"></span></p>
 	  <div class="ui divider"></div>
-	  <p>Teléfono: <span id="telefono"></span></p>
-
+	  <p>Teléfono: <span id="detail-telefono"></span></p>
+	  <div class="ui divider"></div>
+	  <p> Empresas: 
+		<div id="detail-empresas"></div>		
+	  </p> 
+	  <div class="ui divider"></div>
+	  <p> Roles: 
+		<div id="detail-roles"></div>		
+	  </p>
 	</div>
 	<div class="actions">
 		<div class="ui cancel blue button">Cerrar</div>
@@ -88,13 +76,35 @@
 {% block customPageJs %}
 	$(".ui.button.detalle").click(function(){
 		$.get('/personas/detalle/' + this.id, function(data) {
-			/*$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido) 
-			$("#nombre").html(data.nombre + " " + data.apellido)
-			$("#email").html(data.email)
-			$("#documento").html(data.tipoDocumento + " "+ data.numeroDocumento)*/
-			$("#direccion").html(data.direccion)
-			/* $("#telefono").html(data.telefono) */
-			 
+			console.log(data)
+			$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido) 
+			$("#detail-nombre").html(data.nombre + " " + data.apellido)
+			$("#detail-email").html(data.email)
+			$("#detail-documento").html(data.tipoDocumento + " "+ data.numeroDocumento)
+			$("#detail-direccion").html(data.direccion)
+			$("#detail-telefono").html(data.telefono) 
+			if (data.empresas.length == 0) {
+				$("#detail-empresas").html('No tiene empresas relacionadas.')
+			} else {
+				lista = '<div class="ui bulleted list">'
+				for (empresa of data.empresas) {
+					lista += '<div class="item">' + empresa.cuit + ' - '+ empresa.razonSocial +'</div>'
+				}
+				lista += '</div>'
+				$("#detail-empresas").html(lista)
+			}
+
+			if (data.roles.length == 0) {
+				$("#detail-roles").html('No tiene roles relacionados.')
+			} else {
+				lista = '<div class="ui bulleted list">'
+				for (rol of data.roles) {
+					lista += '<div class="item">' + rol.tipo +'</div>'
+				}
+				lista += '</div>'
+				$("#detail-roles").html(lista)
+			}
+
 			$('#informacion-modal').modal('show');
 		})
 		//Si hay error
