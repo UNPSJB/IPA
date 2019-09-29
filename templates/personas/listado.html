@@ -72,7 +72,7 @@
 </div>
 
 <div class="ui small modal" id="eliminar-modal">
-	<div class="ui center aligned header" id="modal-header">¡Cuidado!</div>
+	<div class="ui center aligned header">¡Cuidado!</div>
 	<div class="content">
 		<p>¿Está seguro de que desea eliminar a <span id="eliminar-modal-nombre"></span>?</p>
 	</div>
@@ -88,14 +88,13 @@
 {% block customPageJs %}
 	$(".ui.button.detalle").click(function(){
 		$.get('/personas/detalle/' + this.id, function(data) {
-			console.log(data)
-			$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido)
+			/*$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido) 
 			$("#nombre").html(data.nombre + " " + data.apellido)
 			$("#email").html(data.email)
-			$("#documento").html(data.tipoDocumento + " "+ data.numeroDocumento)
+			$("#documento").html(data.tipoDocumento + " "+ data.numeroDocumento)*/
 			$("#direccion").html(data.direccion)
-			$("#telefono").html(data.telefono)
-			
+			/* $("#telefono").html(data.telefono) */
+			 
 			$('#informacion-modal').modal('show');
 		})
 		//Si hay error
