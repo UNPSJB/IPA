@@ -1,10 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from ..personas.models import Rol
+from ..personas.models import Persona
 
-class Usuario(AbstractUser, Rol):
-
-	TIPO = 9
-	def __init__(self, *args, **kwargs):
-		super(self.__class__, self).__init__(*args, **kwargs)
+class Usuario(AbstractUser):
+	persona = models.ForeignKey("personas.Persona", on_delete=models.CASCADE)
 

@@ -18,12 +18,12 @@
 			{% endif %}
 		</div>
 		<div class="four wide column">
-			<h1 class="ui center aligned header blue "> Personas </h1>
+			<h1 class="ui center aligned header blue "> Usuarios </h1>
 		</div>
 		<div class="six wide column">
 			<button class="ui icon right floated blue button" onclick="window.location.href='alta'">
 				<i class="plus icon"></i>
-				Nueva persona
+				Nuevo Usuario
 			</button>
 		</div>
 	</div>
@@ -31,7 +31,7 @@
 		{% render_table table %}
 	</div>
 </div>
-
+<!-- 
 <div class="ui modal" id="informacion-modal">
 	<div class="ui center aligned header" id="modal-header"></div>
 	<div class="content">
@@ -67,12 +67,13 @@
 		<div class="ui positive button">Eliminar</div>
 		<div class="ui negative button">Cancelar</div>
 	</div>
-</div>
+</div> -->
 
 
 {% endblock %}
 
 {% block customPageJs %}
+/* 
 	// using jQuery
 	function getCookie(name) {
 		var cookieValue = null;
@@ -93,14 +94,15 @@
 	function csrfSafeMethod(method) {
 		// these HTTP methods do not require CSRF protection
 		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-	}
+    }
 	$.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
 		}
-	});
+    });*/
+    /*
 	$(".ui.button.detalle").click(function(){
 		$.get('/personas/detalle/' + this.id, function(data) {
 			console.log(data)
@@ -137,8 +139,8 @@
 		//Si hay error
 		//	Mostrar mensajito de error
 	})
-
-	$(".ui.button.eliminar").click(function(){
+*/
+/*	$(".ui.button.eliminar").click(function(){
 		var splitted_data = this.id.split('-');
 		var nombre = splitted_data[0]
 		var apellido = splitted_data[1]
@@ -154,6 +156,6 @@
 				})
 			}
 		}).modal('show');
-	})
+	})*/
 
 {% endblock %}

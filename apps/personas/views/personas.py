@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.views.generic import DetailView, DeleteView
+from django.views.generic import DetailView, DeleteView, UpdateView
 from django.views import View
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
@@ -57,14 +57,17 @@ class AltaPersona(GenericAltaView):
 		return response
 
 
-class ModificarPersona(GenericModificacionView):
+class ModificarPersona(UpdateView):
 	model = Persona
 	form_class = PersonaForm
 	success_url = reverse_lazy('personas:listado')
-	nombre_form = 'Editar persona'
-	botones = {
-		'Volver a listado de Personas':reverse_lazy('personas:listado')
-	}
+	template_name = 'personas/alta.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarPersona, self).get_context_data(**kwargs)
+		obj = context['object']
+		context['empresas'] = obj.empresa_set.values('id').all()
+		return context
 
 class DetallePersona(View):
 	def get(self, request, *args, **kwargs):

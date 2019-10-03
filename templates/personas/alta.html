@@ -37,14 +37,21 @@
 	<div class="ui grid">
 		<div class="row">
 			<div class="fifteen wide column" >
-				<select class="ui fluid search dropdown empresasDropdown" multiple="" id="empresasDropdown" name="empresas">
-					<option value="">Empresas</option>
-					{% for empresa in empresas%}
-						<option value="{{empresa.cuit}}">
-							{{empresa.razonSocial }} - {{ empresa.cuit }}
-						</option>
-					{% endfor%}
-				</select>
+				<div class="field empresasDropdown">
+					<label>Empresas</label>
+					<div class="ui dropdown multiple search selection" name="empresas">
+						<input type="hidden" name="empresas">
+						<div class="default text">Selecciona empresas</div>
+						<i class="dropdown icon"></i>
+						<div class="menu" id="empresasDropdown">
+							{% for empresa in empresas%}
+								<div class="item" data-value="{{empresa.cuit}}">
+									{{empresa.razonSocial }} - {{ empresa.cuit }}
+								</div>	
+							{% endfor%}
+						</div>
+					</div>
+				</div>	
 			</div>
 			<div class="one wide column">
 				<button class="ui primary icon button" id="agregarEmpresa" type="button" data-tooltip="Agrega una nueva empresa">
@@ -143,10 +150,10 @@
 		})
 
 		$(".empresasDropdown").click(function(){
-			var options = '<option value="">Empresas</option>'
+			var options = ''
 			$.get('{% url 'empresas:data' %}', function(data) {
 				for(empresa of data.data){
-					options += '<option value="' + empresa.cuit + '">' + empresa.razonSocial + ' - ' + empresa.cuit + '</option>'
+					options += 	'<div class="item" data-value="' + empresa.cuit + '">' + empresa.razonSocial + ' - ' + empresa.cuit + '	</div>'
 				}
 				$("#empresasDropdown").html(options)
 			}, "json")
@@ -292,7 +299,10 @@
 
 		$('.message .close').on('click', function() {
 			$(this).closest('.message').hide();
-  		});
+		  });
+		{% if object %}
+
+		{% endif %}
 	})
 
 	
