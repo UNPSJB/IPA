@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^personas/', include('apps.personas.urls.personas'), name='persona'),
     url(r'^comision/', include('apps.comisiones.urls')),
     url(r'^pagos/', include('apps.pagos.urls')),
+    url(r'^usuarios/', include('apps.users.urls')),
     url(r'^actas/', include('apps.documentos.urls.actas')),
     
     url(r'^empresas/', include('apps.personas.urls.empresas')),    

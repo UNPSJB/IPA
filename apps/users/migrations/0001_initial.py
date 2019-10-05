@@ -39,7 +39,6 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'users',
                 'abstract': False,
                 'verbose_name': 'user',
-            },
-            bases=('personas.rol', models.Model),
+            }
         ),
     ]
