@@ -67,7 +67,9 @@ class ModificarPersona(UpdateView):
 		context = super(ModificarPersona, self).get_context_data(**kwargs)
 		obj = context['object']
 		context['empresas'] = obj.empresa_set.values('id').all()
-		context['roles'] = Persona.tipoRol
+		context['roles'] = Persona.tipoRol		
+		context['director_form'] = DirectorForm
+		context['chofer_form'] = ChoferForm
 		return context
 
 class DetallePersona(View):

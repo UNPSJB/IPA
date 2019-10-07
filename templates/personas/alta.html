@@ -323,6 +323,16 @@
 			for(rol of roles_relacionados){
 				$("#roles-dropdown").dropdown('set selected', rol)
 			}
+
+			if(roles_relacionados.includes('Director')){
+				$('#directorForm').replaceWith(DIRECTOR_FORM)
+
+				directorData = {{object.getDirectorData | safe}}
+			}
+
+			if(roles_relacionados.includes('Chofer')){
+				$('#choferForm').replaceWith(CHOFER_FORM)
+			}
 		{% endif %}
 	})
 

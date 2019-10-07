@@ -90,6 +90,13 @@ class Persona(models.Model):
 	def empresas_list(self):
 		return list(self.empresa_set.values_list('cuit', flat=True))
 
+	def getDirectorData(self):
+		return {}
+
+	def getChoferData(self):
+		import pdb; pdb.set_trace()
+		self.como(Chofer)
+
 class Rol(models.Model):
 	TIPO = 0
 	TIPOS = [ (0, "rol") ]
