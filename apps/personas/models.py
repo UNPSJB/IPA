@@ -87,6 +87,9 @@ class Persona(models.Model):
 		Q2 = Persona.objects.all().filter(roles__tipo=4)
 		return Q1.union(Q2)
 
+	def empresas_list(self):
+		return list(self.empresa_set.values_list('cuit', flat=True))
+
 class Rol(models.Model):
 	TIPO = 0
 	TIPOS = [ (0, "rol") ]

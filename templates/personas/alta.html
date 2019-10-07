@@ -7,7 +7,7 @@
 
 <div class="row header-content">
 	<div class="five wide column">
-		<button class="ui primary basic button" onclick="window.location.href='listado'">
+		<button class="ui primary basic button" onclick="window.location.href='/personas/listado'">
 			<i class="angle left icon"></i>
 			Volver a la lista de personas
 		</button>
@@ -32,23 +32,18 @@
     {% csrf_token %}
 	{% render_form form %}
 	<div class="field">
-		<label for="id_empresas">Empresas</label>		
+		<label >Empresas</label>		
 	</div>
 	<div class="ui grid">
 		<div class="row">
 			<div class="fifteen wide column" >
-				<div class="field empresasDropdown">
-					<label>Empresas</label>
-					<div class="ui dropdown multiple search selection" name="empresas">
-						<input type="hidden" name="empresas">
+				<div class="field">
+					<div class="ui dropdown multiple search selection" name="empresas" id="empresasDropdown">
+						<input type="hidden" name="empresas" class="empresasDropdown">
 						<div class="default text">Selecciona empresas</div>
 						<i class="dropdown icon"></i>
-						<div class="menu" id="empresasDropdown">
-							{% for empresa in empresas%}
-								<div class="item" data-value="{{empresa.cuit}}">
-									{{empresa.razonSocial }} - {{ empresa.cuit }}
-								</div>	
-							{% endfor%}
+						<div class="menu">
+
 						</div>
 					</div>
 				</div>	
@@ -142,6 +137,8 @@
 	`
 
 	$(document).ready(function(){
+		var empresas_lista_cuits = [];
+		empresas_dropdown_values = [];
 		$('.field.director').css('display','none');
 		$('.field.chofer').css('display','none')
 		$('#agregarEmpresa').click(function(){
@@ -149,15 +146,18 @@
 			win.focus();
 		})
 
-		$(".empresasDropdown").click(function(){
-			var options = ''
+		$("#empresasDropdown").click(function(){			
 			$.get('{% url 'empresas:data' %}', function(data) {
 				for(empresa of data.data){
-					options += 	'<div class="item" data-value="' + empresa.cuit + '">' + empresa.razonSocial + ' - ' + empresa.cuit + '	</div>'
+					if (!empresas_lista_cuits.includes(empresa.cuit)){
+						empresas_lista_cuits.push(empresa.cuit)
+						empresas_dropdown_values.push({name:empresa.razonSocial + ' - ' + empresa.cuit , value:empresa.cuit})				
+						$("#empresasDropdown").dropdown('change values', empresas_dropdown_values)
+					}
 				}
-				$("#empresasDropdown").html(options)
+				
 			}, "json")
-		})
+		}) 
 
 		function sanitize(str){
 			var tuplas = {
@@ -178,7 +178,7 @@
 			values: [
 				{% for rol in roles %}
 					{
-						name: '{{rol}}',
+						name: sanitize('{{rol}}'),
 						value: '{{rol}}'	
 					},
 				{% endfor %}
@@ -187,6 +187,7 @@
 				listaRoles = roles.split(',')
 	
 				accion = listaRoles.includes(nuevo)? 'ingresado' : 'borrado'
+
 				
 				$(".ui.large.form").form('remove prompt', 'roles')
 				$('.form .error.message.roles').hide()
@@ -300,8 +301,28 @@
 		$('.message .close').on('click', function() {
 			$(this).closest('.message').hide();
 		  });
+		  
 		{% if object %}
 
+			empresas_relacionadas = {{object.empresas_list | safe}}
+
+			$.get('{% url 'empresas:data' %}', function(data) {
+				for(empresa of data.data){
+					empresas_lista_cuits.push(empresa.cuit)
+					empresas_dropdown_values.push({name:empresa.razonSocial + ' - ' + empresa.cuit , value:empresa.cuit, selected:empresas_relacionadas.includes(empresa.cuit)})
+				}
+				$("#empresasDropdown").dropdown({
+					values: empresas_dropdown_values
+				})
+
+			}, "json")
+			$("#empresasDropdown").dropdown();
+
+			roles_relacionados = {{object.getRolesName | safe }}
+			
+			for(rol of roles_relacionados){
+				$("#roles-dropdown").dropdown('set selected', rol)
+			}
 		{% endif %}
 	})
 
