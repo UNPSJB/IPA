@@ -214,7 +214,6 @@ class Sumariante(Inspector):
 for Klass in Persona.tipoRol:
     Rol.register(eval(Klass))
 
-
 class Empresa(models.Model):
 	cuit = models.CharField(max_length=13, unique=True)
 	razonSocial = models.CharField(max_length=30, null=True, blank=True)

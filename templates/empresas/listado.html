@@ -1,0 +1,65 @@
+{% extends 'generales/listado.html' %}
+
+
+{% block boton_nuevo %} Nueva empresa {% endblock %} 
+
+{% block titulo %} Empresas {% endblock %}
+
+{% block contenido_informacion_modal %} 
+<p>CUIT: <span id="detail-cuit"></span></p>
+<div class="ui divider"></div> 
+<p>Razón Social: <span id="detail-razon-social"></span></p>
+<div class="ui divider"></div>
+<p>Dirección: <span id="detail-direccion"></span></p>
+<div class="ui divider"></div>
+<p>Teléfono: <span id="detail-telefono"></span></p>
+<div class="ui divider"></div>
+<p> Representantes: 
+  <div id="detail-representantes"></div>		
+</p> 
+{% endblock %}
+
+{% block mensaje_eliminar_modal %} 
+<p>¿Está seguro de que desea eliminar a <span id="eliminar-modal-nombre"></span>?</p>
+{% endblock %}
+
+{% block comportamiento_click_detalle %}
+	$.get('/empresas/detalle/' + this.id, function(data) {
+		$("#modal-header").html("Información de " + data.razonSocial + " "+ data.apellido) 
+		$("#detail-cuit").html(data.cuit)
+		$("#detail-razon-social").html(data.razonSocial)
+		$("#detail-direccion").html(data.direccion)
+		$("#detail-telefono").html(data.telefono) 
+		if (data.representantes.length == 0) {
+			$("#detail-representantes").html('No tiene representantes relacionadas.')
+		} else {
+			lista = '<div class="ui bulleted list">'
+			for (empresa of data.empresas) {
+				lista += '<div class="item">' + empresa.cuit + ' - '+ empresa.razonSocial +'</div>'
+			}
+			lista += '</div>'
+			$("#detail-empresas").html(lista)
+		}
+
+		if (data.roles.length == 0) {
+			$("#detail-roles").html('No tiene roles relacionados.')
+		} else {
+			lista = '<div class="ui bulleted list">'
+			for (rol of data.roles) {
+				lista += '<div class="item">' + rol.tipo +'</div>'
+			}
+			lista += '</div>'
+			$("#detail-roles").html(lista)
+		}
+
+		$('#informacion-modal').modal('show');
+	})
+//Si hay error
+//	Mostrar mensajito de error
+
+
+{% endblock comportamiento_click_detalle %}
+
+{% block comportamiento_click_eliminar %}
+		  
+{% endblock comportamiento_click_eliminar %}

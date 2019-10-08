@@ -1,5 +1,11 @@
-{% extends 'forms.html' %}
+{% extends 'generales/alta.html' %}
 
-{% block nombreForm %} 
-	Nueva Empresa
+{% block mensaje_boton_volver %}
+	Volver al listado de empresas
 {% endblock %} 
+
+{% block url_a_volver %}/empresas/listado{% endblock %}
+
+{% block titulo %} 
+	Nueva empresa 
+{% endblock %}

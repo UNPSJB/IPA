@@ -34,8 +34,21 @@
               Permisos 
             </div>   
           </a>
-          
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'personas:listado' %}">
+            <i class="id card icon"></i>
+            <div>
+              Personas 
+            </div>
+          </a>          
         
+          <a class="ui dropdown item" style="color:white" href="{% url 'empresas:listado' %}">
+            <i class="suitcase icon"></i>
+            <div>
+              Empresas 
+            </div>
+          </a>
+
           <a class="ui dropdown item" style="color:white" href="{% url 'usuarios:listado' %}">
             
             <i class="users icon"></i>
@@ -46,7 +59,7 @@
              
 
           <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
-            <i class="users icon"></i>
+            <i class="building icon"></i>
               <div>
               Establecimientos
               </div>
@@ -59,18 +72,8 @@
               <div>
               Comision
               </div>
-          </a>
-          
-          
-          <a class="ui dropdown item" style="color:white" href="{% url 'personas:listado' %}">
-            <i class="id card icon"></i>
-            <div>
-              Personas 
-            </div>
-          </a>
-          
+          </a>        
 
-          
           <a class="ui dropdown item">
             <i class="dollar icon"></i>  Pagos 
             <div class="menu inverted blue">

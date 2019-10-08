@@ -1,0 +1,56 @@
+{% extends 'index2.html' %}
+{% load static semanticui %}
+{% load contextMenu %}
+
+{% block wrapper %}
+<div class="ui grid" style="margin-bottom:25px;"> 
+
+<div class="row header-content">
+	<div class="five wide column">
+		<button class="ui primary basic button" onclick="window.location.href='{% block url_a_volver %}/{% endblock %}'">
+			<i class="angle left icon"></i>
+            {% block mensaje_boton_volver %}
+            Volver
+            {% endblock %}
+		</button>
+
+	</div>
+	<div class="six wide column">
+		<h1 class="ui center aligned header blue "> {% block titulo %} Nuevo {% endblock %}</h1>
+	</div>
+	<div class="five wide column">
+	</div>
+</div>
+</div>
+	{% if message %}
+		<div class="ui error message">
+		  <i class="close icon"></i>
+		  <div class="header"> {% block mensaje_error_titulo %} Hubo el siguiente problema: {% endblock %}</div>
+		    	<li> {{ message }}</li>
+		</div>
+	{% endif %}
+
+<form class="ui large form" action="{{ form.url_post }}" method="POST">
+    {% csrf_token %}
+	{% render_form form %}
+    {% block formularios_extra %}{% endblock %}
+    <div class="ui grid" >
+		<div class="row">
+			<div class="sixteen wide column" style="margin: 20px 0">
+				{% if not object %}
+					<input type="submit" class="ui primary button" name="cargarOtro" value="Guardar y Cargar otro">
+				{% endif %}
+				<input type="submit" class="ui positive button" name="guardar" value="Guardar">
+			</div>
+		</div>
+	</div>
+	<div class="ui error message">
+	</div>
+
+
+</form>
+{% endblock %}
+
+{% block customPageJs %}
+
+{% endblock %}

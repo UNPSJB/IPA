@@ -8,7 +8,8 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 
 from django.views import View
-
+from django_tables2.views import SingleTableView
+from apps.personas.tables import EmpresaTable
 class AltaEmpresa(GenericAltaView):
 	model = pmodels.Empresa
 	form_class = EmpresaForm
@@ -24,3 +25,9 @@ class DataEmpresas(View):
 		for empresa in empresas:
 			empresaDict.append({"razonSocial": empresa.razonSocial, "cuit": empresa.cuit})
 		return JsonResponse({"data": empresaDict})
+
+class Listado(SingleTableView):
+	model = pmodels.Empresa
+	template_name = 'empresas/listado.html'
+	table_class = EmpresaTable
+	paginate_by = 12

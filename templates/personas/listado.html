@@ -103,7 +103,6 @@
 	});
 	$(".ui.button.detalle").click(function(){
 		$.get('/personas/detalle/' + this.id, function(data) {
-			console.log(data)
 			$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido) 
 			$("#detail-nombre").html(data.nombre + " " + data.apellido)
 			$("#detail-email").html(data.email)

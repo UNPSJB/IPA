@@ -28,4 +28,11 @@ class PersonaTable(tables.Table):
 class PersonaFilter(django_filters.FilterSet):
     roles = django_filters.ChoiceFilter(choices=get_roles_choices())
 
+class EmpresaTable(tables.Table):
+    acciones = tables.TemplateColumn(template_name="formButtons.html")
+    
+    class Meta:
+        template_name = "django_tables2/semantic.html"
+        model = Empresa
+        fields = ('cuit', 'razonSocial')
    
