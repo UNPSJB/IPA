@@ -1,0 +1,68 @@
+{% extends 'index2.html' %}
+
+{% block wrapper %}
+<div class="row header-content">
+	<div class="five wide column">
+		<button class="ui primary basic button" onclick="window.location.href='/empresas/listado'">
+			<i class="angle left icon"></i>
+      Volver al listado de empresas
+    </button>
+
+	</div>
+	<div class="six wide column">
+		<h1 class="ui center aligned header blue "> Empresa {{ object.razonSocial }}</h1>
+	</div>
+	<div class="five wide column">
+	</div>
+</div>
+<h2>Información de la empresa </h2>
+<table class="ui celled table">
+    <tbody>
+      <tr>
+        <td data-label="data">CUIT</td>
+        <td data-label="value">{{object.cuit}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Razon Social</td>
+        <td data-label="value">{{object.razonSocial}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Teléfono</td>
+        <td data-label="value">{{object.telefono}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Dirección</td>
+        <td data-label="value">{{object.direccion}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Representantes</h2>
+
+  {% if object.tiene_representantes %}
+  <table class="ui celled table">
+    <tbody>
+        <tr>
+            <th>Documento</th>
+            <th>Nombre Completo</th>    
+        </tr>
+          
+        {% for representante in object.representantes.all %}
+          <tr>
+            <td data-label="Documento">{{representante.numeroDocumento}}</td>
+            <td data-label="Nombre Completo">{{representante.nombre}} {{representante.apellido}}</td>
+            <td data-label="ir"><a href=""><button class="ui icon button"><i class="info circle icon"></i></button></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  {% else %}
+  <table class="ui celled table">
+    <tbody>
+      <tr>
+        <td data-label="value">No tiene reresentantes registrados.</td>
+      </tr>
+    </tbody>
+  </table>
+  {% endif %}
+{% endblock %}

@@ -11,3 +11,4 @@ urlpatterns = [
 	url(r'^eliminar/(?P<pk>.+)/$', LocalidadDelete.as_view(), name='eliminar'),
 	]
 
+

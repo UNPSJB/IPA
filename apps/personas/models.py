@@ -220,3 +220,9 @@ class Empresa(models.Model):
 	direccion = models.CharField(max_length=60)
 	telefono = models.CharField(max_length=11)
 	representantes = models.ManyToManyField(Persona)
+
+	def __str__(self):
+		return "{} - {}".format(self.cuit, self.razonSocial)
+
+	def tiene_representantes(self):
+		return self.representantes.all().count() > 0

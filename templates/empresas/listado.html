@@ -24,42 +24,21 @@
 {% endblock %}
 
 {% block comportamiento_click_detalle %}
-	$.get('/empresas/detalle/' + this.id, function(data) {
-		$("#modal-header").html("Información de " + data.razonSocial + " "+ data.apellido) 
-		$("#detail-cuit").html(data.cuit)
-		$("#detail-razon-social").html(data.razonSocial)
-		$("#detail-direccion").html(data.direccion)
-		$("#detail-telefono").html(data.telefono) 
-		if (data.representantes.length == 0) {
-			$("#detail-representantes").html('No tiene representantes relacionadas.')
-		} else {
-			lista = '<div class="ui bulleted list">'
-			for (empresa of data.empresas) {
-				lista += '<div class="item">' + empresa.cuit + ' - '+ empresa.razonSocial +'</div>'
-			}
-			lista += '</div>'
-			$("#detail-empresas").html(lista)
-		}
-
-		if (data.roles.length == 0) {
-			$("#detail-roles").html('No tiene roles relacionados.')
-		} else {
-			lista = '<div class="ui bulleted list">'
-			for (rol of data.roles) {
-				lista += '<div class="item">' + rol.tipo +'</div>'
-			}
-			lista += '</div>'
-			$("#detail-roles").html(lista)
-		}
-
-		$('#informacion-modal').modal('show');
-	})
-//Si hay error
-//	Mostrar mensajito de error
-
-
+	window.location.href = "/empresas/detalle/" + this.id;
 {% endblock comportamiento_click_detalle %}
 
 {% block comportamiento_click_eliminar %}
-		  
+		var splitted_data = this.id.split('-');
+		var id = splitted_data[2]
+		$("#eliminar-modal-nombre").html(id)
+		$('#eliminar-modal').modal({
+			onApprove : function() {
+				//mandar a borrar
+				$.post('/empresas/eliminar/' + id + '/', function(data){
+					if (data.success){
+						location.reload();
+					}
+				})
+			}
+		}).modal('show');
 {% endblock comportamiento_click_eliminar %}
