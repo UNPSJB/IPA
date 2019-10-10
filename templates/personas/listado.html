@@ -94,6 +94,7 @@
 		// these HTTP methods do not require CSRF protection
 		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 	}
+	
 	$.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -101,6 +102,7 @@
 			}
 		}
 	});
+
 	$(".ui.button.detalle").click(function(){
 		$.get('/personas/detalle/' + this.id, function(data) {
 			$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido) 

@@ -27,13 +27,14 @@ class AltaPersona(GenericAltaView):
 		context = super().get_context_data(**kwargs)
 		context['empresas'] = Empresa.objects.all()
 		context['roles'] = Persona.tipoRol
-		context['director_form'] = DirectorForm
-		context['chofer_form'] = ChoferForm
+		context['director_form'] = DirectorForm()
+		context['chofer_form'] = ChoferForm()
 		return context
 
 	def post(self,request, *args, **kwargs):
 		response = super(AltaPersona, self).post(request, *args, **kwargs)
-		cuitList = request.POST.getlist('empresas')
+		cuitList = request.POST.get('empresas')
+		cuitList = [] if cuitList == '' else cuitList.split(',')
 		rolesList = request.POST.get('roles')
 		rolesList = [] if rolesList == '' else rolesList.split(',')
 		persona = Persona.objects.get(numeroDocumento=request.POST['numeroDocumento'])
@@ -56,7 +57,6 @@ class AltaPersona(GenericAltaView):
 			persona.agregar_rol(rol_to_add)
 		return response
 
-
 class ModificarPersona(UpdateView):
 	model = Persona
 	form_class = PersonaForm
@@ -68,9 +68,41 @@ class ModificarPersona(UpdateView):
 		obj = context['object']
 		context['empresas'] = obj.empresa_set.values('id').all()
 		context['roles'] = Persona.tipoRol		
-		context['director_form'] = DirectorForm
-		context['chofer_form'] = ChoferForm
+		if obj.sos(Director):
+			context['director_form'] = DirectorForm(instance=obj.como(Director))
+		else:
+			context['director_form'] = DirectorForm()
+		if obj.sos(Chofer):
+			context['chofer_form'] = ChoferForm(instance=obj.como(Chofer))
+		else:
+			context['chofer_form'] = ChoferForm()
 		return context
+
+	def post(self,request, *args, **kwargs):
+		response = super(ModificarPersona, self).post(request, *args, **kwargs)
+		cuitList = request.POST.get('empresas')
+		cuitList = [] if cuitList == '' else cuitList.split(',')
+		rolesList = request.POST.get('roles')
+		rolesList = [] if rolesList == '' else rolesList.split(',')
+		persona = Persona.objects.get(numeroDocumento=request.POST['numeroDocumento'])
+		for cuit in cuitList:
+			empresa = Empresa.objects.get(cuit=cuit)
+			empresa.representantes.add(persona)
+			empresa.save()
+		for rol in rolesList:
+			rol_to_add = None
+			if rol == 'Director':
+				director_form = DirectorForm(request.POST)
+				if director_form.is_valid():
+					rol_to_add = Director(**director_form.cleaned_data)
+			elif rol == 'Chofer':
+				chofer_form = ChoferForm(request.POST)
+				if chofer_form.is_valid():
+					rol_to_add = Chofer(**chofer_form.cleaned_data)
+			else:
+				rol_to_add = eval(rol)()	
+			persona.agregar_rol(rol_to_add)
+		return response
 
 class DetallePersona(View):
 	def get(self, request, *args, **kwargs):

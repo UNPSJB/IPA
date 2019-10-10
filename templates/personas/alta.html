@@ -303,7 +303,6 @@
 		  });
 		  
 		{% if object %}
-
 			empresas_relacionadas = {{object.empresas_list | safe}}
 
 			$.get('{% url 'empresas:data' %}', function(data) {
@@ -323,19 +322,7 @@
 			for(rol of roles_relacionados){
 				$("#roles-dropdown").dropdown('set selected', rol)
 			}
-
-			if(roles_relacionados.includes('Director')){
-				$('#directorForm').replaceWith(DIRECTOR_FORM)
-
-				directorData = {{object.getDirectorData | safe}}
-			}
-
-			if(roles_relacionados.includes('Chofer')){
-				$('#choferForm').replaceWith(CHOFER_FORM)
-			}
+			
 		{% endif %}
 	})
-
-	
-
 {% endblock %}
