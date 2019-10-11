@@ -41,7 +41,7 @@ class LocalidadManager(models.Manager):
 		self.protegido = protegido
 
 	def get_queryset(self):
-		return super().get_queryset().filter(protegido=self.protegido)
+		return super().get_queryset().filter()
 
 
 class Localidad(models.Model):
