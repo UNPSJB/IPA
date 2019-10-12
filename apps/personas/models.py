@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, F, Value
+from django.db.models.functions import Concat
 
 # Create your models here.
 class Persona(models.Model):
@@ -94,8 +95,12 @@ class Persona(models.Model):
 		return {}
 
 	def getChoferData(self):
-		import pdb; pdb.set_trace()
 		self.como(Chofer)
+
+	@classmethod
+	def choices(cls):
+		return cls.objects.annotate(nombre_completo=Concat(F('nombre'), Value(' '), F('apellido'), output_field=models.CharField())).values('id', 'nombre_completo')
+
 
 class Rol(models.Model):
 	TIPO = 0

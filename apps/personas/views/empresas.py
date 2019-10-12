@@ -29,6 +29,13 @@ class Listado(SingleTableView):
 	table_class = EmpresaTable
 	paginate_by = 12
 
+class DataEmpresas(View):
+	def get(self, request, *args, **kwargs):
+		empresas = pmodels.Empresa.objects.all()
+		empresaDict = []
+		for empresa in empresas:
+			empresaDict.append({"razonSocial": empresa.razonSocial, "cuit": empresa.cuit})
+		return JsonResponse({"data": empresaDict})
 
 class ModificarEmpresa(UpdateView):
 	model = Empresa
