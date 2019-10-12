@@ -21,7 +21,7 @@
 			<h1 class="ui center aligned header blue "> {% block titulo %} Listado {% endblock %} </h1>
 		</div>
 		<div class="six wide column">
-			<button class="ui icon right floated blue button" onclick="window.location.href='alta'">
+			<button class="ui icon right floated blue button" onclick="window.location.href='{% block url_nuevo %} alta {% endblock %}'">
 				<i class="plus icon"></i>
 				{% block boton_nuevo %} Nuevo {% endblock %} 
 			</button>

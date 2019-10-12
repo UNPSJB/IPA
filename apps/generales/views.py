@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 
@@ -33,3 +33,18 @@ class GenericModificacionView(UpdateView):
 		context['nombreForm'] = self.nombre_form
 		context['botones'] = self.botones
 		return context
+
+class GenericEliminarView(DeleteView):
+	def delete(self, request, *args, **kwargs):
+		try:
+			self.object = self.get_object()
+			self.object.delete()
+
+			return JsonResponse({
+				"success": True
+			})
+		except Error as e:
+			return JsonResponse({
+				"success": False,
+				"message": e.value()
+			})

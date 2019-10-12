@@ -1,161 +1,33 @@
-{% extends 'index2.html' %}
-{% load actionButton %}
-{% load render_table from django_tables2 %}
+{% extends 'generales/listado.html' %}
 
-{% block wrapper %}
-<div class="ui grid"> 
-	<div class="row header-content">
-		<div class="six wide column">
-			{% if filter %}
-				<form action="" method="get" class="ui form">
-					<div class="inline field">
-						{{ filter.form }}
-						<button class="ui icon button">
-								<i class="filter icon"></i>
-						</button>				
-					</div>
-				</form>
-			{% endif %}
-		</div>
-		<div class="four wide column">
-			<h1 class="ui center aligned header blue "> Usuarios </h1>
-		</div>
-		<div class="six wide column">
-			<button class="ui icon right floated blue button" onclick="window.location.href='nuevo'">
-				<i class="plus icon"></i>
-				Nuevo Usuario
-			</button>
-		</div>
-	</div>
-	<div class="row lista">
-		{% render_table table %}
-	</div>
-</div>
-<!-- 
-<div class="ui modal" id="informacion-modal">
-	<div class="ui center aligned header" id="modal-header"></div>
-	<div class="content">
-	  <p>Nombre completo: <span id="detail-nombre"></span></p>
-	  <div class="ui divider"></div> 
-	  <p>Email: <span id="detail-email"></span></p>
-	  <div class="ui divider"></div>
-	  <p>Documento: <span id="detail-documento"></span></p>
-	  <div class="ui divider"></div>
-	  <p>Dirección: <span id="detail-direccion"></span></p>
-	  <div class="ui divider"></div>
-	  <p>Teléfono: <span id="detail-telefono"></span></p>
-	  <div class="ui divider"></div>
-	  <p> Empresas: 
-		<div id="detail-empresas"></div>		
-	  </p> 
-	  <div class="ui divider"></div>
-	  <p> Roles: 
-		<div id="detail-roles"></div>		
-	  </p>
-	</div>
-	<div class="actions">
-		<div class="ui cancel blue button">Cerrar</div>
-	</div>
-</div>
+{% block boton_nuevo %} Nuevo Usuario {% endblock %} 
 
-<div class="ui small modal" id="eliminar-modal">
-	<div class="ui center aligned header">¡Cuidado!</div>
-	<div class="content">
-		<p>¿Está seguro de que desea eliminar a <span id="eliminar-modal-nombre"></span>?</p>
-	</div>
-	<div class="actions">
-		<div class="ui positive button">Eliminar</div>
-		<div class="ui negative button">Cancelar</div>
-	</div>
-</div> -->
+{% block titulo %} Usuarios {% endblock %}
 
+{% block url_nuevo %} nuevo {% endblock %}
 
+{% block mensaje_eliminar_modal %} 
+<p>¿Está seguro de que desea eliminar a <span id="eliminar-modal-nombre"></span>?</p>
 {% endblock %}
 
-{% block customPageJs %}
-/* 
-	// using jQuery
-	function getCookie(name) {
-		var cookieValue = null;
-		if (document.cookie && document.cookie != '') {
-			var cookies = document.cookie.split(';');
-			for (var i = 0; i < cookies.length; i++) {
-				var cookie = jQuery.trim(cookies[i]);
-				// Does this cookie string begin with the name we want?
-				if (cookie.substring(0, name.length + 1) == (name + '=')) {
-					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-					break;
-				}
-			}
-		}
-		return cookieValue;
-	}
-	var csrftoken = getCookie('csrftoken');
-	function csrfSafeMethod(method) {
-		// these HTTP methods do not require CSRF protection
-		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-	$.ajaxSetup({
-		beforeSend: function(xhr, settings) {
-			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-				xhr.setRequestHeader("X-CSRFToken", csrftoken);
-			}
-		}
-    });*/
-    /*
-	$(".ui.button.detalle").click(function(){
-		$.get('/personas/detalle/' + this.id, function(data) {
-			console.log(data)
-			$("#modal-header").html("Información de " + data.nombre + " "+ data.apellido) 
-			$("#detail-nombre").html(data.nombre + " " + data.apellido)
-			$("#detail-email").html(data.email)
-			$("#detail-documento").html(data.tipoDocumento + " "+ data.numeroDocumento)
-			$("#detail-direccion").html(data.direccion)
-			$("#detail-telefono").html(data.telefono) 
-			if (data.empresas.length == 0) {
-				$("#detail-empresas").html('No tiene empresas relacionadas.')
-			} else {
-				lista = '<div class="ui bulleted list">'
-				for (empresa of data.empresas) {
-					lista += '<div class="item">' + empresa.cuit + ' - '+ empresa.razonSocial +'</div>'
-				}
-				lista += '</div>'
-				$("#detail-empresas").html(lista)
-			}
+{% block comportamiento_click_detalle %}
+	window.location.href = "/empresas/detalle/" + this.id;
+{% endblock comportamiento_click_detalle %}
 
-			if (data.roles.length == 0) {
-				$("#detail-roles").html('No tiene roles relacionados.')
-			} else {
-				lista = '<div class="ui bulleted list">'
-				for (rol of data.roles) {
-					lista += '<div class="item">' + rol.tipo +'</div>'
-				}
-				lista += '</div>'
-				$("#detail-roles").html(lista)
-			}
-
-			$('#informacion-modal').modal('show');
-		})
-		//Si hay error
-		//	Mostrar mensajito de error
-	})
-*/
-/*	$(".ui.button.eliminar").click(function(){
+{% block comportamiento_click_eliminar %}
 		var splitted_data = this.id.split('-');
-		var nombre = splitted_data[0]
-		var apellido = splitted_data[1]
 		var id = splitted_data[2]
-		$("#eliminar-modal-nombre").html(nombre + " " + apellido)
+		$("#eliminar-modal-nombre").html(id)
 		$('#eliminar-modal').modal({
 			onApprove : function() {
 				//mandar a borrar
-				$.post('/personas/eliminar/' + id + '/', function(data){
+				$.post('/usuarios/eliminar/' + id + '/', function(data){
 					if (data.success){
 						location.reload();
+					} else {
+						console.log(data.message)
 					}
 				})
 			}
 		}).modal('show');
-	})*/
-
-{% endblock %}
+{% endblock comportamiento_click_eliminar %}

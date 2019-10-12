@@ -1,17 +1,9 @@
 from django import forms
 from .models import *
 from apps.personas.models import Persona
-
-
-class CustomModelChoiceField(forms.ModelChoiceField):
-	to_field_name = 'id'
-
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-
-	def label_from_instance(self, obj):
-		return "{} {}".format(obj.nombre, obj.apellido)
 	
+# TODO mejorar este form para  usuarios.
+
 class UsuarioForm(forms.ModelForm):
 	class Meta:
 		model = Usuario
@@ -30,7 +22,7 @@ class UsuarioForm(forms.ModelForm):
 
 		widgets = {
 			'username':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Nombre'}),
-			'password':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Apellido'}),
+			'password':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Apellido', 'type':'password'}),
 			'email':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Email'}),
 			'persona': forms.Select(attrs={'class':'form-control', 'placeholder':'Persona'})
 		}
