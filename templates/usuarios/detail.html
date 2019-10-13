@@ -44,7 +44,7 @@
     </tbody>
   </table>
 
-  <div class="row"><h2 style="display:inline-block">Información de la Persona </h2> <a href="" style="float:right;">Ver más</a></div>
+  <div class="row"><h2 style="display:inline-block">Información de la Persona </h2> <a href="/persona/detalle/{{object.persona.id}}" style="float:right;">Ver más</a></div>
 
   <table class="ui celled table" style="margin:0 auto 20px 0">
       <tbody>
@@ -56,7 +56,6 @@
           <td data-label="data">Documento</td>
           <td data-label="value">{{object.persona.get_tipoDocumento_display}} {{object.persona.numeroDocumento}}</td>
         </tr>
-        
       </tbody>
     </table>
 {% endblock %}

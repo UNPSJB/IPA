@@ -22,75 +22,77 @@
     <div class="row">
       <div class="three wide column " >
         <div class="ui vertical fluid blue inverted large menu">
-
-          <div class="item">
-            <h2 class="ui center aligned icon header"><i class="blue inverted circular user icon"></i> {{ user }} </h2>
-            <p class="roles">Administrativo</p>
-          </div>
-
-          <a class="ui dropdown item" href="{% url 'permisos:listar' %}">
-            <i class="circle check icon"></i>            
-            <div>
-              Permisos 
-            </div>   
-          </a>
-          
-        
-          <a class="ui dropdown item" style="color:white" href="{% url 'personas:listado' %}">
+            <div class="item">
+                <h2 class="ui center aligned icon header"><i class="blue inverted circular user icon"></i> {{ user }} </h2>
+                <p class="roles">Administrativo</p>
+              </div>
+    
+              <a class="ui dropdown item" href="{% url 'permisos:listar' %}">
+                <i class="circle check icon"></i>            
+                <div>
+                  Permisos 
+                </div>   
+              </a>
+    
+              <a class="ui dropdown item" style="color:white" href="{% url 'personas:listado' %}">
+                <i class="id card icon"></i>
+                <div>
+                  Personas 
+                </div>
+              </a>          
             
-            <i class="users icon"></i>
-              <div>
-              Usuarios
-              </div>
-          </a>
-             
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
-            <i class="users icon"></i>
-              <div>
-              Establecimientos
-              </div>
-          </a>
-
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'comisiones:listar' %}">
-           
-            <i class="file icon"></i>
-              <div>
-              Comision
-              </div>
-          </a>
-          
-          
-          <a class="ui dropdown item" style="color:white" href="{% url 'personas:listado' %}">
-            <i class="id card icon"></i>
-            <div>
-              Personas 
-            </div>
-          </a>
-          
-
-          
-          <a class="ui dropdown item">
-            <i class="dollar icon"></i>  Pagos 
-            <div class="menu inverted blue">
-              <a href="{% url 'pagos:listarModulos' %}" class="item submenu-item ">Valor de Modulos</a>
-              <a href="{% url 'pagos:listarTodosLosCobros' %}" class="item submenu-item ">Cobros</a>
-              <a href="{% url 'pagos:listarTodosLosPagos' %}" class="item submenu-item ">Pagos</a>
-            </div>
-          </a>
-
-          <a class="ui dropdown item">
-              <i class="settings icon"></i> Generales
-              <div class="menu inverted blue">
-                <a href="{% url 'afluentes:listar' %}" class="item submenu-item"> Afluentes</a> 
-                <a href="{% url 'localidades:listar' %}" class="item submenu-item"> Localidades</a>
-                <a href="{% url 'tiposDeUso:listar' %}" class="item submenu-item "> Tipos de Uso</a>
-                <a href="{% url 'tipoDocumentos:listar' %}" class="item submenu-item "> Tipos de Documentos</a>
-                <a href="{% url 'departamentos:listar' %}" class="item submenu-item "> Departamentos</a>
-                <a href="{% url 'admin:index' %}" class="item submenu-item "> Administración</a>
-              </div>
-          </a>
+              <a class="ui dropdown item" style="color:white" href="{% url 'empresas:listado' %}">
+                <i class="suitcase icon"></i>
+                <div>
+                  Empresas 
+                </div>
+              </a>
+    
+              <a class="ui dropdown item" style="color:white" href="{% url 'usuarios:listado' %}">
+                
+                <i class="users icon"></i>
+                  <div>
+                  Usuarios
+                  </div>
+              </a>
+                 
+    
+              <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
+                <i class="building icon"></i>
+                  <div>
+                  Establecimientos
+                  </div>
+              </a>
+    
+    
+              <a class="ui dropdown item" style="color:white" href="{% url 'comisiones:listar' %}">
+               
+                <i class="file icon"></i>
+                  <div>
+                  Comision
+                  </div>
+              </a>        
+    
+              <a class="ui dropdown item">
+                <i class="dollar icon"></i>  Pagos 
+                <div class="menu inverted blue">
+                  <a href="{% url 'pagos:listarModulos' %}" class="item submenu-item ">Valor de Modulos</a>
+                  <a href="{% url 'pagos:listarTodosLosCobros' %}" class="item submenu-item ">Cobros</a>
+                  <a href="{% url 'pagos:listarTodosLosPagos' %}" class="item submenu-item ">Pagos</a>
+                </div>
+              </a>
+    
+              <a class="ui dropdown item">
+                  <i class="settings icon"></i> Generales
+                  <div class="menu inverted blue">
+                    <a href="{% url 'afluentes:listar' %}" class="item submenu-item"> Afluentes</a> 
+                    <a href="{% url 'localidades:listar' %}" class="item submenu-item"> Localidades</a>
+                    <a href="{% url 'tiposDeUso:listar' %}" class="item submenu-item "> Tipos de Uso</a>
+                    <a href="{% url 'tipoDocumentos:listar' %}" class="item submenu-item "> Tipos de Documentos</a>
+                    <a href="{% url 'departamentos:listar' %}" class="item submenu-item "> Departamentos</a>
+                    <a href="{% url 'admin:index' %}" class="item submenu-item "> Administración</a>
+                  </div>
+              </a>
         </div>
       </div>
 
