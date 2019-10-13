@@ -9,8 +9,9 @@ class UserBackend(object):
 		user = django_auth(request, username=username, password=password)
 		if user is None:
 			try :
-				userObject = Usuario.all_users.get(email=username)
+				userObject = Usuario.objects.get(email=username)
 			except Usuario.DoesNotExist:
+				print('usuario no existe')
 				return None
 			user = django_auth(request, username=userObject.username, password=password)
 		return user

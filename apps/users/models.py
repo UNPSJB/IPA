@@ -18,7 +18,5 @@ class UsuariosManager(UserManager):
 
 class Usuario(AbstractUser):
 	persona = models.ForeignKey("personas.Persona", on_delete=models.CASCADE, null=False)
-
 	objects =  UsuariosManager(show_superusers=True)
 	usuarios = UsuariosManager()
-	
