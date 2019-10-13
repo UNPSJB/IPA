@@ -52,6 +52,10 @@ class NuevoUsuario(TemplateView):
 			context['form'] = usuario_form
 			return render(request, self.template_name, context=context)
 
+class DetalleUsuario(DetailView):
+	model = Usuario
+	template_name = 'usuarios/detail.html'
+
 class ModificarUsuario(UpdateView):
 	model = Usuario
 	form_class = UsuarioForm

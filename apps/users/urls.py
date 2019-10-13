@@ -9,5 +9,6 @@ urlpatterns = [
 	url(r'^nuevo$', NuevoUsuario.as_view(), name='alta'),
 	url(r'^eliminar/(?P<pk>.+)/$', EliminarUsuario.as_view(), name='eliminar'),
 	url(r'^modificar/(?P<pk>.+)/$', ModificarUsuario.as_view(), name='modificar'),
+	url(r'^detalle/(?P<pk>.+)/$', DetalleUsuario.as_view(), name='detalle'),
 
 ]

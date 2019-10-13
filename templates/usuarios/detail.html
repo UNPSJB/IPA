@@ -1,0 +1,62 @@
+{% extends 'index2.html' %}
+
+{% block wrapper %}
+<div class="row header-content">
+	<div class="five wide column">
+		<button class="ui primary basic button" onclick="window.location.href='/usuarios/listado'">
+			<i class="angle left icon"></i>
+      Volver al listado de usuarios
+    </button>
+
+	</div>
+	<div class="six wide column">
+		<h1 class="ui center aligned header blue "> Usuario {{ object.username }}</h1>
+	</div>
+	<div class="five wide column">
+	</div>
+</div>
+<div class="row"><h2 style="display:inline-block">Información del Usuario </h2> <a href="" style="float:right;">Cambiar contraseña</a></div>
+
+<table class="ui celled table" style="margin:0 auto 20px 0">
+    <tbody>
+      <tr>
+        <td data-label="data">Nombre de usuario</td>
+        <td data-label="value">{{object.username}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Email</td>
+        <td data-label="value">{{object.email}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Fecha de creación</td>
+        <td data-label="value">{{object.date_joined}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Último inicio de sesión</td>
+        <td data-label="value">
+          {% if object.last_login %}
+            {{object.last_login}}
+          {% else %}
+            Nunca ha iniciado sesión todavia.
+          {% endif %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row"><h2 style="display:inline-block">Información de la Persona </h2> <a href="" style="float:right;">Ver más</a></div>
+
+  <table class="ui celled table" style="margin:0 auto 20px 0">
+      <tbody>
+        <tr>
+          <td data-label="data">Nombre completo</td>
+          <td data-label="value">{{object.persona.nombre}} {{object.persona.apellido}}</td>
+        </tr>
+        <tr>
+          <td data-label="data">Documento</td>
+          <td data-label="value">{{object.persona.get_tipoDocumento_display}} {{object.persona.numeroDocumento}}</td>
+        </tr>
+        
+      </tbody>
+    </table>
+{% endblock %}
