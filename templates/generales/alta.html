@@ -22,11 +22,18 @@
 	</div>
 </div>
 </div>
-	{% if message %}
+	{% if message_error %}
 		<div class="ui error message">
 		  <i class="close icon"></i>
 		  <div class="header"> {% block mensaje_error_titulo %} Hubo el siguiente problema: {% endblock %}</div>
-		    	<li> {{ message }}</li>
+		    	<li> {{ message_error }}</li>
+		</div>
+	{% endif %}
+	{% if message_success %}
+		<div class="ui positive message">
+		  <i class="close icon"></i>
+		  <div class="header"> {% block mensaje_success_titulo %} ¡Todo a salido bien! {% endblock %}</div>
+		    	<li> {{ message_success }}</li>
 		</div>
 	{% endif %}
 
