@@ -3,23 +3,10 @@ from ..forms import *
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from ..models import Localidad
-from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
+from django.views.generic import ListView,CreateView,DetailView,DeleteView,UpdateView
 
 #Localidad
-class AltaLocalidad(CreateView):
-	model = Localidad
-	form_class = LocalidadForm
-	template_name = 'forms.html'
-	success_url = reverse_lazy('localidades:listar')
 
-	def get_context_data(self, **kwargs):
-		context = super(AltaLocalidad, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Ir a Listado': reverse('localidades:listar'),
-			'Nuevo Departamento': reverse('departamentos:alta'),
-		}
-		context['nombreForm'] = 'Nueva Localidad'
-		return context
 
 class DetalleLocalidad(DetailView):
 	model = Localidad
@@ -30,10 +17,7 @@ class DetalleLocalidad(DetailView):
 		context = super(DetalleLocalidad, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Localidad'
 		context['botones'] = {
-			'Ir a Listado': reverse('localidades:listar'),
-			'Nueva Localidad': reverse('localidades:alta'),
-			'Modificar Localidad': reverse('localidades:modificar', args=[self.object.id]),
-			'Eliminar Localidad': reverse('localidades:eliminar', args=[self.object.id]),
+			
 		}
 		return context
 
@@ -48,39 +32,7 @@ class ListadoLocalidades(ListView):
 		context['nombreReverse'] = 'localidades'
 		context['headers'] = ['Código Postal', 'Nombre','Departamento']
 		context['botones'] = {
-			'Nueva Localidad': reverse('localidades:alta'),
-			'Ir a Establecimientos': reverse('establecimientos:listar'),
-			'Ir a Afluentes': reverse('afluentes:listar')
+
 			}
 		return context
 
-class ModificarLocalidad(UpdateView):
-	model = Localidad
-	form_class = LocalidadForm
-	template_name = 'forms.html'
-	success_url = reverse_lazy('localidades:listar')
-
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		id_localidad = kwargs['pk']
-		localidad = self.model.objects.get(id=id_localidad)
-		form = self.form_class(request.POST, instance=localidad)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect(self.get_success_url())
-		else:
-			return HttpResponseRedirect(self.get_success_url())
-
-	def get_context_data(self, **kwargs):
-		context = super(ModificarLocalidad, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar Localidad"
-		context['botones'] = {
-			'Ir a Listado': reverse('localidades:listar'),
-			'Nuevo Departamento': reverse('departamentos:alta')
-			}
-		return context
-
-class LocalidadDelete(DeleteView):
-	model = Localidad
-	template_name = 'delete.html'
-	success_url = reverse_lazy('localidades:listar')

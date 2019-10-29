@@ -17,8 +17,7 @@ class AltaEstablecimiento(CreateView):
 		context = super(AltaEstablecimiento, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Ir a Listado': reverse('establecimientos:listar'),
-			'Nuevo Solicitante': reverse('personas:alta'),
-			'Nueva Localidad': reverse('localidades:alta')
+			'Nuevo Solicitante': reverse('personas:alta')
 			}
 		context['nombreForm'] = 'Nuevo Establecimiento'
 		return context
@@ -34,7 +33,7 @@ class ListadoEstablecimientos(ListView):
 		context['nombreReverse'] = 'establecimientos'
 		context['headers'] = ['Nombre', 'Localidad','Código Catastral']
 		context['botones'] = {
-			'Nuevo Establecimiento': reverse('establecimientos:alta'),
+			'Nuevo Establecimiento': reverse('establecimientos:alta')
 		}	
 		return context
 
@@ -75,8 +74,7 @@ class ModificarEstablecimiento(UpdateView):
 		context = super(ModificarEstablecimiento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Establecimiento"
 		context['botones'] = {
-			'Ir a Listado': reverse('establecimientos:listar'),
-			'Nueva Localidad': reverse('localidades:alta')
+			'Ir a Listado': reverse('establecimientos:listar')
 			}
 		return context
 

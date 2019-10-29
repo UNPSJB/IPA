@@ -16,8 +16,7 @@ class AltaAfluente(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaAfluente, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Ir a Listado': reverse('afluentes:listar'),
-			'Nueva Localidad': reverse('localidades:alta')
+			'Ir a Listado': reverse('afluentes:listar')
 			}
 		context['nombreForm'] = 'Nuevo Afluente'
 		return context
@@ -75,8 +74,7 @@ class ModificarAfluente(UpdateView):
 		context = super(ModificarAfluente, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Afluente"
 		context['botones'] = {
-			'Ir a Listado': reverse('afluentes:listar'),
-			'Nueva Localidad': reverse('localidades:alta')
+			'Ir a Listado': reverse('afluentes:listar')
 			}
 		return context
 

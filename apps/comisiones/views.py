@@ -16,9 +16,7 @@ class AltaComision(CreateView):
 		context = super(AltaComision, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Listado Comisiones': reverse('comisiones:listar'),
-			'Nuevo Empleado': reverse('personas:alta'),
-			'Nueva Localidad': reverse('localidades:alta'),
-			'Nuevo Departamento': reverse('departamentos:alta')
+			'Nuevo Empleado': reverse('personas:alta')
 			}
 		context['nombreForm'] = 'Nueva Comisión'
 		return context
@@ -73,9 +71,7 @@ class ModificarComision(UpdateView):
 		context = super(ModificarComision, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Listado Comisiones': reverse('comisiones:listar'),
-			'Nuevo Empleado': reverse('personas:alta'),
-			'Nueva Localidad': reverse('localidades:alta'),
-			'Nuevo Departamento': reverse('departamentos:alta')
+			'Nuevo Empleado': reverse('personas:alta')
 			}
 		context['nombreForm'] = 'Nueva Comisión'
 		return context
