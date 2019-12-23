@@ -7,25 +7,14 @@ from apps.comisiones.models import Comision
 from django.http import HttpResponseRedirect
 from datetime import date, datetime
 from operator import attrgetter
+from apps.generales.views import GenericAltaView
 
-
-class AltaTipoDocumento(CreateView):
+class AltaTipoDocumento(GenericAltaView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm
-	template_name = 'forms.html'
-	success_url = reverse_lazy('tipoDocumentos:listar')
-
-	def get(self, request, *args, **kwargs):
-		return super(AltaTipoDocumento, self).get(request,*args,**kwargs)
-
-	def get_context_data(self, **kwargs):
-		context = super(AltaTipoDocumento, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Nuevo Tipo de Documento"
-		context['headers'] = ['Nombre']
-		context['botones'] = {
-			'Ir a Listado':reverse('tipoDocumentos:listar'),
-			}
-		return context
+	template_name = 'tipoDocumento/alta.html'
+	success_url = reverse_lazy('tipoDocumentos:listado')
+	cargar_otro_url = reverse_lazy('tipoDocumentos:alta')
 
 class DetalleTipoDocumento(DetailView):
 	model = TipoDocumento
@@ -36,7 +25,7 @@ class DetalleTipoDocumento(DetailView):
 		context = super(DetalleTipoDocumento, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Tipo de Documento'
 		context['botones'] = {
-			'ir a Listado': reverse('tipoDocumentos:listar'),
+			'ir a Listado': reverse('tipoDocumentos:listado'),
 			'Nuevo Tipo de Documento': reverse ('tipoDocumentos:alta'),
 			'Modificar Tipo de Documento': reverse('tipoDocumentos:modificar', args=[self.object.id]),
 			'Eliminar Tipo de Documento': reverse('tipoDocumentos:eliminar', args=[self.object.id]),
@@ -65,7 +54,7 @@ class ModificarTipoDocumento(UpdateView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm
 	template_name = 'forms.html'
-	success_url = reverse_lazy('tipoDocumentos:listar')
+	success_url = reverse_lazy('tipoDocumentos:listado')
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -82,14 +71,14 @@ class ModificarTipoDocumento(UpdateView):
 		context = super(ModificarTipoDocumento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Tipo Documento"
 		context['botones'] = {
-			'Ir a Listado': reverse('tipoDocumentos:listar'),
+			'Ir a Listado': reverse('tipoDocumentos:listado'),
 			}
 		return context
 
 class DeleteTipoDocumento(DeleteView):
 	model = TipoDocumento
 	template_name = 'delete.html'
-	success_url = reverse_lazy('tipoDocumentos:listar')
+	success_url = reverse_lazy('tipoDocumentos:listado')
 
 # Documentos
 class AltaDocumento(CreateView):

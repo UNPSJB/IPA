@@ -29,10 +29,12 @@ class AltaPersona(GenericAltaView):
 		context['roles'] = Persona.tipoRol
 		context['director_form'] = DirectorForm()
 		context['chofer_form'] = ChoferForm()
+		context['return_path'] = self.request.GET.get('return_path', self.success_url)
 		return context
 
 	def post(self,request, *args, **kwargs):
-		response = super(AltaPersona, self).post(request, *args, **kwargs)
+		return_path = request.GET.get('return_path', success_url)
+		response = super(AltaPersona, self).post(request, return_path,*args, **kwargs)
 		cuitList = request.POST.get('empresas')
 		cuitList = [] if cuitList == '' else cuitList.split(',')
 		rolesList = request.POST.get('roles')

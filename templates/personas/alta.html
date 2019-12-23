@@ -7,7 +7,7 @@
 
 <div class="row header-content">
 	<div class="five wide column">
-		<button class="ui primary basic button" onclick="window.location.href='/personas/listado'">
+		<button class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
 			<i class="angle left icon"></i>
 			Volver a la lista de personas
 		</button>
@@ -28,7 +28,7 @@
 		</div>
 	{% endif %}
 
-<form class="ui large form" action="{{ form.url_post }}" method="POST">
+<form class="ui large form" action="{{ form.url_post }}?return_path={{return_path}}" method="POST">
     {% csrf_token %}
 	{% render_form form %}
 	<div class="field">

@@ -7,7 +7,7 @@
 
 <div class="row header-content">
 	<div class="five wide column">
-		<button class="ui primary basic button" onclick="window.location.href='{% block url_a_volver %}/{% endblock %}'">
+		<button class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
 			<i class="angle left icon"></i>
             {% block mensaje_boton_volver %}
             Volver
@@ -40,14 +40,15 @@
 <form class="ui large form" action="{{ form.url_post }}" method="POST">
     {% csrf_token %}
 	{% render_form form %}
-    {% block formularios_extra %}{% endblock %}
+	{% block formularios_extra %}{% endblock %}
+	
     <div class="ui grid" >
 		<div class="row">
 			<div class="sixteen wide column" style="margin: 20px 0">
 				{% if not object %}
-					<input type="submit" class="ui primary button" name="cargarOtro" value="Guardar y Cargar otro">
+					<button type="submit" class="ui primary button" name="cargarOtro" value="{{return_path}}">Guardar y Cargar otro</button>
 				{% endif %}
-				<input type="submit" class="ui positive button" name="guardar" value="Guardar">
+				<button type="submit" class="ui positive button" name="guardar" value="{{return_path}}">Guardar</button>
 			</div>
 		</div>
 	</div>

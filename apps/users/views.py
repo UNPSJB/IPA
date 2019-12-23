@@ -26,6 +26,7 @@ class NuevoUsuario(TemplateView):
 		usuario_form = self.form_class()
 		context = self.get_context_data()
 		context['form'] = usuario_form
+		context['return_path'] = request.GET.get('return_path', '')
 		return render(request, self.template_name, context=context)
 
 	def post(self, request, *args, **kwargs):
