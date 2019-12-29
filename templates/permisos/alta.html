@@ -15,7 +15,7 @@
     <div class="row">
 
         <div class="fifteen wide column" >
-            <div class="field">
+            <div class="field required">
                     {{ form.solicitante.label_tag }}
                     {{ form.solicitante.errors }}
                     {{ form.solicitante }}                    
@@ -29,7 +29,7 @@
     </div>
     <div class="row">
         <div class="fifteen wide column" >
-            <div class="field">
+            <div class="field required">
                     {{ form.establecimiento.label_tag }}
                     {{ form.establecimiento.errors }}
                     {{ form.establecimiento }}                    
@@ -43,7 +43,7 @@
     </div>
     <div class="row">
         <div class="fifteen wide column" >
-            <div class="field">
+            <div class="field required">
                     {{ form.tipo.label_tag }}
                     {{ form.tipo.errors }}
                     {{ form.tipo }}                    
@@ -57,7 +57,7 @@
     </div>
     <div class="row">
         <div class="fifteen wide column" >
-            <div class="field">
+            <div class="field required">
                     {{ form.afluente.label_tag }}
                     {{ form.afluente.errors }}
                     {{ form.afluente }}                    
@@ -69,6 +69,40 @@
             </button> 
         </div>
     </div>
+    <div class="row">
+        <div class="sixteen wide column" >
+            <div class="field required">
+                {{ solicitadoForm.fecha.label_tag }}
+                {{ solicitadoForm.fecha.errors }}
+                {{ solicitadoForm.fecha }}                    
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="sixteen wide column" >
+            <div class="field">
+                {{ solicitadoForm.observacion.label_tag }}
+                {{ solicitadoForm.observacion.errors }}
+                {{ solicitadoForm.observacion }}                    
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="sixteen wide column" >
+                <div class="inline fields">
+                    <div class="field" data-content="Add users to your feed">
+                        {{ solicitadoForm.utilizando.label_tag }}
+                        {{ solicitadoForm.utilizando.errors }}
+                        {{ solicitadoForm.utilizando }}                    
+                    </div>
+                    <div class="field" data-content="Add users to your feed oficio">
+                        {{ solicitadoForm.oficio.label_tag }}
+                        {{ solicitadoForm.oficio.errors }}
+                        {{ solicitadoForm.oficio }}                    
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 
 {% endblock %}
@@ -76,20 +110,22 @@
 {% block formname %}nueva_solicitud_form{% endblock%}
 
 {% block customPageJs %}
+    saveInLocal('nueva_solicitud_form')
+
     $('#agregarSolicitante').click(function(){
-        formButtonAdd('nueva_solicitud_form', '{% url 'personas:alta' %}')
+        formButtonAdd('{% url 'personas:alta' %}')
     })
 
     $('#agregarEstablecimiento').click(function(){
-        formButtonAdd('nueva_solicitud_form', '{% url 'establecimientos:alta' %}')
+        formButtonAdd('{% url 'establecimientos:alta' %}')
     })
 
     $('#agregarTipo').click(function(){
-        formButtonAdd('nueva_solicitud_form', '{% url 'tiposDeUso:alta' %}')
+        formButtonAdd('{% url 'tiposDeUso:alta' %}')
     })
 
     $('#agregarAfluente').click(function(){
-        formButtonAdd('nueva_solicitud_form', '{% url 'afluentes:alta' %}')
+        formButtonAdd('{% url 'afluentes:alta' %}')
     })
 
 {% endblock %}

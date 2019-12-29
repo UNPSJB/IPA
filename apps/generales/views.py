@@ -18,7 +18,6 @@ class GenericAltaView(CreateView):
 
 	def post(self, request, *args, **kwargs):
 		super(GenericAltaView, self).post(request,*args,**kwargs)
-		import pdb; pdb.set_trace()
 		if 'cargarOtro' in request.POST:
 			cargarOtroValue = request.POST.get('cargarOtro', '')
 			form_url = self.cargar_otro_url

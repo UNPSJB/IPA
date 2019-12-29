@@ -4,7 +4,7 @@ from ..forms import PermisoForm, SolicitadoForm
 from django.views.generic import ListView,DeleteView,DetailView
 from django.shortcuts import redirect
 from django.views import View
-from datetime import date
+from datetime import date, datetime
 from apps.documentos.views import AltaDocumento
 from apps.generales.views import GenericListadoView, GenericAltaView
 from ..tables import PermisosTable
@@ -29,6 +29,21 @@ class AltaPermiso(GenericAltaView):
 		context = super(AltaPermiso, self).get_context_data(**kwargs)
 		context['solicitadoForm'] = SolicitadoForm()
 		return context
+
+	def post(self, request):
+		permiso_form = PermisoForm(request.POST)
+		solicitado_form = SolicitadoForm(request.POST)
+		if permiso_form.is_valid() and solicitado_form.is_valid():
+			permiso = permiso_form.save(commit=False)
+			permiso.fechaSolicitud = datetime.strptime(solicitado_form.data['fecha'], "%Y-%m-%d").date()
+			permiso = permiso_form.save()
+			solicitado = solicitado_form.save(commit=False)
+			solicitado.permiso = permiso
+			solicitado.usuario = request.user
+			solicitado.save()
+			return redirect('permisos:listar')
+		return redirect('permisos:alta')
+
 
 class PermisoDelete(DeleteView):
 	model = Permiso

@@ -1,7 +1,7 @@
 {% extends 'generales/listado.html' %}
 
 {% block boton_nuevo %} Nuevo permiso {% endblock %} 
-{% block url_nuevo %} /solicitudes/alta {% endblock %}
+{% block url_nuevo %} {% url 'permisos:alta' %} {% endblock %}
 
 {% block titulo %} Permisos {% endblock %}
 

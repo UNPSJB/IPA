@@ -10,7 +10,10 @@ $('.ui.dropdown')
   })
 ;
 
-function formButtonAdd(formname, url_to){
+function saveInLocal(formname){
   $('#' + formname).saveStorage();
+}
+
+function formButtonAdd(url_to){
   window.location.href = url_to + '?return_path=' + window.location.pathname;
 }

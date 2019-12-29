@@ -8,7 +8,6 @@
 (function($){
     $.fn.saveStorage = function(options){
         'use strict';
-
         if(typeof Storage !== "undefined"){
             var form = $(this),
                 key = $(this).attr('id')+'_saveStorage',
