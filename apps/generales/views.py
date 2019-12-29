@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+from django_tables2.views import SingleTableMixin
+from django_filters.views import FilterView
 
 # Create your views here.
 class GenericAltaView(CreateView):
@@ -16,13 +18,14 @@ class GenericAltaView(CreateView):
 
 	def post(self, request, *args, **kwargs):
 		super(GenericAltaView, self).post(request,*args,**kwargs)
+		import pdb; pdb.set_trace()
 		if 'cargarOtro' in request.POST:
 			cargarOtroValue = request.POST.get('cargarOtro', '')
 			form_url = self.cargar_otro_url
 			if cargarOtroValue != '':
 				form_url = form_url + f'?return_path={cargarOtroValue}'		
 			return redirect(form_url)
-		return_path = request.POST.get('guardar', self.get_success_url())
+		return_path = request.POST.get('guardar', self.success_url)
 		return redirect(return_path)
 
 	def get_context_data(self, **kwargs):
@@ -54,3 +57,7 @@ class GenericEliminarView(DeleteView):
 				"success": False,
 				"message": e.value()
 			})
+
+######################################################################
+class GenericListadoView(SingleTableMixin, FilterView):
+	pass

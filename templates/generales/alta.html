@@ -37,9 +37,11 @@
 		</div>
 	{% endif %}
 
-<form class="ui large form" action="{{ form.url_post }}" method="POST">
+<form class="ui large form" action="{{ form.url_post }}" method="POST" id="{% block formname %}form{% endblock %}">
     {% csrf_token %}
-	{% render_form form %}
+	{% block formulario_custom %}
+		{% render_form form %}
+	{% endblock %}
 	{% block formularios_extra %}{% endblock %}
 	
     <div class="ui grid" >

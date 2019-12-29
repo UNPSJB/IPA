@@ -33,8 +33,7 @@ class AltaPersona(GenericAltaView):
 		return context
 
 	def post(self,request, *args, **kwargs):
-		return_path = request.GET.get('return_path', success_url)
-		response = super(AltaPersona, self).post(request, return_path,*args, **kwargs)
+		response = super(AltaPersona, self).post(request,*args, **kwargs)
 		cuitList = request.POST.get('empresas')
 		cuitList = [] if cuitList == '' else cuitList.split(',')
 		rolesList = request.POST.get('roles')

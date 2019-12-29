@@ -1,0 +1,44 @@
+{% extends 'generales/listado.html' %}
+
+{% block boton_nuevo %} Nuevo permiso {% endblock %} 
+{% block url_nuevo %} /solicitudes/alta {% endblock %}
+
+{% block titulo %} Permisos {% endblock %}
+
+{% block contenido_informacion_modal %} 
+<p>CUIT: <span id="detail-cuit"></span></p>
+<div class="ui divider"></div> 
+<p>Razón Social: <span id="detail-razon-social"></span></p>
+<div class="ui divider"></div>
+<p>Dirección: <span id="detail-direccion"></span></p>
+<div class="ui divider"></div>
+<p>Teléfono: <span id="detail-telefono"></span></p>
+<div class="ui divider"></div>
+<p> Representantes: 
+  <div id="detail-representantes"></div>		
+</p> 
+{% endblock %}
+
+{% block mensaje_eliminar_modal %} 
+<p>¿Está seguro de que desea eliminar a <span id="eliminar-modal-nombre"></span>?</p>
+{% endblock %}
+
+{% block comportamiento_click_detalle %}
+	window.location.href = "/permisos/detalle/" + this.id;
+{% endblock comportamiento_click_detalle %}
+
+{% block comportamiento_click_eliminar %}
+		var splitted_data = this.id.split('-');
+		var id = splitted_data[2]
+		$("#eliminar-modal-nombre").html(id)
+		$('#eliminar-modal').modal({
+			onApprove : function() {
+				//mandar a borrar
+				$.post('/empresas/eliminar/' + id + '/', function(data){
+					if (data.success){
+						location.reload();
+					}
+				})
+			}
+		}).modal('show');
+{% endblock comportamiento_click_eliminar %}

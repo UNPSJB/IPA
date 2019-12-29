@@ -81,9 +81,9 @@
 		<div class="row">
 			<div class="sixteen wide column" style="margin: 20px 0">
 				{% if not object %}
-					<input type="submit" class="ui primary button" name="cargarOtro" value="Guardar y Cargar otro">
+					<button type="submit" class="ui primary button" name="cargarOtro" value="{{return_path}}"> Guardar y cargar otro </button>
 				{% endif %}
-				<input type="submit" class="ui positive button" name="guardar" value="Guardar">
+				<button type="submit" class="ui positive button" name="guardar" value="{{return_path}}">Guardar</button>
 			</div>
 		</div>
 	</div>

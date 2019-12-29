@@ -53,3 +53,7 @@ body {
 .submenu-item {
   color:white !important;
 }
+
+.fix-button-add-margin {
+  margin-top: 25px !important; 
+}

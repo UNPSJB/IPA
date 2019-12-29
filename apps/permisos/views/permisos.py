@@ -1,35 +1,39 @@
 from django.urls import reverse_lazy, reverse
 from ..models import Permiso
-from ..forms import PermisoForm
+from ..forms import PermisoForm, SolicitadoForm
 from django.views.generic import ListView,DeleteView,DetailView
 from django.shortcuts import redirect
 from django.views import View
 from datetime import date
 from apps.documentos.views import AltaDocumento
+from apps.generales.views import GenericListadoView, GenericAltaView
+from ..tables import PermisosTable
+from ..filters import PermisosFilter
 
-class ListadoPermisos(ListView):
+class ListadoPermisos(GenericListadoView):
 	model = Permiso
 	template_name = 'permisos/listado.html'
-	context_object_name = 'permisos'
+	table_class = PermisosTable
+	paginate_by = 12
+	filterset_class = PermisosFilter
+
+class AltaPermiso(GenericAltaView):
+	model = Permiso
+	form_class = PermisoForm
+	template_name = 'permisos/alta.html'
+	success_url = reverse_lazy('permisos:listar')
+	message_error = "Permiso existente"
+	cargar_otro_url = reverse_lazy('permiso:alta')
 
 	def get_context_data(self, **kwargs):
-		context = super(ListadoPermisos, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Listado de Permisos"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo de Uso', 'Afluente', 
-		'Estado', 'Fecha de Solicitud', 'Fecha de Vencimiento', 'Acción', 'Detalle']
-		context['botones'] = {
-		'Solicitudes': reverse('solicitudes:listar'),
-		'Con Expedientes': reverse('permisos:listarPermisosCompletos'),
-		'Publicados': reverse('permisos:listarPermisosPublicados'),
-		'Otorgados': reverse('permisos:listarPermisosOtorgados'),
-		'Bajas': reverse('permisos:listarPermisosDeBaja'),
-		}
+		context = super(AltaPermiso, self).get_context_data(**kwargs)
+		context['solicitadoForm'] = SolicitadoForm()
 		return context
 
 class PermisoDelete(DeleteView):
 	model = Permiso
 	template_name = 'delete.html'
-	success_url = reverse_lazy('permisos:listar')
+	success_url = reverse_lazy('permisos:listar') 
 
 
 class ListadoPermisosDocumentacionCompleta(ListView):

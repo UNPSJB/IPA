@@ -109,6 +109,7 @@ class Permiso(models.Model):
 	def getEstados(self, tipo):
 		return [estado for estado in self.estados_related() if estado.tipo == tipo]
 
+	@property
 	def estado(self):
 		if self.estados.exists():
 			return self.estados.latest().related()
@@ -175,6 +176,15 @@ class Permiso(models.Model):
 			return self.fechaVencimiento < date.today()
 
 class Estado(models.Model):
+	ESTADOS = [
+		"Solicitado", 
+		"Visado", 
+		"Completado", 
+		"Publicado", 
+		"Otorgado", 
+		"Baja"
+	]
+
 	TIPO = 0
 	TIPOS = [
 		(0, 'estado'),
@@ -236,9 +246,16 @@ class Solicitado(Estado):
 			return Visado(permiso=self.permiso, usuario=usuario, fecha_visado=fecha, fecha=fecha)
 		return self
 
+	def __str__(self):
+		return "Solicitado"
+
+
 class Visado(Estado):
 	TIPO = 2
 	fecha_visado = models.DateField()
+
+	def __str__(self):
+		return "Visado"
 
 	def recibir(self, usuario, fecha, documentos):
 		for documento in documentos:
@@ -261,6 +278,9 @@ class Completado(Estado):
 	TIPO = 3
 	""" Estado del tramite cuando se completo la documentacion del expediente """
 
+	def __str__(self):
+		return "Completado"
+
 	def publicar(self, usuario, fecha, tiempo, edicto):
 		self.permiso.documentos.add(edicto)
 		return Publicado(permiso=self.permiso, usuario=usuario, fecha=fecha, tiempo=tiempo)
@@ -269,6 +289,9 @@ class Publicado(Estado):
 	TIPO = 4
 	# No contemplar dias habiles.... para no entrar en tema de feriados
 	tiempo = models.PositiveIntegerField()
+
+	def __str__(self):
+		return "Publicado"
 
 	def resolver(self, usuario, fecha, unidad, resolucion, fechaPrimerCobro ,vencimiento):
 
@@ -305,6 +328,9 @@ class Otorgado(Estado):
 	TIPO = 5
 	monto = models.DecimalField(max_digits = 10, decimal_places = 2) ###SIN USO
 
+	def __str__(self):
+		return "Otorgado"
+
 	def cobrar(self, usuario, fecha, monto, pago):
 		self.permiso.documentos.add(pago)
 		return self
@@ -332,10 +358,12 @@ class Otorgado(Estado):
 
 class Baja(Estado):
 	TIPO = 6
+	def __str__(self):
+		return "Baja"
 
 
-for Klass in [Solicitado, Visado, Completado, Publicado, Otorgado, Baja]:
-	Estado.register(Klass)
+for Klass in Estado.ESTADOS:
+	Estado.register(eval(Klass))
 
 		#valorModulo = ValorDeModulo.objects.filter(fecha='2017-11-13',modulo=1)
 
