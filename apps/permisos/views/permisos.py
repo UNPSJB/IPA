@@ -184,23 +184,10 @@ class DetallePermisoDeBaja(DetailView):
 		}
 		return context
 
-class DetallePermiso(View):
-	def get(self, request,*args, **kwargs):
-		id_permiso = kwargs['pk']
-		permiso = Permiso.objects.get(pk=id_permiso)
-		if permiso.estado().tipo == 1 or permiso.estado().tipo == 2:
-			url = reverse('solicitudes:detalle', args=[id_permiso] )
-		elif permiso.estado().tipo == 3:
-			url = reverse('permisos:detallePermisoCompleto', args=[id_permiso])
-		elif permiso.estado().tipo == 4:
-			return redirect(reverse('permisos:detallePermisoPublicado', args=[id_permiso]))
-		elif permiso.estado().tipo == 5:
-			url = reverse('permisos:detallePermisoOtorgado', args=[id_permiso])
-		elif permiso.estado().tipo == 6:
-			url = reverse('permisos:detallePermisoDeBaja', args=[id_permiso])
-		else:
-			url = reverse('permisos:listar')
-		return redirect(url)
+class DetallePermiso(DetailView):
+	model = Permiso
+	template_name = 'permisos/detalle.html'
+	context_object_name = 'solicitud'		
 
 class NuevaDocumentacionRequerida(AltaDocumento):
 	def get_form(self, form_class):

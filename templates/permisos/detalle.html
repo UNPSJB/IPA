@@ -1,0 +1,79 @@
+{% extends 'index2.html' %}
+
+{% block wrapper %}
+<div class="row header-content">
+	<div class="five wide column">
+		<button class="ui primary basic button" onclick="window.location.href='{% url 'permisos:listar'%}'">
+			<i class="angle left icon"></i>
+      Volver al listado de permisos
+    </button>
+
+	</div>
+	<div class="six wide column">
+        <h1 class="ui center aligned header blue "> Información de permiso </h1>
+	</div>
+	<div class="five wide column">
+	</div>
+</div>
+
+<table class="ui celled table" style="margin:20px auto 20px 0">
+    <tbody>
+      <tr>
+        <td data-label="data">Estado</td>
+        <td data-label="value">{{object.estado}}</td>
+      </tr>
+          
+      <tr>
+        <td data-label="data">Solicitante</td>
+        <td data-label="value">{{object.solicitante}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Establecimiento</td>
+        <td data-label="value">{{object.establecimiento}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Tipo de Uso</td>
+        <td data-label="value">{{object.tipo}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Afluente</td>
+        <td data-label="value">{{object.afluente}}</td>
+      </tr>
+      {% if object.numero_exp %}
+      <tr>
+        <td data-label="data">Número de expediente</td>
+        <td data-label="value">{{object.numero_exp}}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <td data-label="data">Fecha de solicitud</td>
+        <td data-label="value">{{object.fechaSolicitud}}</td>
+      </tr>
+      <tr>
+        <td data-label="data">Fecha de vencimiento</td>
+        <td data-label="value">
+            {% if object.fechaVencimiento %}
+                {{object.fechaVencimiento}}
+            {% else %}
+                ------
+            {% endif %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- <div class="row"><h2 style="display:inline-block">Información de la Persona </h2> <a href="/persona/detalle/{{object.persona.id}}" style="float:right;">Ver más</a></div>
+
+  <table class="ui celled table" style="margin:0 auto 20px 0">
+      <tbody>
+        <tr>
+          <td data-label="data">Nombre completo</td>
+          <td data-label="value">{{object.persona.nombre}} {{object.persona.apellido}}</td>
+        </tr>
+        <tr>
+          <td data-label="data">Documento</td>
+          <td data-label="value">{{object.persona.get_tipoDocumento_display}} {{object.persona.numeroDocumento}}</td>
+        </tr>
+      </tbody>
+    </table> -->
+{% endblock %}

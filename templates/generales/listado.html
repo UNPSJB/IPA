@@ -51,12 +51,16 @@
 
 <div class="ui modal" id="filter-modal">
 	<div class="ui center aligned header" id="modal-header">Filtros</div>
-	<form action="" method="get" class="ui form">
-		{% block filter-form %}
-		{{ filter.form }}					
-		{% endblock %}
-		<button class="ui positive right button">Filtrar</button>
-	</form>
+	<div class="content">
+		<form action="" method="get" class="ui form">
+			{% block filter-form %}
+			{{ filter.form }}					
+			{% endblock %}
+			 
+			<button class="ui positive right button">Filtrar</button>
+			<button class="ui negative right button">Cancelar</button>
+		</form>
+	</div>
 </div>
 
 {% endblock %}

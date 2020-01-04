@@ -7,50 +7,10 @@ from django.views.generic import ListView,DeleteView,DetailView
 
 from datetime import datetime
 
-class AltaSolicitud(View):
-	model = Permiso
-	template_name = 'solicitudes/alta.html'
-	success_url = reverse_lazy('solicitudes:listar')
-
-	def get(self,request): 
-		context = {}
-		context['forms'] = {
-			'Permiso': PermisoForm(),
-			'Solicitado': SolicitadoForm(),
-		} 
-		
-		context['botones'] = {
-				'Listado': reverse('solicitudes:listar'),
-				'Agregar Solicitante' : reverse('personas:alta'),
-				'Agregar Establecimiento': reverse('establecimientos:alta'),
-				'Agregar Tipo de Uso': reverse('tiposDeUso:alta'),
-				'Agregar Afluente': reverse('afluentes:alta'),
-		}
-		
-		return render(request, self.template_name, context)
-
-	def post(self, request):
-		permiso_form = PermisoForm(request.POST)
-		solicitado_form = SolicitadoForm(request.POST)
-		if permiso_form.is_valid() and solicitado_form.is_valid():
-			permiso = permiso_form.save(commit=False)
-			permiso.fechaSolicitud = datetime.strptime(solicitado_form.data['fecha'], "%Y-%m-%d").date()
-			permiso = permiso_form.save()
-			solicitado = solicitado_form.save(commit=False)
-			solicitado.permiso = permiso
-			solicitado.usuario = request.user
-			solicitado.save()
-			return redirect('solicitudes:listar')
-		print(solicitado_form.errors)
-		return redirect('solicitudes:alta')
-
-	def form_invalid(self,form):
-		print(form)
-
 class DetalleSolicitud(DetailView):
 	model = Permiso
-	template_name = 'solicitudes/detalle.html'
-	context_object_name = 'solicitud'		
+	template_name = 'permisos/detalle.html'
+	context_object_name = 'permiso'		
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(DetalleSolicitud, self).get_context_data(**kwargs)
