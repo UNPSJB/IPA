@@ -428,6 +428,7 @@ class AltaActaDeInspeccion(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaActaDeInspeccion, self).get_context_data(**kwargs)
 		context['botones'] = {
+			'Nueva comisión': reverse('comisiones:alta'),
 			'Listado Comisiones': reverse('comisiones:listar'),
 			'Volver al permiso': reverse('permisos:detalle', args=[self.permiso_pk])
 			}
