@@ -16,3 +16,4 @@ vim.exe.stackdump
 /archivos
 
 *.orig
+*.vscode
