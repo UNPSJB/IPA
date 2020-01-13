@@ -72,7 +72,7 @@ class Establecimiento(models.Model):
 	codigoCatastral = models.CharField(max_length=100, primary_key = True)
 	superficie = models.IntegerField()
 	nombre = models.CharField(max_length=50)
-	descripcion = models.CharField(max_length=100)
+	descripcion = models.CharField(max_length=500)
 	localidad = models.ForeignKey(Localidad)
 
 	def __str__(self):

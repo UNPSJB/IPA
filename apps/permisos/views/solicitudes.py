@@ -88,7 +88,7 @@ class ListadoSolicitudes(ListView):
 		context = super(ListadoSolicitudes, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Lista de Solicitudes"
 		context['nombreReverse'] = "solicitudes"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado', 'Acción', 'Detalle']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo de Uso de Agua', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
 
 		'Nuevo': reverse('solicitudes:alta'),
