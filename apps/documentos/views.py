@@ -293,8 +293,7 @@ class AgregarResolucion(CreateView):
 		fechaResolucion=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
 		fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
 		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
-		unidad = int(request.POST['unidad'])
-
+		unidad = int(request.POST['unidad'])	
 		#listaResoluciones = [documento for documento in documentos if (documento.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
 		#listaResolucionesFecha = sorted(listaResoluciones, key=attrgetter('fecha'), reverse=True)
 		
@@ -307,9 +306,9 @@ class AgregarResolucion(CreateView):
 		else:
 			vencimientoPublicacion = permiso.estado().vencimientoPublicacion()
 			fechaCorrecta = fechaResolucion > vencimientoPublicacion
-
+		
 		fechaCorrecta = fechaCorrecta and (fechaVencimiento >= fechaResolucion) and (fechaResolucion <= date.today())
-
+		
 		messages = []
 		messages = ['La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion, y menor o igual a la fecha actual',
 		'La Fecha de Resolucion debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (si la hubiera)',
@@ -318,12 +317,12 @@ class AgregarResolucion(CreateView):
 		
 		if form.is_valid():
 			if fechaCorrecta and (unidad > 0):
-				resolucion = form.save()
+				resolucion = form.save(commit=False)
 				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
 				resolucion.visado = True
-				resolucion.save()
 				try:
 					permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
+					resolucion.save()
 					return HttpResponseRedirect(self.get_success_url())
 				except:
 					return self.render_to_response(self.get_context_data(form=form, message_modulo='Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion ' + form.data['fecha']))
