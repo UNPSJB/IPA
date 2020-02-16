@@ -36,7 +36,7 @@ class ListadoDocumentacionPresentada(DetailView):
 		context['nombreLista'] = 'Listado de Documentos'
 		context['headers'] = ['Tipo', 'Descripción', 'Fecha']
 		context['botones'] = {
-			'Volver a Detalle de Permiso': reverse('permisos:detalle', args=[self.object.pk])}
+			'Volver a Detalle de la Solicitud': reverse('permisos:detalle', args=[self.object.pk])}
 		return context
 
 class ListadoSolicitudes(ListView):
@@ -48,7 +48,7 @@ class ListadoSolicitudes(ListView):
 		context = super(ListadoSolicitudes, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Lista de Solicitudes"
 		context['nombreReverse'] = "solicitudes"
-		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo', 'Estado', 'Acción', 'Detalle']
+		context['headers'] = ['Solicitante', 'Establecimiento', 'Tipo de Uso de Agua', 'Estado', 'Acción', 'Detalle']
 		context['botones'] = {
 
 		'Nuevo': reverse('solicitudes:alta'),

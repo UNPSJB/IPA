@@ -96,7 +96,7 @@ class Documento(models.Model):
 def pdf_post_save(sender, instance=False, **kwargs):
 	"""Esta funcion crea un thumbnail para el documento en pdf"""
 	documento = Documento.objects.get(pk=instance.pk)
-	command = "convert -quality 95 -thumbnail 222 %s[0] %s" % (
+	command = "convert -quality 95 -thumbnail 222 %s %s" % (
 		os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, str(documento.archivo)),
 		os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, str(documento.thumbnail)))
 	
