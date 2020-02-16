@@ -112,14 +112,18 @@ class AltaDocumento(CreateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
+
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		
-		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
+		fs = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		if form.is_valid() and (permiso.fechaSolicitud <= fs): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
-		return self.render_to_response(self.get_context_data(form=form))
+		messages = []
+		messages = ['La fecha del documento presentado debe ser igual o mayor que la fecha de la solicitud de permiso']
+		return self.render_to_response(self.get_context_data(form=form, messages=messages))
 
 class DetalleDocumento(DetailView):
 	model = Documento
