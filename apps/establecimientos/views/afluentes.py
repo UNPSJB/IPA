@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect
 from ..models import Afluente
 from apps.permisos.views.solicitudes import Permiso
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
-
+from ..tables import AfluentesTable
+from apps.generales.views import GenericListadoView
 #Afluente
 class AltaAfluente(CreateView):
 	model = Afluente
@@ -37,21 +38,11 @@ class DetalleAfluente(DetailView):
 		}
 		return context	
 
-class ListadoAfluentes(ListView):
+class ListadoAfluentes(GenericListadoView):
 	model = Afluente
-	template_name = 'afluente/listado.html'
-	context_object_name = 'afluentes'
-
-	def get_context_data(self, **kwargs):
-		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
-		context['nombreLista'] = 'Listado de Afluentes'
-		context['nombreReverse'] = 'afluentes'
-		context['headers'] = ['Nombre', 'Localidad', 'Caudal']
-		context['botones'] = {
-			'Nuevo Afluente': reverse('afluentes:alta')
-			}
-		return context
-
+	template_name = 'establecimientos/afluentes/listado.html'
+	paginate_by = 12
+	table_class = AfluentesTable
 
 class ModificarAfluente(UpdateView):
 	model = Afluente

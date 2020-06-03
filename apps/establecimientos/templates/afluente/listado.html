@@ -2,7 +2,7 @@
 {% load actionButton %}
 
 {% block contentList%} 
-{% for afluente in afluentes %}
+<!--{% for afluente in afluentes %}
 	<tr>
 		<td>{{afluente.nombre}}</td>
 		<td>{{afluente.caudal}}</td>
@@ -10,6 +10,9 @@
 		{% renderActionButton afluente.id %}
 		
 	</tr>
-{% endfor%}
+{% endfor%}-->
+
+{% load django_tables2 %}
+{% render_table table %}
 
 {% endblock %}
