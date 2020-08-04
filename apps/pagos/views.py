@@ -22,9 +22,7 @@ class AltaValorDeModulo(CreateView):
 		context = super(AltaValorDeModulo, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Alta Valor de Modulo"
 		context['headers'] = ['']
-		context['botones'] = {
-			'Listado':reverse('tipoDocumentos:listar'),
-			}
+		context['botones'] = {}
 		return context
 
 class ListadoValoresDeModulo(ListView):

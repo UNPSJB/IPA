@@ -19,7 +19,7 @@ class RegistrarValorDeModuloForm(forms.ModelForm):
 		}
 
 		widgets = {
-				'modulo': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Modulo'}),
+				'modulo': forms.Select(attrs={'class':'form-control', 'placeholder':'Elija un modulo'}),
 				'precio':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Precio'}),
 				'descripcion':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Descripcion'}),
 				'fecha': forms.DateInput(attrs={'type':'date'}),
