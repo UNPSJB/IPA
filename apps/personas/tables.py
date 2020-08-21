@@ -26,7 +26,11 @@ class PersonaTable(tables.Table):
         fields = ()
 
 class PersonaFilter(django_filters.FilterSet):
-    roles = django_filters.ChoiceFilter(choices=get_roles_choices())
+    roles__tipo = django_filters.ChoiceFilter(choices=get_roles_choices())
+
+    class Meta:
+        model = Persona
+        fields = ['roles__tipo']
 
 class EmpresaTable(tables.Table):
     acciones = tables.TemplateColumn(template_name="formButtons.html")

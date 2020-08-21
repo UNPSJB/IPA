@@ -10,7 +10,7 @@ from datetime import datetime
 class DetalleSolicitud(DetailView):
 	model = Permiso
 	template_name = 'permisos/detalle.html'
-	context_object_name = 'permiso'		
+	context_object_name = 'solicitud'		
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(DetalleSolicitud, self).get_context_data(**kwargs)
@@ -59,7 +59,7 @@ class ListadoSolicitudes(ListView):
 class SolicitudDelete(DeleteView):
 	model = Permiso
 	template_name = 'delete.html'
-	success_url = reverse_lazy('solicitudes:listar')
+	success_url = reverse_lazy('permisos:listar')
 
 
 

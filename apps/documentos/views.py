@@ -93,6 +93,7 @@ class AltaDocumento(CreateView):
 		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
 		}
 		context['nombreForm'] = 'Documentos'
+		context['form'].fields['tipo'].queryset = Permiso.objects.get(pk=self.permiso_pk).tipos_de_documentos_faltantes()
 		return context
 	
 	def get (self, request, *args, **kwargs):
@@ -111,31 +112,14 @@ class AltaDocumento(CreateView):
 			permiso.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
 		messages = []
-		messages = ['La fecha del documento presentado debe ser igual o mayor que la fecha de la solicitud de permiso']
+		messages = ['La fecha del documento presentado debe ser igual o mayor que la fecha de la solicitud de permiso (' + permiso.fechaSolicitud.strftime("%d/%m/%Y")+')']
 		return self.render_to_response(self.get_context_data(form=form, messages=messages))
 
 class DetalleDocumento(DetailView):
 	model = Documento
 	template_name = 'Documento/detalle.html'
 
-#class ListadoDocumentacionPresentada(ListView):
-#	model = Documento
-#	template_name = 'Documento/listado.html'
-#	context_object_name = 'documentos'
-#
-#	def get_context_data(self, **kwargs):
-#		context = super(ListadoDocumentacionPresentada, self).get_context_data(**kwargs)
-#		context['nombreLista'] = 'Listado de Documentos'
-#		context['headers'] = ['Tipo', 'Descripcion', 'Fecha']
-#		context['botones'] = {
-#		#'Alta': reverse('documentos:alta') , 
-#		'Listado': reverse('documentos:listar'),
- #       #'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
-#		}
-#		return context
-
 	
-
 class ModificarDocumento(UpdateView):
 	model = Documento
 	form_class = DocumentoForm
@@ -165,7 +149,7 @@ class AgregarExpediente(CreateView):
 	template_name = 'Documento/expediente.html'
 
 	def get_success_url(self):
-		return reverse('permisos:detallePermisoCompleto', args=(self.permiso_pk, ))
+		return reverse('permisos:detalle', args=(self.permiso_pk, ))
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarExpediente, self).get_context_data(**kwargs)

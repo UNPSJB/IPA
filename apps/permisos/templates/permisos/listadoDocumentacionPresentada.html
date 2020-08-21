@@ -24,7 +24,7 @@
     	</div>
 	    <div class="description">{{documento.descripcion}}</div>
 		{% if permiso.estado.tipo == 1 or permiso.estado.tipo == 2%}
-	    	<a href="{% url 'solicitudes:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
+	    	<a href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
 	    {% endif %}
 	  </div>
 

@@ -24,24 +24,17 @@ class DocumentoForm(forms.ModelForm):
 	class Meta:
 		model = Documento
 
-		fields = [
-				'tipo',
-				'descripcion',
-				'archivo',
-				'fecha',
-			]
-		labels = {
-				'tipo':'Tipo',
-				'descripcion':'Descripcion',
-				'archivo':'Archivo',
-				'fecha':'Fecha del Documento',
-		}
+		fields = ['tipo','descripcion','archivo','fecha',]
+		labels = {'tipo':'Tipo', 'descripcion':'Descripcion',
+				'archivo':'Archivo', 'fecha':'Fecha del Documento',}
 
 		widgets = {
 				'tipo':forms.Select(attrs={'class':'form-control'}),
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
 				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}
+""" 	def __init__(self,company,*args,**kwargs):
+           super (DocumentoForm,self ).__init__(*args,**kwargs) """
 
 
 class DocumentoProtegidoForm(forms.ModelForm):

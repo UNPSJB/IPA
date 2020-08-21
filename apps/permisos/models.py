@@ -106,6 +106,15 @@ class Permiso(models.Model):
 
 	objects = PermisoManager()
 
+	ESTADOS = [
+		'Solicitado', 
+		'Visado', 
+		'Completado', 
+		'Publicado', 
+		'Otorgado', 
+		'Baja'
+	]
+
 	def getEstados(self, tipo):
 		return [estado for estado in self.estados_related() if estado.tipo == tipo]
 
@@ -125,7 +134,7 @@ class Permiso(models.Model):
 		return [estado.related() for estado in self.estados.all()]
 
 	def hacer(self, accion, *args, **kwargs):
-		estado_actual = self.estado()
+		estado_actual = self.estado
 		if estado_actual is not None and hasattr(estado_actual, accion):
 			metodo = getattr(estado_actual, accion)
 			estado_nuevo = metodo(*args, **kwargs)
@@ -176,25 +185,12 @@ class Permiso(models.Model):
 			return self.fechaVencimiento < date.today()
 
 class Estado(models.Model):
-	ESTADOS = [
-		"Solicitado", 
-		"Visado", 
-		"Completado", 
-		"Publicado", 
-		"Otorgado", 
-		"Baja"
-	]
 
 	TIPO = 0
 	TIPOS = [
-		(0, 'estado'),
-		(1, 'Solicitado'),
-		(2, 'Visado'),
-		(3, 'Con Expediente'),
-		(4, 'Edicto publicado'),
-		(5, 'Otorgado'),
-		(6, 'Baja'),
+		(0, 'estado')
 	]
+
 	# Marca de tiempo asiganda por el sistema al crear un estado
 	timestamp = models.DateTimeField(auto_now_add=True)
 	
@@ -248,7 +244,6 @@ class Solicitado(Estado):
 
 	def __str__(self):
 		return "Solicitado"
-
 
 class Visado(Estado):
 	TIPO = 2
@@ -354,15 +349,12 @@ class Otorgado(Estado):
 
 		return Cobro(permiso=self.permiso, documento=documento, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
 
-
-
 class Baja(Estado):
 	TIPO = 6
 	def __str__(self):
 		return "Baja"
 
-
-for Klass in Estado.ESTADOS:
+for Klass in Permiso.ESTADOS:
 	Estado.register(eval(Klass))
 
 		#valorModulo = ValorDeModulo.objects.filter(fecha='2017-11-13',modulo=1)
