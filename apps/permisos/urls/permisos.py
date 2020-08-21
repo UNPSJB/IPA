@@ -15,10 +15,8 @@ urlpatterns = [
 
 	url(r'^detalle/Publicado/(?P<pk>\d+)/$', DetallePermisoPublicado.as_view(), name='detallePermisoPublicado'),
 
-	url(r'^listar/Otorgados$', ListadoPermisosOtorgados.as_view(), name='listarPermisosOtorgados'),
 	url(r'^detalle/Otorgado/(?P<pk>\d+)/$', DetallePermisoOtorgado.as_view(), name='detallePermisoOtorgado'),
 
-	url(r'^listar/Baja$', ListadoPermisosDeBaja.as_view(), name='listarPermisosDeBaja'),
 	url(r'^detalle/Baja/(?P<pk>\d+)/$', DetallePermisoDeBaja.as_view(), name='detallePermisoDeBaja'),
 
 ]
