@@ -61,9 +61,9 @@ class AltaCobro(CreateView):
 
 	def get(self, request, *args, **kwargs):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		cobro = permiso.estado().recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
+		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
 		return render(request, self.template_name, {'form':self.form_class(), 'cobro': cobro, 
-			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
+			'botones':{'Volver a Permiso': reverse('permisos:detalle', args=[permiso.id])},
 			'permiso': permiso, 'nombreForm':"Nuevo Cobro de Canon"})
 
 	def post(self, request, *args, **kwargs):
@@ -100,7 +100,7 @@ class ListarCobros(ListView):
 		context['nombreForm'] = "Listado de Cobros"
 		context['headers'] = ['Periodo', 'Fecha de Cobro', 'Monto($)', 'Documento de Cobro']
 		context['botones'] = {
-			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
+			'Volver al detalle del permiso':reverse('permisos:detalle', args=[self.permiso.pk]),
 			}
 		context['cobrosCanon'] = Cobro.getCobrosCanon()
 		context['cobrosInfraccion'] = Cobro.getCobrosInfraccion()
@@ -127,8 +127,8 @@ class AltaPago(CreateView):
 		documento_form = self.form_class()
 		documento_form.fields['fecha'].label = 'Fecha de Pago'
 		return render(request, self.template_name, {'form':documento_form, 
-			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
-			'permiso': permiso, 'nombreForm':"Nuevo Pago"})
+			'botones':{'Volver a Permiso': reverse('permisos:detalle', args=[permiso.id])},
+			'permiso': permiso, 'nombreForm':"Nuevo Pago Canon"})
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -170,7 +170,7 @@ class ListarPagos(ListView):
 		context['nombreForm'] = "Listado de Pagos"
 		context['headers'] = ['Fecha de Pago', 'Monto($)', 'Documento de Pago']
 		context['botones'] = {
-			'Volver al detalle del permiso':reverse('permisos:detallePermisoOtorgado', args=[self.permiso.pk]),
+			'Volver al detalle del permiso':reverse('permisos:detalle', args=[self.permiso.pk]),
 			}
 		context['pagosCanon'] = Pago.getPagosCanon()
 		context['pagosInfraccion'] = Pago.getPagosInfraccion()
@@ -244,7 +244,7 @@ class AltaCobroInfraccion(CreateView):
 				cobro = Cobro(permiso=permiso, monto=monto, documento=documento, 
 					fecha_desde=fecha_de_cobro, fecha_hasta=fecha_de_cobro, es_por_canon=False)
 				cobro.save()
-				return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.pk,]))
+				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk,]))
 			else:
 				return render(request, self.template_name, {'form': documento_form, 'permiso':permiso, 'botones':'', 'nombreForm': 'Nuevo Cobro de Infraccion',
 					'message_error': 'La fecha de cobro debe ser igual o mayor a la fecha de solicitud (' + permiso.fechaSolicitud.strftime('%d/%m/%Y'+')')
@@ -273,7 +273,7 @@ class AltaPagoInfraccion(CreateView):
 		documento_form = self.form_class()
 		documento_form.fields['fecha'].label = 'Fecha de Pago'
 		return render(request, self.template_name, {'form':documento_form, 
-			'botones':{'Volver a Permiso': reverse('permisos:detallePermisoOtorgado', args=[permiso.id])},
+			'botones':{'Volver a Permiso': reverse('permisos:detalle', args=[permiso.id])},
 			'permiso': permiso, 'nombreForm':"Nuevo Pago de Infraccion"})
 
 	def post(self, request, *args, **kwargs):

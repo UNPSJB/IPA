@@ -1,3 +1,5 @@
+import sys
+
 from django.urls import reverse_lazy, reverse
 from .models import TipoDocumento, Documento
 from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, DocumentoActaInspeccionProtegidoForm
@@ -196,7 +198,7 @@ class AgregarEdicto(CreateView):
 	
 
 	def get_success_url(self):
-		return reverse('permisos:detallePermisoPublicado', args=(self.permiso_pk, ))
+		return reverse('permisos:detalle', args=[self.permiso_pk])
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarEdicto, self).get_context_data(**kwargs)
@@ -275,39 +277,51 @@ class AgregarResolucion(CreateView):
 		#listaResolucionesFecha = sorted(listaResoluciones, key=attrgetter('fecha'), reverse=True)
 		
 
+		vencimientoPublicacion = permiso.estado.vencimientoPublicacion()
 		#if len(listaResolucionesFecha) > 0:
 		if permiso.fechaVencimiento != None:
+			print("ENTRE DESPUES DEL NONE")
 			#ultimoVencimientoResolucion = listaResolucionesFecha[0].fecha
 			ultimoVencimientoResolucion = permiso.fechaVencimiento
 			fechaCorrecta = fechaResolucion >= ultimoVencimientoResolucion
 		else:
-			vencimientoPublicacion = permiso.estado().vencimientoPublicacion()
+			print("Fecha resolucion ", fechaResolucion)
+			print("Fecha vencimiento ", vencimientoPublicacion)
 			fechaCorrecta = fechaResolucion > vencimientoPublicacion
 		
+		print("Fecha correcta ", fechaCorrecta)
+
 		fechaCorrecta = fechaCorrecta and (fechaVencimiento >= fechaResolucion) and (fechaResolucion <= date.today())
-		
+		print("Fecha correcta despues ", fechaCorrecta)
 		messages = []
-		messages = ['La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion, y menor o igual a la fecha actual',
-		'La Fecha de Resolucion debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (si la hubiera)',
+		messages = ['La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.',
+		'La Fecha de Resolucion debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (si la hubiera).',
 		'La Fecha de Vencimiento debe ser mayor o igual a la Fecha de la Resolución',
 		'La Unidad mayor a CERO']
 		
 		if form.is_valid():
 			if fechaCorrecta and (unidad > 0):
+				print("ENTRE ACAAAA 111111111111")
 				resolucion = form.save(commit=False)
 				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
 				resolucion.visado = True
 				try:
+					print("ENTRE ACAAAA AAAAAAAAAAAAAAAAA33333333333333")
 					permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
+					print("ENTRE ACAAAA 3333333333333")
 					resolucion.save()
 					return HttpResponseRedirect(self.get_success_url())
 				except:
+					print("Unexpected error:", sys.exc_info()[0])
 					return self.render_to_response(self.get_context_data(form=form, message_modulo='Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion ' + form.data['fecha']))
 			elif (unidad <= 0) or fechaCorrecta:
+				print("ENTRE ACAAAA 222222222222")
 				return self.render_to_response(self.get_context_data(form=form, 
 					messages = messages))
 			else:
+				print("ENTRE ACAAAA 44444444444444")
 				return self.render_to_response(self.get_context_data(form=form, messages=messages))
+		print("ENTRE ACAAAA 555555555555555")
 		return self.render_to_response(self.get_context_data(form=form))
 
 
@@ -320,7 +334,7 @@ class AgregarOposicion(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarOposicion, self).get_context_data(**kwargs)
 		context['botones'] = {
-			#'Volver a Permiso Publicado': reverse('permisos:detallePermisoPublicado', args=[self.permiso_pk])
+			
 		}
 		context['nombreForm'] = 'Agregar Oposición a Permiso'
 		context['message_error'] = ''

@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy, reverse
-from ..models import Permiso
+from ..models import Permiso, Otorgado
 from ..forms import PermisoForm, SolicitadoForm
 from django.views.generic import ListView,DeleteView,DetailView
 from django.shortcuts import redirect
@@ -85,7 +85,6 @@ class DetallePermisoOtorgado(DetailView):
 			'Nuevo Pago de Infraccion': reverse('pagos:AltaPagoInfraccion', args=[self.permiso_pk]),
 			'Nuevo Pago de Canon': reverse('pagos:altaPago', args=[self.permiso_pk]),
 			'Listado de Pagos': reverse('pagos:listarPagos', args=[self.permiso_pk]),
-			'Listado Permisos Otorgados': reverse('permisos:listarPermisosOtorgados'),
 			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
 			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
 		}
@@ -120,13 +119,26 @@ class DetallePermiso(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 			context = super(DetallePermiso, self).get_context_data(**kwargs)
+			context['nombreDetalle'] = self.object.estado.__str__()
 			context['botones'] = {
-				'Ver Documentación Presentada': reverse('permisos:listarDocumentacionPresentada', args=[self.object.pk]),
+				'Documentación Presentada': reverse('permisos:listarDocumentacionPresentada', args=[self.object.pk]),
 				'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
 				'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
-				'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
 			}
+			if isinstance(self.object.estado, Otorgado):
+				for e in funciones_otorgado(self.object.pk):
+					context['botones'][e[0]]=e[1]
+			context['botones']['Eliminar Solicitud'] = reverse('solicitudes:eliminar', args=[self.object.pk])
+			
 			return context
+
+def funciones_otorgado(pk):
+	return [('Nuevo Cobro de Infraccion',reverse('pagos:altaCobroInfraccion', args=[pk])),
+			('Nuevo Cobro de Canon',reverse('pagos:altaCobro', args=[pk])),
+			('Listado de Cobros',reverse('pagos:listarCobros', args=[pk])),
+			('Nuevo Pago de Infraccion',reverse('pagos:AltaPagoInfraccion', args=[pk])),
+			('Nuevo Pago de Canon',reverse('pagos:altaPago', args=[pk])),
+			('Listado de Pagos',reverse('pagos:listarPagos', args=[pk]))]
 
 class ListadoDocumentacionPresentada(DetailView):
 	model = Permiso

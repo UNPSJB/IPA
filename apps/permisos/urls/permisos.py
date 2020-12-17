@@ -12,9 +12,6 @@ urlpatterns = [
 	url(r'^detalle/(?P<pks>\d+)/documentos/(?P<pkd>\d+)/visar/$', visar_documento_solicitud, name='visarDocumentoSolicitud'),
 	url(r'^eliminar/(?P<pk>\d+)/$', PermisoDelete.as_view(), name='eliminar'),
 
-
-	url(r'^detalle/Publicado/(?P<pk>\d+)/$', DetallePermisoPublicado.as_view(), name='detallePermisoPublicado'),
-
 	url(r'^detalle/Otorgado/(?P<pk>\d+)/$', DetallePermisoOtorgado.as_view(), name='detallePermisoOtorgado'),
 
 	url(r'^detalle/Baja/(?P<pk>\d+)/$', DetallePermisoDeBaja.as_view(), name='detallePermisoDeBaja'),
