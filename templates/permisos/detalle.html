@@ -12,8 +12,6 @@
             
           </div>
           
-        <!-- <div class="ui right very wide menu sidebar">
-        </div> -->
     </div>
     <br>
 	<div class="six wide column">
@@ -99,41 +97,16 @@
                 <td>{{solicitud.estado.vencimientoPublicacion}}</td>
         </tr>
         {% endif %}
+        
+        {% include "permisos/estados/otorgado.html" %}
+        
     </tbody>
   </table>
   
-  {% if solicitud.estado.getEstadoString == "solicitado" or solicitud.estado.getEstadoString == "visado"  %}
-    {% if solicitud.falta_documentacion %}
-        <div class="ui medium header" style="color:red">Documentación faltante </div>
-        {% for documentacion in solicitud.tipos_de_documentos_faltantes %}
-            <p> {{documentacion }} </p> 
-        {% endfor %}
-        <a href="{% url 'documentos:alta' solicitud.id %}" class="ui button"> Agregar</a>
-    {% elif solicitud.visado_completo %}
-        <p style="color:green">DOCUMENTACION COMPLETA </p>
-        <p> Esta solicitud no tiene expediente.</p>
-        <a href="{% url 'documentos:agregarExpediente' solicitud.id %}" class="ui button"> Agregar número de expediente.</a> 
+    {% include "permisos/estados/solicitado-visado.html" %}
+    {% include "permisos/estados/completado.html" %}
+    {% include "permisos/estados/publicado.html" %}
     
-    {% else %}
-        <p style="color:red">DOCUMENTACION COMPLETA. FALTA VISAR DOCUMENTACION </p>
-    {% endif%}
-  {% endif %}
-
-  {% if solicitud.estado.getEstadoString == "completado" %}
-    <p> Este Permiso no tiene Edicto.</p>
-    <a href="{% url 'documentos:agregarEdicto' solicitud.id %}" class="ui button"> Agregar Edicto.</a> 
-  {% endif %}
-
-  {% if solicitud.estado.getEstadoString == "publicado"%}
-    {% if solicitud.estado.isEdictoFinalizado %}
-    <p> Este Permiso no tiene Resolucion.</p>
-        <a class="ui button" href="{% url 'documentos:agregarResolucion' solicitud.id %}" class="ui button"> Agregar Resolucion.</a> 
-    {% endif %}
-    <div class="ui form"><div class="inline field">
-        <p style="color:red">OPOSICION</p>
-        <a class="ui button" href="{% url 'documentos:agregarOposicion' solicitud.id %}" class="ui button"> Agregar Oposición.</a>
-    </div></div>
-  {% endif%}
 				
 
 {% endblock %}

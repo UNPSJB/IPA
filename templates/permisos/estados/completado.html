@@ -1,0 +1,4 @@
+{% if solicitud.estado.getEstadoString == "completado" %}
+    <p> Este Permiso no tiene Edicto.</p>
+    <a href="{% url 'documentos:agregarEdicto' solicitud.id %}" class="ui button"> Agregar Edicto.</a> 
+{% endif %}
