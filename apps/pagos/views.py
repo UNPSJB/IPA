@@ -215,7 +215,7 @@ class AltaCobroInfraccion(CreateView):
 		context['nombreForm'] = "Nuevo Cobro de Infraccion"
 		context['headers'] = ['']
 		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
 		}
 		context['permiso'] = Permiso.objects.get(pk=self.permiso_pk)
 		return context

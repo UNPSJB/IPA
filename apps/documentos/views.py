@@ -92,7 +92,7 @@ class AltaDocumento(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AltaDocumento, self).get_context_data(**kwargs)
 		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
 		}
 		context['nombreForm'] = 'Documentos'
 		context['form'].fields['tipo'].queryset = Permiso.objects.get(pk=self.permiso_pk).tipos_de_documentos_faltantes()
@@ -112,7 +112,7 @@ class AltaDocumento(CreateView):
 		if form.is_valid() and (permiso.fechaSolicitud <= fs): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
-			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
 		messages = []
 		messages = ['La fecha del documento presentado debe ser igual o mayor que la fecha de la solicitud de permiso (' + permiso.fechaSolicitud.strftime("%d/%m/%Y")+')']
 		return self.render_to_response(self.get_context_data(form=form, messages=messages))
@@ -156,7 +156,7 @@ class AgregarExpediente(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarExpediente, self).get_context_data(**kwargs)
 		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
 		}
 		context['nombreForm'] = 'Agregar Expediente a Permiso'
 		return context
@@ -203,7 +203,7 @@ class AgregarEdicto(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarEdicto, self).get_context_data(**kwargs)
 		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
 		}
 		context['nombreForm'] = 'Agregar Edicto a Permiso'
 		return context
@@ -252,7 +252,7 @@ class AgregarResolucion(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarResolucion, self).get_context_data(**kwargs)
 		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('solicitudes:detalle', args=[self.permiso_pk])
+		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
 		}
 		context['permiso'] = Permiso.objects.get(pk=self.permiso_pk)
 		context['nombreForm'] = 'Agregar Resolución a Permiso'
@@ -399,7 +399,7 @@ class AltaActaDeInfraccion(CreateView):
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
 			comision.agregar_documentacion(documento)
-			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
 		messages = []
 		messages = ['La fecha del acta de infraccion debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
 		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']
@@ -447,7 +447,7 @@ class AltaActaDeInspeccion(CreateView):
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
 			comision.agregar_documentacion(documento)
-			return HttpResponseRedirect(reverse('solicitudes:detalle', args=[permiso.id]))
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
 		messages = []
 		messages = ['La fecha del acta de Inspección debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
 		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']

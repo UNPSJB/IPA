@@ -3,7 +3,6 @@ from ..forms import *
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from ..models import Afluente
-from apps.permisos.views.solicitudes import Permiso
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
 from ..tables import AfluentesTable
 from apps.generales.views import GenericListadoView

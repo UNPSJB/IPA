@@ -51,67 +51,6 @@ class PermisoDelete(DeleteView):
 	template_name = 'delete.html'
 	success_url = reverse_lazy('permisos:listar') 
 
-class DetallePermisoPublicado(DetailView):
-	model = Permiso
-	template_name = 'publicados/detalle.html'
-	context_object_name = 'permiso'		
-
-	def get_context_data(self, *args, **kwargs):
-		context = super(DetallePermisoPublicado, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Permiso Publicado'
-		context['botones'] = {
-			'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
-			'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
-			'Listado Permisos Publicados': reverse('permisos:listarPermisosPublicados'),
-			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
-			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
-		}
-		return context
-
-class DetallePermisoOtorgado(DetailView):
-	model = Permiso
-	template_name = 'otorgados/detalle.html'
-	context_object_name = 'permiso'		
-
-	def get_context_data(self, *args, **kwargs):
-		context = super(DetallePermisoOtorgado, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Permiso Otorgado'
-		context['botones'] = {
-			'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
-			'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
-			'Nuevo Cobro de Infraccion': reverse('pagos:altaCobroInfraccion', args=[self.permiso_pk,]),
-			'Nuevo Cobro de Canon': reverse('pagos:altaCobro', args=[self.permiso_pk]),
-			'Listado de Cobros': reverse('pagos:listarCobros', args=[self.permiso_pk]),
-			'Nuevo Pago de Infraccion': reverse('pagos:AltaPagoInfraccion', args=[self.permiso_pk]),
-			'Nuevo Pago de Canon': reverse('pagos:altaPago', args=[self.permiso_pk]),
-			'Listado de Pagos': reverse('pagos:listarPagos', args=[self.permiso_pk]),
-			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
-			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
-		}
-		return context
-
-
-	def get (self, request, *args, **kwargs):
-		self.permiso_pk = kwargs.get('pk')
-		return super(DetallePermisoOtorgado, self).get(request,*args,**kwargs)
-
-class DetallePermisoDeBaja(DetailView):
-	model = Permiso
-	template_name = 'bajas/detalle.html'
-	context_object_name = 'permiso'		
-
-	def get_context_data(self, *args, **kwargs):
-		context = super(DetallePermisoDeBaja, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Permiso dado de Baja'
-		context['botones'] = {
-			'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
-			'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
-			'Volver a Lista de Permisos dados de Baja': reverse('permisos:listarPermisosDeBaja'),
-			'Documentación Presentada': reverse('solicitudes:listarDocumentacionPresentada', args=[self.object.pk]),
-			'Eliminar Solicitud': reverse('solicitudes:eliminar', args=[self.object.pk]),
-		}
-		return context
-
 class DetallePermiso(DetailView):
 	model = Permiso
 	template_name = 'permisos/detalle.html'
@@ -121,14 +60,14 @@ class DetallePermiso(DetailView):
 			context = super(DetallePermiso, self).get_context_data(**kwargs)
 			context['nombreDetalle'] = self.object.estado.__str__()
 			context['botones'] = {
-				'Documentación Presentada': reverse('permisos:listarDocumentacionPresentada', args=[self.object.pk]),
+				'Documentación': reverse('permisos:listarDocumentacionPermiso', args=[self.object.pk]),
 				'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
 				'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
 			}
 			if isinstance(self.object.estado, Otorgado):
 				for e in funciones_otorgado(self.object.pk):
 					context['botones'][e[0]]=e[1]
-			context['botones']['Eliminar Solicitud'] = reverse('solicitudes:eliminar', args=[self.object.pk])
+			context['botones']['Eliminar Solicitud'] = reverse('permisos:eliminar', args=[self.object.pk])
 			
 			return context
 
@@ -140,13 +79,13 @@ def funciones_otorgado(pk):
 			('Nuevo Pago de Canon',reverse('pagos:altaPago', args=[pk])),
 			('Listado de Pagos',reverse('pagos:listarPagos', args=[pk]))]
 
-class ListadoDocumentacionPresentada(DetailView):
+class ListadoDocumentacionPermiso(DetailView):
 	model = Permiso
-	template_name = 'permisos/listadoDocumentacionPresentada.html'
+	template_name = 'permisos/listadoDocumentacionPermiso.html'
 	context_object_name = 'permiso'
 
 	def get_context_data(self, **kwargs):
-		context = super(ListadoDocumentacionPresentada, self).get_context_data(**kwargs)
+		context = super(ListadoDocumentacionPermiso, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Documentos'
 		context['botones'] = {
 			'Volver a Detalle de la Solicitud': reverse('permisos:detalle', args=[self.object.pk])}
@@ -156,7 +95,7 @@ def visar_documento_solicitud(request,pks,pkd):
 	permiso = Permiso.objects.get(pk=pks)
 	documento = permiso.documentos.get(pk=pkd)
 	permiso.hacer('revisar',request.user, datetime.now(), [documento])
-	return redirect('permisos:listarDocumentacionPresentada', pks)
+	return redirect('permisos:listarDocumentacionPermiso', pks)
 
 class NuevaDocumentacionRequerida(AltaDocumento):
 	def get_form(self, form_class):
