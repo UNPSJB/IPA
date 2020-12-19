@@ -76,10 +76,10 @@ class AltaCobro(CreateView):
 			documento.tipo = TipoDocumento.get_protegido('cobro')
 			documento.visado = True
 			documento.save()
-			cobro = permiso.estado().recalcular(request.user, documento, date.today(), permiso.unidad)
+			cobro = permiso.estado.recalcular(request.user, documento, date.today(), permiso.unidad)
 			cobro.save()
 
-			return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id]))
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
 		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
 
 
