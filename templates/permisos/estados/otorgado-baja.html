@@ -14,7 +14,7 @@
 		<td>{{solicitud.saldoActual}}</td>
 	</tr>
 
-	{% if solicitud.estado.getEstadoString == "baja" %}
+	{% if solicitud.estado.getEstadoString == "otorgado" %}
 		<tr>
 			<td>Vigencia del Permiso</td>
 			<td style="color:red">{% if solicitud.isPermisoFinalizado %} Este Permiso esta VENCIDO
