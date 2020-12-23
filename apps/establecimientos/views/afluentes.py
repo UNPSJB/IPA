@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from ..models import Afluente
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
 from ..tables import AfluentesTable
+from ..filters import AfluentesFilter
 from apps.generales.views import GenericListadoView
 #Afluente
 class AltaAfluente(CreateView):
@@ -39,9 +40,18 @@ class DetalleAfluente(DetailView):
 
 class ListadoAfluentes(GenericListadoView):
 	model = Afluente
-	template_name = 'establecimientos/afluentes/listado.html'
-	paginate_by = 12
+	template_name = 'generales/listado.html'
 	table_class = AfluentesTable
+	paginate_by = 12
+	filterset_class = AfluentesFilter	
+	
+	def get_context_data(self, **kwargs):
+		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
+		context['nombreLista'] = 'Listado de Afluentes'
+		context['botones'] = {
+		}
+		
+		return context	
 
 class ModificarAfluente(UpdateView):
 	model = Afluente

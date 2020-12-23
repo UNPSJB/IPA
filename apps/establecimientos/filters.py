@@ -13,6 +13,11 @@ class LocalidadesFilter(django_filters.FilterSet):
     
 class DepartamentosFilter(django_filters.FilterSet):
     nombre = django_filters.CharFilter(lookup_expr='iexact')
+
+class AfluentesFilter(django_filters.FilterSet):
+    nombre = django_filters.CharFilter(label='Nombre', lookup_expr='icontains')
+    localidad__nombre = django_filters.CharFilter(label='Localidad', lookup_expr='icontains')
+    
     
          
     

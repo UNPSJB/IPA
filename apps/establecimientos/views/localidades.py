@@ -26,6 +26,13 @@ class AltaLocalidad(GenericAltaView):
 		
 		return context
 
+
+class DetalleLocalidad(DetailView):
+	model = Departamento
+	#template_name = 'departamento/detalle.html'		
+	context_object_name = 'localidad'
+
+
 class ModificarLocalidad(UpdateView):
 	model = Localidad
 	form_class = LocalidadForm

@@ -14,6 +14,7 @@ class LocalidadesTable(tables.Table):
     codpostal = tables.Column(verbose_name="Codigo postal")
     nombre = tables.Column(verbose_name="Nombre")
     departamento = tables.Column(verbose_name="Departamento")
+    acciones = tables.TemplateColumn(template_name="formButtons.html")
 
     class Meta:
         template_name = "django_tables2/semantic.html"
@@ -24,6 +25,7 @@ class DepartamentosTable(tables.Table):
     nombre = tables.Column(verbose_name="Nombre")
     poblacion = tables.Column(verbose_name="Poblacion")
     superficie = tables.Column(verbose_name="superficie")
+    acciones = tables.TemplateColumn(template_name="formButtons.html")
 
     class Meta:
         template_name = "django_tables2/semantic.html"

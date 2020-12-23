@@ -64,9 +64,7 @@ class DetalleDepartamento(DetailView):
 		return context
 
 class ListadoDepartamentos(GenericListadoView):
-	model = Departamento
-	#template_name = 'departamento/listado.html'
-	
+	model = Departamento	
 	template_name = 'generales/listado.html'
 	table_class = DepartamentosTable
 	paginate_by = 12
@@ -77,11 +75,8 @@ class ListadoDepartamentos(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDepartamentos, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Departamentos'
-		context['nombreReverse'] = 'departamentos'
-		context['headers'] = ['Nombre','Población']
 		context['botones'] = {
-				
-			}
+		}
 		
 		return context
 
