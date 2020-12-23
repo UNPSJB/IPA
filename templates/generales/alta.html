@@ -29,7 +29,9 @@
 		<div class="ui error message">
 		  <i class="close icon"></i>
 		  <div class="header"> {% block mensaje_error_titulo %} Hubo el siguiente problema: {% endblock %}</div>
-		    	<li> {{ message_error }}</li>
+		  	{% for message in message_error %}
+		    	<li> {{ message }}</li>
+			{% endfor %}
 		</div>
 	{% endif %}
 	{% if message_success %}
@@ -40,7 +42,7 @@
 		</div>
 	{% endif %}
 
-<form class="ui large form" action="{{ form.url_post }}" method="POST" id="{% block formname %}form{% endblock %}">
+<form class="ui large form" action="{{ form.url_post }}" method="POST" id="{% block formname %}form{% endblock %}" enctype="multipart/form-data">
     {% csrf_token %}
 	{% block formulario_custom %}
 		

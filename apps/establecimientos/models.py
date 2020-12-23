@@ -20,7 +20,7 @@ class Departamento(models.Model):
 	slug = models.SlugField()
 	protegido = models.BooleanField(default=False)
 
-	objects = DepartamentoManager(False)
+	objects = DepartamentoManager(True)
 	protegidos = DepartamentoManager(True)
 	def save(self, *args, **kwargs):
 		if not self.slug:

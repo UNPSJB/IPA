@@ -1,6 +1,6 @@
 import django_tables2 as tables
 
-from .models import Afluente, Localidad
+from .models import Afluente, Localidad, Departamento
 
 class AfluentesTable(tables.Table):
     
@@ -19,4 +19,15 @@ class LocalidadesTable(tables.Table):
         template_name = "django_tables2/semantic.html"
         model = Localidad
         fields = ()
+ 
+class DepartamentosTable(tables.Table):
+    nombre = tables.Column(verbose_name="Nombre")
+    poblacion = tables.Column(verbose_name="Poblacion")
+    superficie = tables.Column(verbose_name="superficie")
+
+    class Meta:
+        template_name = "django_tables2/semantic.html"
+        model = Departamento
+        fields = ()
+
  

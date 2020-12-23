@@ -1,0 +1,31 @@
+{% extends 'generales/alta.html' %}
+
+{% load static semanticui %}
+
+{% block mensaje_boton_volver %}
+	Volver a Información de Permiso
+{% endblock %} 
+
+
+{% block titulo %} 
+	{{nombreForm}}
+{% endblock %}
+
+{% block formulario_custom %}
+
+    
+    {% render_form form %}
+    <div class="field">
+        <label>Tiempo de Publicación (en días):</label>
+        <input type="number" name="tiempo" placeholder="Ingrese el tiempo de publicacion de edicto">
+      </div>
+
+{% endblock %}
+
+{% block formname %}nuevo_edicto_form{% endblock%}
+
+{% block customPageJs %}
+    
+
+    
+{% endblock %}

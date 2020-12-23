@@ -5,7 +5,9 @@ from django.http import HttpResponseRedirect
 from ..models import Departamento
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
 
-
+from apps.generales.views import GenericListadoView, GenericAltaView
+from ..tables import DepartamentosTable
+from ..filters import DepartamentosFilter
 #Departamento
 
 class AltaDepartamento(CreateView):
@@ -61,9 +63,15 @@ class DetalleDepartamento(DetailView):
 		}
 		return context
 
-class ListadoDepartamentos(ListView):
+class ListadoDepartamentos(GenericListadoView):
 	model = Departamento
-	template_name = 'departamento/listado.html'
+	#template_name = 'departamento/listado.html'
+	
+	template_name = 'generales/listado.html'
+	table_class = DepartamentosTable
+	paginate_by = 12
+	filterset_class = DepartamentosFilter
+	
 	context_object_name = 'departamentos'
 
 	def get_context_data(self, **kwargs):

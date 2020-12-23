@@ -3,6 +3,7 @@
 {% load render_table from django_tables2 %}
 
 {% block wrapper %}
+
 <div class="ui grid"> 
 	<div class="row header-content">
 		<div class="six wide column">
@@ -18,7 +19,7 @@
 			{% endif %}
 		</div>
 		<div class="four wide column">
-			<h1 class="ui center aligned header blue "> {% block titulo %} Listado {% endblock %} </h1>
+			<h1 class="ui center aligned header blue "> {% block titulo %} {{nombreLista}} {% endblock %} </h1>
 		</div>
 		<div class="six wide column">
 			<button class="ui icon right floated blue button" onclick="window.location.href='{% block url_nuevo %} alta {% endblock %}'">

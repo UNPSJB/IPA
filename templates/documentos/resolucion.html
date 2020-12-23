@@ -1,0 +1,55 @@
+{% extends 'generales/alta.html' %}
+
+{% load static semanticui %}
+
+{% block mensaje_boton_volver %}
+	Volver a Información de Permiso
+{% endblock %} 
+
+
+{% block titulo %} 
+	{{nombreForm}}
+{% endblock %}
+
+{% block formulario_custom %}
+
+    
+    {% render_form form %}
+    <div class="field">
+        <label>Unidad (en {{permiso.tipo.get_medida_display}})</label>
+        <input type="number" name="unidad" placeholder="Ingrese la unidad del Permiso">
+      </div>
+       <div class="field">
+           <label>Fecha del primer Cobro (Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}})</label>
+        <input type="date" required="True" name="fechaPrimerCobro">
+        </div>  
+       <div class="field">
+           <label>Fecha de Vencimiento</label>
+        <input type="date" required="True" name="fechaVencimiento">
+        </div>
+
+{% endblock %}
+
+{% block formname %}nueva_resolucion_form{% endblock%}
+
+{% block customPageJs %}
+    
+
+    
+{% endblock %}
+
+
+<!-- {% if messages %}
+<div class="ui error message">
+  <i class="close icon"></i>
+  <div class="header">Errores en la carga de la Resolución</div>
+  <ul class="list">
+    {% for message in messages %}
+        <li> {{ message }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% if message_modulo %}
+<p style='color:red'>{{ message_modulo }}</p>
+{% endif %} -->

@@ -113,9 +113,8 @@ class AltaDocumento(CreateView):
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
-		messages = []
 		messages = ['La fecha del documento presentado debe ser igual o mayor que la fecha de la solicitud de permiso (' + permiso.fechaSolicitud.strftime("%d/%m/%Y")+')']
-		return self.render_to_response(self.get_context_data(form=form, messages=messages))
+		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 
 class DetalleDocumento(DetailView):
 	model = Documento
@@ -148,17 +147,16 @@ class DeleteDocumento(DeleteView):
 class AgregarExpediente(CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
-	template_name = 'Documento/expediente.html'
+	template_name = 'documentos/expediente.html'
 
 	def get_success_url(self):
 		return reverse('permisos:detalle', args=(self.permiso_pk, ))
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarExpediente, self).get_context_data(**kwargs)
-		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
-		}
 		context['nombreForm'] = 'Agregar Expediente a Permiso'
+		context['botones'] = {}
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -188,13 +186,13 @@ class AgregarExpediente(CreateView):
 				return HttpResponseRedirect(self.get_success_url())
 			else:
 				return self.render_to_response(self.get_context_data(form=form, 
-					message = 'La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')'))
+					message_error = ['La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')']))
 		return self.render_to_response(self.get_context_data(form=form))
 
-class AgregarEdicto(CreateView):
+class AgregarEdicto(GenericAltaView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
-	template_name = 'Documento/edicto.html'
+	template_name = 'documentos/edicto.html'
 	
 
 	def get_success_url(self):
@@ -202,10 +200,8 @@ class AgregarEdicto(CreateView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarEdicto, self).get_context_data(**kwargs)
-		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
-		}
 		context['nombreForm'] = 'Agregar Edicto a Permiso'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -237,25 +233,24 @@ class AgregarEdicto(CreateView):
 				return HttpResponseRedirect(self.get_success_url())
 			else:
 				return self.render_to_response(self.get_context_data(form=form, 
-					message = 'La fecha del Edicto debe igual o posterior a la fecha del Expediente ('+(fecha_pase).strftime("%d-%m-%Y")+
-					') y el tiempo de publicación mayor a CERO'))
+					message_error = ['La fecha del Edicto debe igual o posterior a la fecha del Expediente ('+(fecha_pase).strftime("%d-%m-%Y")+
+					') y el tiempo de publicación mayor a CERO']))
 		return self.render_to_response(self.get_context_data(form=form))
 
 class AgregarResolucion(CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
-	template_name = 'Documento/resolucion.html'
+	template_name = 'documentos/resolucion.html'
 
 	def get_success_url(self):
 		return reverse('permisos:detallePermisoOtorgado', args=(self.permiso_pk, ))
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarResolucion, self).get_context_data(**kwargs)
-		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
-		}
+		context['botones'] = {}
 		context['permiso'] = Permiso.objects.get(pk=self.permiso_pk)
 		context['nombreForm'] = 'Agregar Resolución a Permiso'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -266,6 +261,11 @@ class AgregarResolucion(CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
+		print(type(request))
+		print(request.POST)
+		print(request.POST)
+		print(request.POST)
+		print(request)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		documentos = permiso.documentos.all()
 
@@ -293,8 +293,7 @@ class AgregarResolucion(CreateView):
 
 		fechaCorrecta = fechaCorrecta and (fechaVencimiento >= fechaResolucion) and (fechaResolucion <= date.today())
 		print("Fecha correcta despues ", fechaCorrecta)
-		messages = []
-		messages = ['La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.',
+		messages_error = ['La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.',
 		'La Fecha de Resolucion debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (si la hubiera).',
 		'La Fecha de Vencimiento debe ser mayor o igual a la Fecha de la Resolución',
 		'La Unidad mayor a CERO']
@@ -313,14 +312,14 @@ class AgregarResolucion(CreateView):
 					return HttpResponseRedirect(self.get_success_url())
 				except:
 					print("Unexpected error:", sys.exc_info()[0])
-					return self.render_to_response(self.get_context_data(form=form, message_modulo='Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion ' + form.data['fecha']))
+					return self.render_to_response(self.get_context_data(form=form, message_error=['Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion ' + form.data['fecha']]))
 			elif (unidad <= 0) or fechaCorrecta:
 				print("ENTRE ACAAAA 222222222222")
 				return self.render_to_response(self.get_context_data(form=form, 
-					messages = messages))
+					message_error = messages_error))
 			else:
 				print("ENTRE ACAAAA 44444444444444")
-				return self.render_to_response(self.get_context_data(form=form, messages=messages))
+				return self.render_to_response(self.get_context_data(form=form, message_error=messages_error))
 		print("ENTRE ACAAAA 555555555555555")
 		return self.render_to_response(self.get_context_data(form=form))
 
@@ -360,19 +359,20 @@ class AgregarOposicion(CreateView):
 
 		return self.render_to_response(self.get_context_data(form=form))
 
-class AltaActaDeInfraccion(CreateView):
+class AltaActaDeInfraccion(GenericAltaView):
 	model = Documento
 	form_class = DocumentoActaInspeccionProtegidoForm
-	template_name = 'Acta/actaInspeccion.html'
+	template_name = 'documentos/actas.html'
 	success_url = reverse_lazy('comisiones:listar')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaActaDeInfraccion, self).get_context_data(**kwargs)
 		context['botones'] = {
+			'Nueva comisión': reverse('comisiones:alta'),
 			'Listado Comisiones': reverse('comisiones:listar'),
-			'Volver al permiso': reverse('permisos:detalle', args=[self.permiso_pk])
 			}
 		context['nombreForm'] = 'Nueva Acta de Infraccion'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -396,19 +396,18 @@ class AltaActaDeInfraccion(CreateView):
 			documento = form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('acta-de-infraccion')
 			documento.visado = True
-			documento = form.save()
+			documento = form.save()	#TODO se esta guardando mal la información
 			permiso.agregar_documentacion(documento)
 			comision.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
-		messages = []
 		messages = ['La fecha del acta de infraccion debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
 		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']
-		return self.render_to_response(self.get_context_data(form=form, messages=messages))
+		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 
 class AltaActaDeInspeccion(CreateView):
 	model = Documento
 	form_class = DocumentoActaInspeccionProtegidoForm
-	template_name = 'Acta/actaInspeccion.html'
+	template_name = 'documentos/actas.html'
 	success_url = reverse_lazy('comisiones:listar')
 
 	def get (self, request, *args, **kwargs):
@@ -419,10 +418,10 @@ class AltaActaDeInspeccion(CreateView):
 		context = super(AltaActaDeInspeccion, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Nueva comisión': reverse('comisiones:alta'),
-			'Listado Comisiones': reverse('comisiones:listar'),
-			'Volver al permiso': reverse('permisos:detalle', args=[self.permiso_pk])
+			'Listado Comisiones': reverse('comisiones:listar')
 			}
 		context['nombreForm'] = 'Nueva Acta de Inspección'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
 	def post(self, request, *args, **kwargs):
@@ -448,7 +447,6 @@ class AltaActaDeInspeccion(CreateView):
 			permiso.agregar_documentacion(documento)
 			comision.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
-		messages = []
 		messages = ['La fecha del acta de Inspección debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
 		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']
-		return self.render_to_response(self.get_context_data(form=form, messages=messages))
+		return self.render_to_response(self.get_context_data(form=form, message_error=messages))

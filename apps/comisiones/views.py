@@ -7,6 +7,8 @@ from .models import Comision
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
 
 from apps.generales.views import GenericListadoView, GenericAltaView
+from .tables import ComisionTable
+from .filters import ComisionFilter
 
 class AltaComision(GenericAltaView):
 	model = Comision
@@ -41,10 +43,12 @@ class DetalleComision(DetailView):
 		return context
 
 
-class ListadoComision(ListView):
+class ListadoComision(GenericListadoView):
 	model = Comision
-	template_name = 'comisiones/listado.html'
-	context_object_name = 'comisiones'
+	template_name = 'generales/listado.html'
+	table_class = ComisionTable
+	paginate_by = 12
+	filterset_class = ComisionFilter
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoComision, self).get_context_data(**kwargs)

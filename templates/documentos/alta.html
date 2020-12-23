@@ -1,0 +1,29 @@
+{% extends 'generales/alta.html' %}
+
+{% load static semanticui %}
+
+{% block mensaje_boton_volver %}
+	Volver a Información de Permiso
+{% endblock %} 
+
+{% block url_a_volver %}/permisos/listado{% endblock %}
+
+{% block titulo %} 
+	{{nombreForm}}
+{% endblock %}
+
+{% block formulario_custom %}
+
+    
+    {% render_form form %}
+    
+
+{% endblock %}
+
+{% block formname %}nueva_acta_inspeccion_form{% endblock%}
+
+{% block customPageJs %}
+    
+
+    
+{% endblock %}

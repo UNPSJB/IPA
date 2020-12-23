@@ -1,0 +1,31 @@
+{% extends 'generales/alta.html' %}
+
+{% load static semanticui %}
+
+{% block mensaje_boton_volver %}
+	Volver a Información de Permiso
+{% endblock %} 
+
+
+{% block titulo %} 
+	{{nombreForm}}
+{% endblock %}
+
+{% block formulario_custom %}
+
+    
+    {% render_form form %}
+    <div class="field">
+        <label>Numero de Expediente </label>
+        <input type="number" name="expediente" placeholder="Ingrese un numero de expediente">
+      </div>
+
+{% endblock %}
+
+{% block formname %}nuevo_edicto_form{% endblock%}
+
+{% block customPageJs %}
+    
+
+    
+{% endblock %}

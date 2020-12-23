@@ -3,13 +3,16 @@
 
 {% block contentList%} 
 
+{{departamentos}}
+
 {% for departamento in departamentos %}
   <tr>
     <td>{{departamento.nombre}}</td>
     <td>{{departamento.poblacion}}</td>
     {%renderActionButton departamento.id %}
-    
+        
   </tr>
+
 {% endfor%}
 
 {% endblock %}
