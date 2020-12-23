@@ -111,5 +111,9 @@ class LocalidadForm(forms.ModelForm):
 		widgets = {
 			'codpostal':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'min':'1', 'placeholder':'Codigo Postal'}),
 			'nombre':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre'}),
-			'departamento':forms.Select(attrs={'class':'form-control', 'placeholder':'Departamento'}),
+			'departamento':forms.Select(attrs={'class':'form-control', 'placeholder':'Departamento','id':'departamentos'}),
 		}
+
+	def __init__(self, *args, **kwargs):
+		super(LocalidadForm, self).__init__(*args,**kwargs)
+		self.fields['departamento'].queryset = Departamento.protegidos.all() #TODO hay que agregar aquellos que no son protegidos

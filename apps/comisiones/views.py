@@ -6,25 +6,28 @@ from django.http import HttpResponseRedirect
 from .models import Comision
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
 
-class AltaComision(CreateView):
+from apps.generales.views import GenericListadoView, GenericAltaView
+
+class AltaComision(GenericAltaView):
 	model = Comision
 	form_class = ComisionForm
-	template_name = 'comision/forms.html'
+	#template_name = 'forms.html'
+	template_name = 'comisiones/alta.html'
 	success_url = reverse_lazy('comisiones:listar')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaComision, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Listado Comisiones': reverse('comisiones:listar'),
-			'Nuevo Empleado': reverse('personas:alta')
-			}
+			'Nuevo Empleado': reverse('personas:alta'),
+			'Nueva Localidad': reverse('localidades:alta'),
+		}
 		context['nombreForm'] = 'Nueva Comisión'
 		return context
 
 
 class DetalleComision(DetailView):
 	model = Comision
-	template_name = 'comision/detalle.html'
+	template_name = 'comisiones/detalle.html'
 	context_object_name = 'comision'
 
 	def get_context_data(self, **kwargs):
@@ -40,7 +43,7 @@ class DetalleComision(DetailView):
 
 class ListadoComision(ListView):
 	model = Comision
-	template_name = 'comision/listado.html'
+	template_name = 'comisiones/listado.html'
 	context_object_name = 'comisiones'
 
 	def get_context_data(self, **kwargs):
@@ -54,7 +57,7 @@ class ListadoComision(ListView):
 class ModificarComision(UpdateView):
 	model = Comision
 	form_class = ComisionForm
-	template_name = 'comision/forms.html'
+	template_name = 'comisiones/forms.html'
 	success_url = reverse_lazy('comisiones:listar')
 
 	def post(self, request, pk):

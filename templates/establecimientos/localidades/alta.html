@@ -1,0 +1,29 @@
+{% extends 'generales/alta.html' %}
+
+{% load static semanticui %}
+
+{% block mensaje_boton_volver %}
+	Volver al listado de localidades
+{% endblock %} 
+
+{% block titulo %} 
+	Nueva Localidad
+{% endblock %}
+
+{% block formulario_custom %}
+
+    
+    {% render_form form %}
+    
+
+{% endblock %}
+
+{% block formname %}nueva_localidad_form{% endblock%}
+
+{% block customPageJs %}
+    
+    #$('#id_grid').prepend('<div class="row"><div id="id_prueba" class="fifteen wide column" ></div></div>');
+    #$('#departamentos').parent().parent().appendTo($('#id_prueba'));
+    #$('#id_prueba').after('<div class="one wide column"><button class="ui primary icon button fix-button-add-margin" id="agregarDepartamento" type="button" data-tooltip="Agrega un nuevo empleado"><i class="plus icon" ></i></button></div>');
+    
+{% endblock %}

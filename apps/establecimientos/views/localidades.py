@@ -5,34 +5,70 @@ from django.http import HttpResponseRedirect
 from ..models import Localidad
 from django.views.generic import ListView,CreateView,DetailView,DeleteView,UpdateView
 
+from apps.generales.views import GenericAltaView, GenericListadoView
+from ..tables import LocalidadesTable
+from ..filters import LocalidadesFilter
+
 #Localidad
 
-
-class DetalleLocalidad(DetailView):
+class AltaLocalidad(GenericAltaView):
 	model = Localidad
-	template_name = 'localidad/detalle.html'
-	context_object_name = 'localidad'
-	
+	form_class = LocalidadForm
+	template_name = 'establecimientos/localidades/alta.html'
+	success_url = reverse_lazy('localidades:listar')
+
 	def get_context_data(self, **kwargs):
-		context = super(DetalleLocalidad, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Localidad'
+		context = super(AltaLocalidad, self).get_context_data(**kwargs)
 		context['botones'] = {
-			
+			'Nuevo Departamento': reverse('departamentos:alta'),
 		}
+		context['nombreForm'] = 'Nueva Localidad'
+		
 		return context
 
-class ListadoLocalidades(ListView):
+class ModificarLocalidad(UpdateView):
 	model = Localidad
-	template_name = 'localidad/listado.html'
-	context_object_name = 'localidades'
+	form_class = LocalidadForm
+	template_name = 'forms.html'
+	success_url = reverse_lazy('localidades:listar')
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		id_localidad = kwargs['pk']
+		localidad = self.model.objects.get(id=id_localidad)
+		form = self.form_class(request.POST, instance=localidad)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(self.get_success_url())
+		else:
+			return HttpResponseRedirect(self.get_success_url())
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarLocalidad, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar Localidad"
+		context['botones'] = {
+			'Ir a Listado': reverse('localidades:listar'),
+			'Nuevo Departamento': reverse('departamentos:alta')
+			}
+		return context
+
+
+class ListadoLocalidades(GenericListadoView):
+	model = Localidad
+	template_name = 'establecimientos/localidades/listado.html'
+	table_class = LocalidadesTable
+	paginate_by = 20
+	filterset_class = LocalidadesFilter
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoLocalidades, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Localidades'
 		context['nombreReverse'] = 'localidades'
 		context['headers'] = ['Código Postal', 'Nombre','Departamento']
-		context['botones'] = {
-
-			}
+		context['botones'] = {'Nueva Localidad': reverse('localidades:alta')}
 		return context
 
+class LocalidadDelete(DeleteView):
+	model = Localidad
+	template_name = 'delete.html'
+	success_url = reverse_lazy('localidades:listar') 

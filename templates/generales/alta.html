@@ -1,26 +1,29 @@
 {% extends 'index2.html' %}
-{% load static semanticui %}
+
 {% load contextMenu %}
 
 {% block wrapper %}
-<div class="ui grid" style="margin-bottom:25px;"> 
+
 
 <div class="row header-content">
 	<div class="five wide column">
+		<div class="ui secondary menu">
 		<button class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
 			<i class="angle left icon"></i>
             {% block mensaje_boton_volver %}
             Volver
             {% endblock %}
 		</button>
-
+		{% renderContextMenu %}
+		</div>
 	</div>
+	<br>
 	<div class="six wide column">
 		<h1 class="ui center aligned header blue "> {% block titulo %} Nuevo {% endblock %}</h1>
 	</div>
 	<div class="five wide column">
 	</div>
-</div>
+
 </div>
 	{% if message_error %}
 		<div class="ui error message">
@@ -40,7 +43,7 @@
 <form class="ui large form" action="{{ form.url_post }}" method="POST" id="{% block formname %}form{% endblock %}">
     {% csrf_token %}
 	{% block formulario_custom %}
-		{% render_form form %}
+		
 	{% endblock %}
 	{% block formularios_extra %}{% endblock %}
 	

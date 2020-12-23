@@ -1,0 +1,50 @@
+{% extends 'generales/alta.html' %}
+
+{% load static semanticui %}
+
+{% block mensaje_boton_volver %}
+	Volver al listado de comisiones
+{% endblock %} 
+
+{% block url_a_volver %}/comisiones/listar{% endblock %}
+
+{% block titulo %} 
+	Nueva Comisión 
+{% endblock %}
+
+{% block formulario_custom %}
+    
+        {% render_form form %}
+    
+{% endblock %}
+
+{% block formname %}nueva_solicitud_form{% endblock%}
+
+{% block customPageJs %}
+    #saveInLocal('nueva_solicitud_form')
+
+    
+    
+    $('#id_grid').prepend('<div class="row"><div id="id_prueba" class="fifteen wide column" ></div></div>');
+    $('#empleados').parent().parent().appendTo($('#id_prueba'));
+    $('#id_prueba').after('<div class="one wide column"><button class="ui primary icon button fix-button-add-margin" id="agregarEmpleado" type="button" data-tooltip="Agrega un nuevo empleado"><i class="plus icon" ></i></button></div>');
+    
+    $('#id_grid').append('<div class="row"><div id="id_local" class="fifteen wide column" ></div></div>');
+    $('#localidades').parent().parent().appendTo($('#id_local'));
+    $('#id_local').after('<div class="one wide column"><button class="ui primary icon button fix-button-add-margin" id="agregarLocalidad" type="button" data-tooltip="Agrega una nueva localidad"><i class="plus icon" ></i></button></div>');
+    
+    $('#id_grid').append('<div class="row"><div id="id_fechainicio" class="fifteen wide column" ></div></div>');
+    $('#fechaInicio').parent().parent().parent().appendTo($('#id_fechainicio'));
+    
+    $('#id_grid').append('<div class="row"><div id="id_fechafin" class="fifteen wide column" ></div></div>');
+    $('#fechaFin').parent().parent().parent().appendTo($('#id_fechafin'));
+    
+    
+    $('#agregarEmpleado').click(function(){
+        formButtonAdd('{% url 'personas:alta' %}')
+    })
+
+    $('#agregarLocalidad').click(function(){
+        formButtonAdd('{% url 'localidades:alta' %}')
+    })
+{% endblock %}

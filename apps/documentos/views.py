@@ -349,7 +349,7 @@ class AgregarOposicion(CreateView):
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		
-		fechaVencimiento = permiso.estado().vencimientoPublicacion()
+		fechaVencimiento = permiso.estado.vencimientoPublicacion()
 		
 		if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
 			oposicion = form.save()

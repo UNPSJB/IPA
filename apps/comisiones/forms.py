@@ -21,10 +21,10 @@ class ComisionForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'empleados':forms.SelectMultiple(attrs={'class':'form-control'}),
-			'localidades':forms.SelectMultiple(attrs={'class':'form-control'}),
-			'fechaInicio':forms.DateInput(attrs={'type':'date'}),
-			'fechaFin':forms.DateInput(attrs={'type':'date'}),
+			'empleados':forms.SelectMultiple(attrs={'class':'form-control','id':'empleados'}),
+			'localidades':forms.SelectMultiple(attrs={'class':'form-control','id':'localidades'}),
+			'fechaInicio':forms.DateInput(attrs={'type':'date','id':'fechaInicio'}),
+			'fechaFin':forms.DateInput(attrs={'type':'date','id':'fechaFin'}),
 		}
 
 	def __init__(self, *args, **kwargs):
