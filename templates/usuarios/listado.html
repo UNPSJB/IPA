@@ -11,7 +11,9 @@
 {% endblock %}
 
 {% block comportamiento_click_detalle %}
-	window.location.href = "/usuarios/detalle/" + this.id;
+	var splitted_data = this.id.split('-');
+	var id = splitted_data[0].replace('-', '');
+	window.location.href = "/usuarios/detalle/" + id;
 {% endblock comportamiento_click_detalle %}
 
 {% block comportamiento_click_eliminar %}

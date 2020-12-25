@@ -16,6 +16,7 @@ class ListadoPermisos(GenericListadoView):
 	table_class = PermisosTable
 	paginate_by = 12
 	filterset_class = PermisosFilter
+	context_object_name = 'permiso'
 	
 
 class AltaPermiso(GenericAltaView):

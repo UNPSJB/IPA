@@ -1,0 +1,45 @@
+{% extends 'generales/listado.html' %}
+
+{% block boton_nuevo %} Nuevo Establecimiento {% endblock %} 
+{% block url_nuevo %} {% url 'establecimientos:alta' %} {% endblock %}
+
+{% block titulo %} Establecimientos {% endblock %}
+
+{% block contenido_informacion_modal %} 
+
+{% endblock %}
+
+{% block mensaje_eliminar_modal %} 
+<p>¿Está seguro de que desea eliminar el Establecimiento "<span id="eliminar-modal-nombre"></span>"
+	de la Localidad "<span id="eliminar-modal-localidad"></span>"?</p>
+{% endblock %}
+
+
+{% block comportamiento_click_detalle %}
+    var splitted_data = this.id.split('-');
+    var codcatrastral = splitted_data[1]
+	window.location.href = "/establecimientos/detalle/" + codcatrastral;
+{% endblock comportamiento_click_detalle %}
+
+{% block comportamiento_click_eliminar %}
+        var splitted_data = this.id.split('-');
+		var nombre = splitted_data[0]
+		var codcatastral = splitted_data[8]
+		var localidad = splitted_data[7]
+		$("#eliminar-modal-nombre").html(nombre)
+		$("#eliminar-modal-localidad").html(localidad)
+		$("#eliminar-modal").modal({
+			onApprove : function() {
+				//mandar a borrar
+				$.post('/establecimientos/eliminar/' + codcatastral + '/', function(data){
+					if (data.success){
+						location.reload();
+					}
+				})
+			}
+		}).modal('show');
+{% endblock comportamiento_click_eliminar %}
+
+{% block comportamiento_click_modificar %}
+	window.location.href = "/establecimientos/modificar/" + this.id;
+{% endblock comportamiento_click_modificar %}

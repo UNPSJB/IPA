@@ -26,17 +26,10 @@ class AltaLocalidad(GenericAltaView):
 		
 		return context
 
-
-class DetalleLocalidad(DetailView):
-	model = Departamento
-	#template_name = 'departamento/detalle.html'		
-	context_object_name = 'localidad'
-
-
 class ModificarLocalidad(UpdateView):
 	model = Localidad
 	form_class = LocalidadForm
-	template_name = 'forms.html'
+	template_name = 'establecimientos/localidades/alta.html'
 	success_url = reverse_lazy('localidades:listar')
 
 	def post(self, request, *args, **kwargs):
@@ -54,9 +47,9 @@ class ModificarLocalidad(UpdateView):
 		context = super(ModificarLocalidad, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Localidad"
 		context['botones'] = {
-			'Ir a Listado': reverse('localidades:listar'),
 			'Nuevo Departamento': reverse('departamentos:alta')
 			}
+		context['return_path'] = reverse('localidades:listar')
 		return context
 
 

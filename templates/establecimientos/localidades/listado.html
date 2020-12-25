@@ -1,5 +1,3 @@
-
-
 {% extends 'generales/listado.html' %}
 
 {% block boton_nuevo %} Nueva Localidad {% endblock %} 
@@ -12,21 +10,28 @@
 {% endblock %}
 
 {% block mensaje_eliminar_modal %} 
-<p>¿Está seguro de que desea eliminar a <span id="eliminar-modal-nombre"></span>?</p>
+<p>¿Está seguro de que desea eliminar a la Localidad "<span id="eliminar-modal-nombre"></span>"
+	del Departamento "<span id="eliminar-modal-departamento"></span>"?</p>
 {% endblock %}
 
-{% block comportamiento_click_detalle %}
-	window.location.href = "/permisos/detalle/" + this.id;
-{% endblock comportamiento_click_detalle %}
+{% block customPageJs %}
+	{{ block.super }}
+	$(".ui.button.detalle").attr('onclick', 'function()');
+	$(".ui.button.detalle").prop( "disabled", true );
+	
+{% endblock %}
 
 {% block comportamiento_click_eliminar %}
 		var splitted_data = this.id.split('-');
+		var nombre = splitted_data[0]
 		var id = splitted_data[2]
-		$("#eliminar-modal-nombre").html(id)
-		$('#eliminar-modal').modal({
+		var departamento = splitted_data[6]
+		$("#eliminar-modal-nombre").html(nombre)
+		$("#eliminar-modal-departamento").html(departamento)
+		$("#eliminar-modal").modal({
 			onApprove : function() {
 				//mandar a borrar
-				$.post('/empresas/eliminar/' + id + '/', function(data){
+				$.post('/localidades/eliminar/' + id + '/', function(data){
 					if (data.success){
 						location.reload();
 					}

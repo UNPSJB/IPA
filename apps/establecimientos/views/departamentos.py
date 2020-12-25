@@ -52,7 +52,7 @@ class ModificarDepartamento(UpdateView):
 
 class DetalleDepartamento(DetailView):
 	model = Departamento
-	template_name = 'departamento/detalle.html'		
+	template_name = 'establecimientos/departamentos/detalle.html'		
 	context_object_name = 'departamento'
 
 	def get_context_data(self, **kwargs):
@@ -65,7 +65,7 @@ class DetalleDepartamento(DetailView):
 
 class ListadoDepartamentos(GenericListadoView):
 	model = Departamento	
-	template_name = 'generales/listado.html'
+	template_name = 'establecimientos/departamentos/listado.html'
 	table_class = DepartamentosTable
 	paginate_by = 12
 	filterset_class = DepartamentosFilter

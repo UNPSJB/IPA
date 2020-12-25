@@ -24,7 +24,7 @@ class AltaAfluente(CreateView):
 
 class DetalleAfluente(DetailView):
 	model = Afluente
-	template_name = 'afluente/detalle.html'	
+	template_name = 'establecimientos/afluentes/detalle.html'	
 	context_object_name = 'afluente'
 
 	def get_context_data(self, **kwargs):
@@ -40,7 +40,7 @@ class DetalleAfluente(DetailView):
 
 class ListadoAfluentes(GenericListadoView):
 	model = Afluente
-	template_name = 'generales/listado.html'
+	template_name = 'establecimientos/afluentes/listado.html'
 	table_class = AfluentesTable
 	paginate_by = 12
 	filterset_class = AfluentesFilter	

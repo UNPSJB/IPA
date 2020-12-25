@@ -1,0 +1,31 @@
+{% extends 'generales/listado.html' %}
+
+{% block boton_nuevo %} Nuevo Departamento {% endblock %} 
+{% block url_nuevo %} {% url 'departamentos:alta' %} {% endblock %}
+
+{% block titulo %} Departamentos {% endblock %}
+
+{% block contenido_informacion_modal %} 
+
+{% endblock %}
+
+{% block mensaje_eliminar_modal %} 
+<p>¿Está seguro de que desea eliminar el Departamento "<span id="eliminar-modal-nombre"></span>"?</p>
+{% endblock %}
+
+{% block comportamiento_click_eliminar %}
+		var splitted_data = this.id.split('-');
+		var nombre = splitted_data[0]
+		var id = splitted_data[2]
+		$("#eliminar-modal-nombre").html(nombre)
+		$("#eliminar-modal").modal({
+			onApprove : function() {
+				//mandar a borrar
+				$.post('/departamentos/eliminar/' + id + '/', function(data){
+					if (data.success){
+						location.reload();
+					}
+				})
+			}
+		}).modal('show');
+{% endblock comportamiento_click_eliminar %}

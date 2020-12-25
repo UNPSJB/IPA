@@ -6,35 +6,35 @@
 {% block titulo %} Permisos {% endblock %}
 
 {% block contenido_informacion_modal %} 
-<p>CUIT: <span id="detail-cuit"></span></p>
-<div class="ui divider"></div> 
-<p>Razón Social: <span id="detail-razon-social"></span></p>
-<div class="ui divider"></div>
-<p>Dirección: <span id="detail-direccion"></span></p>
-<div class="ui divider"></div>
-<p>Teléfono: <span id="detail-telefono"></span></p>
-<div class="ui divider"></div>
-<p> Representantes: 
-  <div id="detail-representantes"></div>		
-</p> 
+
 {% endblock %}
 
 {% block mensaje_eliminar_modal %} 
-<p>¿Está seguro de que desea eliminar a <span id="eliminar-modal-nombre"></span>?</p>
+<p>¿Está seguro de que desea eliminar el permiso <span id="eliminar-modal-tipo"></span> del Establecimiento "
+	<span id="eliminar-modal-establecimiento"></span>" del solicitante "
+	<span id="eliminar-modal-solicitante"></span>"?
+
 {% endblock %}
 
 {% block comportamiento_click_detalle %}
-	window.location.href = "/permisos/detalle/" + this.id;
+	var splitted_data = this.id.split('-');
+	var id = splitted_data[0].replace('-', '');
+	window.location.href = "/permisos/detalle/" + id;
 {% endblock comportamiento_click_detalle %}
 
 {% block comportamiento_click_eliminar %}
 		var splitted_data = this.id.split('-');
 		var id = splitted_data[2]
-		$("#eliminar-modal-nombre").html(id)
+		var tipo = splitted_data[3]
+		var establecimiento = splitted_data[4]
+		var solicitante = splitted_data[5]
+		$("#eliminar-modal-tipo").html(tipo)
+		$("#eliminar-modal-establecimiento").html(establecimiento)
+		$("#eliminar-modal-solicitante").html(solicitante)
 		$('#eliminar-modal').modal({
 			onApprove : function() {
 				//mandar a borrar
-				$.post('/empresas/eliminar/' + id + '/', function(data){
+				$.post('/permisos/eliminar/' + id + '/', function(data){
 					if (data.success){
 						location.reload();
 					}

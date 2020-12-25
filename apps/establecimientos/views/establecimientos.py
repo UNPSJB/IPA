@@ -5,6 +5,9 @@ from django.http import HttpResponseRedirect
 from ..models import Establecimiento
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
 
+from apps.generales.views import GenericAltaView, GenericListadoView
+from ..tables import EstablecimientosTable
+from ..filters import EstablecimientosFilter
 
 # Establecimiento
 class AltaEstablecimiento(CreateView):
@@ -22,9 +25,12 @@ class AltaEstablecimiento(CreateView):
 		context['nombreForm'] = 'Nuevo Establecimiento'
 		return context
 
-class ListadoEstablecimientos(ListView):
+class ListadoEstablecimientos(GenericListadoView):
 	model = Establecimiento
-	template_name = 'establecimiento/listado.html'
+	template_name = 'establecimientos/listado.html'
+	table_class = EstablecimientosTable
+	paginate_by = 20
+	filterset_class = EstablecimientosFilter
 	context_object_name = 'establecimientos'
 
 	def get_context_data(self, **kwargs):
@@ -33,13 +39,12 @@ class ListadoEstablecimientos(ListView):
 		context['nombreReverse'] = 'establecimientos'
 		context['headers'] = ['Nombre', 'Localidad','Código Catastral']
 		context['botones'] = {
-			'Nuevo Establecimiento': reverse('establecimientos:alta')
 		}	
 		return context
 
 class DetalleEstablecimiento(DetailView):
 	model = Establecimiento
-	template_name = 'establecimiento/detalle.html'
+	template_name = 'establecimientos/detalle.html'
 	context_object_name = 'establecimiento'
 
 	def get_context_data(self, **kwargs):
