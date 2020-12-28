@@ -1,27 +1,9 @@
-{% extends 'index2.html' %}
-{% load contextMenu %}
-{% block wrapper %}
-<div class="row header-content">
-	<div class="five wide column">
-        <div class="ui secondary menu">
-		<a class="ui primary basic button" onclick="window.location.href='{% url 'permisos:listar'%}'">
-			<i class="angle left icon"></i>
-            Volver al listado de permisos
-        </a>
-            {% renderContextMenu %}
-            
-          </div>
-          
-    </div>
-    <br>
-	<div class="six wide column">
-        <h1 class="ui center aligned header blue "> Información de Permiso {{nombreDetalle}} </h1>
-	</div>
-	<div class="five wide column">
-    </div>
-    
-</div>
+{% extends 'generales/detalle.html' %}
 
+
+{% block table_render %}
+
+			
 <table class="ui celled table" style="margin:20px auto 20px 0">
     <tbody>
         <tr>
@@ -107,14 +89,4 @@
     {% include "permisos/estados/completado.html" %}
     {% include "permisos/estados/publicado.html" %}
     
-				
-
-{% endblock %}
-
-{% block customPageJs %}
-    $('.ui.sidebar')
-    .sidebar('setting', 'transition', 'overlay')
-    .sidebar('toggle')
-    ;
-
-{% endblock %}
+{% endblock table_render %}

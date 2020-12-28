@@ -10,19 +10,19 @@ from ..tables import EstablecimientosTable
 from ..filters import EstablecimientosFilter
 
 # Establecimiento
-class AltaEstablecimiento(CreateView):
+class AltaEstablecimiento(GenericAltaView):
 	model = Establecimiento
 	form_class = EstablecimientoForm
-	template_name = 'forms.html'
+	template_name = 'establecimientos/alta.html'
 	success_url = reverse_lazy('establecimientos:listar')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaEstablecimiento, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Ir a Listado': reverse('establecimientos:listar'),
-			'Nuevo Solicitante': reverse('personas:alta')
+			'Nuevo Solicitante': reverse('personas:alta'),
+			'Nuevo Localidad': reverse('localidades:alta')
 			}
-		context['nombreForm'] = 'Nuevo Establecimiento'
+		context['nombreForm'] = "Nuevo Establecimiento"
 		return context
 
 class ListadoEstablecimientos(GenericListadoView):
@@ -36,8 +36,6 @@ class ListadoEstablecimientos(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoEstablecimientos, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Establecimientos'
-		context['nombreReverse'] = 'establecimientos'
-		context['headers'] = ['Nombre', 'Localidad','Código Catastral']
 		context['botones'] = {
 		}	
 		return context
@@ -51,17 +49,18 @@ class DetalleEstablecimiento(DetailView):
 		context = super(DetalleEstablecimiento, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Establecimiento'
 		context['botones'] = {
-			'Ir a Listado': reverse('establecimientos:listar'),
 			'Nuevo Establecimiento': reverse('establecimientos:alta'),
 			'Modificar Establecimiento': reverse('establecimientos:modificar', args=[self.object.codigoCatastral]),
 			'Eliminar Establecimiento': reverse('establecimientos:eliminar', args=[self.object.codigoCatastral]),
 		}
+		context['return_label'] = 'listado de Establecimientos'
+		context['return_path'] = reverse('establecimientos:listar')
 		return context
 
 class ModificarEstablecimiento(UpdateView):
 	model = Establecimiento
 	form_class = EstablecimientoForm
-	template_name = 'forms.html'
+	template_name = 'establecimientos/alta.html'
 	success_url = reverse_lazy('establecimientos:listar')
 
 	def post(self, request, *args, **kwargs):
@@ -78,9 +77,8 @@ class ModificarEstablecimiento(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarEstablecimiento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Establecimiento"
-		context['botones'] = {
-			'Ir a Listado': reverse('establecimientos:listar')
-			}
+		context['botones'] = {}
+		context['return_path'] = reverse('establecimientos:listar')
 		return context
 
 

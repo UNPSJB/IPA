@@ -56,11 +56,12 @@ class DetalleTipoDeUso(DetailView):
 		context = super(DetalleTipoDeUso, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Tipo de Uso'
 		context['botones'] = {
-			'Ir a Listado': reverse('tiposDeUso:listar'),
 			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
 			'Modificar Tipo de Uso': reverse('tiposDeUso:modificar', args=[self.object.id]),
 			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
 		}
+		context['return_label'] = 'listado de Tipos de Usos'
+		context['return_path'] = reverse('tiposDeUso:listar')
 		return context
 
 class ListadoTiposDeUso(GenericListadoView):

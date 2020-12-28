@@ -55,7 +55,7 @@ class NuevoUsuario(TemplateView):
 
 class DetalleUsuario(DetailView):
 	model = Usuario
-	template_name = 'usuarios/detail.html'
+	template_name = 'usuarios/detalle.html'
 
 class ModificarUsuario(UpdateView):
 	model = Usuario

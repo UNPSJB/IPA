@@ -13,7 +13,6 @@ from .filters import ComisionFilter
 class AltaComision(GenericAltaView):
 	model = Comision
 	form_class = ComisionForm
-	#template_name = 'forms.html'
 	template_name = 'comisiones/alta.html'
 	success_url = reverse_lazy('comisiones:listar')
 
@@ -36,10 +35,11 @@ class DetalleComision(DetailView):
 		context = super(DetalleComision, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Comision'
 		context['botones'] = {
-		'Listado Comisiones': reverse('comisiones:listar'),
 		'Modificar Comision': reverse('comisiones:modificar', args=[self.object.id]),
 		'Eliminar Comision': reverse('comisiones:eliminar', args=[self.object.id]),
 		}
+		context['return_label']='listado de Comisiones'
+		context['return_path']=reverse('comisiones:listar')
 		return context
 
 
@@ -61,7 +61,7 @@ class ListadoComision(GenericListadoView):
 class ModificarComision(UpdateView):
 	model = Comision
 	form_class = ComisionForm
-	template_name = 'comisiones/forms.html'
+	template_name = 'comisiones/alta.html'
 	success_url = reverse_lazy('comisiones:listar')
 
 	def post(self, request, pk):
@@ -74,13 +74,14 @@ class ModificarComision(UpdateView):
 			return HttpResponseRedirect(self.get_success_url())
 		else:
 			return HttpResponseRedirect(self.get_success_url())
+
 	def get_context_data(self, **kwargs):
 		context = super(ModificarComision, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Listado Comisiones': reverse('comisiones:listar'),
 			'Nuevo Empleado': reverse('personas:alta')
 			}
 		context['nombreForm'] = 'Nueva Comisión'
+		context['return_path'] = reverse('comisiones:listar')
 		return context
 
 

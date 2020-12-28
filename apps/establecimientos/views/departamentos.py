@@ -10,25 +10,22 @@ from ..tables import DepartamentosTable
 from ..filters import DepartamentosFilter
 #Departamento
 
-class AltaDepartamento(CreateView):
+class AltaDepartamento(GenericAltaView):
 	model = Departamento
 	form_class = DepartamentoForm
-	template_name = 'forms.html'
+	template_name = 'establecimientos/departamentos/alta.html'
 	success_url = reverse_lazy('departamentos:listar')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaDepartamento, self).get_context_data(**kwargs)
-		context['botones'] = {
-				'Listado': reverse('departamentos:listar')
-
-			}
-		context['nombreForm'] = 'Nuevo Departamento'
+		context['nombreForm'] = "Nuevo Departamento"
+		context['return_path'] = reverse('departamentos:listar')
 		return context
 
 class ModificarDepartamento(UpdateView):
 	model = Departamento
 	form_class = DepartamentoForm
-	template_name = 'forms.html'
+	template_name = 'establecimientos/departamentos/alta.html'
 	success_url = reverse_lazy('departamentos:listar')
 
 	def post(self, request, *args, **kwargs):
@@ -45,9 +42,8 @@ class ModificarDepartamento(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarDepartamento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Departamento"
-		context['botones'] = {
-			'Listado': reverse('departamentos:listar')
-			}
+		context['botones'] = {}
+		context['return_path'] = reverse('departamentos:listar')
 		return context
 
 class DetalleDepartamento(DetailView):
@@ -58,9 +54,9 @@ class DetalleDepartamento(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(DetalleDepartamento, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Departamento'
-		context['botones'] = {
-			'Listado': reverse('departamentos:listar'),
-		}
+		context['botones'] = {}
+		context['return_label'] = 'listado de Departamentos'
+		context['return_path'] = reverse('departamentos:listar')
 		return context
 
 class ListadoDepartamentos(GenericListadoView):

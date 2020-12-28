@@ -113,8 +113,35 @@ class DetalleDocumento(DetailView):
 class ModificarDocumento(UpdateView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'Documento/form.html'
+	template_name = 'documentos/modificar.html'
 	success_url = reverse_lazy('documentos:listar')
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(ModificarDocumento, self).get_context_data(**kwargs)
+		context['botones'] = {}
+		context['nombreForm'] = 'Modificar Documento'
+		context['return_label'] = 'Documentación de Permiso'
+		context['return_path'] = reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk])
+		
+		try:
+			doc_modificar = TipoDocumento.protegidos.get(pk=Documento.objects.get(pk=self.documento_pk).tipo_id)
+		except:
+			doc_modificar = TipoDocumento.objects.get(pk=Documento.objects.get(pk=self.documento_pk).tipo_id)
+
+		if (doc_modificar.protegido == True):
+			context['form'].fields['tipo'].queryset = [doc_modificar]
+			context['form'].fields['tipo'].disabled = True			
+		else:
+			documentacion_faltante = Permiso.objects.get(pk=self.permiso_pk).tipos_de_documentos_faltantes()
+			context['form'].fields['tipo'].queryset = documentacion_faltante.union([doc_modificar])
+
+		return context
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pkp')
+		self.documento_pk = kwargs.get('pk')
+
+		return super(ModificarDocumento, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -316,20 +343,22 @@ class AgregarResolucion(CreateView):
 class AgregarOposicion(CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
-	template_name = 'formsInput.html'
-	success_url = reverse_lazy('documentos:listar')
+	template_name = 'documentos/alta.html'
+	success_url = None
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarOposicion, self).get_context_data(**kwargs)
 		context['botones'] = {
-			
 		}
 		context['nombreForm'] = 'Agregar Oposición a Permiso'
 		context['message_error'] = ''
+		context['return_label'] = 'Detalle de Permiso'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		self.success_url = reverse('permisos:detalle', args=[self.permiso_pk])
 		return super(AgregarOposicion, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):

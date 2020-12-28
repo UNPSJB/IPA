@@ -69,7 +69,8 @@ class DetallePermiso(DetailView):
 				for e in funciones_otorgado(self.object.pk):
 					context['botones'][e[0]]=e[1]
 			context['botones']['Eliminar Solicitud'] = reverse('permisos:eliminar', args=[self.object.pk])
-			
+			context['return_label']='Listado de Permisos'
+			context['return_path']=reverse('permisos:listar')
 			return context
 
 def funciones_otorgado(pk):
@@ -82,7 +83,7 @@ def funciones_otorgado(pk):
 
 class ListadoDocumentacionPermiso(DetailView):
 	model = Permiso
-	template_name = 'permisos/listadoDocumentacionPermiso.html'
+	template_name = 'permisos/listadoDocuPermiso.html'
 	context_object_name = 'permiso'
 
 	def get_context_data(self, **kwargs):

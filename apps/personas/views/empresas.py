@@ -10,6 +10,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.views import View
 from django_tables2.views import SingleTableView
 from apps.personas.tables import EmpresaTable
+from django.core.urlresolvers import reverse
 
 class AltaEmpresa(GenericAltaView):
 	model = Empresa
@@ -21,7 +22,17 @@ class AltaEmpresa(GenericAltaView):
 
 class DetalleEmpresa(DetailView):
 	model = Empresa
-	template_name = 'empresas/detail.html'
+	template_name = 'empresas/detalle.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(DetalleEmpresa, self).get_context_data(**kwargs)
+		context['botones'] = {
+		}
+		context['nombreDetalle'] = 'Detalle Empresa'
+		context['return_label'] = 'Listado Empresas'
+		context['return_path']= reverse('empresar:listar')
+		
+		return context
 
 class Listado(SingleTableView):
 	model = Empresa

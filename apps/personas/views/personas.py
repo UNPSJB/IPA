@@ -3,7 +3,7 @@ from django.views.generic import DetailView, DeleteView, UpdateView
 from django.views import View
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
-from apps.generales.views import GenericAltaView, GenericModificacionView
+from apps.generales.views import GenericAltaView
 from apps.personas.models import *
 from apps.personas.forms import PersonaForm, ChoferForm, DirectorForm
 from apps.personas.tables import PersonaTable, PersonaFilter

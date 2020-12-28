@@ -3,16 +3,15 @@
 {% load static semanticui %}
 
 {% block mensaje_boton_volver %}
-	Volver al listado de empresas
+	Volver al listado de Establecimientos
 {% endblock %} 
 
-{% block url_a_volver %}/empresas/listado{% endblock %}
-
 {% block titulo %} 
-	Nueva empresa 
+	{{nombreForm}}
 {% endblock %}
 
 {% block formulario_custom %}
     {% render_form form %}
-    
 {% endblock %}
+
+{% block formname %}nuevo_establecimiento_form{% endblock%}

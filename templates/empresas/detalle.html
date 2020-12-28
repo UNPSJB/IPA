@@ -1,21 +1,7 @@
-{% extends 'index2.html' %}
+{% extends 'generales/detalle.html' %}
 
-{% block wrapper %}
-<div class="row header-content">
-	<div class="five wide column">
-		<button class="ui primary basic button" onclick="window.location.href='/empresas/listado'">
-			<i class="angle left icon"></i>
-      Volver al listado de empresas
-    </button>
 
-	</div>
-	<div class="six wide column">
-		<h1 class="ui center aligned header blue "> Empresa {{ object.razonSocial }}</h1>
-	</div>
-	<div class="five wide column">
-	</div>
-</div>
-<h2>Información de la empresa </h2>
+{% block table_render %}
 <table class="ui celled table">
     <tbody>
       <tr>
@@ -64,5 +50,5 @@
       </tr>
     </tbody>
   </table>
-  {% endif %}
-{% endblock %}
+
+{% endblock table_render %}

@@ -6,19 +6,17 @@ from ..models import Afluente
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
 from ..tables import AfluentesTable
 from ..filters import AfluentesFilter
-from apps.generales.views import GenericListadoView
+from apps.generales.views import GenericListadoView, GenericAltaView
 #Afluente
-class AltaAfluente(CreateView):
+
+class AltaAfluente(GenericAltaView):
 	model = Afluente
 	form_class = AfluenteForm
-	template_name = 'forms.html'
+	template_name = 'establecimientos/afluentes/alta.html'
 	success_url = reverse_lazy('afluentes:listar')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaAfluente, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Ir a Listado': reverse('afluentes:listar')
-			}
 		context['nombreForm'] = 'Nuevo Afluente'
 		return context
 
@@ -31,11 +29,11 @@ class DetalleAfluente(DetailView):
 		context = super(DetalleAfluente, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Afluente'
 		context['botones'] = {
-			'Ir a Listado': reverse('afluentes:listar'),
-			'Nuevo Afluente': reverse('afluentes:alta'),
 			'Modificar Afluente': reverse('afluentes:modificar', args=[self.object.id]),
 			'Eliminar Afluente': reverse('afluentes:eliminar', args=[self.object.id]),
 		}
+		context['return_label'] = 'listado de Afluentes'
+		context['return_path'] = reverse('afluentes:listar')
 		return context	
 
 class ListadoAfluentes(GenericListadoView):
@@ -56,7 +54,7 @@ class ListadoAfluentes(GenericListadoView):
 class ModificarAfluente(UpdateView):
 	model = Afluente
 	form_class = AfluenteForm
-	template_name = 'forms.html'
+	template_name = 'establecimientos/afluentes/alta.html'
 	success_url = reverse_lazy('afluentes:listar')
 
 	def post(self, request, *args, **kwargs):
@@ -72,10 +70,9 @@ class ModificarAfluente(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarAfluente, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar Afluente"
-		context['botones'] = {
-			'Ir a Listado': reverse('afluentes:listar')
-			}
+		context['botones'] = {}
+		context['return_path'] = reverse_lazy('afluentes:listar')
+		context['nombreForm'] = 'Modificar Afluente'
 		return context
 
 class DeleteAfluente(DeleteView):

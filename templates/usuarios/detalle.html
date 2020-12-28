@@ -1,20 +1,7 @@
-{% extends 'index2.html' %}
+{% extends 'generales/detalle.html' %}
 
-{% block wrapper %}
-<div class="row header-content">
-	<div class="five wide column">
-		<button class="ui primary basic button" onclick="window.location.href='/usuarios/listado'">
-			<i class="angle left icon"></i>
-      Volver al listado de usuarios
-    </button>
 
-	</div>
-	<div class="six wide column">
-		<h1 class="ui center aligned header blue "> Usuario {{ object.username }}</h1>
-	</div>
-	<div class="five wide column">
-	</div>
-</div>
+{% block table_render %}
 <div class="row"><h2 style="display:inline-block">Información del Usuario </h2> <a href="" style="float:right;">Cambiar contraseña</a></div>
 
 <table class="ui celled table" style="margin:0 auto 20px 0">
@@ -58,4 +45,4 @@
         </tr>
       </tbody>
     </table>
-{% endblock %}
+{% endblock table_render %}

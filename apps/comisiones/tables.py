@@ -10,6 +10,7 @@ class ComisionTable(tables.Table):
     #empleados = tables.Column(verbose_name="Empleados")
     fechaInicio = tables.Column(verbose_name="Fecha Inicio")
     fechaFin = tables.Column(verbose_name="Fecha Fin")
+    acciones = tables.TemplateColumn(template_name="formButtons.html",orderable=False)
 
     class Meta:
         template_name = "django_tables2/semantic.html"

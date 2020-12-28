@@ -3,16 +3,27 @@
 {% load static semanticui %}
 
 {% block mensaje_boton_volver %}
-	Volver al listado de empresas
+	Volver a {{return_label}}
 {% endblock %} 
 
-{% block url_a_volver %}/empresas/listado{% endblock %}
+{% block url_a_volver %}{{return_path}}{% endblock %}
 
 {% block titulo %} 
-	Nueva empresa 
+	{{nombreForm}}
 {% endblock %}
 
 {% block formulario_custom %}
+
+    
     {% render_form form %}
+    
+
+{% endblock %}
+
+{% block formname %}modificar_documento_form{% endblock%}
+
+{% block customPageJs %}
+    
+
     
 {% endblock %}

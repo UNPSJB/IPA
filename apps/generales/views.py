@@ -34,7 +34,7 @@ class GenericAltaView(CreateView):
 		return context
 
 class GenericModificacionView(UpdateView):
-	template_name = 'forms.html'
+
 
 	def get_context_data(self, **kwargs):
 		context = super(GenericModificacionView, self).get_context_data(**kwargs)
