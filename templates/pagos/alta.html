@@ -7,14 +7,14 @@
 {% endblock %} 
 
 {% block titulo %} 
-	{{nombreForm}}
+	Nuevo {{nombreForm}}
 {% endblock %}
 
 {% block formulario_custom %}
     {% render_form form %}
 	<div class="field">
 		<label>Monto de Pago ($):</label>
-		<input type="number" step="0.01" name="monto" placeholder="Ingrese el monto del comprobante de Pago">
+		<input type="number" step="0.01" name="monto" value="{{monto}}" placeholder="Ingrese el monto del comprobante de {{nombreForm}}">
 	  </div>
 {% endblock %}
 

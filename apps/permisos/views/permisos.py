@@ -24,7 +24,7 @@ class AltaPermiso(GenericAltaView):
 	form_class = PermisoForm
 	template_name = 'permisos/alta.html'
 	success_url = reverse_lazy('permisos:listar')
-	message_error = "Permiso existente"
+	message_error = ["Permiso existente"]
 	cargar_otro_url = reverse_lazy('permiso:alta')
 
 	def get_context_data(self, **kwargs):

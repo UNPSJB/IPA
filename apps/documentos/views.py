@@ -9,45 +9,36 @@ from apps.comisiones.models import Comision
 from django.http import HttpResponseRedirect
 from datetime import date, datetime
 from operator import attrgetter
-from apps.generales.views import GenericAltaView
+from apps.generales.views import GenericAltaView, GenericListadoView
+from .tables import TipoDocumentosTable
+from .filters import TipoDocumentosFilter
 
 class AltaTipoDocumento(GenericAltaView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm
-	template_name = 'tipoDocumento/alta.html'
+	template_name = 'documentos/alta.html'
 	success_url = reverse_lazy('tipoDocumentos:listado')
 	cargar_otro_url = reverse_lazy('tipoDocumentos:alta')
 
-class DetalleTipoDocumento(DetailView):
-	model = TipoDocumento
-	template_name = 'tipoDocumento/detalle.html'		
-	context_object_name = 'tipoDocumento'
-	
 	def get_context_data(self, **kwargs):
-		context = super(DetalleTipoDocumento, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Tipo de Documento'
-		context['botones'] = {
-			'ir a Listado': reverse('tipoDocumentos:listado'),
-			'Nuevo Tipo de Documento': reverse ('tipoDocumentos:alta'),
-			'Modificar Tipo de Documento': reverse('tipoDocumentos:modificar', args=[self.object.id]),
-			'Eliminar Tipo de Documento': reverse('tipoDocumentos:eliminar', args=[self.object.id]),
-		}
+		context = super(AltaTipoDocumento, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Alta Tipo de Documento"
+		context['return_label'] = 'Listado de Tipo de Documentos'
 		return context
 
-
-class ListadoTipoDocumentos(ListView):
+class ListadoTipoDocumentos(GenericListadoView):
 	model = TipoDocumento
-	template_name = 'tipoDocumento/listado.html'
+	template_name = 'documentos/listado.html'
+	table_class = TipoDocumentosTable
+	paginate_by = 20
+	filterset_class = TipoDocumentosFilter
+
 	context_object_name = 'tipoDocumentos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTipoDocumentos, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Listado Tipos de Documento"
-		context['nombreReverse'] = 'tipoDocumentos'
-		context['headers'] = ['Nombre']
+		context['nombreListado'] = "Listado Tipo de Documento"
 		context['botones'] = {
-			'Nuevo Tipo de Documento': reverse('tipoDocumentos:alta'),
-			'Ir a Tipos de Uso': reverse ('tiposDeUso:listar'),
 			}
 		return context
 
@@ -55,7 +46,7 @@ class ListadoTipoDocumentos(ListView):
 class ModificarTipoDocumento(UpdateView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm
-	template_name = 'forms.html'
+	template_name = 'documentos/alta.html'
 	success_url = reverse_lazy('tipoDocumentos:listado')
 
 	def post(self, request, *args, **kwargs):
@@ -72,9 +63,8 @@ class ModificarTipoDocumento(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarTipoDocumento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Tipo Documento"
-		context['botones'] = {
-			'Ir a Listado': reverse('tipoDocumentos:listado'),
-			}
+		context['botones'] = {}
+		context['return_path'] = reverse_lazy('tipoDocumentos:listado')
 		return context
 
 class DeleteTipoDocumento(DeleteView):
@@ -83,18 +73,17 @@ class DeleteTipoDocumento(DeleteView):
 	success_url = reverse_lazy('tipoDocumentos:listado')
 
 # Documentos
-class AltaDocumento(CreateView):
+class AltaDocumento(GenericAltaView):
 	model = Documento
 	form_class = DocumentoForm
-	template_name = 'formsInput.html'
-	success_url = reverse_lazy('documentos:listar')
+	template_name = 'documentos/alta.html'
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AltaDocumento, self).get_context_data(**kwargs)
-		context['botones'] = {
-		'Volver a Detalle de Solicitud': reverse('permisos:detalle', args=[self.permiso_pk])
-		}
-		context['nombreForm'] = 'Documentos'
+		context['botones'] = {}
+		context['nombreForm'] = 'Nuevo Documento'
+		context['return_label'] = 'Detalle de Permiso'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['form'].fields['tipo'].queryset = Permiso.objects.get(pk=self.permiso_pk).tipos_de_documentos_faltantes()
 		return context
 	
@@ -109,7 +98,7 @@ class AltaDocumento(CreateView):
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		fs = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		if form.is_valid() and (permiso.fechaSolicitud <= fs): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
+		if form.is_valid() and (permiso.fechaSolicitud <= fs): #TODO AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))

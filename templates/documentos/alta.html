@@ -3,10 +3,10 @@
 {% load static semanticui %}
 
 {% block mensaje_boton_volver %}
-	Volver a Información de Permiso
+	Volver a {{return_label}}
 {% endblock %} 
 
-{% block url_a_volver %}/permisos/listado{% endblock %}
+{% block url_a_volver %}/tipoDocumentos/listar{% endblock %}
 
 {% block titulo %} 
 	{{nombreForm}}

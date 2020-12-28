@@ -1,0 +1,17 @@
+{% extends 'generales/alta.html' %}
+
+{% load static semanticui %}
+
+{% block mensaje_boton_volver %}
+	Volver al listado de Tipos de Uso
+{% endblock %} 
+
+{% block titulo %} 
+	Nuevo Tipo de Uso
+{% endblock %}
+
+{% block formulario_custom %}    
+    {% render_form form %}
+{% endblock %}
+
+{% block formname %}nueva_tipo_uso_form{% endblock%}

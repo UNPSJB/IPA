@@ -7,19 +7,21 @@ from ..forms import *
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from django.http import HttpResponseRedirect
 
+from apps.generales.views import GenericListadoView, GenericAltaView
 
+from ..tables import TipoDeUsoTable
+from ..filters import TipoDeUsoFilter
 
 # Create your views here.
-class AltaTipoDeUso(CreateView):
+class AltaTipoDeUso(GenericAltaView):
 	model = TipoUso
 	form_class = TipoDeUsoForm
-	template_name = 'forms.html'
+	template_name = 'permisos/tipoDeUso/alta.html'
 	success_url = reverse_lazy('tiposDeUso:listar')
 	
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDeUso, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Ir a Listado': reverse('tiposDeUso:listar'),
 			'Nuevo Documento': reverse('tipoDocumentos:alta'),
 			}
 		context['nombreForm'] = 'Nuevo Tipo de Uso'
@@ -39,15 +41,15 @@ class AltaTipoDeUso(CreateView):
 				tipoUso = tipoUsoForm.save()
 				return HttpResponseRedirect(self.get_success_url())
 			else:
-				return render(request, self.template_name, {'form':self.form_class, 'botones':'', 'nombreForm':'Nuevo Tipo de Uso',
-			'message':'Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico'})
+				return render(request, self.template_name, {'form':tipoUsoForm, 'botones':{'Nuevo Documento': reverse('tipoDocumentos:alta')}, 'nombreForm':'Nuevo Tipo de Uso',
+			'message_error':['Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico']})
 		else:
-			return render(request, self.template_name, {'form':self.form_class, 'botones':'', 'nombreForm':'Nuevo Tipo de Uso',
-			'message':'Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico'})
+			return render(request, self.template_name, {'form':tipoUsoForm, 'botones':{'Nuevo Documento': reverse('tipoDocumentos:alta')}, 'nombreForm':'Nuevo Tipo de Uso',
+			'message_error':['Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico']})
 
 class DetalleTipoDeUso(DetailView):
 	model = TipoUso
-	template_name = 'tipoDeUso/detalle.html'		
+	template_name = 'permisos/tipoDeUso/detalle.html'		
 	context_object_name = 'tipo'
 	
 	def get_context_data(self, **kwargs):
@@ -61,16 +63,17 @@ class DetalleTipoDeUso(DetailView):
 		}
 		return context
 
-class ListadoTiposDeUso(ListView):
+class ListadoTiposDeUso(GenericListadoView):
 	model = TipoUso
-	template_name = 'tipoDeUso/listado.html'
+	template_name = 'permisos/tipoDeUso/listado.html'
+	table_class = TipoDeUsoTable
+	paginate_by = 12
+	filterset_class = TipoDeUsoFilter
 	context_object_name = 'tiposDeUso'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTiposDeUso, self).get_context_data(**kwargs)
-		context['nombreLista'] = "Listado de Tipos de Uso"
-		context['nombreReverse'] = "tiposDeUso"
-		context['headers'] = ['Nombre', 'Coeficiente', 'Periodo']
+		context['nombreListado'] = "Listado de Tipos de Uso"
 		context['botones'] = {
 			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta') 
 			}
@@ -84,7 +87,7 @@ class DeleteTipoDeUso(DeleteView):
 class ModificarTipoDeUso(UpdateView):
 	model = TipoUso
 	form_class = TipoDeUsoForm
-	template_name = 'forms.html'
+	template_name = 'permisos/tipoDeUso/alta.html'
 	success_url = reverse_lazy('tiposDeUso:listar')
 
 	def post(self, request, pk):
@@ -102,7 +105,7 @@ class ModificarTipoDeUso(UpdateView):
 		context = super(ModificarTipoDeUso, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Tipo de Uso"
 		context['botones'] = {
-			'Ir a Listado': reverse('tiposDeUso:listar'),
 			'Nuevo Documento': reverse('tipoDocumentos:alta'),
 			}
+		context['return_path'] = reverse('tiposDeUso:listar')
 		return context
