@@ -1,0 +1,31 @@
+{% extends 'generales/listado.html' %}
+
+{% block boton_nuevo %} {% endblock %} 
+{% block url_nuevo %} {% endblock %}
+
+{% block context_menu %}
+    {% if particular%}
+        <div class="five wide column">
+            <div class="ui secondary menu">
+            <a class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
+                <i class="angle left icon"></i>
+                Volver al Detalle del Permiso
+            </a>    
+            </div>
+        </div>
+        {%endif%}
+{% endblock %}
+
+
+{% block titulo %} {{nombreListado}} {% endblock %}
+
+{% block contenido_informacion_modal %} 
+
+{% endblock %}
+
+{% block customPageJs %}
+	{{ block.super }}
+	$(".ui.icon.right.floated.blue.button").remove();
+	
+{% endblock %}
+

@@ -24,7 +24,7 @@ from django.views.static import serve
 
 urlpatterns = [
     # Ruta de index
-    url(r'^$', login_required(TemplateView.as_view(template_name="index.html"), login_url='login'), name='index'),
+    url(r'^$', login_required(TemplateView.as_view(template_name="index2.html"), login_url='login'), name='index'),
     
     # Ruta al admin de Django
     url(r'^admin/', admin.site.urls, name = 'admin'),

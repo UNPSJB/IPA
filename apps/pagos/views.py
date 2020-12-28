@@ -6,28 +6,48 @@ from .models import ValorDeModulo, Cobro, Pago
 from django.http import HttpResponseRedirect
 from .forms import RegistrarValorDeModuloForm
 from apps.documentos.forms import DocumentoForm, DocumentoProtegidoForm
-from django.views.generic import ListView,CreateView,DeleteView
+from django.views.generic import ListView,CreateView,DeleteView,UpdateView
 from apps.permisos.models import Permiso
 from datetime import date, datetime
 from apps.documentos.models import TipoDocumento
 from django.shortcuts import redirect
 
-class AltaValorDeModulo(CreateView):
+from apps.generales.views import GenericListadoView,GenericAltaView
+from .filters import CobrosFilter,CobrosTodosFilter, ModulosFilter, PagosFilter, PagosTodosFilter
+from .tables import CobrosTable, ModulosTable, CobrosTodosTable, PagosTable, PagosTodosTable
+
+
+class AltaValorDeModulo(GenericAltaView):
 	model = ValorDeModulo
 	form_class = RegistrarValorDeModuloForm
-	template_name = 'forms.html'
+	template_name = 'pagos/modulos/alta.html'
 	success_url = reverse_lazy('pagos:listarModulos')
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaValorDeModulo, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Alta Valor de Modulo"
-		context['headers'] = ['']
-		context['botones'] = {}
 		return context
 
-class ListadoValoresDeModulo(ListView):
+class ModificarValorDeModulo(UpdateView):
 	model = ValorDeModulo
-	template_name = 'modulos/listado.html'
+	form_class = RegistrarValorDeModuloForm
+	template_name = 'pagos/modulos/alta.html'
+	success_url = reverse_lazy('pagos:listarModulos')
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarValorDeModulo, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar Valor de Modulo"
+		context['botones'] = {}
+		context['return_path'] = reverse('pagos:listarModulos')
+		return context
+
+class ListadoValoresDeModulo(GenericListadoView):
+	model = ValorDeModulo
+	template_name = 'pagos/modulos/listado.html'
+	table_class = ModulosTable
+	paginate_by = 12
+	filterset_class = ModulosFilter
+
 	context_object_name = 'modulos'
 
 	def get_context_data(self, **kwargs):
@@ -44,26 +64,18 @@ class EliminarValorDeModulo(DeleteView):
 	template_name = 'delete.html'
 	success_url = reverse_lazy('pagos:listarModulos')
 
-class AltaCobro(CreateView):
+class AltaCobro(GenericAltaView):
 	model = Cobro
 	form_class = DocumentoProtegidoForm
-	template_name = 'cobros/detalle.html'
-	success_url = reverse_lazy('pagos:listarModulos')
-
-	def get_context_data(self, **kwargs):
-		context = super(AltaCobro, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Nuevo Cobro de Canon"
-		context['headers'] = ['']
-		context['botones'] = {
-			'Listado':reverse('tipoDocumentos:listar'),
-			}
-		return context
+	template_name = 'pagos/cobros/alta.html'
+	success_url = reverse_lazy('pagos:listarCobros')
 
 	def get(self, request, *args, **kwargs):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
 		return render(request, self.template_name, {'form':self.form_class(), 'cobro': cobro, 
-			'botones':{'Volver a Permiso': reverse('permisos:detalle', args=[permiso.id])},
+			'botones':{},
+			'return_path':reverse('permisos:detalle', args=[permiso.id]),
 			'permiso': permiso, 'nombreForm':"Nuevo Cobro de Canon"})
 
 	def post(self, request, *args, **kwargs):
@@ -83,43 +95,31 @@ class AltaCobro(CreateView):
 		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
 
 
-class ListarCobros(ListView):
+class ListarCobros(GenericListadoView):
 	model = Cobro
-	template_name = 'cobros/listado.html'
+	template_name = 'pagos/cobros/listado.html'
+	table_class = CobrosTable
+	paginate_by = 12
+	filterset_class = CobrosFilter
+	
 	context_object_name = 'cobros'
 
 	def get(self, request, *args, **kwargs):
 		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		return super(ListarCobros,self).get(request, *args, **kwargs)
 
-	def get_queryset(self):
-		return Cobro.getCobrosCanon().union(Cobro.getCobrosInfraccion())
-
 	def get_context_data(self, **kwargs):
 		context = super(ListarCobros, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Listado de Cobros"
-		context['headers'] = ['Periodo', 'Fecha de Cobro', 'Monto($)', 'Documento de Cobro']
-		context['botones'] = {
-			'Volver al detalle del permiso':reverse('permisos:detalle', args=[self.permiso.pk]),
-			}
-		context['cobrosCanon'] = Cobro.getCobrosCanon()
-		context['cobrosInfraccion'] = Cobro.getCobrosInfraccion()
+		context['nombreListado'] = 'Listado de Cobros del Permiso'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso.pk])
+		context['particular'] = True
 		return context
 
-class AltaPago(CreateView):
+
+class AltaPago(GenericAltaView):
 	model = Pago
 	form_class = DocumentoProtegidoForm
 	template_name = 'pagos/alta.html'
-
-	def get_context_data(self, **kwargs):
-		context = super(AltaPago, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Nuevo Pago"
-		context['headers'] = ['']
-		context['botones'] = {
-			'Listado':reverse('tipoDocumentos:listar'),
-			}
-		context['form'] = self.form_class()
-		return context
 
 	def get(self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
@@ -127,7 +127,8 @@ class AltaPago(CreateView):
 		documento_form = self.form_class()
 		documento_form.fields['fecha'].label = 'Fecha de Pago'
 		return render(request, self.template_name, {'form':documento_form, 
-			'botones':{'Volver a Permiso': reverse('permisos:detalle', args=[permiso.id])},
+			'botones':{},
+			'return_path':reverse('permisos:detalle', args=[permiso.id]),
 			'permiso': permiso, 'nombreForm':"Nuevo Pago Canon"})
 
 	def post(self, request, *args, **kwargs):
@@ -150,15 +151,19 @@ class AltaPago(CreateView):
 				documento.save()
 				pago = Pago(permiso=permiso, monto=monto, documento=documento, fecha=fecha_de_pago)
 				pago.save()
-				return HttpResponseRedirect(reverse('permisos:detallePermisoOtorgado', args=[permiso.id,]))
+				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id,]))
 			else:
-				return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso, message = 'La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
-				+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')'))
-		return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso))
+				return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso, message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
+				+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']))
+		return self.render_to_response(self.get_context_data(form=documento_form, permiso=permiso,message_error=['Datos Incorrectos']))
 
-class ListarPagos(ListView):
+class ListarPagos(GenericListadoView):
 	model = Pago
 	template_name = 'pagos/listado.html'
+	table_class = PagosTable
+	paginate_by = 12
+	filterset_class = PagosFilter
+
 	context_object_name = 'pagos'
 
 	def get(self, request, *args, **kwargs):
@@ -167,40 +172,37 @@ class ListarPagos(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ListarPagos, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Listado de Pagos"
-		context['headers'] = ['Fecha de Pago', 'Monto($)', 'Documento de Pago']
-		context['botones'] = {
-			'Volver al detalle del permiso':reverse('permisos:detalle', args=[self.permiso.pk]),
-			}
-		context['pagosCanon'] = Pago.getPagosCanon()
-		context['pagosInfraccion'] = Pago.getPagosInfraccion()
+		context['nombreListado'] = 'Listado de Pagos del Permiso'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso.pk])
+		context['particular'] = True
 		return context
 
 
-class ListarTodosLosCobros(ListView):
+class ListarTodosLosCobros(GenericListadoView):
 	model = Cobro
-	template_name = 'cobros/listado.html'
+	template_name = 'pagos/cobros/listado.html'
+	table_class = CobrosTodosTable
+	paginate_by = 12
+	filterset_class = CobrosTodosFilter
+	
 	context_object_name = 'cobros'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListarTodosLosCobros, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Listado de Cobros Generales"
-		context['headers'] = ['Periodo', 'Fecha de Cobro', 'Monto($)', 'Documento de Cobro']
-		context['botones'] = {
-			}
+		context['nombreListado'] = "Listado de Cobros Generales"
+		context['botones'] = {}
 		return context
 
-class ListarTodosLosPagos(ListView):
+class ListarTodosLosPagos(GenericListadoView):
 	model = Pago
 	template_name = 'pagos/listado.html'
-	context_object_name = 'pagos'
+	table_class = PagosTodosTable
+	paginate_by = 12
+	filterset_class = PagosTodosFilter
 
 	def get_context_data(self, **kwargs):
 		context = super(ListarTodosLosPagos, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Listado de Pagos Generales"
-		context['headers'] = ['Fecha de Pago', 'Monto($)', 'Documento de Pago']
-		context['botones'] = {
-			}
+		context['nombreListado'] = "Listado de Pagos Generales"
 		return context
 
 

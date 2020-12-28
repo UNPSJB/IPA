@@ -1,13 +1,14 @@
 from django.conf.urls import url
 
-from .views import AltaValorDeModulo, ListadoValoresDeModulo, EliminarValorDeModulo, AltaCobro, ListarCobros, AltaPago, \
-ListarPagos, ListarTodosLosCobros, ListarTodosLosPagos, AltaCobroInfraccion, AltaPagoInfraccion
+from .views import *
 
 app_name = 'pagos'
 
 urlpatterns = [
 
 	url(r'^modulo/alta$', AltaValorDeModulo.as_view(), name='altaModulo'),
+	#url(r'^modificar/(?P<pk>.+)/$', ModificarLocalidad.as_view(), name='modificar'),
+	url(r'^modulo/modificar/(?P<pk>.+)/$', ModificarValorDeModulo.as_view(), name='modificarModulo'),
 	url(r'^modulo/listar$', ListadoValoresDeModulo.as_view(), name='listarModulos'),
 	url(r'^modulo/eliminar/(?P<pk>.+)/$', EliminarValorDeModulo.as_view(), name='eliminarModulo'),
 

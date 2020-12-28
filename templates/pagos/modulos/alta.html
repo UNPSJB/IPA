@@ -3,19 +3,17 @@
 {% load static semanticui %}
 
 {% block mensaje_boton_volver %}
-	Volver al listado de localidades
+	Volver al listado de Modulos
 {% endblock %} 
 
 {% block titulo %} 
-	Nueva Localidad
+	{{nombreForm}}
 {% endblock %}
 
 {% block formulario_custom %}
-
-    
+	
     {% render_form form %}
     
-
 {% endblock %}
 
-{% block formname %}nueva_localidad_form{% endblock%}
+{% block formname %}nuevo_valor_modulo_form{% endblock%}

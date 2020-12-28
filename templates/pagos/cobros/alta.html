@@ -1,0 +1,20 @@
+{% extends 'generales/alta.html' %}
+
+{% load static semanticui %}
+
+{% block mensaje_boton_volver %}
+	Volver al Detalle de Permiso
+{% endblock %} 
+
+{% block titulo %} 
+	{{nombreForm}}
+{% endblock %}
+
+{% block formulario_custom %}
+	<h3>El monto calculado a cobrar es de: ${{cobro.monto}}</h3>
+	<h5>Periodo de cobro: {{cobro.fecha_desde}} - {{cobro.fecha_hasta}} </h5>
+    {% render_form form %}
+    
+{% endblock %}
+
+{% block formname %}nuevo_cobro_form{% endblock%}

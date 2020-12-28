@@ -29,7 +29,7 @@ body {
 }
 
 .extra .header-content{
-  margin-top: 20px; 
+  margin-top: 5px; 
   padding: 0px;
 }
 
@@ -56,4 +56,8 @@ body {
 
 .fix-button-add-margin {
   margin-top: 25px !important; 
+}
+
+.five.wide.column{
+  margin-top: 20px;
 }
