@@ -12,7 +12,7 @@ urlpatterns = [
 
 	#url(r'^detalle/(?P<pks>\d+)/documentos/(?P<pkd>\d+)/visar/$', visar_documento_solicitud, name='visarDocumentoSolicitud'),
 
-	url(r'^eliminar/(?P<pkd>\d+)/permiso/(?P<pkp>\d+)$', DeleteDocumento.as_view(), name='eliminar'),
+	url(r'^eliminar/(?P<pk>\d+)/permiso/(?P<pkp>\d+)$', DeleteDocumento.as_view(), name='eliminar'),
 
 	url(r'^agregarExpediente/(?P<pk>.+)/$', AgregarExpediente.as_view(), name='agregarExpediente'),
 	url(r'^agregarEdicto/(?P<pk>.+)/$', AgregarEdicto.as_view(), name='agregarEdicto'),

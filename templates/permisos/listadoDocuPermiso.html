@@ -11,50 +11,44 @@
     
 	<div class="ui grid"> 
 		<div class="row header-content">
-		<div class="ui four cards">
-			{% for documento in documentos %}
-			<div class="card">
-				<div class="image">
-				<img src="{% static documento.thumbnail %}">
-				</div>
-				{%if not documento.tipo.protegido%}
-					<div class="extra">Visado<i class="circle icon" style="color:
-					{%if documento.visado%}green{%else%}red{%endif%}"></i></div>
-				{% endif %}
-				<div class="content">
-					<a href="/archivos/{{documento.archivo.url}}" class="header">{{documento.tipo.nombre}}</a>
-					<div class="meta">
-						<span class="date">{{documento.fecha}}</span>
+			<div class="ui cards">
+				{% for documento in documentos %}
+					<div class="card">
+						<div class="image">
+							<img src="{% static documento.thumbnail %}">
+						</div>
+						{%if not documento.tipo.protegido%}
+							<div class="extra">Visado<i class="circle icon" style="color:
+							{%if documento.visado%}green{%else%}red{%endif%}"></i></div>
+						{% endif %}
+						<div class="content">
+							<a href="/archivos/{{documento.archivo.url}}" id="tipo-{{documento.id}}" class="header">{{documento.tipo.nombre}}</a>
+							<div class="meta">
+								<span class="date">{{documento.fecha}}</span>
+							</div>
+							<div class="description">{{documento.descripcion}}</div>
+						</div>
+						<div class="extra content">
+							<div class="ui basic buttons">
+								{% if permiso.estado.tipo == 1 or permiso.estado.tipo == 2%}
+									<a class="ui button" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
+								{% endif %}
+								{% if permiso.estado.tipo < 3 or documento.tipo.protegido%}
+									<a class="ui button" href="{% url 'documentos:modificar' documento.id permiso.id%}">Modificar</a>
+								{% endif %}
+									<a class="ui button eliminar" id="eliminar-{{documento.id}}">Eliminar</a>
+							</div>
+						</div>
 					</div>
-					<div class="description">{{documento.descripcion}}</div>
-					{% if permiso.estado.tipo == 1 or permiso.estado.tipo == 2%}
-						<a href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
-					{% endif %}
-					{% if permiso.estado.tipo < 3 or documento.tipo.protegido%}
-						<a href="{% url 'documentos:modificar' documento.id permiso.id%}">Modificar</a>
-					{% endif %}
-						<a href="{% url 'documentos:eliminar' documento.id permiso.id%}">Eliminar</a>
-				</div>
+				{% endfor%}
 			</div>
-			{% endfor%}
-		</div>
-		</div>
-	</div>
-
-	<div class="ui modal" id="informacion-modal">
-		<div class="ui center aligned header" id="modal-header"></div>
-		<div class="content">
-			{% block contenido_informacion_modal %} {% endblock %}
-		</div>
-		<div class="actions">
-			<div class="ui cancel blue button">Cerrar</div>
 		</div>
 	</div>
 
 	<div class="ui small modal" id="eliminar-modal">
 		<div class="ui center aligned header">¡Cuidado!</div>
 		<div class="content">
-			{% block mensaje_eliminar_modal %} {% endblock %}
+			¿Desea seguro de eliminar el documento "<span id="eliminar-modal-tipo"></span>" del permiso?
 		</div>
 		<div class="actions">
 			<div class="ui positive button">Eliminar</div>
@@ -66,23 +60,22 @@
 
 {% block customPageJs %}
     
-	$(".ui.button.detalle").click(function(){
-		{% block comportamiento_click_detalle %}
-		  
-		{% endblock comportamiento_click_detalle %}
+	$(".ui.button.eliminar").click(function(datos){
+		var splitted_data = this.id.split('-');
+		console.log(splitted_data)
+		console.log(splitted_data)
+		console.log($('#tipo-'+splitted_data[1]).html())
+		console.log($('#tipo-'+splitted_data[1]).html())
+		var tipo = $('#tipo-'+splitted_data[1]).html()
+		$("#eliminar-modal-tipo").html(tipo)
+		$('#eliminar-modal').modal({
+			onApprove : function() {
+				//mandar a borrar
+
+			}
+		}).modal('show');
 	})
 
-	$(".ui.button.eliminar").click(function(){
-		{% block comportamiento_click_eliminar %}
-		  
-		{% endblock comportamiento_click_eliminar %}
-	})
-
-	$(".ui.button.modificar").click(function(){
-		{% block comportamiento_click_modificar %}
-		  
-		{% endblock comportamiento_click_modificar %}
-	})
 
 {% endblock %}
 

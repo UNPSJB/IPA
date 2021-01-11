@@ -9,7 +9,7 @@ from apps.comisiones.models import Comision
 from django.http import HttpResponseRedirect
 from datetime import date, datetime
 from operator import attrgetter
-from apps.generales.views import GenericAltaView, GenericListadoView
+from apps.generales.views import GenericAltaView, GenericListadoView, GenericEliminarView
 from .tables import TipoDocumentosTable
 from .filters import TipoDocumentosFilter
 
@@ -156,14 +156,27 @@ class ModificarDocumento(UpdateView):
 			return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 			
 
-class DeleteDocumento(DeleteView):
+""" class DeleteDocumento(DeleteView):
 	model = Documento
 	template_name = 'Documento/delete.html'
 	success_url = reverse_lazy('documentos:listar')
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pkp')
-		self.documento_pk = kwargs.get('pkd')
+		self.documento_pk = kwargs.get('pk')
+
+		return super(DeleteDocumento, self).get(request,*args,**kwargs) """
+
+class DeleteDocumento(GenericEliminarView):
+	model = Documento
+	#success_url = reverse_lazy('documentos:listar')
+	
+	def get_success_url(self, **kwargs):
+		return reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk])
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pkp')
+		self.documento_pk = kwargs.get('pk')
 
 		return super(DeleteDocumento, self).get(request,*args,**kwargs)
 

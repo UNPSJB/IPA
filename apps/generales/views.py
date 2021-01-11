@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView, DeleteView
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
+
 
 # Create your views here.
 class GenericAltaView(CreateView):

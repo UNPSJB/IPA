@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.views import View
 from datetime import date, datetime
 from apps.documentos.views import AltaDocumento
-from apps.generales.views import GenericListadoView, GenericAltaView
+from apps.generales.views import GenericListadoView, GenericAltaView,GenericEliminarView
 from ..tables import PermisosTable
 from ..filters import PermisosFilter
 
@@ -47,7 +47,8 @@ class AltaPermiso(GenericAltaView):
 		return redirect('permisos:alta')
 
 
-class PermisoDelete(DeleteView):
+#class PermisoDelete(DeleteView):
+class PermisoDelete(GenericEliminarView):
 	model = Permiso
 	template_name = 'delete.html'
 	success_url = reverse_lazy('permisos:listar') 
