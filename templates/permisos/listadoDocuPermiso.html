@@ -34,8 +34,10 @@
 								<div class="text">Acción</div>
 								<i class="dropdown icon"></i>
 								<div class="menu">
-									<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
-									<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
+									{%if permiso.estado < 4%}
+										<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
+										<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
+									{% endif %}
 									<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
 									<a class="item" id="eliminar-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
 								</div>
