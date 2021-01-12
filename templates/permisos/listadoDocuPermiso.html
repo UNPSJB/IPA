@@ -34,7 +34,7 @@
 								<div class="text">Acción</div>
 								<i class="dropdown icon"></i>
 								<div class="menu">
-									{%if permiso.estado < 4%}
+									{%if permiso.estado.tipo < 4%}
 										<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
 										<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
 									{% endif %}
