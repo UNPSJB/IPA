@@ -6,6 +6,32 @@
 
 {% block titulo %} {{nombreListado}} {% endblock %}
 
-{% block contenido_informacion_modal %} 
-
+{% block mensaje_eliminar_modal %} 
+    <p>¿Está seguro que desea eliminar el Tipo de Uso "<span id="eliminar-modal-tipo"></span>"?
 {% endblock %}
+
+
+{% block comportamiento_click_eliminar %}
+        var splitted_data = this.id.split('-');
+        var id = splitted_data[2];
+        var tipo = splitted_data[11];
+        console.log(splitted_data)
+        console.log(splitted_data)
+		$("#eliminar-modal-tipo").html(tipo);
+		
+        $('#eliminar-modal').modal({
+			onApprove : function() {
+				//mandar a borrar
+				$.post('/tiposDeUso/eliminar/' + id, function(data){
+					if (data.success){
+                        $('#message_positive').html(data.message);
+                        $('.ui.hidden.positive.message').show();
+						location.reload(10);
+					}else{
+                        $('#message_error').html(data.message+' '+tipo);
+                        $('.ui.hidden.error.message').show();
+                    }
+				})
+			}
+		}).modal('show');
+{% endblock comportamiento_click_eliminar %}

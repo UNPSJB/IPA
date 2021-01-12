@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.http import JsonResponse
 from ..models import TipoUso
 from ..forms import TipoDeUsoForm
 from ..forms import *
@@ -58,7 +59,6 @@ class DetalleTipoDeUso(DetailView):
 		context['botones'] = {
 			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
 			'Modificar Tipo de Uso': reverse('tiposDeUso:modificar', args=[self.object.id]),
-			'Eliminar Tipo de Uso': reverse('tiposDeUso:eliminar', args=[self.object.id]),
 		}
 		context['return_label'] = 'listado de Tipos de Usos'
 		context['return_path'] = reverse('tiposDeUso:listar')
@@ -84,6 +84,21 @@ class DeleteTipoDeUso(DeleteView):
 	model = TipoUso
 	template_name = 'delete.html'
 	success_url = reverse_lazy('tiposDeUso:listar')
+
+def eliminar_tipo_de_uso(request, pk):
+	permisos = Permiso.objects.filter(tipo=pk)
+	if len(permisos)>0:
+		return JsonResponse({
+				"success": False,
+				"message": "Existen otros permisos que estan usando el Tipo de Uso"
+		})
+	else:
+		tipo = TipoUso.objects.get(pk=pk)
+		tipo.delete()
+		return JsonResponse({
+				"success": True,
+				"message": "Tipo de Uso eliminado con exito"
+		})
 
 class ModificarTipoDeUso(UpdateView):
 	model = TipoUso

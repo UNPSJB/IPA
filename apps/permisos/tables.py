@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from apps.permisos.models import Permiso
+from apps.permisos.models import Permiso, TipoUso
 
 class PermisosTable(tables.Table):
     solicitante = tables.Column(verbose_name="Solicitante")

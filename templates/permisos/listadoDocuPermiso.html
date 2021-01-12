@@ -28,30 +28,24 @@
 							</div>
 							<div class="description">{{documento.descripcion}}</div>
 						</div>
-						<div class="extra content">
-							
-							<div class="fluid ui floating dropdown button">
-								<div class="text">Acción</div>
-								<i class="dropdown icon"></i>
-								<div class="menu">
-									{%if permiso.estado.tipo < 4%}
-										<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
-										<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
-									{% endif %}
-									<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
-									<a class="item" id="eliminar-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
+						{%if documento.tipo.protegido or permiso.estado.tipo < 4 and not documento.tipo.protegido%}
+							<div class="extra content">
+								<div class="fluid ui floating dropdown button">
+									<div class="text">Acción</div>
+									<i class="dropdown icon"></i>
+									<div class="menu">
+										{%if permiso.estado.tipo < 4 and not documento.tipo.protegido%}
+											<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
+											<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
+										{% endif %}
+										{%if permiso.estado.tipo < 4 or documento.tipo.protegido%}
+											<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
+											<a class="item" id="eliminar-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
+										{% endif %}
+									</div>
 								</div>
 							</div>
-<!-- 							<div class="ui basic buttons">
-								{% if permiso.estado.tipo == 1 or permiso.estado.tipo == 2%}
-									<a class="ui button" >VISAR</a>
-								{% endif %}
-								{% if permiso.estado.tipo < 3 or documento.tipo.protegido%}
-									<a class="ui button" >Modificar</a>
-								{% endif %}
-									<a class="ui button eliminar" >Eliminar</a>
-							</div> -->
-						</div>
+						{% endif %}
 					</div>
 				{% endfor%}
 			</div>
