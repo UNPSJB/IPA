@@ -100,6 +100,7 @@ def eliminar_tipo_de_uso(request, pk):
 				"message": "Tipo de Uso eliminado con exito"
 		})
 
+
 class ModificarTipoDeUso(UpdateView):
 	model = TipoUso
 	form_class = TipoDeUsoForm

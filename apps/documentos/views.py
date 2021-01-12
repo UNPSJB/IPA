@@ -6,7 +6,7 @@ from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, Doc
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from apps.permisos.models import Permiso
 from apps.comisiones.models import Comision
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from datetime import date, datetime
 from operator import attrgetter
 from apps.generales.views import GenericAltaView, GenericListadoView, GenericEliminarView
@@ -172,13 +172,29 @@ class DeleteDocumento(GenericEliminarView):
 	#success_url = reverse_lazy('documentos:listar')
 	
 	def get_success_url(self, **kwargs):
-		return reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk])
+		return reverse('permisos:listarDocumentacionPermiso', args=[44])
 
-	def get (self, request, *args, **kwargs):
-		self.permiso_pk = kwargs.get('pkp')
-		self.documento_pk = kwargs.get('pk')
 
-		return super(DeleteDocumento, self).get(request,*args,**kwargs)
+	def post(self, request, *args, **kwargs):
+		#print("ENTRE A LA ELIMINACION DE DOCUMENTO")
+		#print(kwargs.get('pkp'))
+		permiso = Permiso.objects.get(pk=kwargs.get('pkp'))
+		documento = Documento.objects.get(pk=kwargs.get('pk'))
+		if documento.tipo.slug in permiso.estado.documentos_modificar_eliminar():
+			#documento.delete()
+			mensaje = permiso.hacer('eliminar_documento',request.user, datetime.now(), documento)
+			print("SI LO PUEDO ELIMINAR")
+			print(mensaje)
+			print(mensaje)
+			return JsonResponse({
+				"success": True,
+				"message": mensaje
+			})
+		return JsonResponse({
+				"success": False,
+				"message": mensaje
+		})
+		#return HttpResponseRedirect(self.get_success_url(kwargs={'pk':kwargs.get('pkp')}))
 
 class AgregarExpediente(CreateView):
 	model = Documento

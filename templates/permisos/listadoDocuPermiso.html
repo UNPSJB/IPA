@@ -7,13 +7,30 @@
 
 {% block wrapper %}
     
+	<div class="row header-content">
+		<div class="ui hidden large error message">
+			<i class="close icon"></i>
+			<div class="header"> Hubo el siguiente problema:</div>
+			<ul class="list">
+				<li id="message_error"></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row header-content">
+		<div class="ui hidden large positive message">
+			<i class="close icon"></i>
+			<div class="header"> {% block mensaje_success_titulo %} ¡Todo a salido bien! {% endblock %}</div>
+			<li id="message_positive"> {{ message_success }}</li>
+		</div>
+	</div>
     {% renderContextMenu %}
     
 	<div class="ui grid"> 
 		<div class="row header-content">
 			<div class="ui cards">
 				{% for documento in documentos %}
-					<div class="card">
+					<div class="card" id="card-id-{{documento.id}}">
 						<div class="image">
 							<img src="{% static documento.thumbnail %}">
 						</div>
@@ -28,7 +45,7 @@
 							</div>
 							<div class="description">{{documento.descripcion}}</div>
 						</div>
-						{%if documento.tipo.protegido or permiso.estado.tipo < 4 and not documento.tipo.protegido%}
+						{%if documento.tipo.slug in permiso.estado.documentos_modificar_eliminar%}
 							<div class="extra content">
 								<div class="fluid ui floating dropdown button">
 									<div class="text">Acción</div>
@@ -38,9 +55,9 @@
 											<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
 											<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
 										{% endif %}
-										{%if permiso.estado.tipo < 4 or documento.tipo.protegido%}
+										{%if documento.tipo.slug in permiso.estado.documentos_modificar_eliminar%}
 											<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
-											<a class="item" id="eliminar-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
+											<a class="item eliminar" id="{{permiso.id}}-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
 										{% endif %}
 									</div>
 								</div>
@@ -66,19 +83,56 @@
 {% endblock %}
 
 {% block customPageJs %}
+
+	function getCookie(name) {
+		var cookieValue = null;
+		if (document.cookie && document.cookie != '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = jQuery.trim(cookies[i]);
+				// Does this cookie string begin with the name we want?
+				if (cookie.substring(0, name.length + 1) == (name + '=')) {
+					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					break;
+				}
+			}
+		}
+		return cookieValue;
+	}
+	var csrftoken = getCookie('csrftoken');
+	function csrfSafeMethod(method) {
+		// these HTTP methods do not require CSRF protection
+		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});
     
-	$(".ui.button.eliminar").click(function(datos){
+	$(".item.eliminar").click(function(datos){
 		var splitted_data = this.id.split('-');
-		console.log(splitted_data)
-		console.log(splitted_data)
-		console.log($('#tipo-'+splitted_data[1]).html())
-		console.log($('#tipo-'+splitted_data[1]).html())
+		id_permiso = splitted_data[0]
+		id_documento = splitted_data[1]
 		var tipo = $('#tipo-'+splitted_data[1]).html()
 		$("#eliminar-modal-tipo").html(tipo)
 		$('#eliminar-modal').modal({
 			onApprove : function() {
 				//mandar a borrar
-
+				$.post('/documentos/eliminar/' + id_documento +'/permiso/' + id_permiso, function(data){
+					if (data.success){
+                        $('#message_positive').html(data.message);
+						$('.ui.hidden.positive.message').show();
+						$('#card-id-'+id_documento).remove()
+						
+					}else{
+                        $('#message_error').html(data.message+' '+tipo);
+                        $('.ui.hidden.error.message').show();
+                    }
+				})
 			}
 		}).modal('show');
 	})

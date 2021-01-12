@@ -125,6 +125,10 @@ class Permiso(models.Model):
 		if self.estados.exists():
 			return self.estados.latest().related()
 
+	def volver_estado_anterior(self):
+		if self.estados.exists():
+			self.estados.latest().related().delete()
+
 	@classmethod
 	def new(cls, usuario, fecha, solicitante, establecimiento, tipo, afluente):
 		t = cls(tipo=tipo, solicitante=solicitante, establecimiento=establecimiento, afluente=afluente)
@@ -140,7 +144,15 @@ class Permiso(models.Model):
 		if estado_actual is not None and hasattr(estado_actual, accion):
 			metodo = getattr(estado_actual, accion)
 			estado_nuevo = metodo(*args, **kwargs)
-			if estado_nuevo is not None:
+			print(estado_nuevo)
+			print(estado_nuevo)
+			print(estado_nuevo)
+			print(type(estado_nuevo))
+			print(type(estado_nuevo))
+			print(type(estado_nuevo))
+			if isinstance(estado_nuevo,str):
+				return estado_nuevo
+			elif estado_nuevo is not None:
 				estado_nuevo.save()
 		elif estado_actual is None:
 			Solicitado(permiso=self, *args, **kwargs).save()
@@ -227,6 +239,14 @@ class Estado(models.Model):
 	def getEstadoString(self):
 		return Estado.TIPOS[self.tipo][1]
 
+	def documentos_modificar_eliminar(self):
+		return ['acta-de-inspeccion','acta-de-infraccion','cobro-infraccion','pago-infraccion']
+
+	def eliminar_documento(self,usuario, fecha, documento):
+		self.permiso.documentos.remove(documento)
+		documento.delete()
+
+
 class Solicitado(Estado):
 	TIPO = 1
 	utilizando = models.BooleanField(
@@ -270,6 +290,13 @@ class Solicitado(Estado):
 		self.permiso.save()
 		return self
 
+	def documentos_modificar_eliminar(self):
+		docs = super().documentos_modificar_eliminar()
+		return docs+[doc.slug for doc in self.permiso.tipo.documentos.all()]
+
+	def eliminar_documento(self,usuario, fecha, documento):
+		super().eliminar_documento(usuario, fecha, documento)
+		return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
 
 class Corregido(Estado):
 	TIPO = 2
@@ -305,6 +332,14 @@ class Corregido(Estado):
 
 	def __str__(self):
 		return "Corregido"
+
+	def documentos_modificar_eliminar(self):
+		docs = super().documentos_modificar_eliminar()
+		return docs+[doc.slug for doc in self.permiso.tipo.documentos.all()]
+	
+	def eliminar_documento(self,usuario, fecha, documento):
+		super().eliminar_documento(usuario, fecha, documento)
+		return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
 
 class Visado(Estado):
 	TIPO = 3
@@ -346,16 +381,38 @@ class Visado(Estado):
 		else:
 			return self
 
+	def documentos_modificar_eliminar(self):
+		docs = super().documentos_modificar_eliminar()
+		return docs+[doc.slug for doc in self.permiso.tipo.documentos.all()]
+
+	def eliminar_documento(self,usuario, fecha, documento):
+		super().eliminar_documento(usuario, fecha, documento)
+		return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
+
 class Completado(Estado):
 	TIPO = 4
 	""" Estado del tramite cuando se completo la documentacion del expediente """
-
 	def __str__(self):
 		return "Completado"
 
 	def publicar(self, usuario, fecha, tiempo, edicto):
 		self.permiso.documentos.add(edicto)
 		return Publicado(permiso=self.permiso, usuario=usuario, fecha=fecha, tiempo=tiempo)
+	
+	def documentos_modificar_eliminar(self):
+		docs = super().documentos_modificar_eliminar()
+		return docs+['pase']
+
+	def eliminar_documento(self,usuario, fecha, documento):
+		if documento.tipo.slug=='pase':
+			super().eliminar_documento(usuario, fecha, documento)
+			self.permiso.numero_exp = None
+			self.permiso.volver_estado_anterior()
+			self.permiso.save()
+			return str("Se pudo eliminar el Pase con exito")
+		else:
+			super().eliminar_documento(usuario, fecha, documento)
+			return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
 
 class Publicado(Estado):
 	TIPO = 5
@@ -395,6 +452,19 @@ class Publicado(Estado):
 		self.permiso.save()
 		return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
 
+	def documentos_modificar_eliminar(self):
+		docs = super().documentos_modificar_eliminar()
+		return docs+['edicto']
+
+	def eliminar_documento(self,usuario, fecha, documento):
+		if documento.tipo.slug=='edicto':
+			super().eliminar_documento(usuario, fecha, documento)
+			self.permiso.volver_estado_anterior()
+			return str("Se pudo eliminar el Edicto con exito")
+		else:
+			super().eliminar_documento(usuario, fecha, documento)
+			return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
+
 class Otorgado(Estado):
 	TIPO = 6
 	monto = models.DecimalField(max_digits = 10, decimal_places = 2) ###SIN USO
@@ -433,10 +503,34 @@ class Otorgado(Estado):
 		self.permiso.save()
 		return self
 
+	def documentos_modificar_eliminar(self):
+		docs = super().documentos_modificar_eliminar()
+		return docs+['resolucion','cobro','pago']
+
+	def eliminar_documento(self,usuario, fecha, documento):
+		if documento.tipo.slug=='resolucion':
+			if len(self.permiso.documentos.filter(tipo__slug='resolucion'))==1:
+				pass
+				#SI NO TIENE PAGOS DE CANON... ELIMINAR EL PRIMER COBRO, ELIMINAR LA RESOLUCION Y VOLVER AL ESTADO ANTERIOR
+			else:
+				pass
+				#SI NO TIENE COBROS DESPUES DE LA APROBACION DE LA ULTIMA RESOLUCION
+				# ELIMINAR LA ULTIMA RESOLUCION, Y VOLVER A LA ULTIMA FECHA DE VENCIMIENTO DE RESOLUCION
+			#super().eliminar_documento(usuario, fecha, documento)
+			#self.permiso.volver_estado_anterior()
+		else:
+			pass
+			#super().eliminar_documento(usuario, fecha, documento)
+
 class Baja(Estado):
 	TIPO = 7
 	def __str__(self):
 		return "Baja"
+
+	def documentos_modificar_eliminar(self):
+		docs = super().documentos_modificar_eliminar()
+		return docs+['resolucion','cobro','pago','oposicion'] #TODO CORROBORAR SI ESTA BIEN
+
 
 for Klass in Permiso.ESTADOS:
 	Estado.register(eval(Klass))
