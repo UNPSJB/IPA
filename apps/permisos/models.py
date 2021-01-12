@@ -108,7 +108,8 @@ class Permiso(models.Model):
 	objects = PermisoManager()
 
 	ESTADOS = [
-		'Solicitado', 
+		'Solicitado',
+		'Corregido', 
 		'Visado', 
 		'Completado', 
 		'Publicado', 
@@ -149,23 +150,28 @@ class Permiso(models.Model):
 	def agregar_documentacion(self, documento):
 		self.documentos.add(documento)
 
-	def falta_documentacion(self):
-			if len(self.tipos_de_documentos_faltantes()) == 0:
-				return False
-			else: 
-				return True
+	def falta_entregar_documentacion(self):
+			return False if len(self.tipos_de_documentos_faltantes()) == 0 else True
+
+	def falta_visar_documentacion(self):
+			return True if self.documentos.filter(estado__lt=2).exists() else False
+
+	def existen_documentos_corregidos(self):
+		return True if self.documentos.filter(estado=1).exists() else False
+
+	def documentacion_completa(self):
+		return True if ((not self.falta_entregar_documentacion()) and (not self.existen_documentos_corregidos())
+				and (not self.falta_visar_documentacion()) and (self.numero_exp != None)) else False
 
 	def tipos_de_documentos_faltantes(self):
 		tipos_documentos_requeridos = self.tipo.documentos.all() #DOCUMENTO REQUERIDOS DEL TIPO DE USO
-
 		tipos_documentos_recibidos = [doc.tipo for doc in self.documentos.select_related('tipo')]
 		return set(tipos_documentos_requeridos).difference(set(tipos_documentos_recibidos))
 
-	def visado_completo(self):
-		if self.documentos.filter(visado=False).exists():
-			return False
-		else:
-			return True
+	def generar_expediente(self):
+		documentos_requeridos = len(self.tipo.documentos.all())-1
+		documentos_entregados = len(self.documentos.filter(tipo__protegido=False))
+		return True if documentos_entregados >= documentos_requeridos and self.numero_exp == None else False
 	
 	def montoTotalCobros(self):
 		sumaTotalCobros = 0
@@ -237,10 +243,10 @@ class Solicitado(Estado):
 
 	def revisar(self, usuario, fecha, documentos):
 		for documento in documentos:
-			documento.visado = True
+			documento.estado = 2
 			documento.save()
-		if self.permiso.documentos.filter(visado=True).exists():
-			return Visado(permiso=self.permiso, usuario=usuario, fecha_visado=fecha, fecha=fecha)
+		if self.permiso.documentos.filter(estado=2).exists():
+			return Visado(permiso=self.permiso, usuario=usuario, fecha_visado=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
 		return self
 
 	def __str__(self):
@@ -250,8 +256,58 @@ class Solicitado(Estado):
 		self.utilizando = True
 		self.save()
 
-class Visado(Estado):
+	def rechazar(self, usuario, fecha, documentos):
+		for documento in documentos:
+			documento.estado = 1
+			documento.save()
+		if self.permiso.documentos.filter(estado=1).exists():
+			return Corregido(permiso=self.permiso, usuario=usuario, fecha_corregido=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+		return self
+
+	def completar(self, usuario, fecha, expediente, pase):
+		self.permiso.numero_exp = expediente
+		self.permiso.documentos.add(pase)
+		self.permiso.save()
+		return self
+
+
+class Corregido(Estado):
 	TIPO = 2
+	fecha_corregido = models.DateField()
+
+	def recibir(self, usuario, fecha, documentos):
+		for documento in documentos:
+			self.permiso.documentos.add(documento)
+		return self
+
+	def rechazar(self, usuario, fecha, documentos):
+		for documento in documentos:
+			documento.estado = 1
+			documento.save()
+		return self
+
+	def revisar(self, usuario, fecha, documentos):
+		for documento in documentos:
+			documento.estado = 2
+			documento.save()
+		if self.permiso.documentos.filter(estado=1).exists():
+			return self
+		elif self.permiso.documentacion_completa():
+			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		else:
+			return Visado(permiso=self.permiso, usuario=usuario, fecha_visado=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+
+	def completar(self, usuario, fecha, expediente, pase):
+		self.permiso.numero_exp = expediente
+		self.permiso.documentos.add(pase)
+		self.permiso.save()
+		return self
+
+	def __str__(self):
+		return "Corregido"
+
+class Visado(Estado):
+	TIPO = 3
 	fecha_visado = models.DateField()
 
 	def __str__(self):
@@ -264,18 +320,34 @@ class Visado(Estado):
 
 	def revisar(self, usuario, fecha, documentos):
 		for documento in documentos:
-			documento.visado = True
+			documento.estado = 2
 			documento.save()
-		return self
+		if self.permiso.documentos.filter(estado=1).exists():
+			return Corregido(permiso=self.permiso, usuario=usuario, fecha_corregido=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+		elif self.permiso.documentacion_completa():
+			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		else:
+			return self
 
+	def rechazar(self, usuario, fecha, documentos):
+		for documento in documentos:
+			documento.estado = 1
+			documento.save()
+		if self.permiso.documentos.filter(estado=1).exists():
+			return Corregido(permiso=self.permiso, usuario=usuario, fecha_corregido=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+		return self
+		
 	def completar(self, usuario, fecha, expediente, pase):
 		self.permiso.numero_exp = expediente
 		self.permiso.documentos.add(pase)
 		self.permiso.save()
-		return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		if self.permiso.documentacion_completa():
+			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		else:
+			return self
 
 class Completado(Estado):
-	TIPO = 3
+	TIPO = 4
 	""" Estado del tramite cuando se completo la documentacion del expediente """
 
 	def __str__(self):
@@ -286,7 +358,7 @@ class Completado(Estado):
 		return Publicado(permiso=self.permiso, usuario=usuario, fecha=fecha, tiempo=tiempo)
 
 class Publicado(Estado):
-	TIPO = 4
+	TIPO = 5
 	# No contemplar dias habiles.... para no entrar en tema de feriados
 	tiempo = models.PositiveIntegerField()
 
@@ -324,7 +396,7 @@ class Publicado(Estado):
 		return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
 
 class Otorgado(Estado):
-	TIPO = 5
+	TIPO = 6
 	monto = models.DecimalField(max_digits = 10, decimal_places = 2) ###SIN USO
 
 	def __str__(self):
@@ -362,7 +434,7 @@ class Otorgado(Estado):
 		return self
 
 class Baja(Estado):
-	TIPO = 6
+	TIPO = 7
 	def __str__(self):
 		return "Baja"
 

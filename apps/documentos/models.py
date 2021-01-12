@@ -71,6 +71,16 @@ class TipoDocumento(models.Model):
 
 
 class Documento(models.Model):
+	ENTREGADO = 0
+	RECHAZADO = 1
+	VISADO = 2
+	
+	Estado = [
+		(ENTREGADO, 'Entregado'),
+		(RECHAZADO, 'Rechazado'),
+		(VISADO, 'Visado'),
+	]
+
 	tipo = models.ForeignKey(TipoDocumento, null=True, blank=True)
 	descripcion = models.CharField(max_length=100)
 	archivo = models.FileField(upload_to="documentos/%Y/%m/%d/")
@@ -81,7 +91,7 @@ class Documento(models.Model):
 		blank = True, 
 		null = True
 	)
-	visado = models.BooleanField(default=False)
+	estado = models.PositiveIntegerField(choices=Estado,default=0)
 	fecha = models.DateField()
 
 	def save(self):
@@ -91,6 +101,8 @@ class Documento(models.Model):
 	
 	def __str__(self):
 		return self.descripcion
+
+		
 
 # Que se hace luego de guardar el documento
 def pdf_post_save(sender, instance=False, **kwargs):

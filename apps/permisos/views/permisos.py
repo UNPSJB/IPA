@@ -102,6 +102,12 @@ def visar_documento_solicitud(request,pks,pkd):
 	permiso.hacer('revisar',request.user, datetime.now(), [documento])
 	return redirect('permisos:listarDocumentacionPermiso', pks)
 
+def rechazar_documento_solicitud(request,pks,pkd):
+	permiso = Permiso.objects.get(pk=pks)
+	documento = permiso.documentos.get(pk=pkd)
+	permiso.hacer('rechazar',request.user, datetime.now(), [documento])
+	return redirect('permisos:listarDocumentacionPermiso', pks)
+
 class NuevaDocumentacionRequerida(AltaDocumento):
 	def get_form(self, form_class):
 		form  = self_form_class()

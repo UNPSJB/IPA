@@ -1,0 +1,21 @@
+{% if solicitud.estado.getEstadoString == "solicitado" or solicitud.estado.getEstadoString == "corregido" or solicitud.estado.getEstadoString == "visado"  %}
+    {% if solicitud.falta_entregar_documentacion %}
+        <div class="ui medium header" style="color:red">Documentación faltante </div>
+        {% for documentacion in solicitud.tipos_de_documentos_faltantes %}
+            <p> {{documentacion }} </p> 
+        {% endfor %}
+        <a href="{% url 'documentos:alta' solicitud.id %}" class="ui button"> Agregar</a>
+    {% endif %}
+    {% if solicitud.existen_documentos_corregidos %}
+        <p class="ui medium header" style="color:red">Existen documentos Corregidos </p>
+    {% endif%}
+    {% if solicitud.falta_visar_documentacion %}
+        <p class="ui medium header" style="color:red">Existen documentos para Visar </p>
+    {% endif%}
+
+    {% if solicitud.generar_expediente %}
+        <p class="ui medium header" style="color:green">Cantidad de documentación aceptable para generar Expediente </p>
+        <a href="{% url 'documentos:agregarExpediente' solicitud.id %}" class="ui button"> Agregar número de expediente.</a> 
+    {% endif %}
+
+{% endif %}

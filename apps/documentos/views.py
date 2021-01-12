@@ -216,7 +216,7 @@ class AgregarExpediente(CreateView):
 			if len(lista_fechas) == 0:
 				documento = form.save()
 				documento.tipo = TipoDocumento.get_protegido('pase')
-				documento.visado = True
+				documento.estado = 2
 				documento.save()
 				permiso.hacer('completar',request.user,fechaExpediente, int(request.POST['expediente']), documento)
 				return HttpResponseRedirect(self.get_success_url())
@@ -263,7 +263,7 @@ class AgregarEdicto(GenericAltaView):
 			if (fechaEdicto >= fecha_pase) and (tiempo > 0):
 				edicto = form.save()
 				edicto.tipo = TipoDocumento.get_protegido('edicto')
-				edicto.visado = True
+				edicto.estado = 2
 				edicto.save()
 				permiso.hacer('publicar',request.user,edicto.fecha, tiempo, edicto)
 				return HttpResponseRedirect(self.get_success_url())
@@ -332,7 +332,7 @@ class AgregarResolucion(CreateView):
 			if fechaCorrecta and (unidad > 0):
 				resolucion = form.save(commit=False)
 				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
-				resolucion.visado = True
+				resolucion.estado = 2
 				try:
 					#permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 					permiso.hacer(accion,request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
@@ -379,7 +379,7 @@ class AgregarOposicion(CreateView):
 		if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
 			oposicion = form.save()
 			oposicion.tipo = TipoDocumento.get_protegido('oposicion')
-			oposicion.visado = True
+			oposicion.estado = 2
 			permiso.hacer('darDeBaja',request.user,date.today(), oposicion)
 			return HttpResponseRedirect(self.get_success_url())
 
@@ -421,7 +421,7 @@ class AltaActaDeInfraccion(GenericAltaView):
 		if form.is_valid() and fechaCorrecta:
 			documento = form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('acta-de-infraccion')
-			documento.visado = True
+			documento.estado = 2
 			documento = form.save()	#TODO se esta guardando mal la información
 			permiso.agregar_documentacion(documento)
 			comision.agregar_documentacion(documento)
@@ -468,7 +468,7 @@ class AltaActaDeInspeccion(CreateView):
 		if form.is_valid() and fechaCorrecta:
 			documento = form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('acta-de-inspeccion')
-			documento.visado = True
+			documento.estado = 2
 			documento = form.save()
 			permiso.agregar_documentacion(documento)
 			comision.agregar_documentacion(documento)

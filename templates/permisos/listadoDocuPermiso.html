@@ -18,8 +18,8 @@
 							<img src="{% static documento.thumbnail %}">
 						</div>
 						{%if not documento.tipo.protegido%}
-							<div class="extra">Visado<i class="circle icon" style="color:
-							{%if documento.visado%}green{%else%}red{%endif%}"></i></div>
+							<div class="extra">Estado: {{documento.get_estado_display}}<i class="circle icon" style="color:
+							{%if documento.estado is 0%}yellow{%elif documento.estado is 1%}red{%else%}green{%endif%}"></i></div>
 						{% endif %}
 						<div class="content">
 							<a href="/archivos/{{documento.archivo.url}}" id="tipo-{{documento.id}}" class="header">{{documento.tipo.nombre}}</a>
@@ -29,15 +29,26 @@
 							<div class="description">{{documento.descripcion}}</div>
 						</div>
 						<div class="extra content">
-							<div class="ui basic buttons">
+							
+							<div class="fluid ui floating dropdown button">
+								<div class="text">Acción</div>
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
+									<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
+									<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
+									<a class="item" id="eliminar-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
+								</div>
+							</div>
+<!-- 							<div class="ui basic buttons">
 								{% if permiso.estado.tipo == 1 or permiso.estado.tipo == 2%}
-									<a class="ui button" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
+									<a class="ui button" >VISAR</a>
 								{% endif %}
 								{% if permiso.estado.tipo < 3 or documento.tipo.protegido%}
-									<a class="ui button" href="{% url 'documentos:modificar' documento.id permiso.id%}">Modificar</a>
+									<a class="ui button" >Modificar</a>
 								{% endif %}
-									<a class="ui button eliminar" id="eliminar-{{documento.id}}">Eliminar</a>
-							</div>
+									<a class="ui button eliminar" >Eliminar</a>
+							</div> -->
 						</div>
 					</div>
 				{% endfor%}
