@@ -84,7 +84,7 @@ class AltaCobro(GenericAltaView):
 		if documento_form.is_valid():
 			documento = documento_form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('cobro')
-			documento.visado = True
+			documento.visado = 2
 			documento.save()
 			cobro = permiso.estado.recalcular(request.user, documento, date.today(), permiso.unidad)
 			cobro.save()
@@ -145,10 +145,10 @@ class AltaPago(GenericAltaView):
 		fecha_primer_resolucion = lista_resoluciones[0].fecha
 
 		if documento_form.is_valid():
-			if (monto > 0) and (fecha_de_pago > fecha_primer_resolucion) and (fecha_de_pago <= date.today()):
+			if (monto > 0) and (fecha_de_pago >= fecha_primer_resolucion) and (fecha_de_pago <= date.today()):
 				documento = documento_form.save(commit=False)
 				documento.tipo = TipoDocumento.get_protegido('pago')
-				documento.visado = True
+				documento.visado = 2
 				documento.save()
 				pago = Pago(permiso=permiso, monto=monto, documento=documento, fecha=fecha_de_pago)
 				pago.save()

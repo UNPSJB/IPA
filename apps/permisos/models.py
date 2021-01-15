@@ -144,13 +144,7 @@ class Permiso(models.Model):
 		if estado_actual is not None and hasattr(estado_actual, accion):
 			metodo = getattr(estado_actual, accion)
 			estado_nuevo = metodo(*args, **kwargs)
-			print(estado_nuevo)
-			print(estado_nuevo)
-			print(estado_nuevo)
-			print(type(estado_nuevo))
-			print(type(estado_nuevo))
-			print(type(estado_nuevo))
-			if isinstance(estado_nuevo,str):
+			if isinstance(estado_nuevo,tuple):
 				return estado_nuevo
 			elif estado_nuevo is not None:
 				estado_nuevo.save()
@@ -245,6 +239,7 @@ class Estado(models.Model):
 	def eliminar_documento(self,usuario, fecha, documento):
 		self.permiso.documentos.remove(documento)
 		documento.delete()
+		return (True,"Se pudo eliminar el {} con exito".format(documento.tipo.nombre))
 
 
 class Solicitado(Estado):
@@ -272,10 +267,6 @@ class Solicitado(Estado):
 	def __str__(self):
 		return "Solicitado"
 
-	def cambiar_a_utilizando(self):
-		self.utilizando = True
-		self.save()
-
 	def rechazar(self, usuario, fecha, documentos):
 		for documento in documentos:
 			documento.estado = 1
@@ -294,9 +285,6 @@ class Solicitado(Estado):
 		docs = super().documentos_modificar_eliminar()
 		return docs+[doc.slug for doc in self.permiso.tipo.documentos.all()]
 
-	def eliminar_documento(self,usuario, fecha, documento):
-		super().eliminar_documento(usuario, fecha, documento)
-		return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
 
 class Corregido(Estado):
 	TIPO = 2
@@ -337,9 +325,6 @@ class Corregido(Estado):
 		docs = super().documentos_modificar_eliminar()
 		return docs+[doc.slug for doc in self.permiso.tipo.documentos.all()]
 	
-	def eliminar_documento(self,usuario, fecha, documento):
-		super().eliminar_documento(usuario, fecha, documento)
-		return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
 
 class Visado(Estado):
 	TIPO = 3
@@ -385,9 +370,6 @@ class Visado(Estado):
 		docs = super().documentos_modificar_eliminar()
 		return docs+[doc.slug for doc in self.permiso.tipo.documentos.all()]
 
-	def eliminar_documento(self,usuario, fecha, documento):
-		super().eliminar_documento(usuario, fecha, documento)
-		return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
 
 class Completado(Estado):
 	TIPO = 4
@@ -409,10 +391,10 @@ class Completado(Estado):
 			self.permiso.numero_exp = None
 			self.permiso.volver_estado_anterior()
 			self.permiso.save()
-			return str("Se pudo eliminar el Pase con exito")
+			return (True,"Se pudo eliminar el Pase con exito")
 		else:
 			super().eliminar_documento(usuario, fecha, documento)
-			return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
+			
 
 class Publicado(Estado):
 	TIPO = 5
@@ -424,7 +406,7 @@ class Publicado(Estado):
 
 	def resolver(self, usuario, fecha, unidad, resolucion, fechaPrimerCobro ,vencimiento):
 		if self.fecha + timedelta(days=self.tiempo) < fecha:
-			modulos = ValorDeModulo.objects.filter(fecha__lte=fecha, modulo=self.permiso.tipo.tipo_modulo)
+			modulos = ValorDeModulo.objects.filter(fecha = fecha, modulo=self.permiso.tipo.tipo_modulo)
 			if not modulos.exists():
 				raise Exception('No existe el valor de modulo')
 			resolucion.save()
@@ -432,13 +414,11 @@ class Publicado(Estado):
 			monto = self.permiso.tipo.calcular_monto(precio, unidad, fechaPrimerCobro, fecha)
 			cobro = Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha_hasta=fecha)
 			cobro.save()
-			self.permiso.getEstados(1)[0].cambiar_a_utilizando()
-			self.permiso.getEstados(1)[0].save()
 			self.permiso.unidad = unidad
 			self.permiso.fechaVencimiento = vencimiento
 			self.permiso.agregar_documentacion(resolucion)
 			self.permiso.save()
-			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
+			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha,fecha_vencimiento=vencimiento)
 		return self
 
 	def isEdictoFinalizado(self):
@@ -460,14 +440,13 @@ class Publicado(Estado):
 		if documento.tipo.slug=='edicto':
 			super().eliminar_documento(usuario, fecha, documento)
 			self.permiso.volver_estado_anterior()
-			return str("Se pudo eliminar el Edicto con exito")
+			return (True,"Se pudo eliminar el Edicto con exito")
 		else:
 			super().eliminar_documento(usuario, fecha, documento)
-			return str("Se pudo eliminar el {} con exito").format(documento.tipo.nombre)
 
 class Otorgado(Estado):
 	TIPO = 6
-	monto = models.DecimalField(max_digits = 10, decimal_places = 2) ###SIN USO
+	fecha_vencimiento = models.DateField()
 
 	def __str__(self):
 		return "Otorgado"
@@ -501,26 +480,45 @@ class Otorgado(Estado):
 		self.permiso.fechaVencimiento = vencimiento
 		self.permiso.agregar_documentacion(resolucion)
 		self.permiso.save()
-		return self
+		return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha,fecha_vencimiento=vencimiento)
 
 	def documentos_modificar_eliminar(self):
 		docs = super().documentos_modificar_eliminar()
-		return docs+['resolucion','cobro','pago']
+		return docs+['resolucion']
 
 	def eliminar_documento(self,usuario, fecha, documento):
 		if documento.tipo.slug=='resolucion':
-			if len(self.permiso.documentos.filter(tipo__slug='resolucion'))==1:
-				pass
-				#SI NO TIENE PAGOS DE CANON... ELIMINAR EL PRIMER COBRO, ELIMINAR LA RESOLUCION Y VOLVER AL ESTADO ANTERIOR
+			resoluciones = self.permiso.documentos.filter(tipo__slug='resolucion')
+			if len(resoluciones)==1:
+				cobros=Cobro.objects.filter(permiso=self.permiso)
+				if self.permiso.documentos.filter(tipo__slug='pago').exists():
+					return (False,"El permiso tiene pagos realizados, no es posible eliminar esta Resolución")
+				elif len(cobros)==1:					
+					#SI NO TIENE PAGOS DE CANON... ELIMINAR EL PRIMER COBRO, ELIMINAR LA RESOLUCION Y VOLVER AL ESTADO ANTERIOR
+					cobros[0].delete()
+					documento.delete()
+					self.permiso.unidad = None
+					self.permiso.fechaVencimiento = None
+					self.permiso.volver_estado_anterior()
+					self.permiso.save()
+					return (True,"Primera Resolución eliminada. El permiso ahora se encuentra en estado de Publicado")
+				else:
+					return (False,"El permiso tiene dos o más cobros de canon generados, no es posible eliminar esta Resolución")
 			else:
-				pass
-				#SI NO TIENE COBROS DESPUES DE LA APROBACION DE LA ULTIMA RESOLUCION
-				# ELIMINAR LA ULTIMA RESOLUCION, Y VOLVER A LA ULTIMA FECHA DE VENCIMIENTO DE RESOLUCION
-			#super().eliminar_documento(usuario, fecha, documento)
-			#self.permiso.volver_estado_anterior()
+				fecha_resolucion = resoluciones.latest('fecha').fecha
+				if documento.fecha < fecha_resolucion:
+					return (False,"Existen otras resoluciones cargadas, por eso no es posible eliminar este documento")
+				if not self.permiso.documentos.filter(tipo__slug='pago',fecha__gte=fecha_resolucion).exists() and not self.permiso.documentos.filter(tipo__slug='cobro',fecha__gte=fecha_resolucion).exists():
+					# ELIMINAR LA ULTIMA RESOLUCION, Y VOLVER A LA ULTIMA FECHA DE VENCIMIENTO DE RESOLUCION
+					documento.delete()
+					self.permiso.volver_estado_anterior()
+					self.permiso.fechaVencimiento = self.permiso.estado.fecha_vencimiento
+					self.permiso.save()
+					return (True,"Ultima resolución eliminada correctamente")
+				else:
+					return (False,"El permiso tiene generado cobros y/o pagos despues de la fecha de la ultima resolución cargada, no es posible eliminar este documento")
 		else:
-			pass
-			#super().eliminar_documento(usuario, fecha, documento)
+			super().eliminar_documento(usuario, fecha, documento)
 
 class Baja(Estado):
 	TIPO = 7

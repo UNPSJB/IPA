@@ -187,12 +187,12 @@ class DeleteDocumento(GenericEliminarView):
 			print(mensaje)
 			print(mensaje)
 			return JsonResponse({
-				"success": True,
-				"message": mensaje
+				"success": mensaje[0],
+				"message": mensaje[1]
 			})
 		return JsonResponse({
 				"success": False,
-				"message": mensaje
+				"message": mensaje[1]
 		})
 		#return HttpResponseRedirect(self.get_success_url(kwargs={'pk':kwargs.get('pkp')}))
 
@@ -346,11 +346,12 @@ class AgregarResolucion(CreateView):
 		
 		if form.is_valid():
 			if fechaCorrecta and (unidad > 0):
+				print("ANTES DE CAPTURA INFO DEL FORM RES.")
 				resolucion = form.save(commit=False)
 				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
 				resolucion.estado = 2
+				print("ANTES DEL TRYYYYYYYYYY")
 				try:
-					#permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 					permiso.hacer(accion,request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 					return HttpResponseRedirect(self.get_success_url())
 				except:
