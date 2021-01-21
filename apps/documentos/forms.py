@@ -33,9 +33,6 @@ class DocumentoForm(forms.ModelForm):
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
 				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}
-""" 	def __init__(self,company,*args,**kwargs):
-           super (DocumentoForm,self ).__init__(*args,**kwargs) """
-
 
 class DocumentoProtegidoForm(forms.ModelForm):
 	class Meta:
@@ -54,8 +51,12 @@ class DocumentoProtegidoForm(forms.ModelForm):
 
 		widgets = {
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-				'fecha': forms.DateInput(attrs={'type':'date'}),
+				'fecha': forms.DateInput(format=('%Y-%m-%d'),attrs={'type':'date'}),
 		}
+
+	def __init__(self,*args, **kwargs):
+		super(DocumentoProtegidoForm,self).__init__(*args, **kwargs)
+		#self.fields['fecha'].label = kwargs.get('initial')['texto']
 
 class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
 	comision = forms.ModelChoiceField(queryset=Comision.objects.all())

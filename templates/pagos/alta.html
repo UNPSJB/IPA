@@ -2,8 +2,10 @@
 
 {% load static semanticui %}
 
+{% load humanize %}
+
 {% block mensaje_boton_volver %}
-	Volver al Detalle de Permiso
+	{{return_label}}
 {% endblock %} 
 
 {% block titulo %} 
@@ -12,9 +14,9 @@
 
 {% block formulario_custom %}
     {% render_form form %}
-	<div class="field">
+	<div class="required field">
 		<label>Monto de Pago ($):</label>
-		<input type="number" step="0.01" name="monto" value="{{monto}}" placeholder="Ingrese el monto del comprobante de {{nombreForm}}">
+		<input type="number" step="0.01" name="monto" value={{monto|floatformat}} placeholder="Ingrese el monto del comprobante de {{nombreForm}}">
 	  </div>
 {% endblock %}
 

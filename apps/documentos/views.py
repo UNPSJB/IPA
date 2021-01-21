@@ -172,20 +172,15 @@ class DeleteDocumento(GenericEliminarView):
 	#success_url = reverse_lazy('documentos:listar')
 	
 	def get_success_url(self, **kwargs):
-		return reverse('permisos:listarDocumentacionPermiso', args=[44])
+		return reverse('permisos:listarDocumentacionPermiso', kwargs.get('pkp'))
 
 
 	def post(self, request, *args, **kwargs):
-		#print("ENTRE A LA ELIMINACION DE DOCUMENTO")
-		#print(kwargs.get('pkp'))
 		permiso = Permiso.objects.get(pk=kwargs.get('pkp'))
 		documento = Documento.objects.get(pk=kwargs.get('pk'))
 		if documento.tipo.slug in permiso.estado.documentos_modificar_eliminar():
 			#documento.delete()
 			mensaje = permiso.hacer('eliminar_documento',request.user, datetime.now(), documento)
-			print("SI LO PUEDO ELIMINAR")
-			print(mensaje)
-			print(mensaje)
 			return JsonResponse({
 				"success": mensaje[0],
 				"message": mensaje[1]
@@ -194,7 +189,6 @@ class DeleteDocumento(GenericEliminarView):
 				"success": False,
 				"message": mensaje[1]
 		})
-		#return HttpResponseRedirect(self.get_success_url(kwargs={'pk':kwargs.get('pkp')}))
 
 class AgregarExpediente(CreateView):
 	model = Documento

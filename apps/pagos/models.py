@@ -19,6 +19,9 @@ class Pago(models.Model):
 	def getPagosInfraccion(Klass):
 		return Pago.objects.all().filter(es_por_canon=False)
 
+	def tipo_de_pago(self):
+		return "Canon" if self.es_por_canon else "Infraccion"
+
 #ipa registra el cobro
 class Cobro(models.Model):
 	permiso = models.ForeignKey('permisos.Permiso', blank=False, null=False, related_name="cobros")
