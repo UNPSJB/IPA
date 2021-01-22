@@ -96,12 +96,27 @@ def recalcular_cobro(request):
 	permiso = Permiso.objects.get(pk=request.GET['permiso_pk'])
 	fecha_hasta = datetime.strptime(request.GET['fecha_hasta'], '%Y-%m-%d').date()
 
-	cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha_hasta, unidad=permiso.unidad)
 	try:
+		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha_hasta, unidad=permiso.unidad)
 		return JsonResponse({"success": True,"message": "Nuevo monto calculado con exito", "monto": cobro.monto, 
 		"fecha_desde": cobro.fecha_desde.strftime("%d/%m/%Y"),"fecha_hasta":cobro.fecha_hasta.strftime("%d/%m/%Y")})
 	except:
-		return JsonResponse({"success": False,"message": "No se puede calcular el cobro"})
+		return JsonResponse({"success": False,"message": "No se puede calcular el cobro fecha incorrectas"})
+
+class EliminarCobro(GenericEliminarView):
+	model = Cobro
+	
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		try:
+			if self.object == self.object.permiso.cobros.latest() and self.object.documento.tipo.slug != 'resolucion':
+				self.object.delete()
+				return JsonResponse({"success": True,"message": "Cobro eliminado"})
+			else:
+				return JsonResponse({"success": False,"message": "No se puede eliminar el primer cobro, o bien existen otros cobros posteriores al que desea eliminar"})
+		except:
+			return JsonResponse({"success": False,"message": "No se ha podido realizar la eliminación del cobro"})
+
 
 class ListarCobros(GenericListadoView):
 	model = Cobro

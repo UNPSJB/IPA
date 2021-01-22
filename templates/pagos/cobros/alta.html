@@ -70,8 +70,10 @@
 				$("#nuevo_monto").html("El monto calculado a cobrar es de $"+ data.monto + " para el periodo seleccionado (" + data.fecha_desde + " - "+ data.fecha_hasta+")");
 				
 			}else{
-				$('#message_error').html(data.message+' '+tipo);
+				$('#message_error').html(data.message);
 				$('.ui.hidden.error.message').show();
+				console.log(data.message)
+				console.log(data.message)
 			}
 		});
 	})

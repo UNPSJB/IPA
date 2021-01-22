@@ -466,6 +466,9 @@ class Otorgado(Estado):
 			desde = cobro.fecha_hasta
 			hasta = fecha
 
+		if desde>hasta:
+			raise Exception("Fechas erroneas")
+
 		modulos = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=self.permiso.tipo.tipo_modulo)
 		if not modulos.exists():
 			raise Exception("con que?")

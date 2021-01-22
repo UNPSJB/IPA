@@ -16,6 +16,7 @@ urlpatterns = [
 	url(r'^cobro/alta/(?P<pk>.+)/$', AltaCobro.as_view(), name='altaCobro'),
 	url(r'^cobro/recalcular/$', recalcular_cobro, name='recalcularCobro'),
 	url(r'^cobro/listar/(?P<pk>.+)/$', ListarCobros.as_view(), name='listarCobros'),
+	url(r'^cobro/eliminar/(?P<pk>.+)$', EliminarCobro.as_view(), name='eliminarCobro'),
 	
 	url(r'^pago/alta/(?P<pk>.+)/$', AltaPago.as_view(), name='altaPago'),
 	url(r'^pago/listar/(?P<pkp>.+)/modificar/(?P<pk>.+)/$', ModificarPago.as_view(), name='modificarPago'),
