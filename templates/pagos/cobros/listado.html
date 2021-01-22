@@ -1,7 +1,7 @@
 {% extends 'generales/listado.html' %}
 
-{% block boton_nuevo %} {% endblock %} 
-{% block url_nuevo %} {% endblock %}
+{% block boton_nuevo %} Nuevo Cobro {% endblock %} 
+{% block url_nuevo %} {{url_nuevo}} {% endblock %}
 
 {% block context_menu %}
     {% if particular%}
@@ -25,7 +25,7 @@
 
 {% block customPageJs %}
 	{{ block.super }}
-	$(".ui.icon.right.floated.blue.button").remove();
+	$(".ui.button.detalle").remove();
 	
 {% endblock %}
 

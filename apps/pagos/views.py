@@ -2,18 +2,18 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from .models import ValorDeModulo, Cobro, Pago
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from .forms import RegistrarValorDeModuloForm, CobroForm, PagoForm
 from apps.documentos.forms import DocumentoForm, DocumentoProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView,UpdateView, View
 from apps.permisos.models import Permiso
 from datetime import date, datetime
-from apps.documentos.models import TipoDocumento
+from apps.documentos.models import TipoDocumento, Documento
 from django.shortcuts import redirect
 from apps.generales.views import GenericListadoView,GenericAltaView, GenericEliminarView
 from .filters import CobrosFilter,CobrosTodosFilter, ModulosFilter, PagosFilter, PagosTodosFilter
 from .tables import CobrosTable, ModulosTable, CobrosTodosTable, PagosTable, PagosTodosTable
-
+from datetime import datetime
 
 class AltaValorDeModulo(GenericAltaView):
 	model = ValorDeModulo
@@ -72,7 +72,7 @@ class AltaCobro(GenericAltaView):
 		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
 		return render(request, self.template_name, {'form':self.form_class(initial={'fecha_desde':cobro.fecha_desde}), 'cobro': cobro, 
 			'botones':{},
-			'return_path':reverse('permisos:detalle', args=[permiso.id]),
+			'return_path':reverse('pagos:listarCobros', args=[permiso.id]),
 			'permiso': permiso, 'nombreForm':"Nuevo Cobro de Canon"})
 
 	def post(self, request, *args, **kwargs):
@@ -81,16 +81,27 @@ class AltaCobro(GenericAltaView):
 		documento_form = self.form_class(request.POST, request.FILES)
 
 		if documento_form.is_valid():
-			documento = documento_form.save(commit=False)
-			documento.tipo = TipoDocumento.get_protegido('cobro')
-			documento.estado = 2
+			fecha_hasta = datetime.strptime(request.POST['fecha_hasta'], '%Y-%m-%d').date()
+			descripcion = request.POST['descripcion']
+			archivo = request.POST['fecha_hasta']
+			documento = Documento(tipo=TipoDocumento.get_protegido('cobro'), descripcion=descripcion, archivo=archivo, estado = 2, fecha=fecha_hasta)
 			documento.save()
-			cobro = permiso.estado.recalcular(request.user, documento, date.today(), permiso.unidad)
+			cobro = permiso.estado.recalcular(request.user, documento, fecha_hasta, permiso.unidad)
 			cobro.save()
 			permiso.agregar_documentacion(documento)
-			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
+			return HttpResponseRedirect(reverse('pagos:listarCobros', args=[permiso.id]))
 		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
 
+def recalcular_cobro(request):
+	permiso = Permiso.objects.get(pk=request.GET['permiso_pk'])
+	fecha_hasta = datetime.strptime(request.GET['fecha_hasta'], '%Y-%m-%d').date()
+
+	cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha_hasta, unidad=permiso.unidad)
+	try:
+		return JsonResponse({"success": True,"message": "Nuevo monto calculado con exito", "monto": cobro.monto, 
+		"fecha_desde": cobro.fecha_desde.strftime("%d/%m/%Y"),"fecha_hasta":cobro.fecha_hasta.strftime("%d/%m/%Y")})
+	except:
+		return JsonResponse({"success": False,"message": "No se puede calcular el cobro"})
 
 class ListarCobros(GenericListadoView):
 	model = Cobro
@@ -113,6 +124,7 @@ class ListarCobros(GenericListadoView):
 		context['nombreListado'] = 'Listado de Cobros del Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso.pk])
 		context['particular'] = True
+		context['url_nuevo'] = reverse('pagos:altaCobro',args=[self.permiso.pk])
 		return context
 
 

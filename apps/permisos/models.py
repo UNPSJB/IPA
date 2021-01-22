@@ -460,11 +460,11 @@ class Otorgado(Estado):
 		
 		if not cobros.exists():
 			desde = self.permiso.getEstados(1)[0].fecha
-			hasta = date.today()
+			hasta = fecha
 		else:
 			cobro = cobros.latest()
 			desde = cobro.fecha_hasta
-			hasta = date.today()
+			hasta = fecha
 
 		modulos = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=self.permiso.tipo.tipo_modulo)
 		if not modulos.exists():

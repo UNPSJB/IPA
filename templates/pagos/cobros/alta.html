@@ -3,7 +3,7 @@
 {% load static semanticui %}
 
 {% block mensaje_boton_volver %}
-	Volver al Detalle de Permiso
+	Ir al listado de Cobros
 {% endblock %} 
 
 {% block titulo %} 
@@ -42,14 +42,38 @@
 			</div>
 		</div>
         <div class="one wide column">
-            <button class="ui primary icon button fix-button-add-margin" id="button-recalcular" type="button" data-tooltip="Recalcular el monto">
+            <button class="ui primary icon button fix-button-add-margin" id="{{permiso.id}}" type="button" data-tooltip="Recalcular el monto">
                 <i class="calculator icon" ></i>
             </button> 
         </div>
     </div>
 
-	<h4>El monto calculado a cobrar es de ${{cobro.monto}} para el periodo seleccionado ({{cobro.fecha_desde}}-{{cobro.fecha_hasta}}).</h4>
+	<h4 id="nuevo_monto">El monto calculado a cobrar es de ${{cobro.monto}} para el periodo seleccionado ({{cobro.fecha_desde}}-{{cobro.fecha_hasta}}).</h4>
 </div>
 {% endblock %}
 
 {% block formname %}nuevo_cobro_form{% endblock%}
+
+{% block customPageJs %}
+	{{ block.super }}
+
+	$(".ui.primary.icon.button").click(function(){
+		var id = this.id
+		var fecha_hasta = $("input[name=fecha_hasta]")[0].value
+		console.log(fecha_hasta)
+		console.log(fecha_hasta)
+		
+		$.get('/pagos/cobro/recalcular/', {"permiso_pk": id, "fecha_hasta": fecha_hasta},function(data){
+			if (data.success){
+				$('#message_positive').html(data.message);
+				$('.ui.hidden.positive.message').show();
+				$("#nuevo_monto").html("El monto calculado a cobrar es de $"+ data.monto + " para el periodo seleccionado (" + data.fecha_desde + " - "+ data.fecha_hasta+")");
+				
+			}else{
+				$('#message_error').html(data.message+' '+tipo);
+				$('.ui.hidden.error.message').show();
+			}
+		});
+	})
+
+{% endblock %}
