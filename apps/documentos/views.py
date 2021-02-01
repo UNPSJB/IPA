@@ -201,6 +201,8 @@ class AgregarExpediente(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarExpediente, self).get_context_data(**kwargs)
 		context['nombreForm'] = 'Agregar Expediente a Permiso'
+		context['form'].fields['fecha'].label = 'Fecha de Creación'
+		context['form'].fields['archivo'].label = 'Archivo de Caratula/Pase del Expediente'
 		context['botones'] = {}
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context

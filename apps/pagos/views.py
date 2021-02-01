@@ -216,9 +216,9 @@ def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 			pago.save()
 			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[pago.permiso.id,]))
 		else:
-			return self.render_to_response(self.get_context_data(form=documento_form, botones={}, monto=str(monto), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
+			return self.render_to_response(self.get_context_data(form=documento_form, botones={}, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
 			+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']))
-	return self.render_to_response(self.get_context_data(form=documento_form, botones={}, permiso=pago.permiso,message_error=['Datos Incorrectos']))
+	return self.render_to_response(self.get_context_data(form=documento_form, botones={}, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', permiso=pago.permiso,message_error=['Datos Incorrectos']))
 
 
 class ListarPagos(GenericListadoView):
