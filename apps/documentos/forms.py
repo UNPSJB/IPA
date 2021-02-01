@@ -26,7 +26,7 @@ class DocumentoForm(forms.ModelForm):
 
 		fields = ['tipo','descripcion','archivo','fecha',]
 		labels = {'tipo':'Tipo', 'descripcion':'Descripcion',
-				'archivo':'Archivo', 'fecha':'Fecha del Documento',}
+				'archivo':'Adjuntar el documento digital', 'fecha':'Fecha de entrega del documento',}
 
 		widgets = {
 				'tipo':forms.Select(attrs={'class':'form-control'}),

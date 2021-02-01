@@ -98,7 +98,7 @@ class Permiso(models.Model):
 	establecimiento = models.ForeignKey('establecimientos.Establecimiento')
 	tipo = models.ForeignKey(TipoUso)
 	afluente = models.ForeignKey(Afluente)
-	numero_exp = models.PositiveIntegerField(null=True)
+	numero_exp = models.CharField(max_length=15, null=True)
 	documentos = models.ManyToManyField(Documento)
 	unidad = models.DecimalField(decimal_places=2, max_digits=10, null=True)
 	fechaSolicitud = models.DateField()
@@ -241,6 +241,13 @@ class Estado(models.Model):
 		documento.delete()
 		return (True,"Se pudo eliminar el {} con exito".format(documento.tipo.nombre))
 
+	def completar(self, usuario, fecha, expediente, pase):
+		if not Permiso.objects.filter(numero_exp=expediente).exists():
+			self.permiso.numero_exp = expediente
+			self.permiso.documentos.add(pase)
+			self.permiso.save()
+		else:
+			raise Exception("Expediente ya existe")
 
 class Solicitado(Estado):
 	TIPO = 1
@@ -276,9 +283,7 @@ class Solicitado(Estado):
 		return self
 
 	def completar(self, usuario, fecha, expediente, pase):
-		self.permiso.numero_exp = expediente
-		self.permiso.documentos.add(pase)
-		self.permiso.save()
+		super().completar(usuario,fecha,expediente,pase)
 		return self
 
 	def documentos_modificar_eliminar(self):
@@ -313,9 +318,7 @@ class Corregido(Estado):
 			return Visado(permiso=self.permiso, usuario=usuario, fecha_visado=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
 
 	def completar(self, usuario, fecha, expediente, pase):
-		self.permiso.numero_exp = expediente
-		self.permiso.documentos.add(pase)
-		self.permiso.save()
+		super().completar(usuario,fecha,expediente,pase)
 		return self
 
 	def __str__(self):
@@ -358,9 +361,7 @@ class Visado(Estado):
 		return self
 		
 	def completar(self, usuario, fecha, expediente, pase):
-		self.permiso.numero_exp = expediente
-		self.permiso.documentos.add(pase)
-		self.permiso.save()
+		super().completar(usuario,fecha,expediente,pase)
 		if self.permiso.documentacion_completa():
 			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		else:

@@ -156,17 +156,6 @@ class ModificarDocumento(UpdateView):
 			return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 			
 
-""" class DeleteDocumento(DeleteView):
-	model = Documento
-	template_name = 'Documento/delete.html'
-	success_url = reverse_lazy('documentos:listar')
-
-	def get (self, request, *args, **kwargs):
-		self.permiso_pk = kwargs.get('pkp')
-		self.documento_pk = kwargs.get('pk')
-
-		return super(DeleteDocumento, self).get(request,*args,**kwargs) """
-
 class DeleteDocumento(GenericEliminarView):
 	model = Documento
 	#success_url = reverse_lazy('documentos:listar')
@@ -224,18 +213,24 @@ class AgregarExpediente(CreateView):
 			lista_fechas.sort()
 			ultima_fecha = lista_fechas.pop()
 		
+		numero = request.POST['expediente']
+		fecha_string = "{}/{}-IPA".format(numero,fechaExpediente.year)
 		if form.is_valid(): #AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
 			if len(lista_fechas) == 0:
 				documento = form.save()
 				documento.tipo = TipoDocumento.get_protegido('pase')
 				documento.estado = 2
 				documento.save()
-				permiso.hacer('completar',request.user,fechaExpediente, int(request.POST['expediente']), documento)
-				return HttpResponseRedirect(self.get_success_url())
+				try:
+					permiso.hacer('completar',request.user,fechaExpediente, fecha_string, documento)
+					return HttpResponseRedirect(self.get_success_url())
+				except:
+					return self.render_to_response(self.get_context_data(form=form,expediente=numero, 
+					message_error = ['El expediente ya existe']))	
 			else:
-				return self.render_to_response(self.get_context_data(form=form, 
+				return self.render_to_response(self.get_context_data(form=form, expediente=numero,
 					message_error = ['La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')']))
-		return self.render_to_response(self.get_context_data(form=form))
+		return self.render_to_response(self.get_context_data(form=form,expediente=numero))
 
 class AgregarEdicto(GenericAltaView):
 	model = Documento
@@ -249,6 +244,7 @@ class AgregarEdicto(GenericAltaView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarEdicto, self).get_context_data(**kwargs)
 		context['nombreForm'] = 'Agregar Edicto a Permiso'
+		context['form'].fields['archivo'].label = 'Archivo del Edicto que se publica'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
@@ -302,6 +298,7 @@ class AgregarResolucion(CreateView):
 		context['renovacion'] = True if permiso.fechaVencimiento != None else False
 		context['unidadAnterior'] = '- Unidad de la anterior Resolución: ' + str(permiso.unidad) + permiso.tipo.get_medida_display() if permiso.unidad != None else ''
 		context['nombreForm'] = '{} Resolución a Permiso'.format('Renovar' if context['renovacion'] else 'Agregar')
+		context['form'].fields['archivo'].label = 'Archivo de la Resolución que aprueba el permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
@@ -375,6 +372,7 @@ class AgregarOposicion(CreateView):
 		context['message_error'] = ''
 		context['return_label'] = 'Detalle de Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
+		context['form'].fields['archivo'].label = 'Archivo de la oposición'
 		return context
 
 	def get (self, request, *args, **kwargs):

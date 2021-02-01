@@ -2,6 +2,8 @@
 
 {% load static semanticui %}
 
+{% load utiles_tag %}
+
 {% block mensaje_boton_volver %}
 	Volver a Información de Permiso
 {% endblock %} 
@@ -17,7 +19,7 @@
     {% render_form form %}
     <div class="required field">
         <label>Numero de Expediente </label>
-        <input type="number" name="expediente" placeholder="Ingrese un numero de expediente">
+        <input type="number" name="expediente" value={{expediente|to_int}} placeholder="Ingrese un numero de expediente">
       </div>
 
 {% endblock %}

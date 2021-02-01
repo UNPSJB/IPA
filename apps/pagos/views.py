@@ -293,6 +293,7 @@ class AltaCobroInfraccion(GenericAltaView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaCobroInfraccion, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Cobro de Infraccion"
+		context['form'].fields['archivo'].label = 'Archivo de Cobro de Infracción'
 		context['botones'] = {}
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['return_label'] = 'Volver al Detalle de Permiso'
@@ -340,6 +341,7 @@ class AltaPagoInfraccion(GenericAltaView):
 		context['botones'] = {}
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['return_label'] = 'Volver al Detalle de Permiso'
+		context['form'].fields['archivo'].label = 'Archivo del Pago de Infracción'
 		return context
 
 	def get(self, request, *args, **kwargs):
