@@ -2,7 +2,7 @@ import sys
 
 from django.urls import reverse_lazy, reverse
 from .models import TipoDocumento, Documento
-from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, DocumentoActaInspeccionProtegidoForm
+from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, OposicionForm, DocumentoActaInspeccionProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from apps.permisos.models import Permiso
 from apps.comisiones.models import Comision
@@ -269,7 +269,7 @@ class AgregarEdicto(GenericAltaView):
 
 		if form.is_valid():
 			if (fechaEdicto >= fecha_pase) and (tiempo > 0):
-				edicto = form.save()
+				edicto = form.save(commit=False)
 				edicto.tipo = TipoDocumento.get_protegido('edicto')
 				edicto.estado = 2
 				edicto.save()
@@ -362,39 +362,48 @@ class AgregarOposicion(CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
 	template_name = 'documentos/alta.html'
-	success_url = None
+
+	def get_success_url(self):
+		return reverse('permisos:detalle', args=[self.permiso_pk])
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarOposicion, self).get_context_data(**kwargs)
 		context['botones'] = {
 		}
 		context['nombreForm'] = 'Agregar Oposición a Permiso'
-		context['message_error'] = ''
 		context['return_label'] = 'Detalle de Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['form'].fields['archivo'].label = 'Archivo de la oposición'
+		context['form2'] = OposicionForm()
 		return context
+
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
-		self.success_url = reverse('permisos:detalle', args=[self.permiso_pk])
 		return super(AgregarOposicion, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
+		second_form = OposicionForm(request.POST)
+
+		fecha_oposicion = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		valido = eval(second_form.data['valido'])
+		
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		
 		fechaVencimiento = permiso.estado.vencimientoPublicacion()
 		
-		if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
-			oposicion = form.save()
+		#if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
+		if form.is_valid() and (fecha_oposicion <= fechaVencimiento):
+			oposicion = form.save(commit=False)
 			oposicion.tipo = TipoDocumento.get_protegido('oposicion')
 			oposicion.estado = 2
-			permiso.hacer('darDeBaja',request.user,date.today(), oposicion)
+			permiso.hacer('darDeBaja',request.user,fecha_oposicion, oposicion, valido)
 			return HttpResponseRedirect(self.get_success_url())
 
-		return self.render_to_response(self.get_context_data(form=form))
+		return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser menor o igual a la fecha de vencimiento de publicacion - '+(fechaVencimiento).strftime("%d-%m-%Y")]))
 
 class AltaActaDeInfraccion(GenericAltaView):
 	model = Documento

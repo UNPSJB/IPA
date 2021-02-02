@@ -58,6 +58,10 @@ class DocumentoProtegidoForm(forms.ModelForm):
 		super(DocumentoProtegidoForm,self).__init__(*args, **kwargs)
 		#self.fields['fecha'].label = kwargs.get('initial')['texto']
 
+
+class OposicionForm(forms.Form):
+	valido = forms.ChoiceField(label='¿El reclamo del opositor es valido?', initial='False' ,choices=(('True', 'SI | Es valida la oposición, dar de BAJA el permiso'), ('False', 'NO | No es valida la oposición, continuar con los tramites del permiso'))) #'data-tooltip':"Seleccione esta casilla si la oposición es validad y poder así dar de baja el permiso."})
+
 class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
 	comision = forms.ModelChoiceField(queryset=Comision.objects.all())
 	

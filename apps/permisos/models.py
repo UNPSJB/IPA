@@ -428,10 +428,14 @@ class Publicado(Estado):
 	def vencimientoPublicacion(self):
 		return self.fecha + timedelta(days=self.tiempo)
 
-	def darDeBaja(self, usuario, fecha, oposicion):
+	def darDeBaja(self, usuario, fecha, oposicion, valido):
+		oposicion.save()
 		self.permiso.documentos.add(oposicion)
 		self.permiso.save()
-		return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		if valido:
+			return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		else:
+			return self
 
 	def documentos_modificar_eliminar(self):
 		docs = super().documentos_modificar_eliminar()
