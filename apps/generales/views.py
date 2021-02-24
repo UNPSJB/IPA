@@ -5,7 +5,8 @@ from django.shortcuts import redirect
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 
-
+from django_tables2.views import SingleTableView
+from django_tables2.export.views import ExportMixin
 # Create your views here.
 class GenericAltaView(CreateView):
 	botones = dict()
@@ -59,5 +60,5 @@ class GenericEliminarView(DeleteView):
 			})
 
 ######################################################################
-class GenericListadoView(SingleTableMixin, FilterView):
+class GenericListadoView(ExportMixin, SingleTableView, FilterView):
 	pass

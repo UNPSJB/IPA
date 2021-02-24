@@ -10,6 +10,7 @@ from apps.generales.views import GenericListadoView, GenericAltaView,GenericElim
 from ..tables import PermisosTable
 from ..filters import PermisosFilter
 
+
 class ListadoPermisos(GenericListadoView):
 	model = Permiso
 	template_name = 'permisos/listado.html'
@@ -17,6 +18,8 @@ class ListadoPermisos(GenericListadoView):
 	paginate_by = 12
 	filterset_class = PermisosFilter
 	context_object_name = 'permiso'
+	dataset_kwargs = {"title": "People"}
+	export_name = 'listado_permisos'
 	
 
 class AltaPermiso(GenericAltaView):

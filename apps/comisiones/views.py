@@ -49,6 +49,7 @@ class ListadoComision(GenericListadoView):
 	table_class = ComisionTable
 	paginate_by = 12
 	filterset_class = ComisionFilter
+	export_name = 'listado_comisiones'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoComision, self).get_context_data(**kwargs)

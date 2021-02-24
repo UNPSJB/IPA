@@ -9,12 +9,15 @@ from apps.personas.forms import PersonaForm, ChoferForm, DirectorForm
 from apps.personas.tables import PersonaTable, PersonaFilter
 from django.http import JsonResponse
 
-class ListadoPersonas(SingleTableMixin, FilterView):
+from apps.generales.views import GenericListadoView
+
+class ListadoPersonas(GenericListadoView):
 	model = Persona
 	template_name = 'personas/listado.html'
 	table_class = PersonaTable
 	paginate_by = 12
 	filterset_class = PersonaFilter
+	export_name = 'listado_personas'
 
 class AltaPersona(GenericAltaView):
 	model = Persona

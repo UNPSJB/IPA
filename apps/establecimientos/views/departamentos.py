@@ -65,7 +65,7 @@ class ListadoDepartamentos(GenericListadoView):
 	table_class = DepartamentosTable
 	paginate_by = 12
 	filterset_class = DepartamentosFilter
-	
+	export_name = 'listado_departamentos'
 	context_object_name = 'departamentos'
 
 	def get_context_data(self, **kwargs):

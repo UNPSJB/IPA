@@ -32,6 +32,7 @@ class ListadoEstablecimientos(GenericListadoView):
 	paginate_by = 20
 	filterset_class = EstablecimientosFilter
 	context_object_name = 'establecimientos'
+	export_name = 'listado_establecimientos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoEstablecimientos, self).get_context_data(**kwargs)

@@ -41,7 +41,8 @@ class ListadoAfluentes(GenericListadoView):
 	template_name = 'establecimientos/afluentes/listado.html'
 	table_class = AfluentesTable
 	paginate_by = 12
-	filterset_class = AfluentesFilter	
+	filterset_class = AfluentesFilter
+	export_name = 'listado_afluentes'	
 	
 	def get_context_data(self, **kwargs):
 		context = super(ListadoAfluentes, self).get_context_data(**kwargs)

@@ -45,7 +45,7 @@ class ListadoValoresDeModulo(GenericListadoView):
 	table_class = ModulosTable
 	paginate_by = 12
 	filterset_class = ModulosFilter
-
+	export_name = 'listado_valores_modulos'
 	context_object_name = 'modulos'
 
 	def get_context_data(self, **kwargs):
@@ -124,7 +124,7 @@ class ListarCobros(GenericListadoView):
 	table_class = CobrosTable
 	paginate_by = 12
 	filterset_class = CobrosFilter
-	
+	export_name = 'listado_cobros'
 	context_object_name = 'cobros'
 
 	def get_table_data(self):
@@ -227,7 +227,7 @@ class ListarPagos(GenericListadoView):
 	table_class = PagosTable
 	paginate_by = 12
 	filterset_class = PagosFilter
-
+	export_name = 'listado_pagos'
 	context_object_name = 'pagos'
 
 	def get_table_data(self):
@@ -262,7 +262,7 @@ class ListarTodosLosCobros(GenericListadoView):
 	table_class = CobrosTodosTable
 	paginate_by = 12
 	filterset_class = CobrosTodosFilter
-	
+	export_name = 'listado_cobros_todos'
 	context_object_name = 'cobros'
 
 	def get_context_data(self, **kwargs):
@@ -277,6 +277,7 @@ class ListarTodosLosPagos(GenericListadoView):
 	table_class = PagosTodosTable
 	paginate_by = 12
 	filterset_class = PagosTodosFilter
+	export_name = 'listado_pagos_todos'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListarTodosLosPagos, self).get_context_data(**kwargs)

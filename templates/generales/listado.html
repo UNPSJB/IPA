@@ -25,7 +25,7 @@
 <div class="ui grid"> 
 	{% block context_menu %} {% endblock %} 
 	<div class="row header-content">
-		<div class="six wide column">
+		<div class="eight wide column">
 			{% if filter %}
 				<form action="" method="get" class="ui form">
 					<div class="inline field">
@@ -40,13 +40,25 @@
 		<div class="four wide column">
 			<h1 class="ui center aligned header blue "> {% block titulo %} {{nombreLista}} {% endblock %} </h1>
 		</div>
-		<div class="six wide column">
-			<button class="ui icon right floated blue button" onclick="window.location.href='{% block url_nuevo %} alta {% endblock %}'">
-				<i class="plus icon"></i>
-				{% block boton_nuevo %} Nuevo {% endblock %} 
-			</button>
+		<div class="four wide column">
+			<div class="ui two item menu">
+				<a class="ui icon right blue button" onclick="window.location.href='{% block url_nuevo %} alta {% endblock %}'">
+					<i class="plus icon"></i>
+					{% block boton_nuevo %} Nuevo {% endblock %} 
+				</a>
+			
+				<div class="ui dropdown item">
+					Exportar
+					<i class="dropdown icon"></i>
+					<div class="menu">
+						<a class="item" onclick="window.location.href='?_export=csv'">CSV</a>
+						<a class="item" onclick="window.location.href='?_export=json'">JSON</a>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+	</div>	
+	
 	<div class="row lista">
 		{% render_table table %}
 	</div>
