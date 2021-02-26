@@ -37,8 +37,6 @@ class ListadoEstablecimientos(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoEstablecimientos, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Establecimientos'
-		context['botones'] = {
-		}	
 		return context
 
 class DetalleEstablecimiento(DetailView):
@@ -78,7 +76,6 @@ class ModificarEstablecimiento(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarEstablecimiento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Establecimiento"
-		context['botones'] = {}
 		context['return_path'] = reverse('establecimientos:listar')
 		return context
 

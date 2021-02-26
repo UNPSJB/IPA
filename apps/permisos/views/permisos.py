@@ -63,7 +63,7 @@ class DetallePermiso(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 			context = super(DetallePermiso, self).get_context_data(**kwargs)
-			context['nombreDetalle'] = self.object.estado.__str__()
+			context['nombreDetalle'] = 'Permiso ' + self.object.estado.__str__()
 			context['botones'] = {
 				'Documentación': reverse('permisos:listarDocumentacionPermiso', args=[self.object.pk]),
 				'Nueva Acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
@@ -72,6 +72,7 @@ class DetallePermiso(DetailView):
 				'Nuevo Pago de Infraccion':reverse('pagos:AltaPagoInfraccion', args=[self.object.pk]),
 				'Listado de Cobros':reverse('pagos:listarCobros', args=[self.object.pk]),
 				'Listado de Pagos':reverse('pagos:listarPagos', args=[self.object.pk]),
+				'Baja de Permiso':reverse('documentos:bajaPermiso', args=[self.object.pk]),
 				'Eliminar Solicitud': reverse('permisos:eliminar', args=[self.object.pk])
 			}
 			if isinstance(self.object.estado, Otorgado):
@@ -110,10 +111,3 @@ def rechazar_documento_solicitud(request,pks,pkd):
 	documento = permiso.documentos.get(pk=pkd)
 	permiso.hacer('rechazar',request.user, datetime.now(), [documento])
 	return redirect('permisos:listarDocumentacionPermiso', pks)
-
-class NuevaDocumentacionRequerida(AltaDocumento):
-	def get_form(self, form_class):
-		form  = self_form_class()
-		permiso = Permiso.objects.get(id= self.permiso.pk)
-		
-		return form 

@@ -38,8 +38,6 @@ class ListadoTipoDocumentos(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTipoDocumentos, self).get_context_data(**kwargs)
 		context['nombreListado'] = "Listado Tipo de Documento"
-		context['botones'] = {
-			}
 		return context
 
 
@@ -63,7 +61,6 @@ class ModificarTipoDocumento(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarTipoDocumento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Tipo Documento"
-		context['botones'] = {}
 		context['return_path'] = reverse_lazy('tipoDocumentos:listado')
 		return context
 
@@ -80,7 +77,6 @@ class AltaDocumento(GenericAltaView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AltaDocumento, self).get_context_data(**kwargs)
-		context['botones'] = {}
 		context['nombreForm'] = 'Nuevo Documento'
 		context['return_label'] = 'Detalle de Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
@@ -118,7 +114,6 @@ class ModificarDocumento(UpdateView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(ModificarDocumento, self).get_context_data(**kwargs)
-		context['botones'] = {}
 		context['nombreForm'] = 'Modificar Documento'
 		context['return_label'] = 'Documentación de Permiso'
 		context['return_path'] = reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk])
@@ -192,7 +187,6 @@ class AgregarExpediente(CreateView):
 		context['nombreForm'] = 'Agregar Expediente a Permiso'
 		context['form'].fields['fecha'].label = 'Fecha de Creación'
 		context['form'].fields['archivo'].label = 'Archivo de Caratula/Pase del Expediente'
-		context['botones'] = {}
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
@@ -292,7 +286,6 @@ class AgregarResolucion(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarResolucion, self).get_context_data(**kwargs)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
-		context['botones'] = {}
 		context['permiso'] = permiso
 		context['utilizando'] = 'Si' if permiso.getEstados(1)[0].utilizando else 'No'
 		context['renovacion'] = True if permiso.fechaVencimiento != None else False
@@ -339,11 +332,9 @@ class AgregarResolucion(CreateView):
 		
 		if form.is_valid():
 			if fechaCorrecta and (unidad > 0):
-				print("ANTES DE CAPTURA INFO DEL FORM RES.")
 				resolucion = form.save(commit=False)
 				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
 				resolucion.estado = 2
-				print("ANTES DEL TRYYYYYYYYYY")
 				try:
 					permiso.hacer(accion,request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 					return HttpResponseRedirect(self.get_success_url())
@@ -368,8 +359,6 @@ class AgregarOposicion(CreateView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarOposicion, self).get_context_data(**kwargs)
-		context['botones'] = {
-		}
 		context['nombreForm'] = 'Agregar Oposición a Permiso'
 		context['return_label'] = 'Detalle de Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
@@ -404,6 +393,46 @@ class AgregarOposicion(CreateView):
 			return HttpResponseRedirect(self.get_success_url())
 
 		return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser menor o igual a la fecha de vencimiento de publicacion - '+(fechaVencimiento).strftime("%d-%m-%Y")]))
+
+class BajaPermiso(GenericAltaView):
+	model = Documento
+	form_class = DocumentoProtegidoForm
+	template_name = 'documentos/alta.html'
+
+	def get_success_url(self):
+		return reverse('permisos:detalle', args=[self.permiso_pk])
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(BajaPermiso, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Trámite de Baja del Permiso'
+		context['return_label'] = 'Detalle de Permiso'
+		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
+		context['form'].fields['archivo'].label = 'Archivo del documento de baja'
+		context['form'].fields['fecha'].label = 'Fecha de la Resolución que adjunta'
+		return context
+
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(BajaPermiso, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
+		form = self.form_class(request.POST, request.FILES)
+
+		fecha_de_baja = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		if form.is_valid() and (fecha_de_baja >= permiso.estado.fecha):
+			resolucion = form.save(commit=False)
+			resolucion.tipo = TipoDocumento.get_protegido('resolucion')
+			resolucion.estado = 2
+			permiso.hacer('darDeBaja',request.user,fecha_de_baja, resolucion, True)
+			return HttpResponseRedirect(self.get_success_url())
+
+		return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser mayor o igual a '+(permiso.estado.fecha).strftime("%d-%m-%Y")+' (Permiso '+permiso.estado.getEstadoString().title()+')']))
 
 class AltaActaDeInfraccion(GenericAltaView):
 	model = Documento

@@ -249,6 +249,15 @@ class Estado(models.Model):
 		else:
 			raise Exception("Expediente ya existe")
 
+	def darDeBaja(self, usuario, fecha, documento, valido):
+		documento.save()
+		self.permiso.documentos.add(documento)
+		self.permiso.save()
+		if valido:
+			return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		else:
+			return self
+
 class Solicitado(Estado):
 	TIPO = 1
 	utilizando = models.BooleanField(
@@ -268,7 +277,7 @@ class Solicitado(Estado):
 			documento.estado = 2
 			documento.save()
 		if self.permiso.documentos.filter(estado=2).exists():
-			return Visado(permiso=self.permiso, usuario=usuario, fecha_visado=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			return Visado(permiso=self.permiso, usuario=usuario, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
 		return self
 
 	def __str__(self):
@@ -279,7 +288,7 @@ class Solicitado(Estado):
 			documento.estado = 1
 			documento.save()
 		if self.permiso.documentos.filter(estado=1).exists():
-			return Corregido(permiso=self.permiso, usuario=usuario, fecha_corregido=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			return Corregido(permiso=self.permiso, usuario=usuario, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
 		return self
 
 	def completar(self, usuario, fecha, expediente, pase):
@@ -293,7 +302,6 @@ class Solicitado(Estado):
 
 class Corregido(Estado):
 	TIPO = 2
-	fecha_corregido = models.DateField()
 
 	def recibir(self, usuario, fecha, documentos):
 		for documento in documentos:
@@ -315,7 +323,7 @@ class Corregido(Estado):
 		elif self.permiso.documentacion_completa():
 			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		else:
-			return Visado(permiso=self.permiso, usuario=usuario, fecha_visado=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			return Visado(permiso=self.permiso, usuario=usuario, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
 
 	def completar(self, usuario, fecha, expediente, pase):
 		super().completar(usuario,fecha,expediente,pase)
@@ -331,7 +339,6 @@ class Corregido(Estado):
 
 class Visado(Estado):
 	TIPO = 3
-	fecha_visado = models.DateField()
 
 	def __str__(self):
 		return "Visado"
@@ -346,7 +353,7 @@ class Visado(Estado):
 			documento.estado = 2
 			documento.save()
 		if self.permiso.documentos.filter(estado=1).exists():
-			return Corregido(permiso=self.permiso, usuario=usuario, fecha_corregido=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			return Corregido(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		elif self.permiso.documentacion_completa():
 			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		else:
@@ -357,7 +364,7 @@ class Visado(Estado):
 			documento.estado = 1
 			documento.save()
 		if self.permiso.documentos.filter(estado=1).exists():
-			return Corregido(permiso=self.permiso, usuario=usuario, fecha_corregido=fecha, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			return Corregido(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		return self
 		
 	def completar(self, usuario, fecha, expediente, pase):
@@ -427,15 +434,6 @@ class Publicado(Estado):
 
 	def vencimientoPublicacion(self):
 		return self.fecha + timedelta(days=self.tiempo)
-
-	def darDeBaja(self, usuario, fecha, oposicion, valido):
-		oposicion.save()
-		self.permiso.documentos.add(oposicion)
-		self.permiso.save()
-		if valido:
-			return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
-		else:
-			return self
 
 	def documentos_modificar_eliminar(self):
 		docs = super().documentos_modificar_eliminar()

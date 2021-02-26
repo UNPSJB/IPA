@@ -35,7 +35,6 @@ class ModificarValorDeModulo(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarValorDeModulo, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Valor de Modulo"
-		context['botones'] = {}
 		context['return_path'] = reverse('pagos:listarModulos')
 		return context
 
@@ -71,7 +70,6 @@ class AltaCobro(GenericAltaView):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
 		return render(request, self.template_name, {'form':self.form_class(initial={'fecha_desde':cobro.fecha_desde}), 'cobro': cobro, 
-			'botones':{},
 			'return_path':reverse('pagos:listarCobros', args=[permiso.id]),
 			'permiso': permiso, 'nombreForm':"Nuevo Cobro de Canon"})
 
@@ -90,7 +88,7 @@ class AltaCobro(GenericAltaView):
 			cobro.save()
 			permiso.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('pagos:listarCobros', args=[permiso.id]))
-		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'botones':'', 'permiso': permiso})
+		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'permiso': permiso})
 
 def recalcular_cobro(request):
 	permiso = Permiso.objects.get(pk=request.GET['permiso_pk'])
@@ -154,7 +152,6 @@ class AltaPago(GenericAltaView):
 		documento_form = self.form_class()
 		documento_form.fields['fecha'].label = 'Fecha de Pago'
 		return render(request, self.template_name, {'form':documento_form, 
-			'botones':{},
 			'return_path':reverse('permisos:detalle', args=[permiso.id]),
 			'return_label':'Volver al Detalle de Permiso',
 			'permiso': permiso, 'nombreForm':"Pago Canon"})
@@ -178,7 +175,7 @@ class ModificarPago(UpdateView):
 		pago = self.object
 		form_class = self.form_class(initial={'descripcion':pago.documento.descripcion,	'archivo': pago.documento.archivo, 'fecha': pago.documento.fecha})
 		return render(request, self.template_name, { 'form': form_class,
-			'monto' : pago.monto, 'botones': {}, 'nombreForm' : 'Modificar Pago de Canon', 'return_path' : reverse('pagos:listarPagos', args=[pago.permiso.pk]),
+			'monto' : pago.monto, 'nombreForm' : 'Modificar Pago de Canon', 'return_path' : reverse('pagos:listarPagos', args=[pago.permiso.pk]),
 		 	'return_label' :  'Volver al listado de pagos' })
 
 	def post(self, request, *args, **kwargs):
@@ -216,9 +213,9 @@ def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 			pago.save()
 			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[pago.permiso.id,]))
 		else:
-			return self.render_to_response(self.get_context_data(form=documento_form, botones={}, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
+			return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
 			+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']))
-	return self.render_to_response(self.get_context_data(form=documento_form, botones={}, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', permiso=pago.permiso,message_error=['Datos Incorrectos']))
+	return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', permiso=pago.permiso,message_error=['Datos Incorrectos']))
 
 
 class ListarPagos(GenericListadoView):
@@ -268,7 +265,6 @@ class ListarTodosLosCobros(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListarTodosLosCobros, self).get_context_data(**kwargs)
 		context['nombreListado'] = "Listado de Cobros Generales"
-		context['botones'] = {}
 		return context
 
 class ListarTodosLosPagos(GenericListadoView):
@@ -295,7 +291,6 @@ class AltaCobroInfraccion(GenericAltaView):
 		context = super(AltaCobroInfraccion, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Cobro de Infraccion"
 		context['form'].fields['archivo'].label = 'Archivo de Cobro de Infracción'
-		context['botones'] = {}
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['return_label'] = 'Volver al Detalle de Permiso'
 		return context
@@ -324,10 +319,10 @@ class AltaCobroInfraccion(GenericAltaView):
 				permiso.agregar_documentacion(documento)
 				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk,]))
 			else:
-				return render(request, self.template_name, {'form': documento_form, 'monto':str(monto), 'botones':'', 'nombreForm': 'Cobro de Infraccion',
+				return render(request, self.template_name, {'form': documento_form, 'monto':str(monto), 'nombreForm': 'Cobro de Infraccion',
 					'message_error': ['La fecha de cobro debe ser igual o mayor a la fecha de solicitud (' + permiso.fechaSolicitud.strftime('%d/%m/%Y'+')')]
 					})
-		return render(request, self.template_name, {'form':documento_form, 'return_path': reverse('permisos:detalle', args=[self.permiso_pk]), 'message_error':['Error en la carga'], 'botones':''})
+		return render(request, self.template_name, {'form':documento_form, 'return_path': reverse('permisos:detalle', args=[self.permiso_pk]), 'message_error':['Error en la carga']})
 
 
 class AltaPagoInfraccion(GenericAltaView):
@@ -339,7 +334,6 @@ class AltaPagoInfraccion(GenericAltaView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaPagoInfraccion, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Pago de Infraccion"
-		context['botones'] = {}
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['return_label'] = 'Volver al Detalle de Permiso'
 		context['form'].fields['archivo'].label = 'Archivo del Pago de Infracción'
@@ -369,7 +363,7 @@ class AltaPagoInfraccion(GenericAltaView):
 				permiso.agregar_documentacion(documento)
 				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id,]))
 			else:
-				return render(request, self.template_name, {'form': documento_form,'monto':str(monto), 'botones':'', 'nombreForm': 'Nuevo Pago de Infraccion',
+				return render(request, self.template_name, {'form': documento_form,'monto':str(monto), 'nombreForm': 'Nuevo Pago de Infraccion',
 					'message_error': ['La fecha de Pago debe ser mayor o igual a la fecha de Solicitud de permiso y menor o igual a la fecha actual ('
 				+ (fechaSolicitud).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']
 				})

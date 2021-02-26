@@ -42,7 +42,6 @@ class ModificarDepartamento(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarDepartamento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Departamento"
-		context['botones'] = {}
 		context['return_path'] = reverse('departamentos:listar')
 		return context
 
@@ -54,7 +53,6 @@ class DetalleDepartamento(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(DetalleDepartamento, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle de Departamento'
-		context['botones'] = {}
 		context['return_label'] = 'listado de Departamentos'
 		context['return_path'] = reverse('departamentos:listar')
 		return context
@@ -71,9 +69,6 @@ class ListadoDepartamentos(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDepartamentos, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Departamentos'
-		context['botones'] = {
-		}
-		
 		return context
 
 class DeleteDepartamento(DeleteView):

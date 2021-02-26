@@ -9,7 +9,7 @@ def renderContextMenu(context):
     """ menu = ' <div class="ui vertical fluid blue inverted large menu right">' """
     #menu = '<div class="ui compact menu"> <div class="ui simple dropdown item">Acción<i class="dropdown icon"></i><div class="menu">' 
     menu = '' 
-    botones = context['botones']
+    botones = context['botones'] if 'botones' in context else {}
     if len(botones)>4:
         for boton in dict(itertools.islice(botones.items(),0, 4)):
             url = botones[boton]

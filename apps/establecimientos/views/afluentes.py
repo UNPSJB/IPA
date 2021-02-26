@@ -47,9 +47,6 @@ class ListadoAfluentes(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Afluentes'
-		context['botones'] = {
-		}
-		
 		return context	
 
 class ModificarAfluente(UpdateView):
@@ -71,7 +68,6 @@ class ModificarAfluente(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarAfluente, self).get_context_data(**kwargs)
-		context['botones'] = {}
 		context['return_path'] = reverse_lazy('afluentes:listar')
 		context['nombreForm'] = 'Modificar Afluente'
 		return context

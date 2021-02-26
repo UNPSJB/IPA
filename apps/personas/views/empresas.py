@@ -26,8 +26,6 @@ class DetalleEmpresa(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleEmpresa, self).get_context_data(**kwargs)
-		context['botones'] = {
-		}
 		context['nombreDetalle'] = 'Detalle Empresa'
 		context['return_label'] = 'Listado Empresas'
 		context['return_path']= reverse('empresar:listar')
