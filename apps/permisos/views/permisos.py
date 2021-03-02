@@ -18,7 +18,6 @@ class ListadoPermisos(GenericListadoView):
 	paginate_by = 12
 	filterset_class = PermisosFilter
 	context_object_name = 'permiso'
-	dataset_kwargs = {"title": "People"}
 	export_name = 'listado_permisos'
 	
 

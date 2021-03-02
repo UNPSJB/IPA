@@ -24,8 +24,14 @@
 
 <div class="ui grid"> 
 	{% block context_menu %} {% endblock %} 
-	<div class="row header-content">
-		<div class="eight wide column">
+	<div class="row centered">
+		
+			<h1 class="ui center aligned header blue "> {% block titulo %} {{nombreLista}} {% endblock %} </h1>
+		
+	</div>
+	<div class="two column row">
+		
+		<div class="left floated column">
 			{% if filter %}
 				<form action="" method="get" class="ui form">
 					<div class="inline field">
@@ -37,17 +43,14 @@
 				</form>
 			{% endif %}
 		</div>
-		<div class="four wide column">
-			<h1 class="ui center aligned header blue "> {% block titulo %} {{nombreLista}} {% endblock %} </h1>
-		</div>
-		<div class="four wide column">
-			<div class="ui two item menu">
+		<div class="right floated right aligned column">
+			<div class="row">
 				<a class="ui icon right blue button" onclick="window.location.href='{% block url_nuevo %} alta {% endblock %}'">
 					<i class="plus icon"></i>
 					{% block boton_nuevo %} Nuevo {% endblock %} 
 				</a>
-			
-				<div class="ui dropdown item">
+				
+				<div class="ui dropdown button">
 					Exportar
 					<i class="dropdown icon"></i>
 					<div class="menu">

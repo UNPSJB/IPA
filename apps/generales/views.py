@@ -60,5 +60,5 @@ class GenericEliminarView(DeleteView):
 			})
 
 ######################################################################
-class GenericListadoView(ExportMixin, SingleTableView, FilterView):
+class GenericListadoView(ExportMixin, SingleTableMixin, FilterView):
 	pass
