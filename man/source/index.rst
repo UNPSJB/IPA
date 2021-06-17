@@ -11,9 +11,12 @@ Bienvenidos a la documentacion de IPA!
    :caption: Contents:
 
    login
-   persona
-   solicitud
+   solicitante
+   permiso
+   permiso_gestion
    comision
+   localidad
+   general
 
 
 

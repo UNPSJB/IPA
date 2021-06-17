@@ -1,0 +1,79 @@
+[
+ {
+   "model": "establecimientos.afluente",
+   "pk": 1,
+   "fields": {
+   "nombre": "Rio Simpson",
+   "localidad": 5,
+   "caudal": 2140,
+   "longitud": 126,
+   "superficie": 85701,
+   "descripcion": "Agua dulce"
+ }},
+  {
+    "model": "establecimientos.afluente",
+    "pk": 2,
+    "fields": {
+    "nombre": "Rio Pico",
+    "localidad": 2,
+    "caudal": 1292140,
+    "longitud": 1126,
+    "superficie": 985701,
+    "descripcion": "Agua dulce"
+ }},
+   {
+     "model": "establecimientos.afluente",
+     "pk": 3,
+     "fields": {
+     "nombre": "Rio Corcovado",
+     "localidad": 6,
+     "caudal": 12140,
+     "longitud": 11126,
+     "superficie": 985701,
+     "descripcion": "Agua dulce"
+ }},
+    {
+      "model": "establecimientos.afluente",
+      "pk": 4,
+      "fields": {
+      "nombre": "Rio Futaleufu",
+      "localidad": 6,
+      "caudal": 1290,
+      "longitud": 13026,
+      "superficie": 9821701,
+      "descripcion": "Agua dulce"
+ }},
+     {
+       "model": "establecimientos.afluente",
+       "pk": 5,
+       "fields": {
+       "nombre": "Lago Puelo",
+       "localidad": 6,
+       "caudal": 1290,
+       "longitud": 130826,
+       "superficie": 98701,
+       "descripcion": "Agua dulce"
+ }},
+      {
+        "model": "establecimientos.afluente",
+        "pk": 6,
+        "fields": {
+        "nombre": "Rio Senguer",
+        "localidad": 6,
+        "caudal": 89290,
+        "longitud": 5826,
+        "superficie": 8701,
+        "descripcion": "Agua dulce"
+ }},
+       {
+         "model": "establecimientos.afluente",
+         "pk": 7,
+         "fields": {
+         "nombre": "Rio Chubut",
+         "localidad": 6,
+         "caudal": 2389290,
+         "longitud": 15826,
+         "superficie": 18701,
+         "descripcion": "Agua dulce"
+ }}
+ ]

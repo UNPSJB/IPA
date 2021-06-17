@@ -1,8 +1,8 @@
 .. _cheat-sheet:
 
-******************
+***********************
 Como ingresar al portal
-******************
+***********************
 
 Para iniciar sesión en el portal, en la pantalla deberá ingresar su **correo electronico** o su **nombre de usuario** en el primer campo y su **contraseña** en el segundo campo.
    
