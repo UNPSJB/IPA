@@ -178,11 +178,3 @@ En el formulario debemos completar los campos **Nombre**.
 
 .. image::  _static/nuevo_tipodocumento.png
    :align:  center
-
-******************************
-Como crear una nueva localidad
-******************************
-
-***************************
-Como crear una nueva ciudad
-***************************

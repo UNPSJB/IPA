@@ -39,3 +39,23 @@ En el formulario debemos completar los campos **CUIT**, **Razon social**, **Dire
 
 .. image::  _static/nueva_empresa.png
    :align:  center
+
+
+***********************************
+Comó crear un nuevo establecimiento
+***********************************
+
+Para ingresar un nuevo establecimiento debemos ir a **Establecimientos**
+
+.. image::  _static/panel_establecimiento.png
+   :align:  center
+
+Luego nos dirigimos a **Nuevo Establecimiento**
+
+.. image::  _static/panel_establecimiento_nuevo.png
+   :align:  center
+
+En el formulario debemos completar los campos **Dueño** (Debera ser una persona previamente cargada en el sistema), **Codgio catastral**, **Superficie**, **Nombre**, **Descripcion** .Los campos con * son obligatorios. Completados los campos se podra **Guardar** o **Guardar y Cargar otro**.
+
+.. image::  _static/nuevo_establecimiento.png
+   :align:  center
