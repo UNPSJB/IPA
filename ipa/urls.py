@@ -55,4 +55,5 @@ urlpatterns = [
     url(r'^empresas/', include('apps.personas.urls.empresas')),    
     url(r'^archivos/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),    
 
+    url(r'^reportes/', include('apps.reportes.urls')),
 ]

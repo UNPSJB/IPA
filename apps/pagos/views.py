@@ -79,12 +79,12 @@ class AltaCobro(GenericAltaView):
 		documento_form = self.form_class(request.POST, request.FILES)
 
 		if documento_form.is_valid():
-			fecha_hasta = datetime.strptime(request.POST['fecha_hasta'], '%Y-%m-%d').date()
+			fecha = datetime.strptime(request.POST['fecha'], '%Y-%m-%d').date()
 			descripcion = request.POST['descripcion']
-			archivo = request.POST['fecha_hasta']
-			documento = Documento(tipo=TipoDocumento.get_protegido('cobro'), descripcion=descripcion, archivo=archivo, estado = 2, fecha=fecha_hasta)
+			archivo = request.POST['fecha']
+			documento = Documento(tipo=TipoDocumento.get_protegido('cobro'), descripcion=descripcion, archivo=archivo, estado = 2, fecha=fecha)
 			documento.save()
-			cobro = permiso.estado.recalcular(request.user, documento, fecha_hasta, permiso.unidad)
+			cobro = permiso.estado.recalcular(request.user, documento, fecha, permiso.unidad)
 			cobro.save()
 			permiso.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('pagos:listarCobros', args=[permiso.id]))
@@ -92,12 +92,12 @@ class AltaCobro(GenericAltaView):
 
 def recalcular_cobro(request):
 	permiso = Permiso.objects.get(pk=request.GET['permiso_pk'])
-	fecha_hasta = datetime.strptime(request.GET['fecha_hasta'], '%Y-%m-%d').date()
+	fecha = datetime.strptime(request.GET['fecha'], '%Y-%m-%d').date()
 
 	try:
-		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha_hasta, unidad=permiso.unidad)
+		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha, unidad=permiso.unidad)
 		return JsonResponse({"success": True,"message": "Nuevo monto calculado con exito", "monto": cobro.monto, 
-		"fecha_desde": cobro.fecha_desde.strftime("%d/%m/%Y"),"fecha_hasta":cobro.fecha_hasta.strftime("%d/%m/%Y")})
+		"fecha_desde": cobro.fecha_desde.strftime("%d/%m/%Y"),"fecha":cobro.fecha.strftime("%d/%m/%Y")})
 	except:
 		return JsonResponse({"success": False,"message": "No se puede calcular el cobro fecha incorrectas"})
 
@@ -314,7 +314,7 @@ class AltaCobroInfraccion(GenericAltaView):
 				documento.estado = 2
 				documento = documento_form.save()
 				cobro = Cobro(permiso=permiso, monto=monto, documento=documento, 
-					fecha_desde=fecha_de_cobro, fecha_hasta=fecha_de_cobro, es_por_canon=False)
+					fecha_desde=fecha_de_cobro, fecha=fecha_de_cobro, es_por_canon=False)
 				cobro.save()
 				permiso.agregar_documentacion(documento)
 				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk,]))

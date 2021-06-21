@@ -1,5 +1,6 @@
 from django.db import models
 from apps.personas.models import Persona
+from django.utils.text import slugify
 
 # Create your models here.
 

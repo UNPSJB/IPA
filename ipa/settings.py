@@ -37,18 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+    'django_tables2',
+    'django_extensions',
+    'django.contrib.humanize',
     'apps.comisiones',
     'apps.documentos',
     'apps.establecimientos',
     'apps.permisos',
     'apps.personas',
     'apps.pagos',
-    'django_tables2',
     'apps.semanticuiforms',
-    'django_extensions',
     'apps.tags',
-    'django_filters',
-    'django.contrib.humanize',
+    'apps.reportes',
 ] 
 
 MIDDLEWARE = [

@@ -12,7 +12,7 @@ def DocumentColumn(tipo):
 
 class CobrosTable(tables.Table):
     periodo = tables.Column(empty_values=(),order_by=("fecha_desde","fecha_hasta"))
-    fecha_hasta = tables.DateColumn(short=False,verbose_name="Fecha de Cobro", attrs={"td": {"id": lambda record: "fecha-"+str(record.id)}})
+    fecha = tables.DateColumn(short=False,verbose_name="Fecha de Cobro", attrs={"td": {"id": lambda record: "fecha-"+str(record.id)}})
     monto = tables.Column(verbose_name="Monto ($)", attrs={"td": {"id": lambda record: "monto-"+str(record.id)}})
     es_por_canon = tables.BooleanColumn(verbose_name="Tipo",yesno="Canon,Infraccion", attrs={"td": {"id": lambda record: "tipo-"+str(record.id)}})
     documentocob = DocumentColumn("Cobro")
@@ -27,13 +27,13 @@ class CobrosTable(tables.Table):
         }
 
     def render_periodo(self,record):
-        return "{} al {}".format(record.fecha_desde.strftime('%d/%m/%Y'), record.fecha_hasta.strftime('%d/%m/%Y'))
+        return "{} al {}".format(record.fecha_desde.strftime('%d/%m/%Y'), record.fecha.strftime('%d/%m/%Y'))
 
 class CobrosTodosTable(tables.Table):
     solicitante = tables.Column(verbose_name="Solicitante",accessor="permiso.solicitante")
     tipo = tables.Column(verbose_name="Tipo de Permiso",accessor="permiso.tipo")
     periodo = tables.Column(empty_values=(),order_by=("fecha_desde","fecha_hasta"))
-    fecha_hasta = tables.DateColumn(short=False,verbose_name="Fecha de Cobro")
+    fecha = tables.DateColumn(short=False,verbose_name="Fecha de Cobro")
     monto = tables.Column(verbose_name="Monto($)")
     documentocob = DocumentColumn("Cobro")
     es_por_canon = tables.BooleanColumn(verbose_name="Tipo de Cobro",yesno="Canon,Infraccion")
@@ -44,7 +44,7 @@ class CobrosTodosTable(tables.Table):
         fields = ()
 
     def render_periodo(self,record):
-        return "{} al {}".format(record.fecha_desde.strftime('%d/%m/%Y'), record.fecha_hasta.strftime('%d/%m/%Y'))
+        return "{} al {}".format(record.fecha_desde.strftime('%d/%m/%Y'), record.fecha.strftime('%d/%m/%Y'))
 
 
 class PagosTable(tables.Table):
@@ -68,7 +68,8 @@ class PagosTodosTable(tables.Table):
     fecha = tables.DateColumn(short=False,verbose_name="Fecha de Pago")
     monto = tables.Column(verbose_name="Monto($)")
     documentocob = DocumentColumn("Pago")
-    es_por_canon = tables.BooleanColumn(verbose_name="Tipo de Pago",yesno="Canon,Infraccion")    
+    es_por_canon = tables.BooleanColumn(verbose_name="Tipo de Pago",yesno="Canon,Infraccion")
+
 
 class ModulosTable(tables.Table):
     precio = tables.Column(verbose_name="Precio($)")

@@ -37,8 +37,8 @@
 		</div>
 		<div class="seven wide column" >
 			<div class="required field">
-				{{ form.fecha_hasta.label_tag }}{{ form.fecha_hasta.errors }}{{ form.fecha_hasta }}
-				<div class="ui pointing label">{{ form.fecha_hasta.help_text }}</div>
+				{{ form.fecha.label_tag }}{{ form.fecha.errors }}{{ form.fecha }}
+				<div class="ui pointing label">{{ form.fecha.help_text }}</div>
 			</div>
 		</div>
         <div class="one wide column">
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-	<h4 id="nuevo_monto">El monto calculado a cobrar es de ${{cobro.monto}} para el periodo seleccionado ({{cobro.fecha_desde}}-{{cobro.fecha_hasta}}).</h4>
+	<h4 id="nuevo_monto">El monto calculado a cobrar es de ${{cobro.monto}} para el periodo seleccionado ({{cobro.fecha_desde}}-{{cobro.fecha}}).</h4>
 </div>
 {% endblock %}
 
@@ -59,11 +59,11 @@
 
 	$(".ui.primary.icon.button").click(function(){
 		var id = this.id
-		var fecha_hasta = $("input[name=fecha_hasta]")[0].value
-		console.log(fecha_hasta)
-		console.log(fecha_hasta)
+		var fecha = $("input[name=fecha]")[0].value
+		console.log(fecha)
+		console.log(fecha)
 		
-		$.get('/pagos/cobro/recalcular/', {"permiso_pk": id, "fecha_hasta": fecha_hasta},function(data){
+		$.get('/pagos/cobro/recalcular/', {"permiso_pk": id, "fecha": fecha},function(data){
 			if (data.success){
 				$('#message_positive').html(data.message);
 				$('.ui.hidden.positive.message').show();

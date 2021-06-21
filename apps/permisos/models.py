@@ -420,7 +420,7 @@ class Publicado(Estado):
 			resolucion.save()
 			precio = modulos.latest().precio
 			monto = self.permiso.tipo.calcular_monto(precio, unidad, fechaPrimerCobro, fecha)
-			cobro = Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha_hasta=fecha)
+			cobro = Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha=fecha)
 			cobro.save()
 			self.permiso.unidad = unidad
 			self.permiso.fechaVencimiento = vencimiento
@@ -466,7 +466,7 @@ class Otorgado(Estado):
 			hasta = fecha
 		else:
 			cobro = cobros.latest()
-			desde = cobro.fecha_hasta
+			desde = cobro.fecha
 			hasta = fecha
 
 		if desde>hasta:
@@ -478,7 +478,7 @@ class Otorgado(Estado):
 		precio = modulos.latest().precio
 		monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, desde, hasta)
 
-		return Cobro(permiso=self.permiso, documento=documento, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
+		return Cobro(permiso=self.permiso, documento=documento, monto=monto, fecha_desde=desde, fecha=hasta)
 	
 	def renovar(self, usuario, fecha, unidad, resolucion, fechaPrimerCobro ,vencimiento):
 		resolucion.save()

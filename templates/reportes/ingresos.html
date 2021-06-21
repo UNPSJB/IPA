@@ -1,0 +1,91 @@
+{% extends 'index2.html' %}
+{% load static semanticui %}
+{% load actionButton %}
+{% block wrapper %}
+
+	<div class="row header-content">
+		<div class="ui hidden large error message">
+			<i class="close icon"></i>
+			<div class="header"> Hubo el siguiente problema:</div>
+			<ul class="list">
+				<li id="message_error"></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row header-content">
+		<div class="ui hidden large positive message">
+			<i class="close icon"></i>
+			<div class="header"> {% block mensaje_success_titulo %} ¡Todo a salido bien! {% endblock %}</div>
+			<li id="message_positive"> {{ message_success }}</li>
+		</div>
+	</div>
+
+
+	{% block context_menu %} {% endblock %} 
+	
+	<div class="row centered">
+		
+		<h1 class="ui center aligned header blue "> {{nombreListado}} </h1>
+	
+	</div>
+
+	
+	<div class="ui pointing secondary menu">
+		<a class="active item"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Filtros</font></font></a>
+		<a class="item"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Información</font></font></a>
+		<a class="item"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Info + Graficos</font></font></a>
+		<a class="item"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Graficos</font></font></a>
+		
+		<div class="right menu">
+			<div class="item">
+				<div class="ui dropdown button">
+					Exportar
+					<i class="dropdown icon"></i>
+					<div class="menu">
+						<a class="item" onclick="window.location.href='?_export=csv'">CSV</a>
+						<a class="item" onclick="window.location.href='?_export=json'">JSON</a>
+					</div>
+				</div>
+			</div>
+		</div>
+				
+	</div>
+			
+	<form class="ui form" id="ingresos-form" data-ajax_url="{% url 'reportes:ingresos' %}">
+		{% render_form form %}
+		<div class="field">
+			<div class="ui">
+				<div class="ui input left icon">
+					<i class="calendar icon"></i>
+					<input type="text" name="daterange"/>
+				</div>
+			</div>
+		</div>
+		<input type="submit" value="Submit">
+	</form>
+		
+				<!--
+					<div id="container" style="width: 75%;">
+						<canvas id="pie-chart"></canvas>
+					</div>
+				-->
+				
+		
+				
+{% endblock %}
+				
+{% block pageStaticJs %}
+	{{ block.super }}
+	<script src="{% static 'js/daterangepicker.js' %}"></script>
+	<script src="{% static 'js/ingresos.js' %}"></script>
+{% endblock %}
+
+{% block customPageJs %}
+
+
+
+		
+		
+		
+		{% endblock %}

@@ -30,9 +30,13 @@ class CobroForm(forms.Form):
 	descripcion = forms.CharField(label='Concepto del Cobro')
 	archivo = forms.FileField(label='Adjuntar el Documento del Cobro')
 	fecha_desde = forms.DateField(required=False,disabled=True,label="Fecha desde",widget=forms.DateInput(format=('%Y-%m-%d'),attrs={'class':'form-control','type':'date','data-tooltip':"Fecha desde el ultimo cobro"}))
-	fecha_hasta = forms.DateField(initial=date.today(),label="Fecha hasta",
+	fecha = forms.DateField(initial=date.today(),label="Fecha hasta",
 					widget=forms.DateInput(format=('%Y-%m-%d'),attrs={'class':'form-control','type':'date','data-tooltip':"Fecha no puede ser superior al día de la fecha o fecha de vencimiento de permiso"}),
 					help_text="Elija una nueva fecha y luego presione el boton de la calculadora para modificar el monto de Canon a cobrar.")
+
+	class Meta:
+		model = Cobro
+		fields = ('descripcion', 'archivo', 'fecha_desde','fecha')
 
 class PagoForm(forms.ModelForm):
 	descripcion = forms.CharField(label='Descripción del Pago')

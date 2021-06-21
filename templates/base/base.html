@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
     	<meta charset="utf-8" />
     	<title>IPA</title>
 	  	
@@ -26,6 +27,9 @@
 
 		<!-- archivos estaticos js de la pagina -->
 		{% block pageStaticJs %}{% endblock %}
+		<script>
+			jQuery.event.special.touchstart = { setup: function( _, ns, handle ){ if ( ns.includes("noPreventDefault") ) { this.addEventListener("touchstart", handle, { passive: false }); } else { this.addEventListener("touchstart", handle, { passive: true }); } } };
+		</script>
 		<script>
 			{% block customPageJs %}{% endblock %}
 		</script>

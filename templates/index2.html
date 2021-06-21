@@ -82,6 +82,11 @@
               <a href="{% url 'pagos:listarTodosLosPagos' %}" class="item submenu-item ">Pagos</a>
             </div>
           
+          <a class="ui dropdown item">
+              <i class="settings icon"></i> Reportes </a>
+            <div class="menu inverted blue">
+                <a href="{% url 'reportes:ingresos' %}" class="item submenu-item"> Ingresos por Tipo de Permiso </a>
+            </div>
 
           <a class="ui dropdown item">
               <i class="settings icon"></i> Generales </a>
@@ -94,6 +99,7 @@
                 <a href="{% url 'tipoDocumentos:listado' %}" class="item submenu-item "> Tipos de Documentos</a>
                 <a href="{% url 'admin:index' %}" class="item submenu-item "> Administración</a>
               </div>
+
         </div>
       </div>
         <!-- column sidebar-->
@@ -106,7 +112,8 @@
 <!-- ui grid -->
 
 {% endblock %} {% block pageStaticJs %}
-<script type="text/javascript" src="{% static 'page/js/index.js'%}"></script>
+  <script type="text/javascript" src="{% static 'page/js/index.js'%}"></script>
+
 {% endblock %}
 {% block customPageJs %}
 
