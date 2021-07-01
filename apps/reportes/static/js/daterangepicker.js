@@ -1,5 +1,5 @@
 $('input[name="daterange"]').daterangepicker({
-    startDate: moment().startOf('month'),
+    startDate: "01-01-2020",
     endDate: moment().endOf("month"),
     locale: {
         "format": 'DD/MM/YYYY',

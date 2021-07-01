@@ -6,5 +6,5 @@ from . import views
 app_name = 'reportes'
 
 urlpatterns = [
-    url(r'^ingresos$', IngresoTipoPermiso.as_view(), name='ingresos'),
+    url(r'^recaudacion$', RecaudacionTipoPermiso.as_view(), name='recaudacion'),
 ]

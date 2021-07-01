@@ -1,0 +1,14 @@
+{% load static semanticui %}
+
+<form class="ui form" id="filtro-recaudacion-form" data-ajax_url="{% url 'reportes:recaudacion' %}">
+    {% render_form form %}
+    <div class="field">
+        <div class="ui">
+            <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <input type="text" name="daterange"/>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Submit">
+</form>
