@@ -2,9 +2,17 @@ from django.shortcuts import render
 from apps.permisos.models import Permiso, TipoUso
 from apps.pagos.models import Cobro, Pago
 from django.views.generic import FormView
+from django.views.generic.base import TemplateView
 from .forms import FiltroRecaudacionForm
 from django.http import JsonResponse
 
+
+class DashBoardReportes(TemplateView):
+    template_name = "dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 class RecaudacionTipoPermiso(FormView):
     template_name = 'recaudacion/recaudacion.html'
@@ -43,8 +51,8 @@ class RecaudacionTipoPermiso(FormView):
                         dict_tipos[r['permiso__tipo__descripcion']]['Infraccion'][m] = r['monto']
             if len(l_operaciones)==2:
                 for dt in dict_tipos:
-                    dict_tipos[dt]['Canon']['Diferencia']=dict_tipos[dt]['Canon']['Pago']-dict_tipos[dt]['Canon']['Cobro']
-                    dict_tipos[dt]['Infraccion']['Diferencia']=dict_tipos[dt]['Infraccion']['Pago']-dict_tipos[dt]['Infraccion']['Cobro']
+                    dict_tipos[dt]['Canon']['Diferencia']=round(dict_tipos[dt]['Canon']['Pago']-dict_tipos[dt]['Canon']['Cobro'],2)
+                    dict_tipos[dt]['Infraccion']['Diferencia']=round(dict_tipos[dt]['Infraccion']['Pago']-dict_tipos[dt]['Infraccion']['Cobro'],2)
 
             print(dict_tipos)
             totales = {'Canon':{'Pago':0,'Cobro':0,'Diferencia':0},'Infraccion':{'Pago':0,'Cobro':0,'Diferencia':0}}
@@ -52,13 +60,13 @@ class RecaudacionTipoPermiso(FormView):
                 for dt in dict_tipos:
                     totales[mot]['Pago'] += dict_tipos[dt][mot]['Pago']
                     totales[mot]['Cobro'] += dict_tipos[dt][mot]['Cobro']
-                    totales[mot]['Diferencia'] += dict_tipos[dt][mot]['Diferencia']
+                    totales[mot]['Diferencia'] += round(dict_tipos[dt][mot]['Diferencia'],2)
             dict_tipos['TOTALES']=totales
             
         else:
             print("NO ES VALIDAD EL FORMULARIO")
             print(formu.errors)
-        
+
         return JsonResponse(dict_tipos)
 
 

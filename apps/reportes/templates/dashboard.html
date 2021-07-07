@@ -1,0 +1,311 @@
+{% extends 'index2.html' %}
+{% load static semanticui %}
+{% load staticfiles %}
+{% load actionButton %}
+{% block wrapper %}
+
+
+<div>
+    <h4>Ranking Recaudación por Permisos en Localidades y Departamentos</h4>
+<div class="ui cards">
+    <div class="card">
+        <div class="content">
+            <img class="left floated mini ui image" style="width: 15%;" src="{% static 'img/industrial.png'%}">
+            <div class="header right aligned center">Industrial</div>
+          </div>
+        <div class="content">
+            <div class="meta"></div>
+            <h4 class="ui sub center aligned header">Cobros</h4>
+            <div class="description">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <p>Departamentos</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <p>Localidades</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="meta"></div>
+            <h4 class="ui sub center aligned header">Pagos</h4>
+            <div class="description">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <p>Departamentos</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <p>Localidades</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="extra content">
+            <span class="right floated">
+              Ultimo pago: 12 de Abril 2021<br>
+              Ultimo Cobro: 22 de Junio 2021<br>
+            </span>
+            <span>
+              <i class="user icon"></i>
+              130 permisos
+            </span>
+          </div>
+    </div>
+    <div class="card">
+        <div class="content">
+            <img class="left floated mini ui image" style="width: 15%;" src="{% static 'img/ganadero.png'%}">
+            <div class="header right aligned center">Ganadero</div>
+          </div>
+        <div class="content">
+            <div class="meta"></div>
+            <h4 class="ui sub center aligned header">Cobros</h4>
+            <div class="description">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <p>Departamentos</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <p>Localidades</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="meta"></div>
+            <h4 class="ui sub center aligned header">Pagos</h4>
+            <div class="description">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <p>Departamentos</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <p>Localidades</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="extra content">
+            <span class="right floated">
+              Ultimo pago: 12 de Abril 2021<br>
+              Ultimo Cobro: 22 de Junio 2021<br>
+            </span>
+            <span>
+              <i class="user icon"></i>
+              130 permisos
+            </span>
+          </div>
+    </div>
+    <div class="card">
+        <div class="content">
+            <img class="left floated mini ui image" style="width: 15%;" src="{% static 'img/minero.png'%}">
+            <div class="header right aligned center">Minero</div>
+          </div>
+        <div class="content">
+            <div class="meta"></div>
+            <h4 class="ui sub center aligned header">Cobros</h4>
+            <div class="description">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <p>Departamentos</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <p>Localidades</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="meta"></div>
+            <h4 class="ui sub center aligned header">Pagos</h4>
+            <div class="description">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <p>Departamentos</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <p>Localidades</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="extra content">
+            <span class="right floated">
+              Ultimo pago: 12 de Abril 2021<br>
+              Ultimo Cobro: 22 de Junio 2021<br>
+            </span>
+            <span>
+              <i class="user icon"></i>
+              130 permisos
+            </span>
+          </div>
+    </div>
+    <div class="card">
+        <div class="content">
+            <img class="left floated mini ui image" style="width: 15%;" src="{% static 'img/pesquero.png'%}">
+            <div class="header right aligned center">Pesquero</div>
+          </div>
+        <div class="content">
+            <div class="meta"></div>
+            <h4 class="ui sub center aligned header">Cobros</h4>
+            <div class="description">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <p>Departamentos</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <p>Localidades</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="meta"></div>
+            <h4 class="ui sub center aligned header">Pagos</h4>
+            <div class="description">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <p>Departamentos</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <p>Localidades</p>
+                        <ul>
+                            <li>Rawson: $5000</li>
+                            <li>Escalante: $2071</li>
+                            <li>Futaleufu: $1000.98</li>
+                            <li>Otros: 633.56</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="extra content">
+            <span class="right floated">
+              Ultimo pago: 12 de Abril 2021<br>
+              Ultimo Cobro: 22 de Junio 2021<br>
+            </span>
+            <span>
+              <i class="user icon"></i>
+              130 permisos
+            </span>
+          </div>
+    </div>
+</div>
+<h4>Recaudación REAL vs PROYECTADA</h4>
+    <div id="" class="ui grid">
+            <div class="row">
+                <div id="container">
+                    <canvas id="real-line-chart"></canvas>
+                </div>
+                <div id="container">
+                    <canvas id="proyec-line-chart"></canvas>
+                </div>
+            </div>
+    </div>
+</div>
+
+{% endblock %}
+				
+{% block pageStaticJs %}
+    {{ block.super }}
+    <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}
+
+{% block pageStaticStyles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block customPageJs %}
+
+{% endblock %}

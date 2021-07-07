@@ -35,6 +35,7 @@
 	{% include "recaudacion/menu_secundario.html" %}		
 	{% include "recaudacion/filtros.html" %}
 	{% include "recaudacion/informacion.html" %}
+	<br><br><br>
 	{% include "recaudacion/graficos.html" %}
 
 				
@@ -46,6 +47,14 @@
 	{{ block.super }}
 	<script src="{% static 'js/daterangepicker.js' %}"></script>
 	<script src="{% static 'js/recaudacion.js' %}"></script>
+	<script src="{% static 'js/informacion.js' %}"></script>
+	<script src="{% static 'js/graficos.js' %}"></script>
+{% endblock %}
+
+{% block pageStaticStyles %}
+	{{ block.super }}
+	
+
 {% endblock %}
 
 {% block customPageJs %}

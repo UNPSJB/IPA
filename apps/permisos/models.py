@@ -195,7 +195,11 @@ class Permiso(models.Model):
 		return self.montoTotalPagos() - self.montoTotalCobros()
 
 	def isPermisoFinalizado(self):
-			return self.fechaVencimiento < date.today()
+		return self.fechaVencimiento < date.today()
+
+	@classmethod
+	def cantidad_por_tipo(cls):
+		return list(cls.objects.values(tipo_permiso=models.F('tipo__pk')).annotate(cantidad=models.Count('pk')))
 
 class Estado(models.Model):
 
@@ -276,9 +280,10 @@ class Solicitado(Estado):
 		for documento in documentos:
 			documento.estado = 2
 			documento.save()
-		if self.permiso.documentos.filter(estado=2).exists():
+		if not self.permiso.falta_entregar_documentacion():
 			return Visado(permiso=self.permiso, usuario=usuario, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
-		return self
+		else:
+			self
 
 	def __str__(self):
 		return "Solicitado"
@@ -352,9 +357,7 @@ class Visado(Estado):
 		for documento in documentos:
 			documento.estado = 2
 			documento.save()
-		if self.permiso.documentos.filter(estado=1).exists():
-			return Corregido(permiso=self.permiso, usuario=usuario, fecha=fecha)
-		elif self.permiso.documentacion_completa():
+		if self.permiso.documentacion_completa():
 			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		else:
 			return self
@@ -363,9 +366,7 @@ class Visado(Estado):
 		for documento in documentos:
 			documento.estado = 1
 			documento.save()
-		if self.permiso.documentos.filter(estado=1).exists():
-			return Corregido(permiso=self.permiso, usuario=usuario, fecha=fecha)
-		return self
+		return Corregido(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		
 	def completar(self, usuario, fecha, expediente, pase):
 		super().completar(usuario,fecha,expediente,pase)

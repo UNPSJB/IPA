@@ -1,0 +1,34 @@
+.ui.cards>.card {
+    width: 200px;
+}
+.ui.header{
+    margin: 0%;
+}
+
+.ui.cards>.card>.content {
+    padding: 7px;
+    width: 200px;
+}
+
+.ui.cards>.card>.content>.header.right.aligned.center{
+    font-size: 1em;
+}
+
+.ui[class*="two column"].grid>.column:not(.row){
+    font-size: 0.5em;    
+}
+
+.ui[class*="two column"].grid> div.column:not(.row) ul{
+    padding-left: 20px;
+    
+}
+
+.ui.grid>.column:not(.row) {
+    padding: 8px 5px 3px 5px;
+
+}
+
+.ui.cards>.card>.extra.content>span {
+    font-size: 0.5em;
+}
+
