@@ -1,6 +1,6 @@
 {% load static semanticui %}
 
-<form class="ui form" id="filtro-recaudacion-form" data-ajax_url="{% url 'reportes:recaudacion' %}">
+<form class="ui form" id="filtro-recaudacion-form" data-ajax_url="{{url_ajax}}">
     {% render_form form %}
     <div class="field">
         <div class="ui">
@@ -10,5 +10,5 @@
             </div>
         </div>
     </div>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Generar">
 </form>

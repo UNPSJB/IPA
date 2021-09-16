@@ -25,22 +25,25 @@
 	</div>
 
 </div>
-	{% if message_error %}
-		<div class="ui error message">
-		  <i class="close icon"></i>
-		  <div class="header"> {% block mensaje_error_titulo %} Hubo el siguiente problema: {% endblock %}</div>
-		  	{% for message in message_error %}
-		    	<li> {{ message }}</li>
-			{% endfor %}
-		</div>
-	{% endif %}
-	{% if message_success %}
-		<div class="ui positive message">
-		  <i class="close icon"></i>
-		  <div class="header"> {% block mensaje_success_titulo %} ¡Todo a salido bien! {% endblock %}</div>
-		    	<li> {{ message_success }}</li>
-		</div>
-	{% endif %}
+	
+<div class="ui error message" hidden>
+	<i class="close icon"></i>
+	<div class="header"> {% block mensaje_error_titulo %} Hubo el siguiente problema: {% endblock %}</div>
+	<ul id="message_error" class="list">
+	{% for message in message_error %}
+		<li> {{ message }}</li>
+	{% endfor %}
+	</ul>
+</div>
+
+
+<div class="ui positive message" hidden>
+	<i class="close icon"></i>
+	<div class="header"> {% block mensaje_success_titulo %} ¡Todo a salido bien! {% endblock %}</div>
+	<ul id="message_positive" class="list">
+	</ul>
+</div>
+	
 
 <form class="ui large form" action="{{ form.url_post }}" method="POST" id="{% block formname %}form{% endblock %}" enctype="multipart/form-data">
     {% csrf_token %}
@@ -59,8 +62,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="ui error message">
-	</div>
+	
 
 
 </form>

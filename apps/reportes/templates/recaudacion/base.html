@@ -26,42 +26,42 @@
 	
 	<div class="row centered">
 		
-		<h1 class="ui center aligned header blue "> {{nombreListado}} </h1>
+		<h1 class="ui center aligned header blue "> {{nombreReporte}} </h1>
 	
 	</div>
 
-	
+	<div class="three ui buttons">
+		<button class="circular ui olive button" name="btn_tipo_reporte" data-value="tipos_permisos">Tipos de Permisos</button>
+		<button class="ui green button" name="btn_tipo_reporte" data-value="series_temporales">Series Temporales</button>
+		<button class="ui teal button" name="btn_tipo_reporte" data-value="proyeccion_valores_modulos">Proyección por Valores de Modulos</button>
+	</div>
 
 	{% include "recaudacion/menu_secundario.html" %}		
-	{% include "recaudacion/filtros.html" %}
-	{% include "recaudacion/informacion.html" %}
+    {% include "recaudacion/filtros.html" %}
+    {% block informacion %}
+	{% include "recaudacion/tipos_permisos/informacion.html" %}
+    {% endblock %}
 	<br><br><br>
-	{% include "recaudacion/graficos.html" %}
-
-				
-		
+	{% block graficos %}
+	{% include "recaudacion/tipos_permisos/graficos.html" %}
+    {% endblock %}
 				
 {% endblock %}
 				
 {% block pageStaticJs %}
 	{{ block.super }}
 	<script src="{% static 'js/daterangepicker.js' %}"></script>
-	<script src="{% static 'js/recaudacion.js' %}"></script>
-	<script src="{% static 'js/informacion.js' %}"></script>
-	<script src="{% static 'js/graficos.js' %}"></script>
+	<script src="{% static 'js/recaudacion/recaudacion.js' %}"></script>
+	<script src="{% static 'js/recaudacion/informacion.js' %}"></script>
+	<script src="{% static 'js/recaudacion/graficos.js' %}"></script>
+
 {% endblock %}
 
 {% block pageStaticStyles %}
 	{{ block.super }}
 	
-
 {% endblock %}
 
 {% block customPageJs %}
 
-
-
-		
-		
-		
-		{% endblock %}
+{% endblock %}

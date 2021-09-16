@@ -5,17 +5,18 @@ from django.db.models import Sum, F
 from django.db.models import Q
 
 class OperacionManager(models.Manager):
-	def ingresos(self,data,fecha_desde,fecha_hasta):
+	def ingresos(self,data,fecha_desde,fecha_hasta,serie_temporal):
 		operaciones_filters = Q()
 		operaciones_filters &= Q(permiso__tipo__pk__in= data['tipos_permisos']) if data['tipos_permisos'].exists() else Q()
-		operaciones_filters &= Q(permiso__afluente__pk__in=data['afluentes']) if data['afluentes'].exists() else Q()
-		operaciones_filters &= Q(permiso__establecimiento__localidad__pk__in=data['localidades']) if data['localidades'].exists() else Q()
-		operaciones_filters &= Q(permiso__establecimiento__localidad__departamento__pk__in=data['departamentos']) if data['departamentos'].exists() else Q()
 		operaciones_filters &= Q(es_por_canon=data['motivos']) if data['motivos'] !='' else Q()
-		
-		return self.get_queryset().filter(operaciones_filters & Q(fecha__range=[fecha_desde, fecha_hasta])).values(
-                    'permiso__tipo__descripcion','es_por_canon').annotate(monto=Sum(F('monto'),output_field=FloatField()))
-
+		operaciones_filters &= Q(fecha__range=[fecha_desde, fecha_hasta])
+		if serie_temporal:
+			return self.get_queryset().filter(operaciones_filters).values('permiso__tipo__descripcion','es_por_canon','fecha').annotate(monto=Sum(F('monto'),output_field=FloatField()))
+		else:
+			operaciones_filters &= Q(permiso__afluente__pk__in=data['afluentes']) if data['afluentes'].exists() else Q()
+			operaciones_filters &= Q(permiso__establecimiento__localidad__pk__in=data['localidades']) if data['localidades'].exists() else Q()
+			operaciones_filters &= Q(permiso__establecimiento__localidad__departamento__pk__in=data['departamentos']) if data['departamentos'].exists() else Q()
+			return self.get_queryset().filter(operaciones_filters).values('permiso__tipo__descripcion','es_por_canon').annotate(monto=Sum(F('monto'),output_field=FloatField()))
 
 class Operacion(models.Model):
 	timestamp = models.DateTimeField(auto_now_add=True)

@@ -80,13 +80,17 @@ class Persona(models.Model):
 		cadena_de_retorno += ']'
 		return cadena_de_retorno
 	
+	def getRolesParaComisionNames(self):
+		lista_de_roles = [rol.get_tipo_display() for rol in self.roles.filter(tipo__in=[3,4,7])]
+		cadena_de_retorno = '['
+		for i in lista_de_roles:
+			cadena_de_retorno += i + ' | '
+		cadena_de_retorno = cadena_de_retorno[:-3]+']'
+		return cadena_de_retorno
+
 	@classmethod
 	def getEmpleadosParaComision(Klass):
-
-		#return Persona.objects.all().filter(roles__tipo=3).filter(roles__tipo=4)
-		Q1 = Persona.objects.all().filter(roles__tipo=3)
-		Q2 = Persona.objects.all().filter(roles__tipo=4)
-		return Q1.union(Q2)
+		return Persona.objects.all().filter(roles__tipo__in=[3,4,7]).order_by('id').distinct('id')
 
 	def empresas_list(self):
 		return list(self.empresa_set.values_list('cuit', flat=True))
@@ -149,9 +153,6 @@ class Director(Rol):
 	cargo = models.CharField(max_length=25)
 	fechaInicio = models.DateField()
 
-	def __str__(self):
-		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
-
 	@classmethod
 	def roleName(self):
 		return 'Director'
@@ -160,21 +161,18 @@ class Director(Rol):
 class Administrativo(Rol):
 	TIPO = 2
 
-	@classmethod
 	def roleName(self):
 		return 'Administrativo'
 
 class Inspector(Rol):
 	TIPO = 3
 
-	@classmethod
 	def roleName(self):
 		return 'Inspector'
 	
 class JefeDepartamento(Rol):
 	TIPO = 8
 
-	@classmethod
 	def roleName(self):
 		return 'Jefe de departamento'
 
@@ -184,10 +182,6 @@ class Chofer(Rol):
 	licencia = models.CharField(max_length=20)
 	vencimientoLicencia = models.DateField()
 
-	def __str__(self):
-		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
-
-	@classmethod
 	def roleName(self):
 		return 'Chofer'
 
@@ -195,24 +189,18 @@ class Chofer(Rol):
 class Solicitante(Rol):
 	TIPO = 5
 	
-	def __str__(self):
-		return "{}, {}".format(self.persona.apellido, self.persona.nombre)
-
-	@classmethod
 	def roleName(self):
 		return 'Solicitante'
 
 class Liquidador(Rol):
 	TIPO = 6
 
-	@classmethod
 	def roleName(self):
 		return 'Liquidador'
 	
 class Sumariante(Inspector):
 	TIPO = 7
 
-	@classmethod
 	def roleName(self):
 		return 'Oficial sumariante'
 	

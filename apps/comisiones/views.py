@@ -10,8 +10,9 @@ from apps.generales.views import GenericListadoView, GenericAltaView
 from .tables import ComisionTable
 from .filters import ComisionFilter
 
+from django.shortcuts import redirect
+
 class AltaComision(GenericAltaView):
-	model = Comision
 	form_class = ComisionForm
 	template_name = 'comisiones/alta.html'
 	success_url = reverse_lazy('comisiones:listar')
@@ -25,6 +26,13 @@ class AltaComision(GenericAltaView):
 		context['nombreForm'] = 'Nueva Comisión'
 		return context
 
+	def post(self, request):
+		comision_form = ComisionForm(request.POST)
+		if comision_form.is_valid():
+			comision_form.save()
+			return redirect('comisiones:listar')
+		return render(request, self.template_name, {'form':comision_form, 'message_error': comision_form.errors['__all__'],'empleados':comision_form.cleaned_data['empleados']})
+		
 
 class DetalleComision(DetailView):
 	model = Comision

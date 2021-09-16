@@ -460,7 +460,7 @@ class Otorgado(Estado):
 		return self
 
 	def recalcular(self, usuario, documento, fecha, unidad):
-		cobros = self.permiso.cobros.all()
+		cobros = self.permiso.cobros.filter(es_por_canon=True)
 		
 		if not cobros.exists():
 			desde = self.permiso.getEstados(1)[0].fecha
@@ -475,10 +475,10 @@ class Otorgado(Estado):
 
 		modulos = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=self.permiso.tipo.tipo_modulo)
 		if not modulos.exists():
-			raise Exception("con que?")
+			raise Exception('No existe el valor de modulo')
 		precio = modulos.latest().precio
 		monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, desde, hasta)
-
+		
 		return Cobro(permiso=self.permiso, documento=documento, monto=monto, fecha_desde=desde, fecha=hasta)
 	
 	def renovar(self, usuario, fecha, unidad, resolucion, fechaPrimerCobro ,vencimiento):

@@ -338,9 +338,9 @@ class AgregarResolucion(CreateView):
 				try:
 					permiso.hacer(accion,request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 					return HttpResponseRedirect(self.get_success_url())
-				except:
+				except Exception as e:
 					print("Unexpected error:", sys.exc_info()[0])
-					return self.render_to_response(self.get_context_data(form=form, message_error=['Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion ' + form.data['fecha']]))
+					return self.render_to_response(self.get_context_data(form=form, message_error=[e,'Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion (' + fechaResolucion.strftime('%d/%m/%Y')+')']))
 			elif (unidad <= 0) or fechaCorrecta:
 				return self.render_to_response(self.get_context_data(form=form, 
 					message_error = messages_error))

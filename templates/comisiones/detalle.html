@@ -1,5 +1,5 @@
 {% extends 'generales/detalle.html' %}
-
+{% load staticfiles %}
 
 {% block table_render %}
 
@@ -7,15 +7,18 @@
 	<tbody>
   	
 		<tr>
-			<td class="two wide column">Fecha Inicio de Comision</td>
-			<td>{{ comision.fechaInicio }}</td>
+			<td class="two wide column">Fecha Inicio y Finalización de la Comision</td>
+			<td>{{ comision.fechaInicio }} al {{ comision.fechaFin }}</td>
 		</tr>
 
 		<tr>
-			<td class="two wide column">Fecha fin de Comision</td>
-			<td>{{ comision.fechaFin }}</td>
+			<td class="two wide column">Numero de nota</td>
+			<td>{{ comision.nota }}</td>
 		</tr>
-
+		<tr>
+			<td class="two wide column">Motivo</td>
+			<td>{{ comision.motivo }}</td>
+		</tr>
 		<tr>
 			<td>Empleados de la Comision</td>
 			<td>
@@ -33,16 +36,28 @@
 			{% endfor %}
       		</td>
     	</tr>
-    
-    	<tr>
-			<td>Actas Realizadas</td>
-			<td>
-			{% for documento in comision.documentos.all %}
-			<p>{{documento}}</p>
-			{% endfor %}
-			</td>
-		</tr>
 	</tbody>
 </table>
+<h2>Documentos asociados a la comision</h2>
+<div class="ui grid"> 
+	<div class="row header-content">
+		<div class="ui cards">
+			{% for documento in comision.documentos.all %}
+				<div class="card" id="card-id-{{documento.id}}">
+					<div class="image">
+						<img src="{% static documento.thumbnail %}">
+					</div>
+					<div class="content">
+						<a href="/archivos/{{documento.archivo.url}}" id="tipo-{{documento.id}}" class="header">{{documento.tipo.nombre}}</a>
+						<div class="meta">
+							<span class="date">{{documento.fecha}}</span>
+						</div>
+						<div class="description">{{documento.descripcion}}</div>
+					</div>
+				</div>
+			{% endfor%}
+		</div>
+	</div>
+</div>
 
 {% endblock table_render %}

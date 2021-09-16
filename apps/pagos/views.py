@@ -68,8 +68,9 @@ class AltaCobro(GenericAltaView):
 
 	def get(self, request, *args, **kwargs):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=date.today(), unidad=permiso.unidad)
-		return render(request, self.template_name, {'form':self.form_class(initial={'fecha_desde':cobro.fecha_desde}), 'cobro': cobro, 
+		fecha = date.today() if date.today() <= permiso.fechaVencimiento else permiso.fechaVencimiento
+		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha, unidad=permiso.unidad) #TODO corregir fecha, el limite es HOY y el VENC. de permiso
+		return render(request, self.template_name, {'form':self.form_class(initial={'fecha_desde':cobro.fecha_desde,'fecha':cobro.fecha}), 'cobro': cobro, 
 			'return_path':reverse('pagos:listarCobros', args=[permiso.id]),
 			'permiso': permiso, 'nombreForm':"Nuevo Cobro de Canon"})
 
@@ -93,13 +94,16 @@ class AltaCobro(GenericAltaView):
 def recalcular_cobro(request):
 	permiso = Permiso.objects.get(pk=request.GET['permiso_pk'])
 	fecha = datetime.strptime(request.GET['fecha'], '%Y-%m-%d').date()
-
-	try:
-		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha, unidad=permiso.unidad)
-		return JsonResponse({"success": True,"message": "Nuevo monto calculado con exito", "monto": cobro.monto, 
-		"fecha_desde": cobro.fecha_desde.strftime("%d/%m/%Y"),"fecha":cobro.fecha.strftime("%d/%m/%Y")})
-	except:
-		return JsonResponse({"success": False,"message": "No se puede calcular el cobro fecha incorrectas"})
+	
+	if fecha <= permiso.fechaVencimiento:
+		try:
+			cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha, unidad=permiso.unidad)
+			return JsonResponse({"success": True,"message": "Nuevo monto calculado con exito", "monto": cobro.monto, 
+			"fecha_desde": cobro.fecha_desde.strftime("%d/%m/%Y"),"fecha":cobro.fecha.strftime("%d/%m/%Y")})
+		except:
+			return JsonResponse({"success": False,"message": "No se puede calcular el cobro fecha incorrectas"})
+	else:
+		return JsonResponse({"success": False,"message": "La fecha ingresada hasta donde se calcula el canon de agua es mayor a la fecha de vencimiento del permiso ("+permiso.fechaVencimiento.strftime("%d/%m/%Y")+")"})
 
 class EliminarCobro(GenericEliminarView):
 	model = Cobro

@@ -23,7 +23,8 @@
 {% block formname %}nueva_acta_inspeccion_form{% endblock%}
 
 {% block customPageJs %}
-    
+	if ($('#message_error').length>2){
+		$('.ui.error.message').show();
+	}
 
-    
 {% endblock %}

@@ -85,8 +85,12 @@
           <a class="ui dropdown item" href="{% url 'reportes:dashboard' %}">
               <i class="settings icon"></i> Reportes </a>
             <div class="menu inverted blue">
-                <a href="{% url 'reportes:recaudacion' %}" class="item submenu-item"> Recaudacion por Tipo de Permiso </a>
+                <a href="{% url 'reportes:dashboard' %}" class="item submenu-item">Comisiones</a>
+                <a href="{% url 'reportes:dashboard' %}" class="item submenu-item">Productividad</a>
+                <a href="{% url 'reportes:recaudacion' %}" class="item submenu-item">Recaudacion</a>
             </div>
+
+
 
           <a class="ui dropdown item">
               <i class="settings icon"></i> Generales </a>
@@ -100,6 +104,7 @@
                 <a href="{% url 'admin:index' %}" class="item submenu-item "> Administración</a>
               </div>
 
+    
         </div>
       </div>
         <!-- column sidebar-->

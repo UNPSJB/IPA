@@ -1,7 +1,8 @@
 //var informacion = {'Industrial':{'Canon':{'Pago':255,'Cobro':320},'Infraccion':{'Pago':555,'Cobro':1233}},'Ganadero':{'Canon':{'Pago':432,'Cobro':676},'Infraccion':{'Pago':657,'Cobro':1234}}};
 var informacion;
 var canon_pago;
-var dataset = { 'tipos_permisos': [],
+var dataset = { 'tipo_reporte': 'tipos_permisos',
+'tipos_permisos': [],
 'operaciones': '',
 'motivos': '',
 'fecha_desde': '',
@@ -31,8 +32,9 @@ $(document).ready(function(){
         labels_filtros["fechas"][1]=$("input[name='daterange']").data('daterangepicker').startDate.format("DD-MM-YYYY") 
                                     +" hasta "+ $("input[name='daterange']").data('daterangepicker').endDate.format("DD-MM-YYYY");        
         var url = $("form")[0].dataset["ajax_url"]
-
-        $.get(url,dataset,function( data ) {
+        console.log(url+"sasd");
+        $.get(url,dataset,function(data) {
+            console.log(data)
             informacion = data;
             $("#informacion").show();
             $("#item-info").trigger("click"); 
@@ -65,7 +67,12 @@ $(document).ready(function(){
         $(this).attr("class","active item");
     });
 
-
+    $("[name='btn_tipo_reporte']").click(function(){
+        var tipo_reporte = $(this).data('value');
+        dataset['tipo_reporte']=tipo_reporte;
+        console.log("apretaste boton: "+$(this).data('value'));
+        $("#item-filtro").trigger("click"); 
+    });
 
 
    

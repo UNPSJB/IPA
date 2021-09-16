@@ -2,6 +2,7 @@ from django import forms
 from .models import TipoDocumento, Documento
 from apps.comisiones.models import Comision
 from apps.pagos.models import Pago
+from django.core.exceptions import ValidationError
 
 class TipoDocumentoForm(forms.ModelForm):
 	class Meta:
@@ -63,7 +64,7 @@ class OposicionForm(forms.Form):
 	valido = forms.ChoiceField(label='¿El reclamo del opositor es valido?', initial='False' ,choices=(('True', 'SI | Es valida la oposición, dar de BAJA el permiso'), ('False', 'NO | No es valida la oposición, continuar con los tramites del permiso'))) #'data-tooltip':"Seleccione esta casilla si la oposición es validad y poder así dar de baja el permiso."})
 
 class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
-	comision = forms.ModelChoiceField(queryset=Comision.objects.all())
+	comision = forms.ModelChoiceField(label='Ingrese la comisión en donde se genero el acta',queryset=Comision.objects.all())
 	
 	class Meta:
 		model = Documento
@@ -72,13 +73,12 @@ class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
 				'descripcion',
 				'archivo',
 				'fecha',
-				'comision'
 			]
 			
 		labels = {
 				'descripcion':'Descripcion',
-				'archivo':'Archivo',
-				'fecha':'Fecha del Documento',
+				'archivo':'Documento del Acta de Inspección',
+				'fecha':'Fecha del Acta',
 		}
 
 		widgets = {
@@ -86,9 +86,8 @@ class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
 				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}
 
-
 class DocumentoActaInsfraccionProtegidoForm(forms.ModelForm):
-	comision = forms.ModelChoiceField(queryset=Comision.objects.all())
+	comision = forms.ModelChoiceField(label='Ingrese la comisión en donde se genero el acta', queryset=Comision.objects.all())
 	pago = forms.ModelChoiceField(queryset=Pago.objects.all())
 	
 	class Meta:
@@ -103,11 +102,13 @@ class DocumentoActaInsfraccionProtegidoForm(forms.ModelForm):
 			
 		labels = {
 				'descripcion':'Descripcion',
-				'archivo':'Archivo',
-				'fecha':'Fecha del Documento',
+				'archivo':'Documento del Acta de Infracción',
+				'fecha':'Fecha del Acta',
+				'comision': 'Ingrese la comisión en donde se genero el acta'
 		}
 
 		widgets = {
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
 				'fecha': forms.DateInput(attrs={'type':'date'}),
 		}
+

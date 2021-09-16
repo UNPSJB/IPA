@@ -58,22 +58,22 @@
 	{{ block.super }}
 
 	$(".ui.primary.icon.button").click(function(){
+		$('.ui.error.message').hide();
+		$('#message_error').empty();
+		$('.ui.positive.message').hide();
+		$('#message_positive').empty();
 		var id = this.id
 		var fecha = $("input[name=fecha]")[0].value
-		console.log(fecha)
-		console.log(fecha)
 		
 		$.get('/pagos/cobro/recalcular/', {"permiso_pk": id, "fecha": fecha},function(data){
 			if (data.success){
-				$('#message_positive').html(data.message);
-				$('.ui.hidden.positive.message').show();
+				$('#message_positive').append("<li>"+data.message+"</li>");
+				$('.ui.positive.message').show();
 				$("#nuevo_monto").html("El monto calculado a cobrar es de $"+ data.monto + " para el periodo seleccionado (" + data.fecha_desde + " - "+ data.fecha_hasta+")");
 				
 			}else{
-				$('#message_error').html(data.message);
-				$('.ui.hidden.error.message').show();
-				console.log(data.message)
-				console.log(data.message)
+				$('#message_error').append("<li>"+data.message+"</li>");
+				$('.ui.error.message').show();
 			}
 		});
 	})

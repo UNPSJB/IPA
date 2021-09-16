@@ -8,8 +8,5 @@ def empleados(request):
 
 
 class ComisionFilter(django_filters.FilterSet):
-    
     empleados = django_filters.ModelChoiceFilter(label='Empleados',queryset=empleados)
     
-    
-      

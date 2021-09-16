@@ -37,10 +37,6 @@ class PermisosFilter(django_filters.FilterSet):
             'baja': Q(estados__tipo__gt=6)
         }
 
-        print(type(self))
-        print(type(self))
-        print(type(self))
-
         return queryset.filter(sit_dict.get(value,[]))
         
 

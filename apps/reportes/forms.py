@@ -2,8 +2,8 @@ from django import forms
 from apps.permisos.models import TipoUso
 from apps.establecimientos.models import *
 
-class FiltroRecaudacionForm(forms.Form):
 
+class FiltroRecaudacionForm(forms.Form):
     OPERACION = [
         ("Cobro","Cobro"),
         ("Pago","Pago"),
@@ -13,7 +13,7 @@ class FiltroRecaudacionForm(forms.Form):
         (True,'Canon'),
         (False,'Infracción')
     ]
-    
+
     tipos_permisos = forms.ModelMultipleChoiceField(label="Tipos de Permisos",queryset=None,required=False)
     operaciones = forms.ChoiceField(label="Operación",choices=OPERACION,required=False)
     motivos = forms.ChoiceField(label="Motivo de Operación",choices=MOTIVO,required=False)
