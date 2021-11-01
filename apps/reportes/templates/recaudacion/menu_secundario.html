@@ -5,16 +5,20 @@
     <a class="item" id="item-info-grafico"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Info + Graficos</font></font></a>
     
     <div class="right menu">
+        <button class="item" id="imprimir-tabla"><i class="print icon"></i>Imprimir</button>
         <div class="item">
-            <div class="ui dropdown button">
+            <div class="ui dropdown">
                 Exportar
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item" onclick="window.location.href='?_export=csv'">CSV</a>
-                    <a class="item" onclick="window.location.href='?_export=json'">JSON</a>
+                    <button class="item" id="descargar-tabla-pdf"><i class="file pdf outline icon"></i>PDF</button>
+                    <button class="item" id="descargar-tabla-json"><i class="file outline icon"></i>JSON</button>
+                    <button class="item" id="descargar-tabla-xlsx"><i class="file excel outline icon"></i>XLSX</button>
                 </div>
             </div>
         </div>
-    </div>
-            
+    </div>            
 </div>
+
+<!-- <a class="item" onclick="window.location.href='?_export=csv'">CSV</a>
+<a class="item" onclick="window.location.href='?_export=json'">JSON</a> -->

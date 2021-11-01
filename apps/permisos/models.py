@@ -200,6 +200,42 @@ class Permiso(models.Model):
 	@classmethod
 	def cantidad_por_tipo(cls):
 		return list(cls.objects.values(tipo_permiso=models.F('tipo__pk')).annotate(cantidad=models.Count('pk')))
+	
+	@classmethod
+	def recaudacion_pmv(cls):
+		l_recaudacion_pvm = []
+		
+		perm_otorgados = cls.objects.en_estado(Otorgado)
+		
+		for p in perm_otorgados:
+			desde = p.cobros.filter(es_por_canon=True).latest().fecha
+			hasta = p.fechaVencimiento if p.fechaVencimiento <= date.today() else date.today() 
+
+			modulo = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=p.tipo.tipo_modulo).latest()
+			monto = p.tipo.calcular_monto(modulo.precio, p.unidad, desde, hasta)
+			estado = 'Definito' if modulo.fecha == hasta else 'Provisorio'
+			
+			l_recaudacion_pvm.append({'tipo': p.tipo.descripcion,'fvenc':p.fechaVencimiento,'monto': monto,'v_modulo': modulo.precio,'fecha': modulo.fecha,'estado': estado})
+		return l_recaudacion_pvm
+	
+	@classmethod
+	def estados_productividad(cls):
+		T = {}
+		for e in Estado.TIPOS[1:]:
+			T[e[0]]={'estado': e[1], 'dias': 0}
+
+		for p in Permiso.objects.all():
+			iter_estados = iter(p.estados.all())
+			e0 = next(iter_estados)
+			while(1):
+				e1 = next(iter_estados,-1) 
+				if e1 == -1:
+					break
+				T[e0.tipo]['dias'] += (e1.fecha - e0.fecha).days
+				e0 = e1 
+			T[e0.tipo]['dias'] = (date.today() - e0.fecha).days
+		return T
+
 
 class Estado(models.Model):
 

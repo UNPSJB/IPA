@@ -1,0 +1,75 @@
+{% extends 'index2.html' %}
+{% load static semanticui %}
+{% load actionButton %}
+{% block wrapper %}
+
+	<div class="row header-content">
+		<div class="ui hidden large error message">
+			<i class="close icon"></i>
+			<div class="header"> Hubo el siguiente problema:</div>
+			<ul class="list">
+				<li id="message_error"></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row header-content">
+		<div class="ui hidden large positive message">
+			<i class="close icon"></i>
+			<div class="header"> {% block mensaje_success_titulo %} ¡Todo a salido bien! {% endblock %}</div>
+			<li id="message_positive"> {{ message_success }}</li>
+		</div>
+	</div>
+
+
+	{% block context_menu %} {% endblock %} 
+	
+	<div class="row centered">
+		
+		<h1 class="ui center aligned header blue "> {{nombreReporte}} </h1>
+	
+	</div>
+
+	<div class="ui pointing secondary menu">
+	<a class="active item" id="item-filtro"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Filtros</font></font></a>
+	<a class="item" id="item-info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Información</font></font></a>
+	<a class="item" id="item-grafico"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Graficos</font></font></a>
+	<a class="item" id="item-info-grafico"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Info + Graficos</font></font></a>
+	
+		<div class="right menu">
+			<button class="item" id="imprimir-tabla"><i class="print icon"></i>Imprimir</button>
+			<div class="item">
+				<div class="ui dropdown">
+					Exportar
+					<i class="dropdown icon"></i>
+					<div class="menu">
+						<button class="item" id="descargar-tabla-pdf"><i class="file pdf outline icon"></i>PDF</button>
+						<button class="item" id="descargar-tabla-json"><i class="file outline icon"></i>JSON</button>
+						<button class="item" id="descargar-tabla-xlsx"><i class="file excel outline icon"></i>XLSX</button>
+					</div>
+				</div>
+			</div>
+		</div>            
+	</div>
+
+	<div id="graficos" class="ui grid" hidden>		
+		<div id="row-graficos" class="row">
+		</div>	
+	</div>	
+
+				
+{% endblock %}
+				
+{% block pageStaticJs %}
+	{{ block.super }}
+	<script src="{% static 'js/productividad/grafico.js' %}"></script>
+{% endblock %}
+
+{% block pageStaticStyles %}
+	{{ block.super }}
+	
+{% endblock %}
+
+{% block customPageJs %}
+	var tiempos = JSON.parse("{{tiempos|escapejs}}");
+{% endblock %}

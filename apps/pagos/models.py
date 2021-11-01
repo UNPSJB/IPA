@@ -11,7 +11,9 @@ class OperacionManager(models.Manager):
 		operaciones_filters &= Q(es_por_canon=data['motivos']) if data['motivos'] !='' else Q()
 		operaciones_filters &= Q(fecha__range=[fecha_desde, fecha_hasta])
 		if serie_temporal:
-			return self.get_queryset().filter(operaciones_filters).values('permiso__tipo__descripcion','es_por_canon','fecha').annotate(monto=Sum(F('monto'),output_field=FloatField()))
+			return self.get_queryset().filter(operaciones_filters).annotate(tipo=F('permiso__tipo__descripcion'),motivo=F('es_por_canon')).values(
+				'fecha','tipo','motivo').annotate(monto=Sum(F('monto'),output_field=FloatField())).order_by('fecha')
+			#values(fecha='fecha',tipo='permiso__tipo__descripcion',motivo='es_por_canon').annotate(monto=Sum(F('monto'),output_field=FloatField())).order_by('fecha')
 		else:
 			operaciones_filters &= Q(permiso__afluente__pk__in=data['afluentes']) if data['afluentes'].exists() else Q()
 			operaciones_filters &= Q(permiso__establecimiento__localidad__pk__in=data['localidades']) if data['localidades'].exists() else Q()

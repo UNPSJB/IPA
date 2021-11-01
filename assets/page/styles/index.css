@@ -61,3 +61,7 @@ body {
 .five.wide.column{
   margin-top: 20px;
 }
+
+.ui.grid {
+  margin-right: 0;
+}
