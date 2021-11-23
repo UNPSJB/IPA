@@ -60,7 +60,7 @@ function info_series_temporales(){
     }
     var data_informacion = $.extend(true,[], informacion);
 
-    var table = new Tabulator("#tabla-temporal", {
+    table = new Tabulator("#tabla-temporal", {
         data:data_informacion,           //load row data from array
         groupBy:"tipo",
         dataTree:true,
@@ -101,19 +101,6 @@ function info_series_temporales(){
 
     
 }
-$("#imprimir-tabla").bind("click", function(){
-    table.print(false, true);
- });
-
- $("#descargar-tabla-json").bind("click", function(){
-    table.download("json", "reprecaudacionst.json");
- });
- $("#descargar-tabla-xlsx").bind("click", function(){
-    table.download("xlsx", "reprecaudacionst.xlsx", {sheetName:"RepRecaudacionST"});
- });
- $("#descargar-tabla-pdf").bind("click", function(){
-    table.download("pdf", "reprecaudacionst.pdf", {sheetName:"RepRecaudacionST"});
- });
 
 function info_proyeccion_vm(){
     console.log("Se ejecuta función de info proyeccion valores");

@@ -3,7 +3,7 @@ from apps.permisos.models import Permiso, TipoUso
 from apps.pagos.models import Cobro, Pago
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
-from .forms import FiltroRecaudacionForm
+from .forms import FiltroForm, FiltroRecaudacionForm
 from django.http import JsonResponse
 from django.urls import reverse
 from itertools import product
@@ -17,7 +17,7 @@ class DashBoardReportes(TemplateView):
         return context
 
 class Recaudacion(FormView):
-    template_name = 'recaudacion/base.html'
+    template_name = 'recaudacion/recaudacion.html'
     form_class = FiltroRecaudacionForm
     
     def get_context_data(self, **kwargs):
@@ -98,11 +98,21 @@ class Recaudacion(FormView):
             return JsonResponse(l,safe=False)
         return JsonResponse(formu.errors)
 
-class Productividad(TemplateView):
+class Productividad(FormView):
     template_name = "productividad/productividad.html"
+    form_class = FiltroForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['nombreReporte'] = "Reporte de Productividad"
-        context['tiempos'] = json.dumps(Permiso.estados_productividad())
+        context['url_ajax'] = reverse('reportes:productividad')
+        #context['tiempos'] = json.dumps(Permiso.estados_productividad())
         return context
+
+    def get(self, request, *args, **kwargs):
+        if(request.is_ajax()):
+            return self.get_productividad_ajax(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+
+    def get_productividad_ajax(self, request, *args, **kwargs):
+        return JsonResponse(Permiso.estados_productividad(),safe=False)

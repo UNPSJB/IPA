@@ -32,8 +32,11 @@ class DocumentoForm(forms.ModelForm):
 		widgets = {
 				'tipo':forms.Select(attrs={'class':'form-control'}),
 				'descripcion':forms.TextInput(attrs={'class':'form-control'}),
-				'fecha': forms.DateInput(attrs={'type':'date'}),
+				'fecha': forms.DateInput(format=('%Y-%m-%d'),attrs={'type':'date'}),
 		}
+
+class ModificarDocumentoForm(DocumentoForm):
+	documento_nuevo = forms.ChoiceField(label='¿Es un Nuevo Documento?', initial='False', widget=forms.Select(attrs={'id':'documento_nuevo'}), choices=(('True', 'SI | Es un nuevo documento entregado por el usuario'), ('False', 'NO | Solamente es la modificación de datos previamente cargados')))
 
 class DocumentoProtegidoForm(forms.ModelForm):
 	class Meta:
@@ -57,11 +60,9 @@ class DocumentoProtegidoForm(forms.ModelForm):
 
 	def __init__(self,*args, **kwargs):
 		super(DocumentoProtegidoForm,self).__init__(*args, **kwargs)
-		#self.fields['fecha'].label = kwargs.get('initial')['texto']
-
 
 class OposicionForm(forms.Form):
-	valido = forms.ChoiceField(label='¿El reclamo del opositor es valido?', initial='False' ,choices=(('True', 'SI | Es valida la oposición, dar de BAJA el permiso'), ('False', 'NO | No es valida la oposición, continuar con los tramites del permiso'))) #'data-tooltip':"Seleccione esta casilla si la oposición es validad y poder así dar de baja el permiso."})
+	valido = forms.ChoiceField(label='¿El reclamo del opositor es valido?', initial='False' ,choices=(('True', 'SI | Es valida la oposición, dar de BAJA el permiso'), ('False', 'NO | No es valida la oposición, continuar con los tramites del permiso')))
 
 class DocumentoActaInspeccionProtegidoForm(forms.ModelForm):
 	comision = forms.ModelChoiceField(label='Ingrese la comisión en donde se genero el acta',queryset=Comision.objects.all())

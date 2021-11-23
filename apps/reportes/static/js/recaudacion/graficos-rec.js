@@ -3,12 +3,6 @@ var data_canon = [];
 
 var grafico;
 
-$("#item-info-grafico").on("click",function(){
-    $("form").hide()
-    $(".secondary.menu a").attr("class","item");
-    $(this).attr("class","active item");
-});
-
 function getDataLabel(motivo,operacion){
     let labels = [];
     let data = []
@@ -160,7 +154,7 @@ function graficos_series_temporales(){
 
 }
 
-function graficis_proyeccion_vm (){
+function graficos_proyeccion_vm (){
     $("#row-graficos").append('<canvas id="line-chart">');
     grafico = new Chart($("#line-chart"), {
         
@@ -180,7 +174,7 @@ $("#item-grafico").on("click",function(){
     switch (dataset['tipo_reporte']) {
         case "tipos_permisos": graficos_tipos_permisos(); break;
         case "series_temporales": graficos_series_temporales(); break;
-        case "proyeccion_valores_modulos": graficis_proyeccion_vm(); break;
+        case "proyeccion_valores_modulos": graficos_proyeccion_vm(); break;
     }  
 
 });

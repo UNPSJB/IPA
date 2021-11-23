@@ -1,12 +1,13 @@
 {% load static semanticui %}
 
-<form class="ui form" id="filtro-recaudacion-form" data-ajax_url="{{url_ajax}}">
+<form class="ui form" id="filtro-form" data-ajax_url="{{url_ajax}}">
     {% render_form form %}
     <div class="field">
+        <label for="fecha">Fecha</label>
         <div class="ui">
             <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                <input type="text" name="daterange"/>
+                <input type="text" id="fecha" name="daterange"/>
             </div>
         </div>
     </div>

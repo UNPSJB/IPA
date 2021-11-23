@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy, reverse
-from ..models import Permiso, Otorgado
+from ..models import Solicitado, Publicado, Permiso, Otorgado, Baja, Archivado
 from ..forms import PermisoForm, SolicitadoForm
 from django.views.generic import ListView,DeleteView,DetailView
 from django.shortcuts import redirect
@@ -64,27 +64,29 @@ class DetallePermiso(DetailView):
 			context = super(DetallePermiso, self).get_context_data(**kwargs)
 			context['nombreDetalle'] = 'Permiso ' + self.object.estado.__str__()
 			context['botones'] = {
-				'Documentación': reverse('permisos:listarDocumentacionPermiso', args=[self.object.pk]),
-				'Nueva Acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
-				'Nueva Acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
-				'Nuevo Cobro de Infraccion':reverse('pagos:altaCobroInfraccion', args=[self.object.pk]),
-				'Nuevo Pago de Infraccion':reverse('pagos:AltaPagoInfraccion', args=[self.object.pk]),
 				'Listado de Cobros':reverse('pagos:listarCobros', args=[self.object.pk]),
 				'Listado de Pagos':reverse('pagos:listarPagos', args=[self.object.pk]),
-				'Baja de Permiso':reverse('documentos:bajaPermiso', args=[self.object.pk]),
 				'Eliminar Solicitud': reverse('permisos:eliminar', args=[self.object.pk])
 			}
-			if isinstance(self.object.estado, Otorgado):
-				for e in funciones_otorgado(self.object.pk):
-					context['botones'][e[0]]=e[1]
+			if not isinstance(self.object.estado, Archivado):
+				context['botones']['Documentación'] = reverse('permisos:listarDocumentacionPermiso', args=[self.object.pk])
+				context['botones']['Nueva Acta de Inspeccion'] = reverse('actas:altaInspeccion',  args=[self.object.pk])
+				context['botones']['Nueva Acta de Infraccion'] = reverse('actas:altaInfraccion',  args=[self.object.pk])
+				context['botones']['Nuevo Cobro de Infraccion'] = reverse('pagos:altaCobroInfraccion', args=[self.object.pk])
+				context['botones']['Nuevo Pago de Infraccion'] = reverse('pagos:AltaPagoInfraccion', args=[self.object.pk])
+			if isinstance(self.object.estado, (Otorgado,Baja)):
+				context['botones']['Nuevo Cobro de Canon'] = reverse('pagos:altaCobro', args=[self.object.pk])
+				context['botones']['Nuevo Pago de Canon'] = reverse('pagos:altaPago', args=[self.object.pk])
+			if isinstance(self.object.estado, Baja):
+				context['botones']['Archivar Expediente']=reverse('documentos:archivarPermiso', args=[self.object.pk])
+			if isinstance(self.object.estado, (Solicitado,Publicado,Otorgado)):
+				context['botones']['Baja de Permiso'] = reverse('documentos:bajaPermiso', args=[self.object.pk]),
+
 			context['utilizando'] = self.object.getEstados(1)[0].utilizando
 			context['return_label']='Listado de Permisos'
 			context['return_path']=reverse('permisos:listar')
 			return context
 
-def funciones_otorgado(pk):
-	return [('Nuevo Cobro de Canon',reverse('pagos:altaCobro', args=[pk])),
-			('Nuevo Pago de Canon',reverse('pagos:altaPago', args=[pk]))]
 
 class ListadoDocumentacionPermiso(DetailView):
 	model = Permiso

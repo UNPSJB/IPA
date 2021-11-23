@@ -17,3 +17,9 @@ function saveInLocal(formname){
 function formButtonAdd(url_to){
   window.location.href = url_to + '?return_path=' + window.location.pathname;
 }
+
+$(document).ready(function(){
+  if ($('#message_error')[0].childElementCount>0){
+    $('.ui.error.message').show();
+  }
+});

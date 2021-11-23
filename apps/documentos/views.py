@@ -1,8 +1,8 @@
 import sys
-
+from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from .models import TipoDocumento, Documento
-from .forms import TipoDocumentoForm, DocumentoForm, DocumentoProtegidoForm, OposicionForm, DocumentoActaInspeccionProtegidoForm
+from .forms import TipoDocumentoForm, DocumentoForm, ModificarDocumentoForm, DocumentoProtegidoForm, OposicionForm, DocumentoActaInspeccionProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from apps.permisos.models import Permiso
 from apps.comisiones.models import Comision
@@ -108,47 +108,58 @@ class DetalleDocumento(DetailView):
 	
 class ModificarDocumento(UpdateView):
 	model = Documento
-	form_class = DocumentoForm
 	template_name = 'documentos/modificar.html'
 	#success_url = reverse_lazy('documentos:listar')
 
-	def get_context_data(self, *args, **kwargs):
-		context = super(ModificarDocumento, self).get_context_data(**kwargs)
+	def get_context_modificar(self, context, pk):
 		context['nombreForm'] = 'Modificar Documento'
 		context['return_label'] = 'Documentación de Permiso'
-		context['return_path'] = reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk])
-			
-		try:
-			doc_modificar = TipoDocumento.protegidos.get(pk=Documento.objects.get(pk=self.documento_pk).tipo_id)
-		except:
-			doc_modificar = TipoDocumento.objects.get(pk=Documento.objects.get(pk=self.documento_pk).tipo_id)
+		context['return_path'] = reverse('permisos:listarDocumentacionPermiso', args=[pk])
 
-		if (doc_modificar.protegido == True):
-			context['form'].fields['tipo'].queryset = [doc_modificar]
+		if (self.object.tipo.protegido == True):
+			context['form'].fields['tipo'].queryset = [self.object.tipo]
 		else:
 			documentacion_faltante = Permiso.objects.get(pk=self.permiso_pk).tipos_de_documentos_faltantes()
-			context['form'].fields['tipo'].queryset = documentacion_faltante.union([doc_modificar])
+			context['form'].fields['tipo'].queryset = documentacion_faltante.union([self.object.tipo])
 
-		context['form'].fields['tipo'].disabled = True			
+		context['form'].fields['tipo'].disabled = True
+
 		return context
 
-	def get (self, request, *args, **kwargs):
-		self.permiso_pk = kwargs.get('pkp')
-		self.documento_pk = kwargs.get('pk')
+	def get_context_data(self, *args, **kwargs):
+		context = super(ModificarDocumento, self).get_context_data(**kwargs)
+		return self.get_context_modificar(context, self.permiso_pk)
 
+	def get (self, request, *args, **kwargs):
+		self.object = self.get_object()
+		self.permiso_pk = kwargs.get('pkp')
+		#self.documento_pk = kwargs.get('pk')
+		if self.object.tipo.protegido == True:
+			self.form_class = DocumentoForm
+		else:
+			self.form_class = ModificarDocumentoForm
 		return super(ModificarDocumento, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		id_documento = kwargs['pk']
-		documento = self.model.objects.get(id=id_documento)
-		form = self.form_class(request.POST, instance=documento)
+		self.object = self.get_object()
+		permiso = Permiso.objects.get(pk=kwargs.get('pkp'))
+		try:
+			es_documento_nuevo=request.POST['documento_nuevo']
+			form = ModificarDocumentoForm(request.POST, instance=self.object)	
+		except:
+			form = DocumentoForm(request.POST, instance=self.object)
+			es_documento_nuevo = False
+
 		if form.is_valid():
-			form.save()
+			documento = form.save()
+			if not documento.tipo.protegido:
+				documento.verificar_transicion_estado(es_documento_nuevo)
+				permiso.estado.verificar_transicion_estado(request.user,documento.fecha,es_documento_nuevo)
 			return HttpResponseRedirect(reverse('permisos:listarDocumentacionPermiso', args=[kwargs.get('pkp')]))
 		else:
 			messages = ['Error en la carga del formulario']
-			return self.render_to_response(self.get_context_data(form=form, message_error=messages))
+			return render(request, self.template_name, self.get_context_modificar({'form':form,'message_error':[messages]}, permiso.pk))
+			#return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 			
 
 class DeleteDocumento(GenericEliminarView):
@@ -220,7 +231,7 @@ class AgregarExpediente(CreateView):
 					return HttpResponseRedirect(self.get_success_url())
 				except:
 					return self.render_to_response(self.get_context_data(form=form,expediente=numero, 
-					message_error = ['El expediente ya existe']))	
+					message_error = ['El expediente ya existe']))
 			else:
 				return self.render_to_response(self.get_context_data(form=form, expediente=numero,
 					message_error = ['La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')']))
@@ -411,7 +422,6 @@ class BajaPermiso(GenericAltaView):
 		context['form'].fields['fecha'].label = 'Fecha de la Resolución que adjunta'
 		return context
 
-
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		return super(BajaPermiso, self).get(request,*args,**kwargs)
@@ -433,6 +443,52 @@ class BajaPermiso(GenericAltaView):
 			return HttpResponseRedirect(self.get_success_url())
 
 		return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser mayor o igual a '+(permiso.estado.fecha).strftime("%d-%m-%Y")+' (Permiso '+permiso.estado.getEstadoString().title()+')']))
+
+class ArchivarPermiso(GenericAltaView):
+	model = Documento
+	form_class = DocumentoProtegidoForm
+	template_name = 'documentos/alta.html'
+
+	def get_success_url(self):
+		return reverse('permisos:detalle', args=[self.permiso_pk])
+
+	def get_context_archivar(self, context, pk):
+		context['nombreForm'] = 'Trámite para Archivar el Permiso'
+		context['return_label'] = 'Detalle de Permiso'
+		context['return_path'] = reverse('permisos:detalle', args=[pk])
+		context['form'].fields['archivo'].label = 'Documento de para archivar expediente de permiso'
+		context['form'].fields['fecha'].label = 'Fecha del documento que adjunta'
+		return context
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(ArchivarPermiso, self).get_context_data(**kwargs)
+		return self.get_context_archivar(context, self.permiso_pk)
+
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pk')
+		return super(ArchivarPermiso, self).get(request,*args,**kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
+		form = self.form_class(request.POST, request.FILES)
+
+		fecha_de_archivo = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		
+		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		if form.is_valid():
+			documento = form.save(commit=False)
+			documento.tipo = TipoDocumento.get_protegido('pase')
+			documento.estado = 2
+			try: 
+				permiso.hacer('archivar',request.user,fecha_de_archivo, documento)
+				return HttpResponseRedirect(self.get_success_url())
+			except Exception as e:
+				return render(request, self.template_name, self.get_context_archivar({'form':form,'message_error':[e]}, self.permiso_pk))
+		return self.render_to_response(self.get_context_data(form=form))
+
+
 
 class AltaActaDeInfraccion(GenericAltaView):
 	model = Documento

@@ -114,7 +114,8 @@ class Permiso(models.Model):
 		'Completado', 
 		'Publicado', 
 		'Otorgado', 
-		'Baja'
+		'Baja',
+		'Archivado'
 	]
 
 	def getEstados(self, tipo):
@@ -274,7 +275,7 @@ class Estado(models.Model):
 		return Estado.TIPOS[self.tipo][1]
 
 	def documentos_modificar_eliminar(self):
-		return ['acta-de-inspeccion','acta-de-infraccion','cobro-infraccion','pago-infraccion']
+		return ['acta-de-inspeccion','acta-de-infraccion']
 
 	def eliminar_documento(self,usuario, fecha, documento):
 		self.permiso.documentos.remove(documento)
@@ -297,6 +298,17 @@ class Estado(models.Model):
 			return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
 		else:
 			return self
+
+	def verificar_transicion_estado(self,usuario, fecha, es_nuevo_documento):
+		if eval(es_nuevo_documento) == True:
+			if isinstance(self, Corregido):
+				if not self.permiso.documentos.filter(estado=1).exists() and self.permiso.documentos.filter(estado=2).exists():
+					Visado(permiso=self.permiso, usuario=usuario, fecha=fecha).save()
+				else:
+					solicitado = self.permiso.getEstados(1)[0]
+					Solicitado(permiso=self.permiso,usuario=usuario,fecha=fecha,utilizando=solicitado.utilizando,oficio=solicitado.oficio).save()
+		
+
 
 class Solicitado(Estado):
 	TIPO = 1
@@ -572,17 +584,21 @@ class Baja(Estado):
 		docs = super().documentos_modificar_eliminar()
 		return docs+['resolucion','cobro','pago','oposicion'] #TODO CORROBORAR SI ESTA BIEN
 
+	def archivar(self, usuario, fecha, documento):
+		if ((self.fecha+timedelta(days=60)) <= fecha) and self.permiso.saldoActual()>=0: #2 MESES TUVO QUE HABER PASADO Y TEMA PLATA
+			documento.save()
+			self.permiso.documentos.add(documento)
+			self.permiso.save()
+			return Archivado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		raise Exception("Deben transcurrir 60 días desde "+self.fecha.strftime("%d-%m-%Y")+
+				" y el permiso no debe registrar deudas (saldo actual: $"+str(self.permiso.saldoActual())+")")
+		
+
+class Archivado(Estado):
+	TIPO = 8
+	def __str__(self):
+		return "Archivado"
+
 
 for Klass in Permiso.ESTADOS:
 	Estado.register(eval(Klass))
-
-		#valorModulo = ValorDeModulo.objects.filter(fecha='2017-11-13',modulo=1)
-
-		#def calcular_monto(self, modulo, unidad, desde, hasta):
-		#dias = (hasta - desde).days
-		#horas = dias * 24
-		#lapso = horas / self.periodo
-		#return self.coeficiente * modulo * unidad * lapso*
-
-		#monto = self.permiso.tipo.calcular_monto(valorModulo, self.permiso.unidad,2017-11-13,2017-11-13)
-		#Cobro (permiso=self.permiso, monto=monto, documento=documento, fecha=fecha)

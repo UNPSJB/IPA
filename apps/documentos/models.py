@@ -102,7 +102,10 @@ class Documento(models.Model):
 	def __str__(self):
 		return self.descripcion
 
-		
+	def verificar_transicion_estado(self,es_documento_nuevo):
+		if es_documento_nuevo:
+			self.estado = 0
+		self.save()
 
 # Que se hace luego de guardar el documento
 def pdf_post_save(sender, instance=False, **kwargs):
