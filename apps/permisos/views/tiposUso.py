@@ -26,6 +26,7 @@ class AltaTipoDeUso(GenericAltaView):
 			'Nuevo Documento': reverse('tipoDocumentos:alta'),
 			}
 		context['nombreForm'] = 'Nuevo Tipo de Uso'
+		context['ayuda'] = 'permiso_gestion.html#como-crear-un-nuevo-tipo-de-uso'
 		return context
 
 	def post(self, request, *args, **kwargs):

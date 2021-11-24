@@ -24,6 +24,7 @@ class AltaComision(GenericAltaView):
 			'Nueva Localidad': reverse('localidades:alta'),
 		}
 		context['nombreForm'] = 'Nueva Comisión'
+		context['ayuda'] = 'comision.html'
 		return context
 
 	def post(self, request):

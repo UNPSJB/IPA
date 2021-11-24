@@ -33,6 +33,7 @@ class AltaPersona(GenericAltaView):
 		context['director_form'] = DirectorForm()
 		context['chofer_form'] = ChoferForm()
 		context['return_path'] = self.request.GET.get('return_path', self.success_url)
+		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
 		return context
 
 	def post(self,request, *args, **kwargs):

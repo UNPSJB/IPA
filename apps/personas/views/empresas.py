@@ -29,7 +29,7 @@ class DetalleEmpresa(DetailView):
 		context['nombreDetalle'] = 'Detalle Empresa'
 		context['return_label'] = 'Listado Empresas'
 		context['return_path']= reverse('empresar:listar')
-		
+		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
 		return context
 
 class Listado(SingleTableView):

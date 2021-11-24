@@ -18,6 +18,7 @@ class AltaAfluente(GenericAltaView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaAfluente, self).get_context_data(**kwargs)
 		context['nombreForm'] = 'Nuevo Afluente'
+		context['ayuda'] = 'localidad.html#como-crear-un-nuevo-afluente'
 		return context
 
 class DetalleAfluente(DetailView):

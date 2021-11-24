@@ -23,6 +23,7 @@ class AltaEstablecimiento(GenericAltaView):
 			'Nuevo Localidad': reverse('localidades:alta')
 			}
 		context['nombreForm'] = "Nuevo Establecimiento"
+		context['ayuda'] = 'solicitante.html#como-crear-un-nuevo-establecimiento'
 		return context
 
 class ListadoEstablecimientos(GenericListadoView):

@@ -23,7 +23,7 @@ class AltaLocalidad(GenericAltaView):
 			'Nuevo Departamento': reverse('departamentos:alta'),
 		}
 		context['nombreForm'] = 'Nueva Localidad'
-		
+		context['ayuda'] = 'localidad.html#como-crear-una-nueva-localidad'
 		return context
 
 class ModificarLocalidad(UpdateView):

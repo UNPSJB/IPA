@@ -200,6 +200,7 @@ class AgregarExpediente(CreateView):
 		context['form'].fields['fecha'].label = 'Fecha de Creación'
 		context['form'].fields['archivo'].label = 'Archivo de Caratula/Pase del Expediente'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
+		context['ayuda'] = 'solicitud.html#agregar-expediente'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -252,6 +253,7 @@ class AgregarEdicto(GenericAltaView):
 		context['nombreForm'] = 'Agregar Edicto a Permiso'
 		context['form'].fields['archivo'].label = 'Archivo del Edicto que se publica'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
+		context['ayuda'] = 'solicitud.html#agregar-edicto'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -305,6 +307,7 @@ class AgregarResolucion(CreateView):
 		context['nombreForm'] = '{} Resolución a Permiso'.format('Renovar' if context['renovacion'] else 'Agregar')
 		context['form'].fields['archivo'].label = 'Archivo de la Resolución que aprueba el permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
+		context['ayuda'] = 'solicitud.html#agregar-resolucion'
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -376,6 +379,7 @@ class AgregarOposicion(CreateView):
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['form'].fields['archivo'].label = 'Archivo de la oposición'
 		context['form2'] = OposicionForm()
+		context['ayuda'] = 'solicitud.html#agregar-oposicion'
 		return context
 
 
@@ -505,6 +509,7 @@ class AltaActaDeInfraccion(GenericAltaView):
 			}
 		context['nombreForm'] = 'Nueva Acta de Infraccion'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
+		context['ayuda'] = 'comision.html#como-crear-una-nueva-infraccion'
 		return context
 
 	def get (self, request, *args, **kwargs):

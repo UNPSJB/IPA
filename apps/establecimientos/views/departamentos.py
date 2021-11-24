@@ -20,6 +20,7 @@ class AltaDepartamento(GenericAltaView):
 		context = super(AltaDepartamento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Nuevo Departamento"
 		context['return_path'] = reverse('departamentos:listar')
+		context['ayuda'] = 'localidad.html#como-crear-un-nuevo-departamento'
 		return context
 
 class ModificarDepartamento(UpdateView):

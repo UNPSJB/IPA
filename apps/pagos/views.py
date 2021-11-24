@@ -24,6 +24,7 @@ class AltaValorDeModulo(GenericAltaView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaValorDeModulo, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Alta Valor de Modulo"
+		context['ayuda'] = 'general.html#como-crear-un-nuevo-valor-de-modulo'
 		return context
 
 class ModificarValorDeModulo(UpdateView):
