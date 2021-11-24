@@ -58,6 +58,7 @@
           </a>
 
           <a class="ui dropdown item" style="color:white" href="{% url 'tiposDeUso:listar' %}">
+              <i class="tag icon"></i>
               <div>
               Tipos de Uso
               </div>
@@ -65,24 +66,28 @@
 
 
           <a class="ui dropdown item" style="color:white" href="{% url 'departamentos:listar' %}">
+              <i class="compass icon"></i>
               <div>
               Departamentos
               </div>
           </a>
 
           <a class="ui dropdown item" style="color:white" href="{% url 'localidades:listar' %}">
+              <i class="crosshairs icon"></i>
               <div>
               Localidades
               </div>
           </a>  
 
           <a class="ui dropdown item" style="color:white" href="{% url 'afluentes:listar' %}">
+              <i class="tint icon"></i>
               <div>
               Afluentes
               </div>
           </a>
 
           <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
+              <i class="eye icon"></i>
               <div>
               Establecimientos
               </div>
@@ -90,6 +95,7 @@
             
 
           <a class="ui dropdown item" style="color:white" href="{% url 'tipoDocumentos:listado' %}">
+              <i class="file archive icon" ></i>
               <div>
               Tipos de Documentos
               </div>
@@ -97,34 +103,46 @@
 
 
           <a class="ui dropdown item" style="color:white" href="{% url 'comisiones:listar' %}">
-           
-            <i class="file icon"></i>
+              <i class="car icon"></i>
               <div>
               Comision
               </div>
           </a>
           
           <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosCobros' %}">
+              <i class="dollar sign icon"></i>
               <div>
               Cobros
               </div>
           </a> 
 
           <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosPagos' %}">
+              <i class="money bill alternate icon"></i>
               <div>
               Pagos
               </div>
-          </a>         
+          </a>
 
-          
-          <a class="ui dropdown item" href="{% url 'reportes:dashboard' %}">
-              <i class="settings icon"></i> Reportes </a>
-            <div class="menu inverted blue">
-                <a href="{% url 'reportes:dashboard' %}" class="item submenu-item">Comisiones</a>
-                <a href="{% url 'reportes:productividad' %}" class="item submenu-item">Productividad</a>
-                <a href="{% url 'reportes:recaudacion' %}" class="item submenu-item">Recaudacion</a>
-            </div>    
+          <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosPagos' %}">
+              <i class="balance scale icon"></i>
+              <div>
+              Reporte de Comisiones
+              </div>
+          </a>
 
+          <a class="ui dropdown item" style="color:white" href="{% url 'reportes:productividad' %}">
+              <i class="chart line icon"></i>
+              <div>
+              Reporte de Productividad
+              </div>
+          </a>
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'reportes:recaudacion' %}">
+              <i class="calculator icon"></i>
+              <div>
+              Reporte de Recaudacion
+              </div>
+          </a>        
             
           <a class="ui dropdown item" style="color:white" href="{% url 'usuarios:listado' %}">
             
@@ -135,6 +153,7 @@
           </a>  
 
           <a class="ui dropdown item" style="color:white" href="{% url 'admin:index' %}">
+              <i class="free code camp icon"></i>
               <div>
               Administración
               </div>
