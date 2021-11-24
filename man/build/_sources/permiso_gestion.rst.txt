@@ -39,21 +39,43 @@ Para realizar el visado, debemos ir al boton de **acción** y dirigirnos a **Ve 
 .. image::  _static/solicitud_visado_documento.png
    :align:  center
 
-Los documentos que tienen un **Circulo color rojo** que nos indicaran que aun faltan visar, para poder cambiar la condicion a **Visado**, debemos precionar el botor **Visar**.
+Encontraremos el listados de los documentos presentados, con la descripcion de el estado en que se encuentra cada uno.
 
-.. image::  _static/solicitud_visado_documento_no.png
+Los documentos presentan la siguiente informacion, junto con un boton de **acción** donde nos da las opciones de:
+
+**Rechazar** en caso de que el documento presente algun error.
+**Visar** en caso de que el documento sea correcto.
+**Modificar** en caso de que se necesite hacer un rectificacion sobre el documento en cuanto a los datos cargados.
+**Eliminar** en caso de error en la carga.
+
+.. image::  _static/solicitud_documento_accion.jpeg
    :align:  center
 
-Los documentos ya visados aparecentan con un **Circulo color verde**
+La accion de **Rechazar** es para cuando un documento no cumple con los requisitos o no sea valido. Esta accion cambia el estado del permiso a **Revisado**
 
-.. image::  _static/solicitud_visado_documento_si.png
+.. image::  _static/solicitud_documento_accion_rechazar.jpeg
+   :align:  center
+
+La accion de **Visar** es para cuando el documento es correcto. Esta accion puede cambiar el estado del permiso a **Visado**,
+
+.. image::  _static/solicitud_documento_accion_vizar.jpeg
+   :align:  center
+
+La accion de **Modificar** nos abrira una nueva ventana, donde podremos modificar todos los datos. Esta accion no cambia el estado del permiso.
+
+.. image::  _static/solicitud_documento_accion_modificar.jpeg
+   :align:  center
+
+La accion de **Elminar** es para cuando se desear borrar el documento presentado, nos preguntara si estamos seguros de realizar esta accion. Esta accion no cambia el estado del permiso.
+
+.. image::  _static/solicitud_documento_accion_eliminar.jpeg
    :align:  center
 
 ******************
 Agregar Expediente
 ******************
 
-Cuando la toda la documentacion esta cargada y visada, dentro del persmiso nos encontaremos con un cartel **DOCUMENTACION COMPLETA** y un boton que nos pedira que ingresemos el numero de expediente. (Este numero sera otorgado por **QUIEN LO OTORGA????????**)
+Cuando la toda la documentacion esta cargada y visada, dentro del persmiso nos encontaremos con un cartel **DOCUMENTACION COMPLETA** y un boton que nos pedira que ingresemos el numero de expediente.
 
 .. image::  _static/solicitud_documento_completo.png
    :align:  center
