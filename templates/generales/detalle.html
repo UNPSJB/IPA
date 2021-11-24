@@ -9,7 +9,11 @@
             Volver a {{return_label}}
         </a>
             {% renderContextMenu %}
-            
+            {% if ayuda %}
+                <div class="right menu">
+                    <a target="_blank" class="circular ui inverted orange icon button" href="/docs/{{ayuda}}"><i class="help icon"></i></a>
+                </div>
+            {% endif %}
           </div>
           
     </div>

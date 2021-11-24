@@ -24,6 +24,7 @@ class AltaTipoDocumento(GenericAltaView):
 		context = super(AltaTipoDocumento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Alta Tipo de Documento"
 		context['return_label'] = 'Listado de Tipo de Documentos'
+		context['ayuda'] = 'permiso_gestion.html#como-crear-un-nuevo-tipo-de-documento'
 		return context
 
 class ListadoTipoDocumentos(GenericListadoView):
@@ -553,6 +554,7 @@ class AltaActaDeInspeccion(CreateView):
 			}
 		context['nombreForm'] = 'Nueva Acta de Inspección'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
+		context['ayuda'] = 'comision.html#como-crear-una-nueva-acta-de-inspeccion'
 		return context
 
 	def post(self, request, *args, **kwargs):

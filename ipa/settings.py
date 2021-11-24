@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.semanticuiforms',
     'apps.tags',
     'apps.reportes',
+    'docs',
 ] 
 
 MIDDLEWARE = [
@@ -144,6 +145,9 @@ MEDIA_ROOT = 'archivos'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets'), 
                     os.path.join(BASE_DIR, MEDIA_ROOT)]
+
+DOCS_ROOT = os.path.join(BASE_DIR, 'man/build/')
+DOCS_ACCESS = 'public'
 
 LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = reverse_lazy('index2')

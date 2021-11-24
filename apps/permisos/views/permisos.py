@@ -32,6 +32,7 @@ class AltaPermiso(GenericAltaView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaPermiso, self).get_context_data(**kwargs)
 		context['solicitadoForm'] = SolicitadoForm()
+		context['ayuda'] = 'solicitud.html#como-crear-un-nuevo-permiso'
 		return context
 
 	def post(self, request):

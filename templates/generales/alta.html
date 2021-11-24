@@ -8,13 +8,18 @@
 <div class="row header-content">
 	<div class="five wide column">
 		<div class="ui secondary menu">
-		<button class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
-			<i class="angle left icon"></i>
-            {% block mensaje_boton_volver %}
-            Volver
-            {% endblock %}
-		</button>
-		{% renderContextMenu %}
+			<button class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
+				<i class="angle left icon"></i>
+				{% block mensaje_boton_volver %}
+				Volver
+				{% endblock %}
+			</button>
+			{% renderContextMenu %}
+            {% if ayuda %}
+                <div class="right menu">
+                    <a target="_blank" class="circular ui inverted orange icon button" href="/docs/{{ayuda}}"><i class="help icon"></i></a>
+                </div>
+            {% endif %}
 		</div>
 	</div>
 	<br>

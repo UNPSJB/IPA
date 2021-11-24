@@ -8,7 +8,7 @@
         <div class="ui pointing dropdown item top">¡Bienvenido {{user}}! <i class="dropdown icon"></i>
             <div class="menu">
                 <a class="item"><i class="configure icon"></i>Editar información</a>
-                <a target="_blank"  href="{% static "build/login.html" %}" target="_blank"><i class="help icon"></i>Ayuda</a>
+                <a class="item" target="_blank" href="/docs/login.html"><i class="help icon"></i>Ayuda</a>
                 <a class="item" href="{% url 'logout' %}"><i class="sign out icon"></i> Cerrar Sesión</a>
             </div>
         </div>
