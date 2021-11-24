@@ -48,20 +48,50 @@
               Empresas 
             </div>
           </a>
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'usuarios:listado' %}">
-            
-            <i class="users icon"></i>
-              <div>
-              Usuarios
-              </div>
-          </a>
              
 
           <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
             <i class="building icon"></i>
               <div>
               Establecimientos
+              </div>
+          </a>
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'tiposDeUso:listar' %}">
+              <div>
+              Tipos de Uso
+              </div>
+          </a>
+
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'departamentos:listar' %}">
+              <div>
+              Departamentos
+              </div>
+          </a>
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'localidades:listar' %}">
+              <div>
+              Localidades
+              </div>
+          </a>  
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'afluentes:listar' %}">
+              <div>
+              Afluentes
+              </div>
+          </a>
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
+              <div>
+              Establecimientos
+              </div>
+          </a> 
+            
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'tipoDocumentos:listado' %}">
+              <div>
+              Tipos de Documentos
               </div>
           </a>
 
@@ -72,15 +102,20 @@
               <div>
               Comision
               </div>
-          </a>        
+          </a>
+          
+          <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosCobros' %}">
+              <div>
+              Cobros
+              </div>
+          </a> 
 
-          <a class="ui dropdown item">
-            <i class="dollar icon"></i>  Pagos </a>
-            <div class="menu inverted blue">
-              <a href="{% url 'pagos:listarModulos' %}" class="item submenu-item ">Valor de Modulos</a>
-              <a href="{% url 'pagos:listarTodosLosCobros' %}" class="item submenu-item ">Cobros</a>
-              <a href="{% url 'pagos:listarTodosLosPagos' %}" class="item submenu-item ">Pagos</a>
-            </div>
+          <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosPagos' %}">
+              <div>
+              Pagos
+              </div>
+          </a>         
+
           
           <a class="ui dropdown item" href="{% url 'reportes:dashboard' %}">
               <i class="settings icon"></i> Reportes </a>
@@ -88,21 +123,22 @@
                 <a href="{% url 'reportes:dashboard' %}" class="item submenu-item">Comisiones</a>
                 <a href="{% url 'reportes:productividad' %}" class="item submenu-item">Productividad</a>
                 <a href="{% url 'reportes:recaudacion' %}" class="item submenu-item">Recaudacion</a>
-            </div>
+            </div>    
 
-
-
-          <a class="ui dropdown item">
-              <i class="settings icon"></i> Generales </a>
-              <div class="menu inverted blue">
-                <a href="{% url 'afluentes:listar' %}" class="item submenu-item"> Afluentes</a>
-                <a href="{% url 'localidades:listar' %}" class="item submenu-item"> Localidades</a>
-                <a href="{% url 'departamentos:listar' %}" class="item submenu-item "> Departamentos</a>
-                <a href="{% url 'establecimientos:listar' %}" class="item submenu-item "> Establecimientos</a>
-                <a href="{% url 'tiposDeUso:listar' %}" class="item submenu-item "> Tipos de Uso</a>
-                <a href="{% url 'tipoDocumentos:listado' %}" class="item submenu-item "> Tipos de Documentos</a>
-                <a href="{% url 'admin:index' %}" class="item submenu-item "> Administración</a>
+            
+          <a class="ui dropdown item" style="color:white" href="{% url 'usuarios:listado' %}">
+            
+            <i class="users icon"></i>
+              <div>
+              Usuarios
               </div>
+          </a>  
+
+          <a class="ui dropdown item" style="color:white" href="{% url 'admin:index' %}">
+              <div>
+              Administración
+              </div>
+          </a> 
 
     
         </div>

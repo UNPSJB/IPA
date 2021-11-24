@@ -21,7 +21,6 @@ class AltaComision(GenericAltaView):
 		context = super(AltaComision, self).get_context_data(**kwargs)
 		context['botones'] = {
 			'Nuevo Empleado': reverse('personas:alta'),
-			'Nueva Localidad': reverse('localidades:alta'),
 		}
 		context['nombreForm'] = 'Nueva Comisión'
 		context['ayuda'] = 'comision.html'
