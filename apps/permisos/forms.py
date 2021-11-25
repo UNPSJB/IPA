@@ -43,7 +43,7 @@ class TipoDeUsoForm(forms.ModelForm):
 				'documentos',
 			]
 		labels = {
-				'descripcion': 'Descripcion',
+				'descripcion': 'Nombre',
 				'coeficiente': 'Coeficiente',
 				'periodo': 'Periodo',
 				'medida': 'Medida',

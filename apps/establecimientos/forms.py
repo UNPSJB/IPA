@@ -19,8 +19,8 @@ class EstablecimientoForm(forms.ModelForm):
 
 		labels = {
 				'duenio': 'Dueño',
-				'codigoCatastral': 'Cod. Catastral',
-				'superficie': 'Superficie',
+				'codigoCatastral': 'Codigo Catastral',
+				'superficie': 'Superficie M2',
 				'nombre': 'Nombre',
 				'descripcion': 'Descripción',
 				'localidad': 'Localidad',
@@ -29,7 +29,7 @@ class EstablecimientoForm(forms.ModelForm):
 		widgets = {
 			'duenio':forms.Select(attrs={'class':'form-control', 'placeholder':'Dueño del establecimiento'}),
 			'codigoCatastral':forms.TextInput(attrs={'class':'form-control','type':'number', 'min':'1', 'placeholder':'Codigo Catastral'}),
-			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'step':'0.01', 'min':'1', 'placeholder':'Superficie'}),
+			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'step':'0.01', 'min':'1', 'placeholder':'Superficie en metros cuadrados'}),
 			'nombre':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre del establecimiento'}),
 			'descripcion':forms.Textarea(attrs={'class':'form-control'}),
 			'localidad':forms.Select(attrs={'class':'form-control', 'placeholder':'Localidad'}),
