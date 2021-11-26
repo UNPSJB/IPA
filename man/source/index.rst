@@ -17,6 +17,7 @@ Bienvenidos a la documentacion de IPA!
    comision
    localidad
    general
+   cobro
 
 
 
