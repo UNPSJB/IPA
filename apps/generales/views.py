@@ -32,6 +32,7 @@ class GenericAltaView(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(GenericAltaView, self).get_context_data(**kwargs)
 		context['return_path'] = self.request.GET.get('return_path', self.success_url)
+		context['return_label'] = self.request.GET.get('return_label')
 		context['botones'] = self.botones
 		return context
 

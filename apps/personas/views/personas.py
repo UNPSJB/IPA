@@ -33,6 +33,8 @@ class AltaPersona(GenericAltaView):
 		context['director_form'] = DirectorForm()
 		context['chofer_form'] = ChoferForm()
 		context['return_path'] = self.request.GET.get('return_path', self.success_url)
+		if context['return_label'] == None:
+			context['return_label'] = "Listado de Personas"
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
 		return context
 

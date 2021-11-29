@@ -23,6 +23,8 @@ class AltaEstablecimiento(GenericAltaView):
 			}
 		context['nombreForm'] = "Nuevo Establecimiento"
 		context['ayuda'] = 'solicitante.html#como-crear-un-nuevo-establecimiento'
+		if context['return_label'] == None:
+			context['return_label'] = "listado de Establecimientos"
 		return context
 
 class ListadoEstablecimientos(GenericListadoView):

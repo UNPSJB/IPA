@@ -113,19 +113,19 @@
     saveInLocal('nueva_solicitud_form')
 
     $('#agregarSolicitante').click(function(){
-        formButtonAdd('{% url 'personas:alta' %}')
+        formButtonAdd('{% url 'personas:alta' %}','Nueva Solicitud')
     })
 
     $('#agregarEstablecimiento').click(function(){
-        formButtonAdd('{% url 'establecimientos:alta' %}')
+        formButtonAdd('{% url 'establecimientos:alta' %}','Nueva Solicitud')
     })
 
     $('#agregarTipo').click(function(){
-        formButtonAdd('{% url 'tiposDeUso:alta' %}')
+        formButtonAdd('{% url 'tiposDeUso:alta' %}','Nueva Solicitud')
     })
 
     $('#agregarAfluente').click(function(){
-        formButtonAdd('{% url 'afluentes:alta' %}')
+        formButtonAdd('{% url 'afluentes:alta' %}','Nueva Solicitud')
     })
 
 {% endblock %}

@@ -304,6 +304,8 @@ class Estado(models.Model):
 			if isinstance(self, Corregido):
 				if not self.permiso.documentos.filter(estado=1).exists() and self.permiso.documentos.filter(estado=2).exists():
 					Visado(permiso=self.permiso, usuario=usuario, fecha=fecha).save()
+				elif self.permiso.documentos.filter(estado=1).exists():
+					self
 				else:
 					solicitado = self.permiso.getEstados(1)[0]
 					Solicitado(permiso=self.permiso,usuario=usuario,fecha=fecha,utilizando=solicitado.utilizando,oficio=solicitado.oficio).save()

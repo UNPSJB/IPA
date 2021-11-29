@@ -27,6 +27,8 @@ class AltaTipoDeUso(GenericAltaView):
 			}
 		context['nombreForm'] = 'Nuevo Tipo de Uso'
 		context['ayuda'] = 'permiso_gestion.html#como-crear-un-nuevo-tipo-de-uso'
+		if context['return_label'] == None:
+			context['return_label'] = "listado de Tipos de Uso"
 		return context
 
 	def post(self, request, *args, **kwargs):
