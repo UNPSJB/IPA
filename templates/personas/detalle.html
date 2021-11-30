@@ -1,0 +1,40 @@
+{% extends 'generales/detalle.html' %}
+
+{% block table_render %}
+<table class="ui definition table">
+  <tbody>
+    <tr>
+      <td class="two wide column">Nombre</td>
+      <td>{{persona.nombre}}</td>
+    </tr>
+    <tr>
+
+    <tr>
+      <td>Apellido</td>
+      <td>{{persona.apellido}}</td>
+    </tr>
+
+    <tr>
+      <td>Numero de Documento</td>
+      <td>{{persona.numeroDocumento}}</td>
+    </tr>
+
+    <tr>
+      <td>Dirección</td>
+      <td>{{persona.direccion}}</td>
+    </tr>
+
+    <tr>
+      <td>Email</td>
+      <td>{{persona.email}}</td>
+    </tr>
+
+    <tr>
+      <td>Teléfono</td>
+      <td>{{persona.telefono}}</td>
+    </tr>
+
+  </tbody>
+</table>
+  
+{% endblock table_render%}  

@@ -111,30 +111,17 @@ class ModificarPersona(UpdateView):
 			persona.agregar_rol(rol_to_add)
 		return response
 
-class DetallePersona(View):
-	def get(self, request, *args, **kwargs):
-		persona = Persona.objects.get(id=kwargs.get('pk'))
-		empresas_relacionadas = persona.empresa_set.all()		
-		lista_empresas = []
-		for empresa in empresas_relacionadas:
-			lista_empresas.append({ "cuit": empresa.cuit, "razonSocial": empresa.razonSocial })
+class DetallePersona(DetailView):
+	model = Persona
+	template_name = 'personas/detalle.html'
 
-		roles_relacionados = persona.roles_related()		
-		lista_roles = []
-		for rol in roles_relacionados:
-			lista_roles.append({"tipo": rol.roleName()})
-
-		return JsonResponse({
-			"nombre": persona.nombre,
-			"apellido" : persona.apellido,
-			"email": persona.email,
-			"tipoDocumento": persona.get_tipoDocumento_display(),
-			"numeroDocumento":persona.numeroDocumento,
-			"direccion": persona.direccion,
-			"telefono": persona.telefono,
-			"empresas": lista_empresas,
-			"roles": lista_roles
-		})
+	def get_context_data(self, **kwargs):
+		context = super(DetallePersona, self).get_context_data(**kwargs)
+		context['nombreDetalle'] = 'Detalle Persona'
+		context['return_label'] = 'Listado Personas'
+		context['return_path']= reverse('personas:listado')
+		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
+		return context
 
 class EliminarPersona(DeleteView):
 	model = Persona

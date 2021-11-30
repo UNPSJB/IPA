@@ -28,7 +28,7 @@ class DetalleEmpresa(DetailView):
 		context = super(DetalleEmpresa, self).get_context_data(**kwargs)
 		context['nombreDetalle'] = 'Detalle Empresa'
 		context['return_label'] = 'Listado Empresas'
-		context['return_path']= reverse('empresar:listar')
+		#context['return_path']= reverse('empresa:listar')
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
 		return context
 
