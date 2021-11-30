@@ -65,11 +65,27 @@ class ModificarTipoDocumento(UpdateView):
 		context['return_path'] = reverse_lazy('tipoDocumentos:listado')
 		return context
 
-class DeleteTipoDocumento(GenericEliminarView):
+'''class DeleteTipoDocumento(GenericEliminarView):
 	model = TipoDocumento
 	template_name = 'delete.html'
 	success_url = reverse_lazy('tipoDocumentos:listado')
 
+'''
+class DeleteTipoDocumento(GenericEliminarView):
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		tipos_de_usos = TipoUso.objects.filter(documentos__in=[self.object.pk])
+		if len(tipos_de_usos)>0: 
+			return JsonResponse({
+			"success": False,
+			"message": "Existen Tipo de Uso con este Tipo de Documento"
+			})
+		else:
+			self.object.delete()
+			return JsonResponse({
+				"success": True,
+				"message": "Tipo de Documento eliminado con exito"
+			})
 
 # Documentos
 class AltaDocumento(GenericAltaView):
