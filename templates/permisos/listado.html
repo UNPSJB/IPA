@@ -42,3 +42,7 @@
 			}
 		}).modal('show');
 {% endblock comportamiento_click_eliminar %}
+
+{% block comportamiento_click_modificar %}
+	window.location.href = "/permisos/modificar/" + id;
+{% endblock comportamiento_click_modificar %}

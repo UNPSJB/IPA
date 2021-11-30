@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy, reverse
 from ..models import Solicitado, Publicado, Permiso, Otorgado, Baja, Archivado
 from ..forms import PermisoForm, SolicitadoForm
-from django.views.generic import ListView,DeleteView,DetailView
+from django.views.generic import ListView,DeleteView,DetailView,UpdateView
 from django.shortcuts import redirect
 from django.views import View
 from datetime import date, datetime
@@ -48,6 +48,29 @@ class AltaPermiso(GenericAltaView):
 			solicitado.save()
 			return redirect('permisos:listar')
 		return redirect('permisos:alta')
+
+class ModificarPermiso(UpdateView):
+	model = Permiso
+	form_class = PermisoForm
+	template_name = 'permisos/alta.html'
+	success_url = reverse_lazy('permisos:listar')
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		id_permiso = kwargs['pk']
+		permiso = self.model.objects.get(pk=pks)
+		form = self.form_class(request.POST, instance=permiso)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(self.get_success_url())
+		else:
+			return HttpResponseRedirect(self.get_success_url())
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarPermiso, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar Permiso"
+		context['return_path'] = reverse('permisos:listar')
+		return context
 
 
 #class PermisoDelete(DeleteView):
