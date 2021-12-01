@@ -58,11 +58,7 @@ class DetalleTipoDeUso(DetailView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(DetalleTipoDeUso, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Tipo de Uso'
-		context['botones'] = {
-			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta'),
-			'Modificar Tipo de Uso': reverse('tiposDeUso:modificar', args=[self.object.id]),
-		}
+		context['nombreDetalle'] = ' Tipo de Uso'
 		context['return_label'] = 'listado de Tipos de Usos'
 		context['return_path'] = reverse('tiposDeUso:listar')
 		return context
@@ -124,8 +120,7 @@ class ModificarTipoDeUso(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarTipoDeUso, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Tipo de Uso"
-		context['botones'] = {
-			'Nuevo Documento': reverse('tipoDocumentos:alta'),
-			}
+		context['return_label'] = 'listado de Tipos de Usos'
+		context['return_path'] = reverse('tiposDeUso:listar')
 		context['return_path'] = reverse('tiposDeUso:listar')
 		return context
