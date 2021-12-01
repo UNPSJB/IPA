@@ -62,6 +62,7 @@ class ModificarTipoDocumento(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarTipoDocumento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Tipo Documento"
+		context['return_label'] = 'Listado de Tipo de Documentos'
 		context['return_path'] = reverse_lazy('tipoDocumentos:listado')
 		return context
 
