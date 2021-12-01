@@ -32,6 +32,7 @@ class AltaPersona(GenericAltaView):
 		context['roles'] = Persona.tipoRol
 		context['director_form'] = DirectorForm()
 		context['chofer_form'] = ChoferForm()
+		context['nombreForm'] = "Nueva Persona"
 		context['return_path'] = self.request.GET.get('return_path', self.success_url)
 		if context['return_label'] == None:
 			context['return_label'] = "Listado de Personas"
@@ -73,6 +74,9 @@ class ModificarPersona(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarPersona, self).get_context_data(**kwargs)
 		obj = context['object']
+		context['nombreForm'] = "Modificar Persona"
+		context['return_label'] = "Listado de Personas"
+		context['return_path']= reverse('personas:listado')
 		context['empresas'] = obj.empresa_set.values('id').all()
 		context['roles'] = Persona.tipoRol		
 		if obj.sos(Director):
