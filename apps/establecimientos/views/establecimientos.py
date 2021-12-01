@@ -19,7 +19,7 @@ class AltaEstablecimiento(GenericAltaView):
 	def get_context_data(self, **kwargs):
 		context = super(AltaEstablecimiento, self).get_context_data(**kwargs)
 		context['botones'] = {
-			'Nuevo Solicitante': reverse('personas:alta'),
+			'Nuevo Dueño': reverse('personas:alta'),
 			}
 		context['nombreForm'] = "Nuevo Establecimiento"
 		context['ayuda'] = 'solicitante.html#como-crear-un-nuevo-establecimiento'
