@@ -18,10 +18,7 @@ class AltaLocalidad(GenericAltaView):
 	success_url = reverse_lazy('localidades:listar')
 
 	def get_context_data(self, **kwargs):
-		context = super(AltaLocalidad, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Nuevo Departamento': reverse('departamentos:alta'),
-		}
+		context = super(AltaLocalidad, self).get_context_data(**kwargs) 
 		context['nombreForm'] = 'Nueva Localidad'
 		context['ayuda'] = 'localidad.html#como-crear-una-nueva-localidad'
 		return context
@@ -46,9 +43,6 @@ class ModificarLocalidad(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarLocalidad, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Localidad"
-		context['botones'] = {
-			'Nuevo Departamento': reverse('departamentos:alta')
-			}
 		context['return_path'] = reverse('localidades:listar')
 		return context
 

@@ -122,5 +122,4 @@ class ModificarTipoDeUso(UpdateView):
 		context['nombreForm'] = "Modificar Tipo de Uso"
 		context['return_label'] = 'listado de Tipos de Usos'
 		context['return_path'] = reverse('tiposDeUso:listar')
-		context['return_path'] = reverse('tiposDeUso:listar')
 		return context
