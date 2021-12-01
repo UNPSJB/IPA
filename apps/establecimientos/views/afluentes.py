@@ -30,11 +30,7 @@ class DetalleAfluente(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleAfluente, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Afluente'
-		context['botones'] = {
-			'Modificar Afluente': reverse('afluentes:modificar', args=[self.object.id]),
-			'Eliminar Afluente': reverse('afluentes:eliminar', args=[self.object.id]),
-		}
+		context['nombreDetalle'] = ' Afluente'
 		context['return_label'] = 'listado de Afluentes'
 		context['return_path'] = reverse('afluentes:listar')
 		return context	
@@ -73,6 +69,7 @@ class ModificarAfluente(UpdateView):
 		context = super(ModificarAfluente, self).get_context_data(**kwargs)
 		context['return_path'] = reverse_lazy('afluentes:listar')
 		context['nombreForm'] = 'Modificar Afluente'
+		context['return_label'] = 'listado de Afluentes'
 		return context
 
 class DeleteAfluente(DeleteView):
