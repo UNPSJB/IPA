@@ -48,12 +48,7 @@ class DetalleEstablecimiento(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleEstablecimiento, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle de Establecimiento'
-		context['botones'] = {
-			'Nuevo Establecimiento': reverse('establecimientos:alta'),
-			'Modificar Establecimiento': reverse('establecimientos:modificar', args=[self.object.codigoCatastral]),
-			'Eliminar Establecimiento': reverse('establecimientos:eliminar', args=[self.object.codigoCatastral]),
-		}
+		context['nombreDetalle'] = ' Establecimiento'
 		context['return_label'] = 'listado de Establecimientos'
 		context['return_path'] = reverse('establecimientos:listar')
 		return context
@@ -78,6 +73,7 @@ class ModificarEstablecimiento(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(ModificarEstablecimiento, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Establecimiento"
+		context['return_label'] = 'listado de Establecimientos'
 		context['return_path'] = reverse('establecimientos:listar')
 		return context
 
