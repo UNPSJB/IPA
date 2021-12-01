@@ -26,9 +26,9 @@ class DetalleEmpresa(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleEmpresa, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle Empresa'
+		context['nombreDetalle'] = ' Empresa'
 		context['return_label'] = 'Listado Empresas'
-		#context['return_path']= reverse('empresa:listar')
+		context['return_path']= reverse('empresas:listado')
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
 		return context
 
@@ -51,6 +51,13 @@ class ModificarEmpresa(UpdateView):
 	form_class = EmpresaForm
 	success_url = reverse_lazy('empresas:listado')
 	template_name = 'empresas/alta.html'
+	def get_context_data(self, **kwargs):
+		context = super(ModificarEmpresa, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Detalle Empresa'
+		context['return_label'] = 'Listado Empresas'
+		context['return_path']= reverse('empresas:listado')
+		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
+		return context
 
 class EliminarEmpresa(DeleteView):
 	model = Empresa
