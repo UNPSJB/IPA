@@ -9,7 +9,7 @@ class UsuarioForm(forms.Form):
 	password = forms.CharField(label='Contraseña', required=True)
 	confirmar_password = forms.CharField(label='Repita la contraseña', required=True) 
 	email = forms.EmailField(label='Email', required=True)
-	persona = forms.ModelChoiceField(required=True, queryset=Persona.objects.filter(usuario__isnull=False), label="Persona")
+	persona = forms.ModelChoiceField(required=True, queryset=Persona.objects.filter(usuario__isnull=True), label="Persona")
 		
 	def clean(self):
 		cleaned_data = super(UsuarioForm, self).clean()

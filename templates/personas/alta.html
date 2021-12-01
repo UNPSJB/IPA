@@ -39,12 +39,18 @@
 			<div class="fifteen wide column" >
 				<div class="field">
 					<div class="ui dropdown multiple search selection" name="empresas" id="empresasDropdown">
-						<input type="hidden" name="empresas" class="empresasDropdown">
-						<div class="default text">Selecciona empresas</div>
-						<i class="dropdown icon"></i>
-						<div class="menu">
-
-						</div>
+							<select name="empresas" class="form-control" id="empresas" required>
+							{% for x in empresas %}
+                				<option value="{{x.cuit}}">{{x}} </option>                
+            				{% endfor %}                    
+							</select>
+							<i class="dropdown icon"></i>
+            				<div class="default text">Ingrese la empresa</div>
+            				<div class="menu" tabindex="-1">
+                				{% for x in empresas %}
+                    				<div class="item" data-value="{{x.cuit}}">{{x}}</div>
+                				{% endfor %}
+            				</div>
 					</div>
 				</div>	
 			</div>

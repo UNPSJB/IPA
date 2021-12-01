@@ -1,5 +1,7 @@
 {% extends 'generales/alta.html' %}
 
+{% load static semanticui %}
+
 {% block mensaje_boton_volver %}
 	Volver al listado de usuarios
 {% endblock %} 
@@ -10,6 +12,9 @@
 	Nuevo Usuario
 {% endblock %}
 
+{% block formulario_custom %}
+    {% render_form form %}
+{% endblock %}
 
 {% block customPageJs %}
 $(".default.text").html('Seleccione la persona asociada al usuario.')
