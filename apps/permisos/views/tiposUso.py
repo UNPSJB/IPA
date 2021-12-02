@@ -22,9 +22,6 @@ class AltaTipoDeUso(GenericAltaView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDeUso, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Nuevo Documento': reverse('tipoDocumentos:alta'),
-			}
 		context['nombreForm'] = 'Nuevo Tipo de Uso'
 		context['ayuda'] = 'permiso_gestion.html#como-crear-un-nuevo-tipo-de-uso'
 		if context['return_label'] == None:
