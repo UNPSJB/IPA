@@ -76,6 +76,7 @@ class EmpresaForm(forms.ModelForm):
 		fields = [
 				'cuit',
 				'razonSocial',
+				'representantes',
 				'direccion',
 				'telefono'
 			]

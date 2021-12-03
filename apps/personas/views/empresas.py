@@ -40,7 +40,7 @@ class Listado(SingleTableView):
 
 class DataEmpresas(View):
 	def get(self, request, *args, **kwargs):
-		empresas = pmodels.Empresa.objects.all()
+		empresas = models.Empresa.objects.all()
 		empresaDict = []
 		for empresa in empresas:
 			empresaDict.append({"razonSocial": empresa.razonSocial, "cuit": empresa.cuit})

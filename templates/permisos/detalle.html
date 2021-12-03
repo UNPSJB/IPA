@@ -10,7 +10,9 @@
             <td data-label="data">Estado</td>
             <td data-label="value">{{object.estado}}</td>
         </tr>
-            
+        
+        <td data-label="data">Usuario que cabio el ultimo Estado</td>
+            <td>{{object.estado.usuario}}</td> 
         <tr>
             <td data-label="data">Solicitante</td>
             <td data-label="value">{{object.solicitante}}</td>
@@ -43,14 +45,15 @@
                 {% if object.fechaVencimiento %}
                     {{object.fechaVencimiento}}
                 {% else %}
-                    ------
+                    --/--/----
                 {% endif %}
             </td>
         </tr>
         <tr>
             <td data-label="data">Observación</td>
-            <td>{% if solicitud.estado.observacion %}
-                    {{solicitud.estado.observacion}}
+            <td data-label="value">
+                {% if solicitado.observacion %}
+                    {{solicitado.observacion}}
                 {% else %}
                     -
                 {% endif %}
@@ -58,7 +61,7 @@
         </tr>
         <tr>
             <td>Usuario que registro el alta de solicitud</td>
-            <td>{{solicitud.estado.usuario}}</td>
+            <td>{{solicitado.usuario}}</td>
         </tr>
         <tr>
             <td>Utilizando al momento de solicitar el permiso</td>
