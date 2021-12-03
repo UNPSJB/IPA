@@ -48,8 +48,13 @@
             </td>
         </tr>
         <tr>
-            <td>Observación</td>
-            <td>{{solicitud.estado.observacion}}</td>
+            <td data-label="data">Observación</td>
+            <td>{% if solicitud.estado.observacion %}
+                    {{solicitud.estado.observacion}}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
         </tr>
         <tr>
             <td>Usuario que registro el alta de solicitud</td>
