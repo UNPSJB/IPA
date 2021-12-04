@@ -114,11 +114,12 @@ class DetallePermiso(GenericDetalleView):
 			if isinstance(self.object.estado, Baja):
 				context['botones']['Archivar Expediente']=reverse('documentos:archivarPermiso', args=[self.object.pk])
 			if isinstance(self.object.estado, (Solicitado,Publicado,Otorgado)):
-				context['botones']['Baja de Permiso'] = reverse('documentos:bajaPermiso', args=[self.object.pk]),
+				context['botones']['Baja de Permiso'] = reverse('documentos:bajaPermiso', args=[self.object.pk])
 
 			context['utilizando'] = self.object.getEstados(1)[0].utilizando
 			context['return_label']='Listado de Permisos'
 			context['return_path']=reverse('permisos:listar')
+			context['solicitado'] = self.object.getEstados(1)[0]
 			return context
 
 

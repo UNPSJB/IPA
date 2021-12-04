@@ -7,14 +7,14 @@
 
 <div class="row header-content">
 	<div class="five wide column">
-		<button class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
+		<button class="ui primary basic button" onclick="window.location.href='{{return_label}}'">
 			<i class="angle left icon"></i>
 			Volver a {{return_label}}
 		</button>
 
 	</div>
 	<div class="six wide column">
-		<h1 class="ui center aligned header blue "> {{nombreForm}} </h1>
+		<h1 class="ui center aligned header blue "> Nueva Persona </h1>
 	</div>
 	<div class="five wide column">
 	</div>
@@ -39,18 +39,15 @@
 			<div class="fifteen wide column" >
 				<div class="field">
 					<div class="ui dropdown multiple search selection" name="empresas" id="empresasDropdown">
-							<select name="empresas" class="form-control" id="empresas" required>
-							{% for x in empresas %}
-                				<option value="{{x.cuit}}">{{x}} </option>                
-            				{% endfor %}                    
-							</select>
-							<i class="dropdown icon"></i>
-            				<div class="default text">Ingrese la empresa</div>
-            				<div class="menu" tabindex="-1">
+						<input type="hidden" name="empresas" class="empresasDropdown">
+						<div class="default text">Selecciona empresas</div>
+						<i class="dropdown icon"></i>
+						<div class="menu">                    
                 				{% for x in empresas %}
                     				<div class="item" data-value="{{x.cuit}}">{{x}}</div>
                 				{% endfor %}
-            				</div>
+
+						</div>
 					</div>
 				</div>	
 			</div>
