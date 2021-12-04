@@ -27,34 +27,10 @@ class TipoDocumento(models.Model):
 	class Meta:
 		ordering = ["-nombre"]
 		permissions = (
-			("cargar_acta_inspeccion", "Puede cargar actas de inspeccion"),
-			("modificar_acta_inspeccion", "Puede modificr actas de inspeccion"),
-			("eliminar_acta_inspeccion", "Puede eliminar actas de inspeccion"),
-			
-			("cargar_acta_infraccion", "Puede cargar actas de infracción"),
-			("modificar_acta_infraccion", "Puede modificar actas de infracción"),
-			("eliminar_acta_infraccion", "Puede cargar eliminar de infracción"),
-
-			("cargar_reclamo", "Puede cargar reclamos"),
-			("modificar_reclamo", "Puede modificar reclamos"),
-			("eliminar_reclamo", "Puede eliminar reclamos"),
-
-			("cargar_pago", "Puede cargar pagos"),
-			("modificar_pago", "Puede modificar pagos"),
-			("eliminar_pago", "Puede eliminar pagos"),
-
-			("cargar_cobro", "Puede cargar cobros"),
-			("modificar_cobro", "Puede modificar cobros"),
-			("eliminar_cobro", "Puede eliminar cobros"),
-			
-			("cargar_oposicion", "Puede cargar oposicion"),
-			("modificar_oposicion", "Puede modificar oposicion"),
-			("eliminar_oposicion", "Puede eliminar oposicion"),
-			
-			("cargar_edicto", "Puede cargar edicto"),
-			("modificar_edicto", "Puede modificar edicto"),
-			("eliminar_edicto", "Puede eliminar edicto"),
-			
+			("cargar_tipo_documento","Cargar tipo de documentos"),
+			("listar_tipo_documento","Listar tipo de documentos"),
+			("modificar_tipo_documento","Modificar tipo de documentos"),
+			("eliminar_tipo_documento","Eliminar tipo de documentos"),
 		)
 
 	def save(self, *args, **kwargs):
@@ -93,6 +69,22 @@ class Documento(models.Model):
 	)
 	estado = models.PositiveIntegerField(choices=Estado,default=0)
 	fecha = models.DateField()
+
+	class Meta:
+		permissions = (
+			("cargar_documento","Cargar documentos"),
+			("detalle_documento","Ver detalle de documentos"),
+			("modificar_documento","Modificar documentos"),
+			("eliminar_documento","Eliminar documentos"),
+			("cargar_expediente","Cargar expedientes"),
+			("cargar_edicto","Cargar edictos"),
+			("cargar_resolucion","Cargar resoluciones"),
+			("cargar_oposicion","Cargar oposiciones"),
+			("baja_permiso","Dar de baja los permisos"),
+			("archivar_permiso","Archivar los permisos"),
+			("cargar_acta_infraccion","Cargar actas de Infracción"),
+			("cargar_acta_inspeccion","Cargar actas de inspección")
+		)
 
 	def save(self):
 		thumbnail = "thumbnails/%s.png" % (datetime.now().strftime("%Y%m%d%H%M%S"),)

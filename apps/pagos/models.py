@@ -36,6 +36,17 @@ class Operacion(models.Model):
 class Pago(Operacion):
 	permiso = models.ForeignKey('permisos.Permiso', blank=False, null=False, related_name="pagos")
 
+	class Meta:
+		permissions = (
+			("cargar_pago","Cargar pagos"),
+			("modificar_pago","Modificar pagos"),
+			("post_pago_nuevo","Post pago nuevo"),
+			("listar_pago","Listar pagos"),
+			("eliminar_pago","Eliminar pagos"),
+			("listar_todos_pagos","Listar todos los pagos"),
+			("cargar_pago_infraccion","Cargar pagos de inspección")
+		)
+
 	@classmethod
 	def getPagosCanon(Klass):
 		return Pago.objects.all().filter(es_por_canon=True)
@@ -51,6 +62,15 @@ class Cobro(Operacion):
 
 	class Meta:
 		get_latest_by = "fecha"
+		
+		permissions = (
+			("cargar_cobro","Cargar cobros"),
+			("recalcular_cobro","Recalcular cobros"),
+			("eliminar_cobro","Eliminar cobros"),
+			("listar_cobro","Listar cobros"),
+			("listar_todos_cobros","Listar todos los cobros"),
+			("cargar_cobro_infraccion","Cargar cobros de infracción")
+		)
 
 	@classmethod
 	def getCobrosCanon(Klass):
@@ -78,6 +98,13 @@ class ValorDeModulo (models.Model):
 		ordering = ["fecha"]
 		unique_together = ("fecha", "modulo")
 		get_latest_by = "fecha"
+
+		permissions = (
+			("cargar_valor_de_modulo","Cargar valores de modulos"),
+			("modificar_valor_de_modulo","Modificar valores de modulos"),
+			("listar_valor_de_modulo","Listar valores de modulos"),
+			("eliminar_valor_de_modulo","Eliminar valores de modulos")
+		)
 
 	def __str__(self):
 		return "{fecha}: ${precio}".format(fecha=self.fecha, precio=self.precio)

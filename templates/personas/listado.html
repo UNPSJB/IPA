@@ -2,6 +2,7 @@
 {% load render_table from django_tables2 %}
 
 {% block wrapper %}
+{{block.super}}
 <div class="ui grid"> 
 	<div class="row header-content">
 		<div class="six wide column">
@@ -150,6 +151,8 @@
 				$.post('/personas/eliminar/' + id + '/', function(data){
 					if (data.success){
 						location.reload();
+					}else{
+						console.log("No se puede eliminar");
 					}
 				})
 			}

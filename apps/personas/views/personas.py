@@ -1,15 +1,15 @@
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.views.generic import DetailView, DeleteView, UpdateView
 from django.views import View
-from django_filters.views import FilterView
-from django_tables2.views import SingleTableMixin
-from apps.generales.views import GenericAltaView
 from apps.personas.models import *
 from apps.personas.forms import PersonaForm, ChoferForm, DirectorForm
 from apps.personas.tables import PersonaTable, PersonaFilter
 from django.http import JsonResponse
+from django.shortcuts import redirect
+from apps.generales.views import GenericAltaView,GenericDetalleView,GenericListadoView,GenericModificacionView
 
-from apps.generales.views import GenericListadoView
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from django.contrib import messages
 
 class ListadoPersonas(GenericListadoView):
 	model = Persona
@@ -18,6 +18,8 @@ class ListadoPersonas(GenericListadoView):
 	paginate_by = 12
 	filterset_class = PersonaFilter
 	export_name = 'listado_personas'
+	permission_required = 'personas.listar_persona'
+	redirect_url = '/'
 
 class AltaPersona(GenericAltaView):
 	model = Persona
@@ -25,6 +27,8 @@ class AltaPersona(GenericAltaView):
 	template_name = 'personas/alta.html'
 	success_url = reverse_lazy('personas:listado')
 	cargar_otro_url = reverse_lazy('personas:alta')
+	permission_required = 'personas.cargar_persona'
+	redirect_url = 'personas:listado'
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -65,11 +69,13 @@ class AltaPersona(GenericAltaView):
 			persona.agregar_rol(rol_to_add)
 		return response
 
-class ModificarPersona(UpdateView):
+class ModificarPersona(GenericModificacionView):
 	model = Persona
 	form_class = PersonaForm
 	success_url = reverse_lazy('personas:listado')
 	template_name = 'personas/alta.html'
+	permission_required = 'personas.modificar_persona'
+	redirect_url = 'personas:listado'
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarPersona, self).get_context_data(**kwargs)
@@ -115,9 +121,11 @@ class ModificarPersona(UpdateView):
 			persona.agregar_rol(rol_to_add)
 		return response
 
-class DetallePersona(DetailView):
+class DetallePersona(GenericDetalleView):
 	model = Persona
 	template_name = 'personas/detalle.html'
+	permission_required = 'personas.detalle_persona'
+	redirect_url = 'personas:listado'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetallePersona, self).get_context_data(**kwargs)
@@ -127,9 +135,11 @@ class DetallePersona(DetailView):
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
 		return context
 
-class EliminarPersona(DeleteView):
+class EliminarPersona(LoginRequiredMixin,PermissionRequiredMixin,DeleteView):
 	model = Persona
 	success_url = reverse_lazy('personas:listado')
+	permission_required = 'personas.eliminar_persona'
+	redirect_url = 'personas:listado'
 	
 	def delete(self, request, *args, **kwargs):
 		try:
@@ -139,8 +149,12 @@ class EliminarPersona(DeleteView):
 			return JsonResponse({
 				"success": True
 			})
-		except Error as e:
+		except Exception as e:
 			return JsonResponse({
 				"success": False,
 				"message": e.value()
 			})
+
+	def handle_no_permission(self):
+		messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+		return redirect(self.redirect_url)

@@ -30,6 +30,13 @@ class Persona(models.Model):
 	class Meta:
 		unique_together = ("tipoDocumento", "numeroDocumento")
 		ordering = ["nombre", "apellido"]
+		permissions = (
+			("listar_persona","Listar personas"),
+			("cargar_persona","Cargar personas"),
+			("modificar_persona","Modificar personas"),
+			("detalle_persona","Ver detalle de personas"),
+			("eliminar_persona","Eliminar personas")
+		)
 
 	nombre = models.CharField(max_length=30)
 	apellido = models.CharField(max_length=30)
@@ -219,3 +226,12 @@ class Empresa(models.Model):
 
 	def tiene_representantes(self):
 		return self.representantes.all().count() > 0
+
+	class Meta:
+		permissions = (
+			("cargar_empresa","Cargar empresas"),
+			("detalle_empresa","Ver detalle de empresas"),
+			("listar_empresa","Listar empresas"),
+			("modificar_empresa","Modificar empresas"),
+			("eliminar_empresa","Eliminar empresas")
+		)

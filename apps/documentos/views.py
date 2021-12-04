@@ -1,7 +1,8 @@
 import sys
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse_lazy, reverse
 from .models import TipoDocumento, Documento
+from apps.permisos.models import TipoUso
 from .forms import TipoDocumentoForm, DocumentoForm, ModificarDocumentoForm, DocumentoProtegidoForm, OposicionForm, DocumentoActaInspeccionProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from apps.permisos.models import Permiso
@@ -9,9 +10,13 @@ from apps.comisiones.models import Comision
 from django.http import HttpResponseRedirect, JsonResponse
 from datetime import date, datetime
 from operator import attrgetter
-from apps.generales.views import GenericAltaView, GenericListadoView, GenericEliminarView
+from apps.generales.views import GenericAltaView, GenericListadoView, GenericEliminarView,GenericModificacionView,GenericDetalleView
 from .tables import TipoDocumentosTable
 from .filters import TipoDocumentosFilter
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+
+from django.contrib import messages as Messages
+
 
 class AltaTipoDocumento(GenericAltaView):
 	model = TipoDocumento
@@ -19,6 +24,8 @@ class AltaTipoDocumento(GenericAltaView):
 	template_name = 'documentos/alta.html'
 	success_url = reverse_lazy('tipoDocumentos:listado')
 	cargar_otro_url = reverse_lazy('tipoDocumentos:alta')
+	permission_required = 'documentos.cargar_tipo_documento'
+	redirect_url = 'tipoDocumentos:listado'
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDocumento, self).get_context_data(**kwargs)
@@ -33,20 +40,22 @@ class ListadoTipoDocumentos(GenericListadoView):
 	table_class = TipoDocumentosTable
 	paginate_by = 20
 	filterset_class = TipoDocumentosFilter
-
 	context_object_name = 'tipoDocumentos'
+	permission_required = 'documentos.listar_tipo_documento'
+	redirect_url = '/'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTipoDocumentos, self).get_context_data(**kwargs)
 		context['nombreListado'] = "Listado Tipo de Documento"
 		return context
 
-
-class ModificarTipoDocumento(UpdateView):
+class ModificarTipoDocumento(GenericModificacionView):
 	model = TipoDocumento
 	form_class = TipoDocumentoForm
 	template_name = 'documentos/alta.html'
 	success_url = reverse_lazy('tipoDocumentos:listado')
+	permission_required = 'documentos.modificar_tipo_documento'
+	redirect_url = 'tipoDocumentos:listado'
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -68,26 +77,37 @@ class ModificarTipoDocumento(UpdateView):
 
 
 class DeleteTipoDocumento(GenericEliminarView):
+	model = TipoDocumento
+	permission_required = 'documentos.eliminar_tipo_documento'
+	redirect_url = 'tipoDocumentos:listado'
+	
 	def post(self, request, *args, **kwargs):
-		self.object = self.get_object()
-		tipos_de_usos = TipoUso.objects.filter(documentos__in=[self.object.pk])
-		if len(tipos_de_usos)>0: 
-			return JsonResponse({
-			"success": False,
-			"message": "Existen Tipo de Uso con este Tipo de Documento"
-			})
+		if request.user.has_perm(self.permission_required):
+			self.object = self.get_object()
+			tipos_de_usos = TipoUso.objects.filter(documentos__in=[self.object.pk])
+			if len(tipos_de_usos)>0: 
+				return JsonResponse({
+				"success": False,
+				"message": ('error',"Existen Tipo de Uso con este Tipo de Documento")
+				})
+			else:
+				self.object.delete()
+				return JsonResponse({
+					"success": True,
+					"message": "Tipo de Documento eliminado con exito"
+				})
 		else:
-			self.object.delete()
 			return JsonResponse({
-				"success": True,
-				"message": "Tipo de Documento eliminado con exito"
+					"success": False,
+					"message": ('permiso','No posee los permisos necesarios para realizar para realizar esta operación')
 			})
 
 # Documentos
-class AltaDocumento(GenericAltaView):
+class AltaDocumento(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoForm
 	template_name = 'documentos/alta.html'
+	permission_required = 'documentos.cargar_documento'
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AltaDocumento, self).get_context_data(**kwargs)
@@ -99,12 +119,17 @@ class AltaDocumento(GenericAltaView):
 	
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AltaDocumento, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
-
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		fs = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
@@ -115,16 +140,19 @@ class AltaDocumento(GenericAltaView):
 		messages = ['La fecha del documento presentado debe ser igual o mayor que la fecha de la solicitud de permiso (' + permiso.fechaSolicitud.strftime("%d/%m/%Y")+')']
 		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 
-class DetalleDocumento(DetailView):
+class DetalleDocumento(GenericDetalleView):
 	model = Documento
 	template_name = 'Documento/detalle.html'
+	permission_required = 'documentos.detalle_documento'
+	redirect_url = '/'
 
 	
-class ModificarDocumento(UpdateView):
+class ModificarDocumento(LoginRequiredMixin,UpdateView):
 	model = Documento
 	template_name = 'documentos/modificar.html'
-	#success_url = reverse_lazy('documentos:listar')
-
+	permission_required = 'documentos.modificar_documento'
+	redirect_url = 'permisos:listar'
+	
 	def get_context_modificar(self, context, pk):
 		context['nombreForm'] = 'Modificar Documento'
 		context['return_label'] = 'Documentación de Permiso'
@@ -147,7 +175,9 @@ class ModificarDocumento(UpdateView):
 	def get (self, request, *args, **kwargs):
 		self.object = self.get_object()
 		self.permiso_pk = kwargs.get('pkp')
-		#self.documento_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk]))
 		if self.object.tipo.protegido == True:
 			self.form_class = DocumentoForm
 		else:
@@ -157,6 +187,11 @@ class ModificarDocumento(UpdateView):
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		permiso = Permiso.objects.get(pk=kwargs.get('pkp'))
+
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:listarDocumentacionPermiso', args=[permiso.pk]))
+
 		try:
 			es_documento_nuevo=request.POST['documento_nuevo']
 			form = ModificarDocumentoForm(request.POST, instance=self.object)	
@@ -176,33 +211,39 @@ class ModificarDocumento(UpdateView):
 			#return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 			
 
-class DeleteDocumento(GenericEliminarView):
+class DeleteDocumento(LoginRequiredMixin,DeleteView):
 	model = Documento
-	#success_url = reverse_lazy('documentos:listar')
+	permission_required = 'documentos.eliminar_documento'
 	
 	def get_success_url(self, **kwargs):
 		return reverse('permisos:listarDocumentacionPermiso', kwargs.get('pkp'))
 
-
 	def post(self, request, *args, **kwargs):
-		permiso = Permiso.objects.get(pk=kwargs.get('pkp'))
-		documento = Documento.objects.get(pk=kwargs.get('pk'))
-		if documento.tipo.slug in permiso.estado.documentos_modificar_eliminar():
-			#documento.delete()
-			mensaje = permiso.hacer('eliminar_documento',request.user, datetime.now(), documento)
+		if request.user.has_perm(self.permission_required):
+			permiso = Permiso.objects.get(pk=kwargs.get('pkp'))
+			documento = Documento.objects.get(pk=kwargs.get('pk'))
+			if documento.tipo.slug in permiso.estado.documentos_modificar_eliminar():
+				#documento.delete()
+				mensaje = permiso.hacer('eliminar_documento',request.user, datetime.now(), documento)
+				return JsonResponse({
+					"success": mensaje[0],
+					"message": mensaje[1]
+				})
 			return JsonResponse({
-				"success": mensaje[0],
-				"message": mensaje[1]
+					"success": False,
+					"message": ('error','Este documento no se puede eliminar')
 			})
-		return JsonResponse({
-				"success": False,
-				"message": mensaje[1]
-		})
+		else:
+			return JsonResponse({
+					"success": False,
+					"message": ('permiso','No posee los permisos necesarios para realizar para realizar esta operación')
+			})
 
-class AgregarExpediente(CreateView):
+class AgregarExpediente(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
 	template_name = 'documentos/expediente.html'
+	permission_required = 'documentos.cargar_expediente'
 
 	def get_success_url(self):
 		return reverse('permisos:detalle', args=(self.permiso_pk, ))
@@ -218,11 +259,17 @@ class AgregarExpediente(CreateView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarExpediente, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		
@@ -252,12 +299,12 @@ class AgregarExpediente(CreateView):
 					message_error = ['La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')']))
 		return self.render_to_response(self.get_context_data(form=form,expediente=numero))
 
-class AgregarEdicto(GenericAltaView):
+class AgregarEdicto(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
 	template_name = 'documentos/edicto.html'
-	
-
+	permission_required = 'documentos.cargar_edicto'
+		
 	def get_success_url(self):
 		return reverse('permisos:detalle', args=[self.permiso_pk])
 
@@ -271,12 +318,17 @@ class AgregarEdicto(GenericAltaView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
-
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarEdicto, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		documentos = permiso.documentos.all()
@@ -302,10 +354,11 @@ class AgregarEdicto(GenericAltaView):
 					') y el tiempo de publicación mayor a CERO']))
 		return self.render_to_response(self.get_context_data(form=form))
 
-class AgregarResolucion(CreateView):
+class AgregarResolucion(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
 	template_name = 'documentos/resolucion.html'
+	permission_required = 'documentos.cargar_resolucion'
 
 	def get_success_url(self):
 		return reverse('permisos:detalle', args=(self.permiso_pk, ))
@@ -325,11 +378,17 @@ class AgregarResolucion(CreateView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarResolucion, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
@@ -377,10 +436,11 @@ class AgregarResolucion(CreateView):
 		return self.render_to_response(self.get_context_data(form=form))
 
 
-class AgregarOposicion(CreateView):
+class AgregarOposicion(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
 	template_name = 'documentos/alta.html'
+	permission_required = 'documentos.cargar_oposicion'
 
 	def get_success_url(self):
 		return reverse('permisos:detalle', args=[self.permiso_pk])
@@ -398,11 +458,17 @@ class AgregarOposicion(CreateView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarOposicion, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		second_form = OposicionForm(request.POST)
 
@@ -423,10 +489,11 @@ class AgregarOposicion(CreateView):
 
 		return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser menor o igual a la fecha de vencimiento de publicacion - '+(fechaVencimiento).strftime("%d-%m-%Y")]))
 
-class BajaPermiso(GenericAltaView):
+class BajaPermiso(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
 	template_name = 'documentos/alta.html'
+	permission_required = 'documentos.baja_permiso'
 
 	def get_success_url(self):
 		return reverse('permisos:detalle', args=[self.permiso_pk])
@@ -442,11 +509,17 @@ class BajaPermiso(GenericAltaView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(BajaPermiso, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
 		fecha_de_baja = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
@@ -462,10 +535,11 @@ class BajaPermiso(GenericAltaView):
 
 		return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser mayor o igual a '+(permiso.estado.fecha).strftime("%d-%m-%Y")+' (Permiso '+permiso.estado.getEstadoString().title()+')']))
 
-class ArchivarPermiso(GenericAltaView):
+class ArchivarPermiso(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoProtegidoForm
 	template_name = 'documentos/alta.html'
+	permission_required = 'documentos.archivar_permiso'
 
 	def get_success_url(self):
 		return reverse('permisos:detalle', args=[self.permiso_pk])
@@ -484,11 +558,17 @@ class ArchivarPermiso(GenericAltaView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(ArchivarPermiso, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
 		fecha_de_archivo = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
@@ -506,13 +586,14 @@ class ArchivarPermiso(GenericAltaView):
 				return render(request, self.template_name, self.get_context_archivar({'form':form,'message_error':[e]}, self.permiso_pk))
 		return self.render_to_response(self.get_context_data(form=form))
 
-
-
-class AltaActaDeInfraccion(GenericAltaView):
+class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoActaInspeccionProtegidoForm
 	template_name = 'documentos/actas.html'
-	success_url = reverse_lazy('comisiones:listar')
+	permission_required = 'documentos.cargar_acta_infraccion'
+
+	def get_success_url(self):
+		return reverse('permisos:detalle', args=[self.permiso_pk])
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaActaDeInfraccion, self).get_context_data(**kwargs)
@@ -527,11 +608,17 @@ class AltaActaDeInfraccion(GenericAltaView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AltaActaDeInfraccion, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 
@@ -554,14 +641,20 @@ class AltaActaDeInfraccion(GenericAltaView):
 		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']
 		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 
-class AltaActaDeInspeccion(CreateView):
+class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 	model = Documento
 	form_class = DocumentoActaInspeccionProtegidoForm
 	template_name = 'documentos/actas.html'
-	success_url = reverse_lazy('comisiones:listar')
+	permission_required = 'documentos.cargar_acta_inspeccion'
+
+	def get_success_url(self):
+		return reverse('permisos:detalle', args=[self.permiso_pk])
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AltaActaDeInspeccion, self).get(request,*args,**kwargs)
 
 	def get_context_data(self, **kwargs):
@@ -578,6 +671,9 @@ class AltaActaDeInspeccion(CreateView):
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 
@@ -588,7 +684,6 @@ class AltaActaDeInspeccion(CreateView):
 		fechaSolicitudString = fechaSolicitud.strftime("%d-%m-%Y")
 		fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
 		fechaCorrecta = ( fechaActa >= fechaSolicitud) and (fechaActa <= date.today()) and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
-
 
 		if form.is_valid() and fechaCorrecta:
 			documento = form.save(commit=False)

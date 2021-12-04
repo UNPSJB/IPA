@@ -5,17 +5,20 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import Comision
 from django.views.generic import ListView,CreateView,DeleteView,DetailView,UpdateView
-
-from apps.generales.views import GenericListadoView, GenericAltaView
+from apps.generales.views import GenericListadoView, GenericAltaView,GenericDetalleView,GenericModificacionView
 from .tables import ComisionTable
 from .filters import ComisionFilter
-
 from django.shortcuts import redirect
+
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from django.contrib import messages
 
 class AltaComision(GenericAltaView):
 	form_class = ComisionForm
 	template_name = 'comisiones/alta.html'
 	success_url = reverse_lazy('comisiones:listar')
+	permission_required = 'comisiones.cargar_comision'
+	redirect_url = 'comisiones:listar'
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaComision, self).get_context_data(**kwargs)
@@ -34,10 +37,12 @@ class AltaComision(GenericAltaView):
 		return render(request, self.template_name, {'form':comision_form, 'message_error': comision_form.errors['__all__'],'empleados':comision_form.cleaned_data['empleados']})
 		
 
-class DetalleComision(DetailView):
+class DetalleComision(GenericDetalleView):
 	model = Comision
 	template_name = 'comisiones/detalle.html'
 	context_object_name = 'comision'
+	permission_required = 'comisiones.detalle_comision'
+	redirect_url = 'comisiones:listar'
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleComision, self).get_context_data(**kwargs)
@@ -58,6 +63,8 @@ class ListadoComision(GenericListadoView):
 	paginate_by = 12
 	filterset_class = ComisionFilter
 	export_name = 'listado_comisiones'
+	permission_required = 'comisiones.listado_comision'
+	redirect_url = '/'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoComision, self).get_context_data(**kwargs)
@@ -67,11 +74,13 @@ class ListadoComision(GenericListadoView):
 		context['botones'] = {'Nueva Comisión': reverse('comisiones:alta')}
 		return context
 
-class ModificarComision(UpdateView):
+class ModificarComision(GenericModificacionView):
 	model = Comision
 	form_class = ComisionForm
 	template_name = 'comisiones/alta.html'
 	success_url = reverse_lazy('comisiones:listar')
+	permission_required = 'comisiones.modificar_comision'
+	redirect_url = 'comisiones:listar'
 
 	def post(self, request, pk):
 		self.object = self.get_object
@@ -94,7 +103,13 @@ class ModificarComision(UpdateView):
 		return context
 
 
-class DeleteComision(DeleteView):
+class DeleteComision(LoginRequiredMixin,PermissionRequiredMixin,DeleteView):
 	model = Comision
 	template_name = 'delete.html'
 	success_url = reverse_lazy('comisiones:listar') 
+	permission_required = 'comisiones.eliminar_comision'
+	redirect_url = 'comisiones:listar'
+
+	def handle_no_permission(self):
+		messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+		return redirect(self.redirect_url)

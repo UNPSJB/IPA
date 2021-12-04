@@ -6,9 +6,10 @@ from django.shortcuts import redirect
 from django.views import View
 from datetime import date, datetime
 from apps.documentos.views import AltaDocumento
-from apps.generales.views import GenericListadoView, GenericAltaView,GenericEliminarView
+from apps.generales.views import GenericListadoView, GenericAltaView,GenericEliminarView,GenericModificacionView,GenericDetalleView
 from ..tables import PermisosTable
 from ..filters import PermisosFilter
+from django.contrib.auth.decorators import permission_required
 
 
 class ListadoPermisos(GenericListadoView):
@@ -19,7 +20,8 @@ class ListadoPermisos(GenericListadoView):
 	filterset_class = PermisosFilter
 	context_object_name = 'permiso'
 	export_name = 'listado_permisos'
-	
+	permission_required = 'permisos.listar_permiso'
+	redirect_url = '/'
 
 class AltaPermiso(GenericAltaView):
 	model = Permiso
@@ -28,6 +30,8 @@ class AltaPermiso(GenericAltaView):
 	success_url = reverse_lazy('permisos:listar')
 	message_error = ["Permiso existente"]
 	cargar_otro_url = reverse_lazy('permiso:alta')
+	permission_required = 'permisos.cargar_permiso'
+	redirect_url = 'permisos:listar'
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaPermiso, self).get_context_data(**kwargs)
@@ -49,11 +53,13 @@ class AltaPermiso(GenericAltaView):
 			return redirect('permisos:listar')
 		return redirect('permisos:alta')
 
-class ModificarPermiso(UpdateView):
+class ModificarPermiso(GenericModificacionView):
 	model = Permiso
 	form_class = PermisoForm
 	template_name = 'permisos/alta.html'
 	success_url = reverse_lazy('permisos:listar')
+	permission_required = 'permisos.modificar_permiso'
+	redirect_url = 'permisos:listar'
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -77,12 +83,16 @@ class ModificarPermiso(UpdateView):
 class PermisoDelete(GenericEliminarView):
 	model = Permiso
 	template_name = 'delete.html'
-	success_url = reverse_lazy('permisos:listar') 
+	success_url = reverse_lazy('permisos:listar')
+	permission_required = 'permisos.eliminar_permiso'
+	redirect_url = 'permisos:listar'
 
-class DetallePermiso(DetailView):
+class DetallePermiso(GenericDetalleView):
 	model = Permiso
 	template_name = 'permisos/detalle.html'
 	context_object_name = 'solicitud'
+	permission_required = 'permisos.detalle_permiso'
+	redirect_url = 'permisos:listar'
 
 	def get_context_data(self, *args, **kwargs):
 			context = super(DetallePermiso, self).get_context_data(**kwargs)
@@ -112,10 +122,12 @@ class DetallePermiso(DetailView):
 			return context
 
 
-class ListadoDocumentacionPermiso(DetailView):
+class ListadoDocumentacionPermiso(GenericDetalleView):
 	model = Permiso
 	template_name = 'permisos/listadoDocuPermiso.html'
 	context_object_name = 'permiso'
+	permission_required = 'permisos.listar_documentacion_presentada'
+	redirect_url = 'permisos:listar'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoDocumentacionPermiso, self).get_context_data(**kwargs)
@@ -125,12 +137,14 @@ class ListadoDocumentacionPermiso(DetailView):
 		context['documentos'] = list(context['permiso'].documentos.all())
 		return context
 
+@permission_required('permisos.visar_documentacion_solicitud', login_url="/permisos/listar")
 def visar_documento_solicitud(request,pks,pkd):
 	permiso = Permiso.objects.get(pk=pks)
 	documento = permiso.documentos.get(pk=pkd)
 	permiso.hacer('revisar',request.user, datetime.now(), [documento])
 	return redirect('permisos:listarDocumentacionPermiso', pks)
 
+@permission_required('permisos.rechazar_documentacion_solicitud', login_url="/permisos/listar")
 def rechazar_documento_solicitud(request,pks,pkd):
 	permiso = Permiso.objects.get(pk=pks)
 	documento = permiso.documentos.get(pk=pkd)

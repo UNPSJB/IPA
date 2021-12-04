@@ -7,8 +7,8 @@ from ..forms import TipoDeUsoForm
 from ..forms import *
 from django.views.generic import ListView,CreateView,DeleteView,DetailView, UpdateView
 from django.http import HttpResponseRedirect
-
-from apps.generales.views import GenericListadoView, GenericAltaView
+from django.contrib.auth.decorators import permission_required
+from apps.generales.views import GenericListadoView, GenericAltaView,GenericDetalleView, GenericModificacionView
 
 from ..tables import TipoDeUsoTable
 from ..filters import TipoDeUsoFilter
@@ -19,6 +19,8 @@ class AltaTipoDeUso(GenericAltaView):
 	form_class = TipoDeUsoForm
 	template_name = 'permisos/tipoDeUso/alta.html'
 	success_url = reverse_lazy('tiposDeUso:listar')
+	permission_required = 'permisos.cargar_tipo_de_uso'
+	redirect_url = 'tiposDeUso:listar'
 	
 	def get_context_data(self, **kwargs):
 		context = super(AltaTipoDeUso, self).get_context_data(**kwargs)
@@ -48,10 +50,12 @@ class AltaTipoDeUso(GenericAltaView):
 			return render(request, self.template_name, {'form':tipoUsoForm, 'botones':{'Nuevo Documento': reverse('tipoDocumentos:alta')}, 'nombreForm':'Nuevo Tipo de Uso',
 			'message_error':['Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico']})
 
-class DetalleTipoDeUso(DetailView):
+class DetalleTipoDeUso(GenericDetalleView):
 	model = TipoUso
 	template_name = 'permisos/tipoDeUso/detalle.html'		
 	context_object_name = 'tipo'
+	permission_required = 'permisos.detalle_tipo_de_uso'
+	redirect_url = 'tiposDeUso:listar'
 	
 	def get_context_data(self, **kwargs):
 		context = super(DetalleTipoDeUso, self).get_context_data(**kwargs)
@@ -67,6 +71,8 @@ class ListadoTiposDeUso(GenericListadoView):
 	paginate_by = 12
 	filterset_class = TipoDeUsoFilter
 	context_object_name = 'tiposDeUso'
+	permission_required = 'permisos.listar_tipo_de_uso'
+	redirect_url = '/'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTiposDeUso, self).get_context_data(**kwargs)
@@ -81,6 +87,7 @@ class DeleteTipoDeUso(DeleteView):
 	template_name = 'delete.html'
 	success_url = reverse_lazy('tiposDeUso:listar')
 
+@permission_required('permisos.eliminar_tipo_de_uso', login_url="/tiposDeUso/listar")
 def eliminar_tipo_de_uso(request, pk):
 	permisos = Permiso.objects.filter(tipo=pk)
 	if len(permisos)>0:
@@ -97,11 +104,13 @@ def eliminar_tipo_de_uso(request, pk):
 		})
 
 
-class ModificarTipoDeUso(UpdateView):
+class ModificarTipoDeUso(GenericModificacionView):
 	model = TipoUso
 	form_class = TipoDeUsoForm
 	template_name = 'permisos/tipoDeUso/alta.html'
 	success_url = reverse_lazy('tiposDeUso:listar')
+	permission_required = 'permisos.modificar_tipo_de_uso'
+	redirect_url = 'tiposDeUso:listar'
 
 	def post(self, request, pk):
 		self.object = self.get_object

@@ -20,6 +20,13 @@ class Comision (models.Model):
 	class Meta:
 		ordering = ["-fechaInicio"]
 		verbose_name_plural = "Comisión"
+		permissions =(
+			("cargar_comision","Cargar comisiones"),
+			("detalle_comision","Ver detalle de comisiones"),
+			("listado_comision","Listar comisiones"),
+			("modificar_comision","Modificar comisiones"),
+			("eliminar_comision","Eliminar comisiones")
+		)
 
 	def __str__(self):
 		fechaInicio = self.fechaInicio.strftime('%d/%m/%Y')

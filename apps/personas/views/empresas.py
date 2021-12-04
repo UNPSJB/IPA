@@ -19,6 +19,8 @@ class AltaEmpresa(GenericAltaView):
 	success_url = reverse_lazy('empresas:listado')
 	message_error = "Empresa existente"
 	cargar_otro_url = reverse_lazy('empresas:alta')
+	permission_required = 'personas.cargar_empresa'
+	redirect_url = 'empresas:listado'
 
 class DetalleEmpresa(DetailView):
 	model = Empresa

@@ -20,3 +20,12 @@ class Usuario(AbstractUser):
 	persona = models.ForeignKey("personas.Persona", on_delete=models.CASCADE, null=True)
 	objects =  UsuariosManager(show_superusers=True)
 	usuarios = UsuariosManager()
+
+	class Meta:
+		permissions = (
+			("listar_usuarios","Listar usuarios"),
+			("cargar_empresa","Cargar empresas"),
+			("detalle_empresa","Ver detalle de empresas"),
+			("modificar_empresa","Modificar empresas"),
+			("eliminar_empresa","Eliminar empresas")
+		)

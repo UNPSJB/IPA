@@ -23,6 +23,17 @@ class Departamento(models.Model):
 
 	objects = DepartamentoManager(True)
 	protegidos = DepartamentoManager(True)
+
+	class Meta:
+		permissions = (
+			("cargar_departamento","Cargar deparamentos"),
+			("modificar_departamento","Modificar deparamentos"),
+			("detalle_departamento","Ver detalle de deparamentos"),
+			("listar_departamento","Listar deparamentos"),
+			("eliminar_departamento","Eliminar deparamentos")
+		)
+
+
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = slugify(self.nombre)
@@ -55,6 +66,14 @@ class Localidad(models.Model):
 	objects = LocalidadManager(False)
 	protegidos = LocalidadManager(True)
 	
+	class Meta:
+		permissions = (
+			("cargar_localidad","Cargar establecimientos"),
+			("modificar_localidad","Modificar establecimientos"),
+			("listar_localidad","Listar establecimientos"),
+			("eliminar_localidad","Eliminar establecimientos")
+		)
+
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = slugify(self.nombre)
@@ -79,6 +98,15 @@ class Establecimiento(models.Model):
 	def __str__(self):
 		return '{} | {}'.format(self.nombre, self.codigoCatastral)
 
+	class Meta:
+		
+		permissions = (
+			("cargar_establecimiento","Cargar establecimientos"),
+			("listar_establecimiento","Listar establecimientos"),
+			("detalle_establecimiento","Ver detalle de establecimientos"),
+			("modificar_establecimiento","Modificar establecimientos"),
+			("eliminar_establecimiento","Eliminar establecimientos")
+		)
 
 class Afluente(models.Model):
 	nombre = models.CharField(max_length=100)
@@ -90,6 +118,13 @@ class Afluente(models.Model):
 
 	class Meta:
 		ordering = ["-nombre"]
+		permissions = (
+			("cargar_afluente","Cargar afluentes"),
+			("detalle_afluente","Ver detalle de afluentes"),
+			("listar_afluente","Listar afluentes"),
+			("modificar_afluente","Modificar afluentes"),
+			("eliminar_afluente","Eliminar afluentes")
+		)
 
 	def __str__(self):
 		return self.nombre

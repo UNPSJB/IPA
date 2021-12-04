@@ -65,6 +65,15 @@ class TipoUso(models.Model):
 	medida = models.PositiveIntegerField(choices=TipoMedida)
 	documentos = models.ManyToManyField(TipoDocumento)
 
+	class Meta:
+		permissions = (
+			("cargar_tipo_de_uso","Cargar tipos de usos"),
+			("detalle_tipo_de_uso","Ver detalle de tipos de usos"),
+			("listar_tipo_de_uso","Listar tipos de usos"),
+			("eliminar_tipo_de_uso","Eliminar tipos de usos"),
+			("modificar_tipo_de_uso","Modificar tipos de usos")
+		)
+
 	def getPeriodoString(self):
 		for tupla in TipoUso.TipoPeriodo:
 			if tupla[0] == self.periodo:
@@ -106,6 +115,18 @@ class Permiso(models.Model):
 
 
 	objects = PermisoManager()
+
+	class Meta:
+		permissions = (
+			("listar_permiso","Listar permisos"),
+			("cargar_permiso","Cargar permisos"),
+			("modificar_permiso","Modificar permisos"),
+			("eliminar_permiso","Eliminar permisos"),
+			("detalle_permiso","Ver detalle de permisos"),
+			("listar_documentacion_presentada","Listar documentación presentada"),
+			("visar_documentacion_solicitud","Visar documentacion de solicitud"),
+			("rechazar_documentacion_solicitud","Rechazar documentación de solicitud")
+		)
 
 	ESTADOS = [
 		'Solicitado',
