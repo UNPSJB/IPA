@@ -13,7 +13,7 @@ from operator import attrgetter
 from apps.generales.views import GenericAltaView, GenericListadoView, GenericEliminarView,GenericModificacionView,GenericDetalleView
 from .tables import TipoDocumentosTable
 from .filters import TipoDocumentosFilter
-from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib import messages as Messages
 

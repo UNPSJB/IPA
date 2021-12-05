@@ -24,8 +24,8 @@ class Usuario(AbstractUser):
 	class Meta:
 		permissions = (
 			("listar_usuarios","Listar usuarios"),
-			("cargar_empresa","Cargar empresas"),
-			("detalle_empresa","Ver detalle de empresas"),
-			("modificar_empresa","Modificar empresas"),
-			("eliminar_empresa","Eliminar empresas")
+			("cargar_usuario","Cargar usuarios"),
+			("detalle_usuario","Ver detalle de usuarios"),
+			("modificar_usuario","Modificar usuarios"),
+			("eliminar_usuario","Eliminar usuarios")
 		)

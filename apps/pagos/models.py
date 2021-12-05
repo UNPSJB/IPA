@@ -40,7 +40,6 @@ class Pago(Operacion):
 		permissions = (
 			("cargar_pago","Cargar pagos"),
 			("modificar_pago","Modificar pagos"),
-			("post_pago_nuevo","Post pago nuevo"),
 			("listar_pago","Listar pagos"),
 			("eliminar_pago","Eliminar pagos"),
 			("listar_todos_pagos","Listar todos los pagos"),

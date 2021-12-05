@@ -1,15 +1,13 @@
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.views.generic import DetailView, DeleteView, UpdateView
+from django.views.generic import DeleteView
 from django.views import View
 from apps.personas.models import *
 from apps.personas.forms import PersonaForm, ChoferForm, DirectorForm
 from apps.personas.tables import PersonaTable, PersonaFilter
 from django.http import JsonResponse
-from django.shortcuts import redirect
 from apps.generales.views import GenericAltaView,GenericDetalleView,GenericListadoView,GenericModificacionView
 
-from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
-from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ListadoPersonas(GenericListadoView):
 	model = Persona
@@ -135,13 +133,15 @@ class DetallePersona(GenericDetalleView):
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
 		return context
 
-class EliminarPersona(LoginRequiredMixin,PermissionRequiredMixin,DeleteView):
+class EliminarPersona(LoginRequiredMixin,DeleteView):
 	model = Persona
 	success_url = reverse_lazy('personas:listado')
 	permission_required = 'personas.eliminar_persona'
 	redirect_url = 'personas:listado'
 	
 	def delete(self, request, *args, **kwargs):
+		if not request.user.has_perm(self.permission_required):
+			return JsonResponse({"success": False,"message": ('permiso',"No posee los necesarios para realizar permisos para realizar esta operación")})
 		try:
 			self.object = self.get_object()
 			self.object.delete()
@@ -152,9 +152,5 @@ class EliminarPersona(LoginRequiredMixin,PermissionRequiredMixin,DeleteView):
 		except Exception as e:
 			return JsonResponse({
 				"success": False,
-				"message": e.value()
+				"message": ('error',"No se pudo eliminar esta persona")
 			})
-
-	def handle_no_permission(self):
-		messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
-		return redirect(self.redirect_url)

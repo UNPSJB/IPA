@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from ..forms import *
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from ..models import Localidad
-from django.views.generic import ListView,CreateView,DetailView,DeleteView,UpdateView
-
-from apps.generales.views import GenericAltaView, GenericListadoView
+from apps.generales.views import GenericAltaView, GenericListadoView,GenericModificacionView,GenericEliminarView
 from ..tables import LocalidadesTable
 from ..filters import LocalidadesFilter
 
@@ -16,6 +14,8 @@ class AltaLocalidad(GenericAltaView):
 	form_class = LocalidadForm
 	template_name = 'establecimientos/localidades/alta.html'
 	success_url = reverse_lazy('localidades:listar')
+	permission_required = 'localidades.cargar_localidad'
+	redirect_url = 'localidades:listar'
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaLocalidad, self).get_context_data(**kwargs) 
@@ -23,11 +23,13 @@ class AltaLocalidad(GenericAltaView):
 		context['ayuda'] = 'localidad.html#como-crear-una-nueva-localidad'
 		return context
 
-class ModificarLocalidad(UpdateView):
+class ModificarLocalidad(GenericModificacionView):
 	model = Localidad
 	form_class = LocalidadForm
 	template_name = 'establecimientos/localidades/alta.html'
 	success_url = reverse_lazy('localidades:listar')
+	permission_required = 'localidades.modificar_localidad'
+	redirect_url = 'localidades:listar'
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -54,6 +56,8 @@ class ListadoLocalidades(GenericListadoView):
 	paginate_by = 20
 	filterset_class = LocalidadesFilter
 	export_name = 'listado_localidades'
+	permission_required = 'localidades.listar_localidad'
+	redirect_url = '/'
 
 	def get_context_data(self, **kwargs):
 		context = super(ListadoLocalidades, self).get_context_data(**kwargs)
@@ -63,7 +67,27 @@ class ListadoLocalidades(GenericListadoView):
 		context['botones'] = {'Nueva Localidad': reverse('localidades:alta')}
 		return context
 
-class LocalidadDelete(DeleteView):
+class LocalidadDelete(GenericEliminarView):
 	model = Localidad
-	template_name = 'delete.html'
-	success_url = reverse_lazy('localidades:listar') 
+	permission_required = 'localidades.eliminar_localidad'
+
+	def post(self, request, *args, **kwargs):
+		if request.user.has_perm(self.permission_required):
+			self.object = self.get_object()
+			establecimientos = Establecimiento.objects.filter(localidad__in=[self.object.pk])
+			if len(establecimientos)>0: 
+				return JsonResponse({
+				"success": False,
+				"message": ('error',"El Establecimiento esta siendo utilizado en un permiso")
+				})
+			else:
+				self.object.delete()
+				return JsonResponse({
+					"success": True,
+					"message": 'Establecimiento eliminado correctamente'
+				})
+		else:
+			return JsonResponse({
+					"success": False,
+					"message": ('permiso','No posee los permisos necesarios para realizar para realizar esta operación')
+			}) 

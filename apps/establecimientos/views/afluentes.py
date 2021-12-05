@@ -87,8 +87,7 @@ class DeleteAfluente(GenericEliminarView):
 	redirect_url = 'afluentes:listar'
 
 	def post(self, request, *args, **kwargs):
-
-		if not request.user.has_perm(self.permission_required):
+		if request.user.has_perm(self.permission_required):
 			self.object = self.get_object()
 			afluentes = Permiso.objects.filter(afluente__in=[self.object.pk])
 			if len(afluentes)>0: 

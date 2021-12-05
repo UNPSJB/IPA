@@ -12,7 +12,6 @@ from django.contrib import messages
 
 
 class GenericAltaView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
-#class GenericAltaView(CreateView):
 	botones = dict()
 	
 	def form_valid(self,form):
@@ -45,7 +44,6 @@ class GenericAltaView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
 		return context
 
 class GenericDetalleView(LoginRequiredMixin,PermissionRequiredMixin,DetailView):
-#class GenericDetalleView(DetailView):
 	def handle_no_permission(self):
 		messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
 		return redirect(self.redirect_url)
@@ -82,8 +80,7 @@ class GenericEliminarView(LoginRequiredMixin,DeleteView):
 		return redirect(self.redirect_url)
 
 ######################################################################
-#class GenericListadoView(ExportMixin, SingleTableMixin, LoginRequiredMixin,PermissionRequiredMixin,FilterView):
-class GenericListadoView(ExportMixin, SingleTableMixin,FilterView):
+class GenericListadoView(ExportMixin, SingleTableMixin, LoginRequiredMixin,PermissionRequiredMixin,FilterView):
 	def handle_no_permission(self):
 		messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
 		return redirect(self.redirect_url)
