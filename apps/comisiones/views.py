@@ -111,5 +111,5 @@ class DeleteComision(LoginRequiredMixin,PermissionRequiredMixin,DeleteView):
 	redirect_url = 'comisiones:listar'
 
 	def handle_no_permission(self):
-		messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+		messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 		return redirect(self.redirect_url)

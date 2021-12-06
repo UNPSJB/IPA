@@ -141,7 +141,7 @@ class EliminarPersona(LoginRequiredMixin,DeleteView):
 	
 	def delete(self, request, *args, **kwargs):
 		if not request.user.has_perm(self.permission_required):
-			return JsonResponse({"success": False,"message": ('permiso',"No posee los necesarios para realizar permisos para realizar esta operación")})
+			return JsonResponse({"success": False,"message": ('permiso',"No posee los permisos necesarios para realizar esta operación")})
 		try:
 			self.object = self.get_object()
 			self.object.delete()

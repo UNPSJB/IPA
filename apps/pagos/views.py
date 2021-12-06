@@ -86,7 +86,7 @@ class EliminarValorDeModulo(GenericEliminarView):
 		else:
 			return JsonResponse({
 					"success": False,
-					"message": ('permiso','No posee los permisos necesarios para realizar para realizar esta operación')
+					"message": ('permiso','No posee los permisos necesarios para realizar esta operación')
 			}) 
 
 class AltaCobro(LoginRequiredMixin, CreateView):
@@ -99,7 +99,7 @@ class AltaCobro(LoginRequiredMixin, CreateView):
 	def get(self, request, *args, **kwargs):
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('pagos:listarCobros', args=[permiso.pk]))
 		fecha = date.today() if date.today() <= permiso.fechaVencimiento else permiso.fechaVencimiento
 		cobro = permiso.estado.recalcular(usuario=request.user, documento=None, fecha=fecha, unidad=permiso.unidad) #TODO corregir fecha, el limite es HOY y el VENC. de permiso
@@ -111,7 +111,7 @@ class AltaCobro(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk]))
 		documento_form = self.form_class(request.POST, request.FILES)
 
@@ -132,7 +132,7 @@ def recalcular_cobro(request):
 	permiso = Permiso.objects.get(pk=request.GET['permiso_pk'])
 	fecha = datetime.strptime(request.GET['fecha'], '%Y-%m-%d').date()
 	if not request.user.has_perm(self.permission_required):
-		Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+		Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 		return JsonResponse({"success": False,"message": "No posee los permisos necesarios"})
 
 	if fecha <= permiso.fechaVencimiento:
@@ -153,7 +153,7 @@ class EliminarCobro(GenericEliminarView):
 		self.object = self.get_object()
 
 		if not request.user.has_perm(self.permission_required):
-			return JsonResponse({"success": False,"message": ('permiso',"No posee los necesarios para realizar permisos para realizar esta operación")})
+			return JsonResponse({"success": False,"message": ('permiso',"No posee los permisos necesarios para realizar esta operación")})
 
 		try:
 			if self.object == self.object.permiso.cobros.latest() and self.object.documento.tipo.slug != 'resolucion':
@@ -181,7 +181,7 @@ class ListarCobros(GenericListadoView):
 	def get(self, request, *args, **kwargs):
 		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.pk]))
 		return super(ListarCobros,self).get(request, *args, **kwargs)
 
@@ -203,7 +203,7 @@ class AltaPago(LoginRequiredMixin,CreateView):
 	def get(self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[self.permiso_pk]))
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		documento_form = self.form_class()
@@ -232,7 +232,7 @@ class ModificarPago(LoginRequiredMixin,UpdateView):
 		super().get(request, *args, **kwargs)
 		pago = self.object
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[kwargs.get('pkp')]))
 		form_class = self.form_class(initial={'descripcion':pago.documento.descripcion,	'archivo': pago.documento.archivo, 'fecha': pago.documento.fecha})
 		return render(request, self.template_name, { 'form': form_class,
@@ -242,7 +242,7 @@ class ModificarPago(LoginRequiredMixin,UpdateView):
 	def post(self, request, *args, **kwargs):
 		super().post(request, *args, **kwargs)
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[kwargs.get('pk')]))
 		pago = self.object
 		documento_form = self.form_class(request.POST, request.FILES)
@@ -298,7 +298,7 @@ class ListarPagos(GenericListadoView):
 	def get(self, request, *args, **kwargs):
 		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.pk]))
 		return super(ListarPagos,self).get(request, *args, **kwargs)
 
@@ -316,7 +316,7 @@ class EliminarPago(GenericEliminarView):
 
 	def post(self, request, *args, **kwargs):
 		if not request.user.has_perm(self.permission_required):
-			return JsonResponse({"success": False,"message": ('permiso',"No posee los necesarios para realizar permisos para realizar esta operación")})
+			return JsonResponse({"success": False,"message": ('permiso',"No posee los permisos necesarios para realizar esta operación")})
 		self.object = self.get_object()
 		self.object.delete()
 		try:
@@ -374,7 +374,7 @@ class AltaCobroInfraccion(LoginRequiredMixin,CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AltaCobroInfraccion, self).get(request,*args,**kwargs)	
 
@@ -382,7 +382,7 @@ class AltaCobroInfraccion(LoginRequiredMixin,CreateView):
 		self.object = self.get_object
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk]))
 
 		documento_form = DocumentoProtegidoForm(request.POST, request.FILES)
@@ -425,7 +425,7 @@ class AltaPagoInfraccion(LoginRequiredMixin,CreateView):
 	def get(self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AltaPagoInfraccion, self).get(request,*args,**kwargs)
 
@@ -433,7 +433,7 @@ class AltaPagoInfraccion(LoginRequiredMixin,CreateView):
 		self.object = self.get_object
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk]))
 		documento_form = self.form_class(request.POST, request.FILES)
 		monto = float(request.POST['monto'])

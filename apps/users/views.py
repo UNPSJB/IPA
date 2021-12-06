@@ -23,7 +23,7 @@ class ListadoUsuarios(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView
 	redirect_url = '/'
 
 	def handle_no_permission(self):
-		Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+		Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 		return redirect(self.redirect_url)
 
 class NuevoUsuario(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
@@ -35,7 +35,7 @@ class NuevoUsuario(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
 	redirect_url = 'usuarios:listado'
 
 	def handle_no_permission(self):
-		Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+		Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 		return redirect(self.redirect_url)
 
 	def get(self, request, *args, **kwargs):
@@ -119,7 +119,7 @@ class EliminarUsuario(LoginRequiredMixin,DeleteView):
 
 	def delete(self, request, *args, **kwargs):
 		if not request.user.has_perm(self.permission_required):
-			return JsonResponse({"success": False,"message": ('permiso',"No posee los necesarios para realizar permisos para realizar esta operación")})
+			return JsonResponse({"success": False,"message": ('permiso',"No posee los permisos necesarios para realizar esta operación")})
 		try:
 			self.object = self.get_object()
 			self.object.delete()

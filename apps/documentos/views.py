@@ -120,7 +120,7 @@ class AltaDocumento(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AltaDocumento, self).get(request,*args,**kwargs)
 
@@ -128,7 +128,7 @@ class AltaDocumento(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
@@ -176,7 +176,7 @@ class ModificarDocumento(LoginRequiredMixin,UpdateView):
 		self.object = self.get_object()
 		self.permiso_pk = kwargs.get('pkp')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk]))
 		if self.object.tipo.protegido == True:
 			self.form_class = DocumentoForm
@@ -189,7 +189,7 @@ class ModificarDocumento(LoginRequiredMixin,UpdateView):
 		permiso = Permiso.objects.get(pk=kwargs.get('pkp'))
 
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:listarDocumentacionPermiso', args=[permiso.pk]))
 
 		try:
@@ -236,7 +236,7 @@ class DeleteDocumento(LoginRequiredMixin,DeleteView):
 		else:
 			return JsonResponse({
 					"success": False,
-					"message": ('permiso','No posee los permisos necesarios para realizar para realizar esta operación')
+					"message": ('permiso','No posee los permisos necesarios para realizar esta operación')
 			})
 
 class AgregarExpediente(LoginRequiredMixin, CreateView):
@@ -260,7 +260,7 @@ class AgregarExpediente(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarExpediente, self).get(request,*args,**kwargs)
 
@@ -268,7 +268,7 @@ class AgregarExpediente(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
@@ -319,7 +319,7 @@ class AgregarEdicto(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarEdicto, self).get(request,*args,**kwargs)
 
@@ -327,7 +327,7 @@ class AgregarEdicto(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
@@ -379,7 +379,7 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarResolucion, self).get(request,*args,**kwargs)
 
@@ -387,7 +387,7 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
@@ -459,7 +459,7 @@ class AgregarOposicion(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarOposicion, self).get(request,*args,**kwargs)
 
@@ -467,7 +467,7 @@ class AgregarOposicion(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		second_form = OposicionForm(request.POST)
@@ -510,7 +510,7 @@ class BajaPermiso(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(BajaPermiso, self).get(request,*args,**kwargs)
 
@@ -518,7 +518,7 @@ class BajaPermiso(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
@@ -559,7 +559,7 @@ class ArchivarPermiso(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(ArchivarPermiso, self).get(request,*args,**kwargs)
 
@@ -567,7 +567,7 @@ class ArchivarPermiso(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
@@ -609,7 +609,7 @@ class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AltaActaDeInfraccion, self).get(request,*args,**kwargs)
 
@@ -617,7 +617,7 @@ class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
@@ -653,7 +653,7 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AltaActaDeInspeccion, self).get(request,*args,**kwargs)
 
@@ -672,7 +672,7 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los necesarios para realizar permisos para realizar esta operación')
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
