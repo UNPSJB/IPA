@@ -31,3 +31,4 @@ class UsuarioForm(forms.Form):
 		persona = cleaned_data.get('persona')
 		usuario.persona = persona
 		usuario.save()
+		return usuario

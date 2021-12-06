@@ -68,10 +68,10 @@ class Localidad(models.Model):
 	
 	class Meta:
 		permissions = (
-			("cargar_localidad","Cargar establecimientos"),
-			("modificar_localidad","Modificar establecimientos"),
-			("listar_localidad","Listar establecimientos"),
-			("eliminar_localidad","Eliminar establecimientos")
+			("cargar_localidad","Cargar localidades"),
+			("modificar_localidad","Modificar localidaes"),
+			("listar_localidad","Listar localidades"),
+			("eliminar_localidad","Eliminar localidades")
 		)
 
 	def save(self, *args, **kwargs):

@@ -205,11 +205,11 @@ class Liquidador(Rol):
 	def roleName(self):
 		return 'Liquidador'
 	
-class Sumariante(Inspector):
+class Sumariante(Rol):
 	TIPO = 7
 
 	def roleName(self):
-		return 'Oficial sumariante'
+		return 'Sumariante'
 	
 for Klass in Persona.tipoRol:
     Rol.register(eval(Klass))

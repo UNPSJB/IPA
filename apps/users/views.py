@@ -11,6 +11,7 @@ from django.db.utils import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from django.contrib import messages as Messages
 from django.http import JsonResponse
+from django.contrib.auth.models import Group
 
 class ListadoUsuarios(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView):
 	model = Usuario
@@ -49,7 +50,29 @@ class NuevoUsuario(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
 		context = self.get_context_data()
 		if usuario_form.is_valid():
 			try:
-				usuario_form.save()
+				usuario = usuario_form.save()
+				roles = usuario.persona.roles.all()
+				for rol in roles:
+					rol_name = rol.related().roleName()
+					if rol_name == 'Director':
+						g = Group.objects.get(name='Director')
+						g.user_set.add(usuario) 
+					elif rol_name == 'Administrativo':
+						g = Group.objects.get(name='Administrativo')
+						g.user_set.add(usuario)
+					elif rol_name == 'Inspector':
+						g = Group.objects.get(name='Inspector')
+						g.user_set.add(usuario)
+					elif rol_name == 'Liquidador':
+						g = Group.objects.get(name='Liquidador')
+						g.user_set.add(usuario)
+					elif rol_name == 'Jefe de departamento':
+						g = Group.objects.get(name='Jefe de departamento')
+						g.user_set.add(usuario)
+					else:
+						g = Group.objects.get(name='Sumariante')
+						g.user_set.add(usuario)
+
 			except IntegrityError as e:
 				context['message_error'] = 'El nombre de usuario ya existe. Por favor, seleccione otro.'
 				context['form'] = usuario_form
