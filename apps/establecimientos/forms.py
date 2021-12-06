@@ -35,6 +35,34 @@ class EstablecimientoForm(forms.ModelForm):
 			'localidad':forms.Select(attrs={'class':'form-control', 'placeholder':'Localidad'}),
 		}
 
+class EstablecimientoChange(forms.ModelForm):
+	class Meta:
+		model = Establecimiento
+
+		fields = [
+				'duenio',
+				'superficie',
+				'nombre',
+				'descripcion',
+				'localidad',
+			]
+
+		labels = {
+				'duenio': 'Dueño',
+				'superficie': 'Superficie M2',
+				'nombre': 'Nombre',
+				'descripcion': 'Descripción',
+				'localidad': 'Localidad',
+		}
+
+		widgets = {
+			'duenio':forms.Select(attrs={'class':'form-control', 'placeholder':'Dueño del establecimiento'}),
+			'superficie':forms.TextInput(attrs={'class':'form-control','type':'number', 'step':'0.01', 'min':'1', 'placeholder':'Superficie en metros cuadrados'}),
+			'nombre':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre del establecimiento'}),
+			'descripcion':forms.Textarea(attrs={'class':'form-control'}),
+			'localidad':forms.Select(attrs={'class':'form-control', 'placeholder':'Localidad'}),
+		}
+
 class AfluenteForm(forms.ModelForm):
 	class Meta:
 		model = Afluente

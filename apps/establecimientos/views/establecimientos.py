@@ -60,7 +60,7 @@ class DetalleEstablecimiento(GenericDetalleView):
 
 class ModificarEstablecimiento(GenericModificacionView):
 	model = Establecimiento
-	form_class = EstablecimientoForm
+	form_class = EstablecimientoChange
 	template_name = 'establecimientos/alta.html'
 	success_url = reverse_lazy('establecimientos:listar')
 	permission_required = 'establecimientos.modificar_establecimiento'
