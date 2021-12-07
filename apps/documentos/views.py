@@ -275,7 +275,7 @@ class AgregarExpediente(LoginRequiredMixin, CreateView):
 		
 		fechaExpediente=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
 		#Refactorizar a una funcion de modelo
-		lista_fechas = [documento.fecha for documento in permiso.documentos.all() if documento.fecha > fechaExpediente]
+		lista_fechas = [documento.fecha for documento in permiso.documentos.filter(tipo__protegido=False) if documento.fecha > fechaExpediente]
 		if len(lista_fechas) != 0:
 			lista_fechas.sort()
 			ultima_fecha = lista_fechas.pop()
@@ -291,9 +291,9 @@ class AgregarExpediente(LoginRequiredMixin, CreateView):
 				try:
 					permiso.hacer('completar',request.user,fechaExpediente, fecha_string, documento)
 					return HttpResponseRedirect(self.get_success_url())
-				except:
+				except Exception as e:
 					return self.render_to_response(self.get_context_data(form=form,expediente=numero, 
-					message_error = ['El expediente ya existe']))
+					message_error = [str(e)]))
 			else:
 				return self.render_to_response(self.get_context_data(form=form, expediente=numero,
 					message_error = ['La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')']))

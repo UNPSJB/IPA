@@ -231,20 +231,20 @@ class Permiso(models.Model):
 		
 		for p in perm_otorgados:
 			desde = p.cobros.filter(es_por_canon=True).latest().fecha
-			hasta = p.fechaVencimiento if p.fechaVencimiento <= date.today() else date.today() 
+			hasta = p.fechaVencimiento
 
 			modulo = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=p.tipo.tipo_modulo).latest()
 			monto = p.tipo.calcular_monto(modulo.precio, p.unidad, desde, hasta)
 			estado = 'Definito' if modulo.fecha == hasta else 'Provisorio'
 			
-			l_recaudacion_pvm.append({'tipo': p.tipo.descripcion,'fvenc':p.fechaVencimiento,'monto': monto,'v_modulo': modulo.precio,'fecha': modulo.fecha,'estado': estado})
+			l_recaudacion_pvm.append({'tipo': p.tipo.descripcion,'fdesde':desde,'fvenc':p.fechaVencimiento,'monto': monto,'v_modulo': modulo.precio,'fecha': modulo.fecha,'estado': estado})
 		return l_recaudacion_pvm
 	
 	@classmethod
 	def estados_productividad(cls):
 		T = {}
 		for e in Estado.TIPOS[1:]:
-			T[e[0]]={'estado': e[1], 'dias': 0}
+			T[e[0]]={'estado': e[1], 'dias': 0,'perm': []}
 
 		for p in Permiso.objects.all():
 			iter_estados = iter(p.estados.all())
@@ -254,10 +254,17 @@ class Permiso(models.Model):
 				if e1 == -1:
 					break
 				T[e0.tipo]['dias'] += (e1.fecha - e0.fecha).days
+				if p.pk not in T[e0.tipo]['perm']:
+					T[e0.tipo]['perm'].append(p.pk)
 				e0 = e1 
 			T[e0.tipo]['dias'] = (date.today() - e0.fecha).days
+			if p.pk not in T[e0.tipo]['perm']:
+					T[e0.tipo]['perm'].append(p.pk)
+		for t in T: 
+			if(len(T[t]['perm']) >0): 
+				T[t]['prom'] = T[t]['dias']/len(T[t]['perm']) 
+		
 		return T
-
 
 class Estado(models.Model):
 
@@ -352,7 +359,7 @@ class Solicitado(Estado):
 			documento.estado = 2
 			documento.save()
 		if not self.permiso.falta_entregar_documentacion():
-			return Visado(permiso=self.permiso, usuario=usuario, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			return Visado(permiso=self.permiso, usuario=usuario, fecha=documento.fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
 		else:
 			self
 
@@ -364,7 +371,7 @@ class Solicitado(Estado):
 			documento.estado = 1
 			documento.save()
 		if self.permiso.documentos.filter(estado=1).exists():
-			return Corregido(permiso=self.permiso, usuario=usuario, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			return Corregido(permiso=self.permiso, usuario=usuario, fecha=documento.fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
 		return self
 
 	def completar(self, usuario, fecha, expediente, pase):
@@ -397,9 +404,9 @@ class Corregido(Estado):
 		if self.permiso.documentos.filter(estado=1).exists():
 			return self
 		elif self.permiso.documentacion_completa():
-			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+			return Completado(permiso=self.permiso, usuario=usuario, fecha=documento.fecha)
 		else:
-			return Visado(permiso=self.permiso, usuario=usuario, fecha=fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			return Visado(permiso=self.permiso, usuario=usuario, fecha=documento.fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
 
 	def completar(self, usuario, fecha, expediente, pase):
 		super().completar(usuario,fecha,expediente,pase)
@@ -429,7 +436,7 @@ class Visado(Estado):
 			documento.estado = 2
 			documento.save()
 		if self.permiso.documentacion_completa():
-			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+			return Completado(permiso=self.permiso, usuario=usuario, fecha=documento.fecha)
 		else:
 			return self
 
@@ -437,12 +444,15 @@ class Visado(Estado):
 		for documento in documentos:
 			documento.estado = 1
 			documento.save()
-		return Corregido(permiso=self.permiso, usuario=usuario, fecha=fecha)
+		return Corregido(permiso=self.permiso, usuario=usuario, fecha=documento.fecha)
 		
 	def completar(self, usuario, fecha, expediente, pase):
 		super().completar(usuario,fecha,expediente,pase)
 		if self.permiso.documentacion_completa():
-			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha)
+			fechas = [documento.fecha for documento in permiso.documentos.filter(tipo__protegido=False)]
+			fechas = fechas.sort()
+			fecha_ult = fechas.pop()
+			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha_ult)
 		else:
 			return self
 

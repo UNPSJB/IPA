@@ -99,6 +99,17 @@ class Documento(models.Model):
 			self.estado = 0
 		self.save()
 
+	@classmethod
+	def rep_inspeccion_infraccion(cls):
+		T = []
+		documentos = Documento.objects.filter(tipo__slug__in=['acta-de-inspeccion','acta-de-infraccion'])
+		for doc in documentos:
+			if doc.tipo.slug == 'acta-de-inspeccion':
+				T.append({'fecha':doc.fecha,'tipo':'acta-de-inspeccion','descripcion':doc.descripcion})
+			else:
+				T.append({'fecha':doc.fecha,'tipo':'acta-de-infraccion','descripcion':doc.descripcion})
+		return T
+
 # Que se hace luego de guardar el documento
 def pdf_post_save(sender, instance=False, **kwargs):
 	"""Esta funcion crea un thumbnail para el documento en pdf"""

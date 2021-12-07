@@ -8,7 +8,7 @@ app_name = 'reportes'
 urlpatterns = [
     url(r'^recaudacion$', Recaudacion.as_view(), name='recaudacion'),
     url(r'^productividad$', Productividad.as_view(), name='productividad'),
-    url(r'^comisiones$', Recaudacion.as_view(), name='comisiones'),
+    url(r'^comisiones$', RepComisiones.as_view(), name='comisiones'),
     url(r'^', DashBoardReportes.as_view(), name='dashboard'),
     
 ]

@@ -8,6 +8,8 @@ from django.http import JsonResponse
 from django.urls import reverse
 from itertools import product
 import json
+from apps.documentos.models import Documento
+from apps.comisiones.models import Comision
 
 class DashBoardReportes(TemplateView):
     template_name = "dashboard.html"
@@ -95,6 +97,13 @@ class Recaudacion(FormView):
         l = []
         if formu.is_valid():
             l += Permiso.recaudacion_pmv()
+
+            #key_func = lambda x: x['tipo']
+            #for key, group in itertools.groupby(recau, key_func):
+                # print(key + " :", list(group))
+
+            
+
             return JsonResponse(l,safe=False)
         return JsonResponse(formu.errors)
 
@@ -104,7 +113,7 @@ class Productividad(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['nombreReporte'] = "Reporte de Productividad"
+        context['nombreReporte'] = "Reporte de Gestion de Permiso"
         context['url_ajax'] = reverse('reportes:productividad')
         #context['tiempos'] = json.dumps(Permiso.estados_productividad())
         return context
@@ -116,3 +125,25 @@ class Productividad(FormView):
 
     def get_productividad_ajax(self, request, *args, **kwargs):
         return JsonResponse(Permiso.estados_productividad(),safe=False)
+
+class RepComisiones(FormView):
+    template_name = "comisiones/comisiones.html"
+    form_class = FiltroForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['nombreReporte'] = "Reporte de Comisiones"
+        context['url_ajax'] = reverse('reportes:comisiones')
+        return context
+
+    def get(self, request, *args, **kwargs):
+        if(request.is_ajax()):
+            return self.get_comision_ajax(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+
+    def get_comision_ajax(self, request, *args, **kwargs):
+        l = []
+        l += Comision.rep_comisiones()
+        l += Documento.rep_inspeccion_infraccion()
+
+        return JsonResponse(l,safe=False)

@@ -1,7 +1,6 @@
 var table;
 
 $("#item-info").on("click",function(){
-    $("#tabla-recaudacion").remove()
     $("form").hide();
     $("#graficos").hide();
     $(".secondary.menu a").attr("class","item");
@@ -9,11 +8,11 @@ $("#item-info").on("click",function(){
 
     if (typeof informacion !== 'undefined'){
         $("#informacion").show();
-
         var data_informacion = $.extend(true,[], informacion);
         console.log(data_informacion)
         console.log(data_informacion)
         console.log(data_informacion)
+
         table = new Tabulator("#tabla", {
             data:data_informacion,           //load row data from array
             layout:"fitColumns",      //fit columns to width of table
@@ -21,17 +20,16 @@ $("#item-info").on("click",function(){
             tooltips:true,            //show tool tips on cells
             addRowPos:"top",          //when adding a new row, add it to the top of the table
             history:true,             //allow undo and redo actions on the table
-            pagination:"local",       //paginate the data
-            paginationSize:20,         //allow 7 rows per page of data
             movableColumns:true,      //allow column order to be changed
             resizableRows:true,       //allow row order to be changed
     
             columns:[                 //define the table columns
-                {title:"Estados", field:"estado", hozAlign:"center",headerHozAlign:"center"},
-                {title:"Promedio de dias", field:"prom",hozAlign:"right",headerHozAlign:"center"},
+                {title:"Comisiones", field:"comisiones", hozAlign:"center",headerHozAlign:"center"},
+                {title:"Actas de Infracción", field:"actas_de_infraccion",hozAlign:"right",headerHozAlign:"center"},
+                {title:"Actas de Inspeccion", field:"actas_de_inspeccion",hozAlign:"right",headerHozAlign:"center"},
             ],
             printAsHtml:true,
-            printHeader:"<h1>Reporte de Productividad <h1>",
+            printHeader:"<h1>Reporte de Comisiones vs Actas <h1>",
             printFooter:"<h4>"+"Este reporte se ha impreso el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+".<h2>",
             downloadConfig:{
                 columnHeaders:true, //include column headers in downloaded table

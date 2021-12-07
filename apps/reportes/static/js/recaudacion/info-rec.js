@@ -43,6 +43,7 @@ function info_tipos_permisos(){
 
 
 function info_series_temporales(){
+    $("#tabla-recaudacion").remove()
     console.log("Se ejecuta función de info_series");
     var motivoCalc = function(values, data, calcParams){
         //values - array of column values
@@ -105,7 +106,7 @@ function info_series_temporales(){
 function info_proyeccion_vm(){
     console.log("Se ejecuta función de info proyeccion valores");
     console.log(informacion);
-
+    $("#tabla-recaudacion").remove()
     var data_informacion = $.extend(true,[], informacion);
 
     table = new Tabulator("#tabla-temporal", {
@@ -123,20 +124,23 @@ function info_proyeccion_vm(){
         resizableRows:true,       //allow row order to be changed
 
         columns:[                 //define the table columns
-            {title:"Fecha de Calculo", field:"fecha", mutator:function(value, data, type, mutatorParams, cell){
+            {title:"Fecha de Modulo", field:"fecha", mutator:function(value, data, type, mutatorParams, cell){
                 return moment(value , "YYYY/MM/DD").format("MM/DD/YYYY");
             },hozAlign:"center",headerHozAlign:"center"},
             {title:"Valor de Modulo ($)", field:"v_modulo",formatter:"money", bottomCalc:"sum", bottomCalcParams:{
                 precision:2,
             },hozAlign:"right",headerHozAlign:"center"},
+            {title:"Fecha de Calculo", field:"fdesde", mutator:function(value, data, type, mutatorParams, cell){
+                return moment(value , "YYYY/MM/DD").format("MM/DD/YYYY");
+            },hozAlign:"center",headerHozAlign:"center"},
+            {title:"Vencimiento del Permiso", field:"fvenc", mutator:function(value, data, type, mutatorParams, cell){
+                return moment(value , "YYYY/MM/DD").format("MM/DD/YYYY");
+            },hozAlign:"center",headerHozAlign:"center"},
             {title:"Monto ($)", field:"monto",formatter:"money", bottomCalc:"sum", bottomCalcParams:{
                 precision:2,
             },hozAlign:"right",headerHozAlign:"center"},
             {title:"Estado", field:"estado",hozAlign:"center",headerHozAlign:"center"},
             {title:"Tipo Permiso", field:"tipo",visible:true,hozAlign:"center",headerHozAlign:"center"},
-            {title:"Vencimiento del Permiso", field:"fvenc", mutator:function(value, data, type, mutatorParams, cell){
-                return moment(value , "YYYY/MM/DD").format("MM/DD/YYYY");
-            },hozAlign:"center",headerHozAlign:"center"},
         ],
         printAsHtml:true,
         printHeader:"<h1>Reportes de Recaudación - Proyección por Valor de Modulo<h1>",

@@ -44,3 +44,11 @@ class Comision (models.Model):
 	def getUltimas(self):
 		return Comision.objects.order_by('-fechaInicio')[:20]
 
+	@classmethod
+	def rep_comisiones(cls):
+		T = []
+		comisiones = Comision.objects.all()
+		for com in comisiones:
+			T.append({'fecha':com.fechaInicio,'tipo':'comision','descripcion':com.motivo})
+		return T
+		

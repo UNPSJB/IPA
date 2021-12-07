@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static semanticui %}
+
+	{% include "menu_secundario.html" %}		
+    {% include "filtros.html" %}
+
+	{% block graficos %}
+		{% include "comisiones/graficos.html" %}
+    {% endblock %}
+				
+{% block pageStaticJs %}
+	{{ block.super }}
+	<script src="{% static 'js/comisiones/info-com.js' %}"></script>
+	<script src="{% static 'js/comisiones/grafico-com.js' %}"></script>
+{% endblock %}
+
+{% block pageStaticStyles %}
+	{{ block.super }}
+	
+{% endblock %}
+
+{% block customPageJs %}
+	
+{% endblock %}
