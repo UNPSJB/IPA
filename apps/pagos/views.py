@@ -127,11 +127,11 @@ class AltaCobro(LoginRequiredMixin, CreateView):
 			return HttpResponseRedirect(reverse('pagos:listarCobros', args=[permiso.id]))
 		return render(request, self.template_name, {'form':documento_form, 'cobro': cobro, 'permiso': permiso})
 
-@permission_required('pagos.recalcular_cobro', login_url="/")
+
 def recalcular_cobro(request):
 	permiso = Permiso.objects.get(pk=request.GET['permiso_pk'])
 	fecha = datetime.strptime(request.GET['fecha'], '%Y-%m-%d').date()
-	if not request.user.has_perm(self.permission_required):
+	if not request.user.has_perm('pagos.recalcular_cobro'):
 		Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 		return JsonResponse({"success": False,"message": "No posee los permisos necesarios"})
 

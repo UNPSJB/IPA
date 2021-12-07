@@ -69,7 +69,7 @@
 			if (data.success){
 				$('#message_positive').append("<li>"+data.message+"</li>");
 				$('.ui.positive.message').show();
-				$("#nuevo_monto").html("El monto calculado a cobrar es de $"+ data.monto + " para el periodo seleccionado (" + data.fecha_desde + " - "+ data.fecha_hasta+")");
+				$("#nuevo_monto").html("El monto calculado a cobrar es de $"+ data.monto + " para el periodo seleccionado (" + data.fecha_desde + " - "+ data.fecha+")");
 				
 			}else{
 				$('#message_error').append("<li>"+data.message+"</li>");
