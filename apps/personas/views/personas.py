@@ -127,7 +127,7 @@ class DetallePersona(GenericDetalleView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DetallePersona, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = 'Detalle Persona'
+		context['nombreDetalle'] = ' Persona'
 		context['return_label'] = 'Listado Personas'
 		context['return_path']= reverse('personas:listado')
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
