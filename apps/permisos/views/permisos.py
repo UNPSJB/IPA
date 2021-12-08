@@ -102,7 +102,7 @@ class DetallePermiso(GenericDetalleView):
 
 	def get_context_data(self, *args, **kwargs):
 			context = super(DetallePermiso, self).get_context_data(**kwargs)
-			context['nombreDetalle'] = 'Permiso ' + self.object.estado.__str__()
+			context['nombreDetalle'] = 'Permiso '
 			context['botones'] = {
 				'Listado de Cobros':reverse('pagos:listarCobros', args=[self.object.pk]),
 				'Listado de Pagos':reverse('pagos:listarPagos', args=[self.object.pk]),
