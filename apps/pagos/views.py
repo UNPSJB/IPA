@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from .forms import RegistrarValorDeModuloForm, CobroForm, PagoForm
 from apps.documentos.forms import DocumentoForm, DocumentoProtegidoForm
 from django.views.generic import ListView,CreateView,DeleteView,UpdateView, View
-from apps.permisos.models import Permiso
+from apps.permisos.models import Permiso,Baja,Otorgado,Archivado
 from datetime import date, datetime
 from apps.documentos.models import TipoDocumento, Documento
 from django.shortcuts import redirect
@@ -190,9 +190,11 @@ class ListarCobros(GenericListadoView):
 		context['nombreListado'] = 'Listado de Cobros del Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso.pk])
 		context['particular'] = True
-		context['url_nuevo'] = reverse('pagos:altaCobro',args=[self.permiso.pk])
+		if isinstance(self.permiso.estado, (Otorgado,Baja)):
+			context['url_nuevo'] = reverse('pagos:altaCobro',args=[self.permiso.pk])
+		if not isinstance(self.permiso.estado, Archivado):
+			context['url_nuevo2'] = reverse('pagos:altaCobroInfraccion',args=[self.permiso.pk])
 		return context
-
 
 class AltaPago(LoginRequiredMixin,CreateView):
 	model = Pago
@@ -307,7 +309,10 @@ class ListarPagos(GenericListadoView):
 		context['nombreListado'] = 'Listado de Pagos del Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso.pk])
 		context['particular'] = True
-		context['url_nuevo'] = reverse('pagos:altaPago',args=[self.permiso.pk])
+		if isinstance(self.permiso.estado, (Otorgado,Baja)):
+			context['url_nuevo'] = reverse('pagos:altaPago',args=[self.permiso.pk])
+		if not isinstance(self.permiso.estado, Archivado):
+			context['url_nuevo2'] = reverse('pagos:AltaPagoInfraccion',args=[self.permiso.pk])
 		return context
 
 class EliminarPago(GenericEliminarView):

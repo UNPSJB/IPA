@@ -106,11 +106,6 @@ class DetallePermiso(GenericDetalleView):
 				context['botones']['Documentación'] = reverse('permisos:listarDocumentacionPermiso', args=[self.object.pk])
 				context['botones']['Nueva Acta de Inspeccion'] = reverse('actas:altaInspeccion',  args=[self.object.pk])
 				context['botones']['Nueva Acta de Infraccion'] = reverse('actas:altaInfraccion',  args=[self.object.pk])
-				context['botones']['Nuevo Cobro de Infraccion'] = reverse('pagos:altaCobroInfraccion', args=[self.object.pk])
-				context['botones']['Nuevo Pago de Infraccion'] = reverse('pagos:AltaPagoInfraccion', args=[self.object.pk])
-			if isinstance(self.object.estado, (Otorgado,Baja)):
-				context['botones']['Nuevo Cobro de Canon'] = reverse('pagos:altaCobro', args=[self.object.pk])
-				context['botones']['Nuevo Pago de Canon'] = reverse('pagos:altaPago', args=[self.object.pk])
 			if isinstance(self.object.estado, Baja):
 				context['botones']['Archivar Expediente']=reverse('documentos:archivarPermiso', args=[self.object.pk])
 			if isinstance(self.object.estado, (Solicitado,Publicado,Otorgado)):

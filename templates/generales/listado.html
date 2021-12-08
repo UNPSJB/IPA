@@ -45,10 +45,18 @@
 		</div>
 		<div class="right floated right aligned column">
 			<div class="row">
-				<a class="ui icon right blue button" onclick="window.location.href='{% block url_nuevo %} alta {% endblock %}'">
-					<i class="plus icon"></i>
-					{% block boton_nuevo %} Nuevo {% endblock %} 
-				</a>
+				{% if url_nuevo %}
+					<a class="ui icon right blue button" onclick="window.location.href='{% block url_nuevo %} alta {% endblock %}'">
+						<i class="plus icon"></i>
+						{% block boton_nuevo %} Nuevo {% endblock %} 
+					</a>
+				{% endif %}
+				{% if url_nuevo2 %}
+					<a class="ui icon right blue button" onclick="window.location.href='{% block url_nuevo2 %} alta {% endblock %}'">
+						<i class="plus icon"></i>
+						{% block boton_nuevo2 %} Nuevo {% endblock %} 
+					</a>
+				{% endif %}
 				
 				<div class="ui dropdown button">
 					Exportar
