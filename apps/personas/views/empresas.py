@@ -50,6 +50,11 @@ class Listado(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView):
 		Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 		return redirect(self.redirect_url)
 
+	def get_context_data(self, **kwargs):
+		context = super(Listado, self).get_context_data(**kwargs)
+		context['url_nuevo'] = reverse('empresas:alta')
+		return context
+
 class DataEmpresas(View):
 	def get(self, request, *args, **kwargs):
 		empresas = models.Empresa.objects.all()

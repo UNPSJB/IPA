@@ -53,6 +53,7 @@ class ListadoAfluentes(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoAfluentes, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Afluentes'
+		context['url_nuevo'] = reverse('afluentes:alta')
 		return context	
 
 class ModificarAfluente(GenericModificacionView):

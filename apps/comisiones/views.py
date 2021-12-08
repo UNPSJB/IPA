@@ -71,7 +71,7 @@ class ListadoComision(GenericListadoView):
 		context['nombreReverse'] = 'comisiones'
 		context['nombreLista'] = 'Listado de Comisiones'
 		context['headers'] = ['Empleados', 'Localidades', 'Fecha Inicio - Fecha Fin', 'Acción', 'Detalle']
-		context['botones'] = {'Nueva Comisión': reverse('comisiones:alta')}
+		context['url_nuevo'] = reverse('comisiones:alta')
 		return context
 
 class ModificarComision(GenericModificacionView):

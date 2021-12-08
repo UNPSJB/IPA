@@ -64,7 +64,7 @@ class ListadoLocalidades(GenericListadoView):
 		context['nombreLista'] = 'Listado de Localidades'
 		context['nombreReverse'] = 'localidades'
 		context['headers'] = ['Código Postal', 'Nombre','Departamento']
-		context['botones'] = {'Nueva Localidad': reverse('localidades:alta')}
+		context['url_nuevo'] = reverse('localidades:alta')
 		return context
 
 class LocalidadDelete(GenericEliminarView):

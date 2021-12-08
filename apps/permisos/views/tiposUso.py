@@ -77,9 +77,7 @@ class ListadoTiposDeUso(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTiposDeUso, self).get_context_data(**kwargs)
 		context['nombreListado'] = "Listado de Tipos de Uso"
-		context['botones'] = {
-			'Nuevo Tipo de Uso': reverse('tiposDeUso:alta') 
-			}
+		context['url_nuevo'] = reverse('tiposDeUso:alta')
 		return context
 
 class DeleteTipoDeUso(DeleteView):

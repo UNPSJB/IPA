@@ -42,6 +42,7 @@ class ListadoEstablecimientos(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoEstablecimientos, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Establecimientos'
+		context['url_nuevo'] = reverse('establecimientos:alta')
 		return context
 
 class DetalleEstablecimiento(GenericDetalleView):

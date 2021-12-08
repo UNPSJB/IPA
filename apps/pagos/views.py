@@ -60,9 +60,7 @@ class ListadoValoresDeModulo(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoValoresDeModulo, self).get_context_data(**kwargs)
 		context['nombreLista'] = "Listado de tipos de documento"
-		context['botones'] = {
-			'Alta Valor de Modulo': reverse('pagos:altaModulo'),
-			}
+		context['url_nuevo'] = reverse('pagos:altaModulo')
 		return context
 
 class EliminarValorDeModulo(GenericEliminarView):

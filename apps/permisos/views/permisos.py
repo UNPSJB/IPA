@@ -23,6 +23,11 @@ class ListadoPermisos(GenericListadoView):
 	permission_required = 'permisos.listar_permiso'
 	redirect_url = '/'
 
+	def get_context_data(self, **kwargs):
+		context = super(ListadoPermisos, self).get_context_data(**kwargs)
+		context['url_nuevo'] = reverse('permisos:alta')
+		return context
+
 class AltaPermiso(GenericAltaView):
 	model = Permiso
 	form_class = PermisoForm

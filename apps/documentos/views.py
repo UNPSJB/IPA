@@ -47,6 +47,7 @@ class ListadoTipoDocumentos(GenericListadoView):
 	def get_context_data(self, **kwargs):
 		context = super(ListadoTipoDocumentos, self).get_context_data(**kwargs)
 		context['nombreListado'] = "Listado Tipo de Documento"
+		context['url_nuevo'] = reverse('tipoDocumentos:listado')
 		return context
 
 class ModificarTipoDocumento(GenericModificacionView):
