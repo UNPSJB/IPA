@@ -24,6 +24,14 @@ class AltaEmpresa(GenericAltaView):
 	permission_required = 'personas.cargar_empresa'
 	redirect_url = 'empresas:listado'
 
+	def get_context_data(self, **kwargs):
+		context = super(AltaEmpresa, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Nueva Empresa'
+		context['return_label'] = 'Listado Empresas'
+		context['return_path']= reverse('empresas:listado')
+		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
+		return context
+
 class DetalleEmpresa(GenericDetalleView):
 	model = Empresa
 	template_name = 'empresas/detalle.html'
@@ -32,7 +40,7 @@ class DetalleEmpresa(GenericDetalleView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleEmpresa, self).get_context_data(**kwargs)
-		context['nombreDetalle'] = ' Empresa'
+		context['nombreForm'] = ' Empresa'
 		context['return_label'] = 'Listado Empresas'
 		context['return_path']= reverse('empresas:listado')
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
@@ -73,7 +81,7 @@ class ModificarEmpresa(GenericModificacionView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(ModificarEmpresa, self).get_context_data(**kwargs)
-		context['nombreForm'] = 'Detalle Empresa'
+		context['nombreForm'] = 'Modificar Empresa'
 		context['return_label'] = 'Listado Empresas'
 		context['return_path']= reverse('empresas:listado')
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'

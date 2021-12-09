@@ -2,11 +2,11 @@
 
 {% load static semanticui %}
 
-{% block mensaje_boton_volver %}
-	Volver al listado de empresas
-{% endblock %} 
+{% block url_a_volver %}{{return_path}}{% endblock %}
 
-{% block url_a_volver %}/empresas/listado{% endblock %}
+{% block mensaje_boton_volver %}
+	Volver a {{return_label}}
+{% endblock %} 
 
 {% block titulo %} 
 	{{nombreForm}}
@@ -14,5 +14,4 @@
 
 {% block formulario_custom %}
     {% render_form form %}
-    
 {% endblock %}

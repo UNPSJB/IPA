@@ -3,12 +3,16 @@
 
 {% block table_render %}
 
+{% include "permisos/estados/solic-correg-visado.html" %}
+{% include "permisos/estados/completado.html" %}
+{% include "permisos/estados/publicado.html" %}
+{% include "permisos/estados/otorgado-baja.html" %}
 			
 <table class="ui celled table" style="margin:20px auto 20px 0">
     <tbody>
         <tr>
             <td data-label="data">Estado</td>
-            <td bgcolor="green" data-label="value"><b>{{object.estado}}</b></td>
+            <td data-label="value"><h3 style="color:green">{{object.estado}}</h3></td>
         </tr>
         
         <td data-label="data">Usuario que cabio el ultimo Estado</td>
@@ -102,14 +106,8 @@
             <td>Monto Total(Pagos - Cobros) $</td>
             <td>{{solicitud.saldoActual}}</td>
         </tr>
-        
-        {% include "permisos/estados/otorgado-baja.html" %}
-        
+                
     </tbody>
   </table>
-  
-    {% include "permisos/estados/solic-correg-visado.html" %}
-    {% include "permisos/estados/completado.html" %}
-    {% include "permisos/estados/publicado.html" %}
     
 {% endblock table_render %}

@@ -1,10 +1,17 @@
 {% if solicitud.estado.getEstadoString == "publicado"%}
     {% if solicitud.estado.isEdictoFinalizado %}
-    <p> Este Permiso no tiene Resolucion.</p>
-        <a class="ui button" href="{% url 'documentos:agregarResolucion' solicitud.id %}" class="ui button"> Agregar Resolucion.</a> 
+    <table>
+        <tr>
+            <td> <h4 style="color:red;"> Este Permiso no tiene Resolucion.</h4>  </td>
+            <td> <a class="ui button" href="{% url 'documentos:agregarResolucion' solicitud.id %}" class="ui button"> Agregar Resolucion.</a>   </td>
+        </tr>
+    </table>
+        
     {% endif %}
-    <div class="ui form"><div class="inline field">
-        <p style="color:red">OPOSICION</p>
-        <a class="ui button" href="{% url 'documentos:agregarOposicion' solicitud.id %}" class="ui button"> Agregar Oposición.</a>
-    </div></div>
+    <table>
+        <tr>
+            <td> <h4 style="color:red">Oposición</h4> </td>
+            <td> <a class="ui button" href="{% url 'documentos:agregarOposicion' solicitud.id %}" class="ui button"> Agregar Oposición.</a></td>
+        </tr>
+    </table>
 {% endif%}
