@@ -7,7 +7,7 @@
 	<tbody>
   	
 		<tr>
-			<td class="two wide column">Fecha Inicio y Finalización de la Comision</td>
+			<td class="two wide column">Fecha Inicio y Finalización de la Comisión</td>
 			<td>{{ comision.fechaInicio }} al {{ comision.fechaFin }}</td>
 		</tr>
 
@@ -20,7 +20,7 @@
 			<td>{{ comision.motivo }}</td>
 		</tr>
 		<tr>
-			<td>Empleados de la Comision</td>
+			<td>Empleados de la Comisión</td>
 			<td>
 			{% for empleado in comision.empleados.all %}
 			<p>{{empleado}}</p>
@@ -38,7 +38,7 @@
     	</tr>
 	</tbody>
 </table>
-<h2>Documentos asociados a la comision</h2>
+<h2>Documentos asociados a la comisión</h2>
 <div class="ui grid"> 
 	<div class="row header-content">
 		<div class="ui cards">

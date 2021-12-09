@@ -639,7 +639,7 @@ class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 			comision.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
 		messages = ['La fecha del acta de infraccion debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
-		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']
+		'Estar entre las fechas de la comisión','Menor o igual a la fecha actual']
 		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 
 class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
@@ -695,5 +695,5 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 			comision.agregar_documentacion(documento)
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
 		messages = ['La fecha del acta de Inspección debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
-		'Estar entre las fechas de la comision','Menor o igual a la fecha actual']
+		'Estar entre las fechas de la comisión','Menor o igual a la fecha actual']
 		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
