@@ -33,7 +33,7 @@ class PersonaFilter(django_filters.FilterSet):
         fields = ['roles__tipo']
 
 class EmpresaTable(tables.Table):
-    razonSocial = tables.Column(verbose_name="Razon Social")
+    razonSocial = tables.Column(verbose_name="Razón Social")
     cuit = tables.Column(verbose_name="Cuit")
     acciones = tables.TemplateColumn(template_name="formButtons.html")
     

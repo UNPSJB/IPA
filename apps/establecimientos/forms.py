@@ -19,7 +19,7 @@ class EstablecimientoForm(forms.ModelForm):
 
 		labels = {
 				'duenio': 'Dueño',
-				'codigoCatastral': 'Codigo Catastral',
+				'codigoCatastral': 'Código Catastral',
 				'superficie': 'Superficie M2',
 				'nombre': 'Nombre',
 				'descripcion': 'Descripción',
