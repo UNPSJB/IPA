@@ -99,10 +99,10 @@ class ValorDeModulo (models.Model):
 		get_latest_by = "fecha"
 
 		permissions = (
-			("cargar_valor_de_modulo","Cargar valores de modulos"),
-			("modificar_valor_de_modulo","Modificar valores de modulos"),
-			("listar_valor_de_modulo","Listar valores de modulos"),
-			("eliminar_valor_de_modulo","Eliminar valores de modulos")
+			("cargar_valor_de_modulo","Cargar valores de módulos"),
+			("modificar_valor_de_modulo","Modificar valores de módulos"),
+			("listar_valor_de_modulo","Listar valores de módulos"),
+			("eliminar_valor_de_modulo","Eliminar valores de módulos")
 		)
 
 	def __str__(self):

@@ -134,10 +134,10 @@ function info_proyeccion_vm(){
         resizableRows:true,       //allow row order to be changed
 
         columns:[                 //define the table columns
-            {title:"Fecha de Modulo", field:"fecha", mutator:function(value, data, type, mutatorParams, cell){
+            {title:"Fecha de Módulo", field:"fecha", mutator:function(value, data, type, mutatorParams, cell){
                 return moment(value , "YYYY/MM/DD").format("DD/MM/YYYY");
             },hozAlign:"center",headerHozAlign:"center"},
-            {title:"Valor de Modulo", field:"v_modulo",formatter:"money", formatterParams:{
+            {title:"Valor de Módulo", field:"v_modulo",formatter:"money", formatterParams:{
                 precision:2,decimal:",",thousand:".",symbol:"$ ",
             },hozAlign:"right",headerHozAlign:"center"},
             {title:"Fecha de Calculo", field:"fdesde", mutator:function(value, data, type, mutatorParams, cell){
@@ -154,7 +154,7 @@ function info_proyeccion_vm(){
             //{title:"Tipo Permiso", field:"tipo",visible:true,hozAlign:"center",headerHozAlign:"center"},
         ],
         printAsHtml:true,
-        printHeader:"<h1>Reportes de Recaudación - Proyección por Valor de Modulo<h1>",
+        printHeader:"<h1>Reportes de Recaudación - Proyección por Valor de Módulo<h1>",
         printFooter:"<h4>"+"Este reporte se ha impreso el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+".<h2>",
         downloadConfig:{
             columnHeaders:true, //include column headers in downloaded table

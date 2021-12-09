@@ -45,10 +45,10 @@ class AltaTipoDeUso(GenericAltaView):
 				return HttpResponseRedirect(self.get_success_url())
 			else:
 				return render(request, self.template_name, {'form':tipoUsoForm, 'botones':{'Nuevo Documento': reverse('tipoDocumentos:alta')}, 'nombreForm':'Nuevo Tipo de Uso',
-			'message_error':['Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico']})
+			'message_error':['Error en la carga entre la medida y el tipo de módulo, solo se puede utilizar kw con uso energetico']})
 		else:
 			return render(request, self.template_name, {'form':tipoUsoForm, 'botones':{'Nuevo Documento': reverse('tipoDocumentos:alta')}, 'nombreForm':'Nuevo Tipo de Uso',
-			'message_error':['Error en la carga entre la medida y el tipo de modulo, solo se puede utilizar kw con uso energetico']})
+			'message_error':['Error en la carga entre la medida y el tipo de módulo, solo se puede utilizar kw con uso energetico']})
 
 class DetalleTipoDeUso(GenericDetalleView):
 	model = TipoUso

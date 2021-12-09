@@ -13,14 +13,14 @@ class RegistrarValorDeModuloForm(forms.ModelForm):
 				'descripcion',
 			]
 		labels = {
-				'modulo': 'Modulo',
+				'modulo': 'Módulo',
 				'precio':'Precio',
 				'fecha':'Fecha',
 				'descripcion':'Descripcion',
 		}
 
 		widgets = {
-				'modulo': forms.Select(attrs={'class':'form-control', 'placeholder':'Elija un modulo'}),
+				'modulo': forms.Select(attrs={'class':'form-control', 'placeholder':'Elija un módulo'}),
 				'precio':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Precio'}),
 				'descripcion':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Descripcion'}),
 				'fecha': forms.DateInput(attrs={'type':'date'}),

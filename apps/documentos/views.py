@@ -297,7 +297,7 @@ class AgregarExpediente(LoginRequiredMixin, CreateView):
 					message_error = [str(e)]))
 			else:
 				return self.render_to_response(self.get_context_data(form=form, expediente=numero,
-					message_error = ['La fecha de Expediente debe ser posterior a la fecha de la ultima documentacion presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')']))
+					message_error = ['La fecha de Expediente debe ser posterior a la fecha de la ultima documentación presentada ('+(ultima_fecha).strftime("%d-%m-%Y")+')']))
 		return self.render_to_response(self.get_context_data(form=form,expediente=numero))
 
 class AgregarEdicto(LoginRequiredMixin, CreateView):
@@ -410,11 +410,11 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 			ultimoVencimientoResolucion = permiso.fechaVencimiento
 			fechaCorrecta = fechaResolucion >= ultimoVencimientoResolucion
 			accion = 'renovar'
-			messages_error.append('La Fecha de Resolucion debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (' + ultimoVencimientoResolucion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
+			messages_error.append('La Fecha de Resolución debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (' + ultimoVencimientoResolucion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
 		else:
 			fechaCorrecta = fechaResolucion > vencimientoPublicacion
 			accion = 'resolver'
-			messages_error.append('La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
+			messages_error.append('La Fecha de Resolución debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
 	
 		fechaCorrecta = fechaCorrecta and (fechaVencimiento >= fechaResolucion) and (fechaResolucion <= date.today())
 		
@@ -428,7 +428,7 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 					return HttpResponseRedirect(self.get_success_url())
 				except Exception as e:
 					print("Unexpected error:", sys.exc_info()[0])
-					return self.render_to_response(self.get_context_data(form=form, message_error=[e,'Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion (' + fechaResolucion.strftime('%d/%m/%Y')+')']))
+					return self.render_to_response(self.get_context_data(form=form, message_error=[e,'Cargue el valor de módulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolución (' + fechaResolucion.strftime('%d/%m/%Y')+')']))
 			elif (unidad <= 0) or fechaCorrecta:
 				return self.render_to_response(self.get_context_data(form=form, 
 					message_error = messages_error))
