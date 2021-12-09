@@ -11,19 +11,21 @@ $(document).ready(function () {
       $("#graficos").show();
       
       $("#row-graficos").empty();
-  
+      console.log(informacion)
       const labels = $.map(informacion, function(value, key) {
           return value.estado;
       });
-      const dias = $.map(informacion, function(value, key) {
-          return value.dias;
+      console.log(labels)
+      const prom = $.map(informacion, function(value, key) {
+          return value.prom;
         });
+        console.log(prom)
   
       const data = {
       labels: labels,
       datasets: [{
           axis: 'y',
-          data: dias,
+          data: prom,
           backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(255, 159, 64, 0.2)',
@@ -64,7 +66,7 @@ $(document).ready(function () {
                   xAxes: {
                       title: {
                         display: true,
-                        text: 'Cantidad de Dias en el Estado'
+                        text: 'Promedio de dias en el Estado'
                       }
                   }
               },

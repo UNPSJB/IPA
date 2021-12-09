@@ -15,8 +15,20 @@ var labels_filtros = {'tipos_permisos':['TIPO DE PERMISOS',''], 'operaciones':['
                         'motivos':['MOTIVOS DE OPERACION',''], 'afluentes':['AFLUENTES',''],'localidades':['LOCALIDADES',''],  
                         'departamentos':['DEPARTAMENTOS',''],'fechas':['FECHAS', ''],};
 
-$(document).ready(function(){
+function lista_filtros(){
+    $("#lista-filtros").empty();
+    for(let lf in labels_filtros){
+        if (labels_filtros[lf][1].length>0){
+            $("#lista-filtros").append('<li>'+labels_filtros[lf][0]+': '+labels_filtros[lf][1]+'</li>')
+        }
+    }
+    if ($("#lista-filtros")[0].childElementCount==0){
+        $("#lista-filtros").append('<li>No hay filtros seleccionados para este reporte</li>')
+    }
+}
 
+$(document).ready(function(){
+    
     $(".default.text").html("----------- Seleccionar opción -----------");
     $(".text").html("----------- Seleccionar opción -----------");
 
@@ -48,18 +60,21 @@ $(document).ready(function(){
     });
 
     $("#filtro-form").submit(function (e) {
+        
         e.preventDefault();
         $.ajaxSettings.traditional = true;
-        dataset["fecha_desde"]=$("input[name='daterange']").data('daterangepicker').startDate.format("YYYY-MM-DD");
-        dataset["fecha_hasta"]=$("input[name='daterange']").data('daterangepicker').endDate.format("YYYY-MM-DD");
-        labels_filtros["fechas"][1]=$("input[name='daterange']").data('daterangepicker').startDate.format("DD-MM-YYYY") 
-                                    +" hasta "+ $("input[name='daterange']").data('daterangepicker').endDate.format("DD-MM-YYYY");        
-
         var url = $("form")[0].dataset["ajax_url"]
-        console.log(url+"sasd");
+        if (url != '/reportes/gestion'){
+            dataset["fecha_desde"]=$("input[name='daterange']").data('daterangepicker').startDate.format("YYYY-MM-DD");
+            dataset["fecha_hasta"]=$("input[name='daterange']").data('daterangepicker').endDate.format("YYYY-MM-DD");
+            labels_filtros["fechas"][1]=$("input[name='daterange']").data('daterangepicker').startDate.format("DD-MM-YYYY") 
+                                        +" hasta "+ $("input[name='daterange']").data('daterangepicker').endDate.format("DD-MM-YYYY");        
+        }
+
         $.get(url,dataset,function(data) {
             console.log(data)
             informacion = data;
+            lista_filtros();
             $("#informacion").show();
             $("#item-info").trigger("click"); 
         });
@@ -78,4 +93,5 @@ $(document).ready(function(){
     $("#descargar-tabla-pdf").bind("click", function(){
         table.download("pdf", "reprecaudacionst.pdf", {sheetName:"RepRecaudacionST"});
     });
+
 });

@@ -1,11 +1,12 @@
 from django.db import models
+from django.db.models import Q
 from apps.personas.models import Persona
 from apps.establecimientos.models import Afluente
 from apps.documentos.models import Documento, TipoDocumento
 from apps.pagos.models import Cobro
 from datetime import timedelta, date
 from apps.pagos.models import ValorDeModulo
-
+import math
 from decimal import *
 
 # PERMISOS =================================================
@@ -241,12 +242,18 @@ class Permiso(models.Model):
 		return l_recaudacion_pvm
 	
 	@classmethod
-	def estados_productividad(cls):
+	def estados_productividad(cls,data):
 		T = {}
-		for e in Estado.TIPOS[1:]:
-			T[e[0]]={'estado': e[1], 'dias': 0,'perm': []}
+		filtros = Q()
+		filtros &= Q(tipo__pk__in= data['tipos_permisos']) if data['tipos_permisos'].exists() else Q()
+		filtros &= Q(afluente__pk__in=data['afluentes']) if data['afluentes'].exists() else Q()
+		filtros &= Q(establecimiento__localidad__pk__in=data['localidades']) if data['localidades'].exists() else Q()
+		filtros &= Q(establecimiento__localidad__departamento__pk__in=data['departamentos']) if data['departamentos'].exists() else Q()
 
-		for p in Permiso.objects.all():
+		for e in Estado.TIPOS[1:6]:
+			T[e[0]]={'estado': e[1], 'dias': 0,'perm': [],'prom':0}
+
+		for p in Permiso.objects.filter(filtros):
 			iter_estados = iter(p.estados.all())
 			e0 = next(iter_estados)
 			while(1):
@@ -257,12 +264,13 @@ class Permiso(models.Model):
 				if p.pk not in T[e0.tipo]['perm']:
 					T[e0.tipo]['perm'].append(p.pk)
 				e0 = e1 
-			T[e0.tipo]['dias'] = (date.today() - e0.fecha).days
-			if p.pk not in T[e0.tipo]['perm']:
+			if(e0.tipo<6):
+				T[e0.tipo]['dias'] = (date.today() - e0.fecha).days
+				if p.pk not in T[e0.tipo]['perm']:
 					T[e0.tipo]['perm'].append(p.pk)
 		for t in T: 
 			if(len(T[t]['perm']) >0): 
-				T[t]['prom'] = T[t]['dias']/len(T[t]['perm']) 
+				T[t]['prom'] = int(math.ceil(T[t]['dias']/len(T[t]['perm'])))
 		
 		return T
 

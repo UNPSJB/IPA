@@ -4,8 +4,11 @@
 	{% include "menu_secundario.html" %}		
     {% include "filtros.html" %}
 
+	
     {% block informacion %}
 		<div id="informacion" hidden>
+			<h4>FILTROS SELECCIONADOS</h4>
+			<ul id="lista-filtros"></ul>
 			<div id="tabla"></div>
 		</div>
     {% endblock %}
@@ -26,5 +29,4 @@
 {% endblock %}
 
 {% block customPageJs %}
-	var tiempos = JSON.parse("{{tiempos|escapejs}}");
 {% endblock %}

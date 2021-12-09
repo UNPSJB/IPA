@@ -26,6 +26,10 @@ class ListadoUsuarios(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView
 		Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 		return redirect(self.redirect_url)
 
+	def get_context_data(self, **kwargs):
+		context = super(ListadoUsuarios, self).get_context_data(**kwargs)
+		context['url_nuevo'] = reverse('pagos:altaModulo')
+		return context
 class NuevoUsuario(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
 	model = Usuario
 	form_class = UsuarioForm

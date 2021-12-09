@@ -15,6 +15,7 @@ $("#item-info").on("click",function(){
 
         table = new Tabulator("#tabla", {
             data:data_informacion,           //load row data from array
+            groupBy:"tipo",
             layout:"fitColumns",      //fit columns to width of table
             responsiveLayout:"hide",  //hide columns that dont fit on the table
             tooltips:true,            //show tool tips on cells
@@ -24,12 +25,12 @@ $("#item-info").on("click",function(){
             resizableRows:true,       //allow row order to be changed
     
             columns:[                 //define the table columns
-                {title:"Comisiones", field:"comisiones", hozAlign:"center",headerHozAlign:"center"},
-                {title:"Actas de Infracción", field:"actas_de_infraccion",hozAlign:"right",headerHozAlign:"center"},
-                {title:"Actas de Inspeccion", field:"actas_de_inspeccion",hozAlign:"right",headerHozAlign:"center"},
+                {title:"Fecha", field:"fecha", hozAlign:"center",headerHozAlign:"center"},
+                {title:"Tipo", field:"tipo",hozAlign:"right",headerHozAlign:"center"},
+                {title:"Descripcion", field:"descripcion",hozAlign:"right",headerHozAlign:"center"},
             ],
             printAsHtml:true,
-            printHeader:"<h1>Reporte de Comisiones vs Actas <h1>",
+            printHeader:"<h1>Comisiones vs Actas de Inspección vs Actas de Infracción<h1>",
             printFooter:"<h4>"+"Este reporte se ha impreso el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+".<h2>",
             downloadConfig:{
                 columnHeaders:true, //include column headers in downloaded table

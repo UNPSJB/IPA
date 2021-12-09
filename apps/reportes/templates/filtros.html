@@ -2,6 +2,7 @@
 
 <form class="ui form" id="filtro-form" data-ajax_url="{{url_ajax}}">
     {% render_form form %}
+    {% if fechas %}
     <div class="field">
         <label for="fecha">Fecha</label>
         <div class="ui">
@@ -11,5 +12,6 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <input type="submit" value="Generar">
 </form>

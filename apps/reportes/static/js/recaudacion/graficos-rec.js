@@ -5,7 +5,7 @@ var grafico;
 
 function getDataLabel(motivo,operacion){
     let labels = [];
-    let data = []
+    let data = [];
     for (let i of Object.keys(informacion).slice(0,-1)){
         if(motivo in informacion[i] && operacion in informacion[i][motivo]){
             data.push(informacion[i][motivo][operacion])
@@ -59,7 +59,13 @@ function graficos_tipos_permisos(){
 
 const randomNum = () => Math.floor(Math.random() * 255);
 
-const randomRGB = () => `rgb(${randomNum()}, ${randomNum()}, ${randomNum()})`;
+const randomRGB = (mot) => {
+    if(mot=="Cobro"){
+        return 'rgb(255, 0, 0)';
+    }else{
+        return `rgb(0, 143, 57)`;
+    }
+}
 
 function graficos_series_temporales(){
     var timeFormat = 'DD/MM/YYYY';
@@ -71,18 +77,34 @@ function graficos_series_temporales(){
 
     if (typeof informacion !== 'undefined'){
         datasets = []
-        filtros = ['motivo','operacion','tipo'];
-        filtros.forEach(f => {
-            datos = _.groupBy(_.sortBy(data_informacion, "fecha"), f);
-            datos_nombres = Object.getOwnPropertyNames(datos);
-            for (const o in datos_nombres) {
-                datasets.push({
-                    label:datos_nombres[o],
-                    data: datos[datos_nombres[o]],
-                    borderColor: randomRGB()
-                })
-            }
-    });
+
+        datos = _.groupBy(_.sortBy(data_informacion, "fecha"), "operacion");
+        datos_nombres = Object.getOwnPropertyNames(datos).sort().reverse();
+        
+        
+        var acum_cobro = 0;
+        var acum_pago = 0;
+        Object.entries(datos).forEach(([motivo, movimiento]) => {
+            console.log("clave:" + motivo); // "a 5", "b 7", "c 9"
+            movimiento.forEach(e => {
+                if (e.operacion=="Cobro"){
+                    acum_cobro+=e.monto
+                    e.monto = acum_cobro
+                }else{
+                    acum_pago+=e.monto
+                    e.monto = acum_pago
+                }
+                console.log(e)
+            })
+        });        
+
+        for (const o in datos_nombres) {
+            datasets.push({
+                label:datos_nombres[o],
+                data: datos[datos_nombres[o]],
+                borderColor: randomRGB(datos_nombres[o])
+            })
+        }
 
     $("#row-graficos").append('<canvas id="line-chart">');
     grafico = new Chart($("#line-chart"), {
@@ -154,13 +176,57 @@ function graficos_series_temporales(){
 
 }
 
+
+
 function graficos_proyeccion_vm (){
+
+    var data_informacion = $.extend(true,[], informacion);
+
+    datos = _.groupBy(_.sortBy(data_informacion, "fecha"), "tipo");
+
+    var datasets_final = {}
+    for (let t of Object.keys(datos)){
+        datasets_final[t] = 0
+    }
+
+    for (const [key, value] of Object.entries(datos)) {
+            value.forEach(e => 
+                datasets_final[key] += datasets_final[key]+parseFloat(e.monto.replace(",", "."))
+            )
+      }
+
+
     $("#row-graficos").append('<canvas id="line-chart">');
     grafico = new Chart($("#line-chart"), {
-        
+        type: 'pie',
+        data: {
+        labels: Object.keys(datasets_final),
+            datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                data: Object.values(datasets_final)
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Proyección de Ingresos por Tipo de Permiso',
+                    padding: {
+                        top: 10,
+                        bottom: 10
+                    },
+                    font:{
+                        size:30
+                    }
+                }
+            },
+        }
     });
 
 }
+
 
 $("#item-grafico").on("click",function(){
     $(".secondary.menu a").attr("class","item");

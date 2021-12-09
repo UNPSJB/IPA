@@ -25,7 +25,7 @@ class Recaudacion(FormView):
     def get_context_data(self, **kwargs):
         context = super(Recaudacion, self).get_context_data(**kwargs)
         context['nombreReporte'] = "Reportes de Recaudación"
-        
+        context['fechas'] = True
         context['url_ajax'] = reverse('reportes:recaudacion')
         return context
 
@@ -97,13 +97,6 @@ class Recaudacion(FormView):
         l = []
         if formu.is_valid():
             l += Permiso.recaudacion_pmv()
-
-            #key_func = lambda x: x['tipo']
-            #for key, group in itertools.groupby(recau, key_func):
-                # print(key + " :", list(group))
-
-            
-
             return JsonResponse(l,safe=False)
         return JsonResponse(formu.errors)
 
@@ -114,8 +107,8 @@ class Productividad(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['nombreReporte'] = "Reporte de Gestion de Permiso"
-        context['url_ajax'] = reverse('reportes:productividad')
-        #context['tiempos'] = json.dumps(Permiso.estados_productividad())
+        context['url_ajax'] = reverse('reportes:gestion')
+        context['fechas'] = False
         return context
 
     def get(self, request, *args, **kwargs):
@@ -124,7 +117,10 @@ class Productividad(FormView):
         return super().get(request, *args, **kwargs)
 
     def get_productividad_ajax(self, request, *args, **kwargs):
-        return JsonResponse(Permiso.estados_productividad(),safe=False)
+        formu = self.form_class(request.GET)
+        if formu.is_valid():
+            return JsonResponse(Permiso.estados_productividad(formu.cleaned_data),safe=False)
+        return JsonResponse(formu.errors)
 
 class RepComisiones(FormView):
     template_name = "comisiones/comisiones.html"
@@ -134,6 +130,7 @@ class RepComisiones(FormView):
         context = super().get_context_data(**kwargs)
         context['nombreReporte'] = "Reporte de Comisiones"
         context['url_ajax'] = reverse('reportes:comisiones')
+        context['fechas'] = True
         return context
 
     def get(self, request, *args, **kwargs):
@@ -145,5 +142,4 @@ class RepComisiones(FormView):
         l = []
         l += Comision.rep_comisiones()
         l += Documento.rep_inspeccion_infraccion()
-
         return JsonResponse(l,safe=False)

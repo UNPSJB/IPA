@@ -4,23 +4,7 @@
 //  e.fecha = e.fecha.replace(/(\d{4})-(\d{2})-(\d{2})/, "$3/$2/$1");})
 //let groupedResults = _.groupBy(data_informacion, (d) => moment(d.fecha, 'DD/MM/YYYY').startOf('isoMonth'));
 
-const data = [{"modDate":"2017-06-20"},{"modDate":"2017-06-25"},{"modDate":"2017-10-24"},{"modDate":"2017-10-20"},{"modDate":"2017-08-03"}];
 
-var data_informacion = $.extend(true,[], informacion);  //Hago copias de valores
-
-var tipos_seperados = _.groupBy(data_informacion, function(e){ return e.tipo; }); // separo por comision, acta insp y acta infra
-
-let data = []
-
-for (const [key, value] of Object.entries(tipos_seperados)) {
-  data.push(_.groupBy(value, (b) => moment(b.fecha).startOf('month').format('YYYY/MM')))  // agrupo cada uno de ellos por fechas
-}
-
-
-fechas = []
-for (const f in data) {
-  fechas = fechas.concat(Object.keys(data[f]))      // Uno todas las fechas que tengo
-}
 
 const eliminaDuplicados = (arr) => {
   return arr.filter((valor, indice) => {
@@ -28,53 +12,36 @@ const eliminaDuplicados = (arr) => {
   });
 }
 
-fechas_no_duplicadas = eliminaDuplicados(fechas)              // Elimino valores duplicados --> van a ser mis labels
+const data = [{"modDate":"2017-06-20"},{"modDate":"2017-06-25"},{"modDate":"2017-10-24"},{"modDate":"2017-10-20"},{"modDate":"2017-08-03"}];
 
-tipos_separados_agrup = {}
-
-for (const [key, value] of Object.entries(tipos_seperados)) {
-  tipos_separados_agrup[key] = _.groupBy(value, (b) => moment(b.fecha).startOf('month').format('YYYY/MM'))  // agrupo cada uno de ellos por fechas
-}
-
-datasets_final = {}
-
-for (let f in fechas_no_duplicadas){
-  if (tipos_separados_agrup["comision"][fechas_no_duplicadas[f]] !== undefined){
-    console.log("SI")
-    datasets_final["comision"][fec] = tipos_separados_agrup["comision"][fec].length
-  }else{
-    console.log("NO")
-    datasets_final["comision"][fechas_no_duplicadas[fec]] = 0
-  }
-}
 
 
 
 //https://bramantox.wordpress.com/2019/10/06/how-to-show-values-on-top-of-bars-in-chart-js/
-var datasets = {
-  labels: fechas_no_duplicadas,
+/* var datasets = {
+  labels: [],
   datasets: [{
       label: 'Users',
-      backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-      borderColor: window.chartColors.red,
+      //backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+      //borderColor: window.chartColors.red,
       borderWidth: 1,
       data: [53,117,79,56,45,89,61]
   }, {
       label: 'My Users',
-      backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-      borderColor: window.chartColors.blue,
+      //backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+      //borderColor: window.chartColors.blue,
       borderWidth: 1,
       data: [43,105,76,50,33,97,52]
   }]
 
-};
+}; */
 
 
 
 
-let grouped_items = _.groupBy(data_informacion, (b) =>
-  moment(b.fecha).startOf('month').format('YYYY/MM'));
-
+//let grouped_items = _.groupBy(data_informacion, (b) =>
+  //moment(b.fecha).startOf('month').format('YYYY/MM'));
+/*
 let grouped_items = _.groupBy(data_informacion, (b) =>
   moment(b.fecha).startOf('month').format('YYYY/MM'));
 
@@ -83,11 +50,11 @@ _.values(grouped_items)
 
 console.log(grouped_items);
 
-let data = []
+let data3 = [];
 for (const p in data_informacion){
-    data.push(_.groupBy(data_informacion[p], (b) => moment(b.fecha).startOf('month').format('YYYY/MM')));
+    data3.push(_.groupBy(data_informacion[p], (b) => moment(b.fecha).startOf('month').format('YYYY/MM')));
 }
-
+*/
 
 $(document).ready(function () {
 
@@ -100,72 +67,116 @@ $(document).ready(function () {
       
       $("#row-graficos").empty();
   
-      const labels = $.map(informacion, function(value, key) {
-          return value.tipo;
-      });
-      const dias = $.map(informacion, function(value, key) {
-          return value.cantidad;
-        });
 
-        console.log(labels)
-        console.log(dias)
-  
-      const data = {
-      labels: labels,
-      datasets: [{
-          axis: 'y',
-          data: dias,
-          backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(255, 205, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(201, 203, 207, 0.2)'
-          ],
-          borderColor: [
-          'rgb(255, 99, 132)',
-          'rgb(255, 159, 64)',
-          'rgb(255, 205, 86)',
-          'rgb(75, 192, 192)',
-          'rgb(54, 162, 235)',
-          'rgb(153, 102, 255)',
-          'rgb(201, 203, 207)'
-          ],
-          borderWidth: 1
+      var data_informacion = $.extend(true,[], informacion);  //Hago copias de valores
+
+
+
+      var tipos_seperados = _.groupBy(data_informacion, function(e){ return e.tipo; }); // separo por comision, acta insp y acta infra
+      
+      let data2 = [];
+      
+      for (const [key, value] of Object.entries(tipos_seperados)) {
+        data2.push(_.groupBy(value, (b) => moment(b.fecha).startOf('month').format('MM/YYYY')))  // agrupo cada uno de ellos por fechas
+      }
+      
+      
+      fechas = []
+      for (const f in data2) {
+        fechas = fechas.concat(Object.keys(data2[f]))      // Uno todas las fechas que tengo
+      }
+      
+      fechas_no_duplicadas = eliminaDuplicados(fechas)              // Elimino valores duplicados --> van a ser mis labels
+      
+      tipos_separados_agrup = {}
+      
+      for (const [key, value] of Object.entries(tipos_seperados)) {
+        tipos_separados_agrup[key] = _.groupBy(value, (b) => moment(b.fecha).startOf('month').format('MM/YYYY'))  // agrupo cada uno de ellos por fechas
+      }
+      
+      var datasets_final = {"comision": {},'acta-de-inspeccion':{},'acta-de-infraccion':{}}
+      var datasets_cantidades = {"comision": [],'acta-de-inspeccion':[],'acta-de-infraccion':[]}
+      for(let ts in tipos_separados_agrup){
+        for (let f in fechas_no_duplicadas.reverse()){
+          if (tipos_separados_agrup[ts][fechas_no_duplicadas[f]] !== undefined){
+            datasets_final[ts][fechas_no_duplicadas[f]] = Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length
+            datasets_cantidades[ts].push(Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length)
+          }else{
+            datasets_final[ts][fechas_no_duplicadas[f]] = 0
+            datasets_cantidades[ts].push(0)
+          }
+        }
+      }
+
+    var datasets = {
+        labels: fechas_no_duplicadas,
+        datasets: [{
+            label: 'Comision',
+            backgroundColor: '#DE7B66',
+            borderColor: '#DE7B66',
+            borderWidth: 1,
+            data: datasets_cantidades['comision']
+        }, {
+            label: 'A. Inspección',
+            backgroundColor: '#DAD527',
+            borderColor: '#DAD527',
+            borderWidth: 1,
+            data: datasets_cantidades['acta-de-inspeccion']
+        },{
+          label: 'A. Infracción',
+          backgroundColor: '#3FEF3D',
+          borderColor: '#3FEF3D',
+          borderWidth: 1,
+          data: datasets_cantidades['acta-de-infraccion']
       }]
-      };
-  
+    
+    };
   
       $("#row-graficos").append('<canvas id="line-chart">');
       grafico = new Chart($("#line-chart"), {
-          type: 'bar',
-          data: data,
-          options: {
-              responsive: true,
-              indexAxis: 'y',
-              scales: {
-                  yAxes: {
-                    title: {
-                      display: true,
-                      text: 'Estados'
-                    }
-                  },
-                  xAxes: {
-                      title: {
-                        display: true,
-                        text: 'Cantidad de Dias en el Estado'
-                      }
-                  }
+        type: 'bar',
+        data: datasets,
+        options: {
+            responsive: true,
+            "hover": {
+              "animationDuration": 0
+            },
+            "animation": {
+                "duration": 1,
+            },
+            scales: {
+              yAxes: {
+                title: {
+                  display: true,
+                  text: 'Cantidad'
+                },
+                ticks: {
+                  min: 0,
+                  stepSize: 1,
+                },
               },
-        plugins: {
-          legend: {
-            display: false
+              xAxes: {
+                  title: {
+                    display: true,
+                    text: 'Mes/Año'
+                  }
+              }
+            },
+            plugins: {
+              title: {
+                  display: true,
+                  text: 'Comisiones vs Actas de Inspección vs Actas de Infracción',
+                  padding: {
+                      top: 10,
+                      bottom: 10
+                  },
+                  font:{
+                      size:30
+                  }
+              }
+          },
           }
-          }
-            }
-      });
-    });
-
+      }
+    );
+  });
 });
