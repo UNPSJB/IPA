@@ -44,5 +44,5 @@ class PermisosFilter(django_filters.FilterSet):
 class TipoDeUsoFilter(django_filters.FilterSet): 
     periodo = django_filters.ChoiceFilter(label='Periodo',choices=TipoUso.TipoPeriodo)
     medida = django_filters.ChoiceFilter(label='Medida',choices=TipoUso.TipoMedida)
-    tipo_modulo = django_filters.ChoiceFilter(label='Tipo Modulo',choices=TipoUso.TipoModulo)
+    tipo_modulo = django_filters.ChoiceFilter(label='Tipo Módulo',choices=TipoUso.TipoModulo)
     

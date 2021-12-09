@@ -27,5 +27,5 @@ class TipoDeUsoTable(tables.Table):
     coeficiente = tables.Column(verbose_name="Coefiente")
     periodo = tables.Column(verbose_name="Periodo")
     medida = tables.Column(verbose_name="Medida")
-    tipo_modulo = tables.Column(verbose_name="Tipo de Modulo")
+    tipo_modulo = tables.Column(verbose_name="Tipo de Módulo")
     acciones = tables.TemplateColumn(template_name="formButtons.html",orderable=False)
