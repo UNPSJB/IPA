@@ -34,6 +34,15 @@
       <td>{{persona.telefono}}</td>
     </tr>
 
+    <tr>
+      <td>Roles</td>
+      <td>
+        {% for rol in persona.roles_related %}
+            <p> {{ rol }} </p>
+        {% endfor %}
+      </td>
+    </tr>
+
   </tbody>
 </table>
   
