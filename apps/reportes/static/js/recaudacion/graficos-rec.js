@@ -16,6 +16,10 @@ function getDataLabel(motivo,operacion){
 }
 
 function graficos_tipos_permisos(){
+    $("#row-graficos").empty();
+    $("#row-graficos2").empty();
+    $("#row-graficos3").empty();
+    $("#row-graficos4").empty();
     if (typeof informacion !== 'undefined'){
         var cobro_canon = []
         var pago_canon = []
@@ -174,6 +178,11 @@ const randomRGB = (mot) => {
 }
 
 function graficos_series_temporales(){
+    $("#row-graficos").empty();
+    $("#row-graficos2").empty();
+    $("#row-graficos3").empty();
+    $("#row-graficos4").empty();
+
     var timeFormat = 'DD/MM/YYYY';
     var data_informacion = $.extend(true,[], informacion);
 
@@ -285,6 +294,10 @@ function graficos_series_temporales(){
 
 
 function graficos_proyeccion_vm (){
+    $("#row-graficos").empty();
+    $("#row-graficos2").empty();
+    $("#row-graficos3").empty();
+    $("#row-graficos4").empty();
 
     var data_informacion = $.extend(true,[], informacion);
 
