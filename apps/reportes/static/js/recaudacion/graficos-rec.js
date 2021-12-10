@@ -212,8 +212,8 @@ function graficos_series_temporales(){
             })
         }
 
-    $("#row-graficos").append('<canvas id="line-chart">');
-    grafico = new Chart($("#line-chart"), {
+    $("#row-graficos3").append('<canvas id="chart3">');
+    grafico3 = new Chart($("#chart3"), {
         type: 'line',
         data: {
             datasets:datasets
@@ -302,8 +302,8 @@ function graficos_proyeccion_vm (){
       }
 
 
-    $("#row-graficos").append('<canvas id="line-chart">');
-    grafico = new Chart($("#line-chart"), {
+    $("#row-graficos4").append('<canvas id="chart4">');
+    grafico4 = new Chart($("#chart4"), {
         type: 'pie',
         data: {
         labels: Object.keys(datasets_final),
