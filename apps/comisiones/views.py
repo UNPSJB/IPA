@@ -58,7 +58,7 @@ class DetalleComision(GenericDetalleView):
 
 class ListadoComision(GenericListadoView):
 	model = Comision
-	template_name = 'generales/listado.html'
+	template_name = 'comisiones/listado.html'
 	table_class = ComisionTable
 	paginate_by = 12
 	filterset_class = ComisionFilter
