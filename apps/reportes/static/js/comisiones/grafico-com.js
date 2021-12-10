@@ -94,20 +94,21 @@ $(document).ready(function () {
         tipos_separados_agrup[key] = _.groupBy(value, (b) => moment(b.fecha).startOf('month').format('MM/YYYY'))  // agrupo cada uno de ellos por fechas
       }
       
-      var datasets_final = {"comision": {},'acta-de-inspeccion':{},'acta-de-infraccion':{}}
+      //var datasets_final = {"comision": {},'acta-de-inspeccion':{},'acta-de-infraccion':{}}
       var datasets_cantidades = {"comision": [],'acta-de-inspeccion':[],'acta-de-infraccion':[]}
       for(let ts in tipos_separados_agrup){
         for (let f in fechas_no_duplicadas.reverse()){
           if (tipos_separados_agrup[ts][fechas_no_duplicadas[f]] !== undefined){
-            datasets_final[ts][fechas_no_duplicadas[f]] = Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length
+        //    datasets_final[ts][fechas_no_duplicadas[f]] = Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length
             datasets_cantidades[ts].push(Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length)
           }else{
-            datasets_final[ts][fechas_no_duplicadas[f]] = 0
+          //  datasets_final[ts][fechas_no_duplicadas[f]] = 0
             datasets_cantidades[ts].push(0)
           }
         }
       }
-
+      //console.log(datasets_final);
+      console.log(datasets_cantidades);
     var datasets = {
         labels: fechas_no_duplicadas,
         datasets: [{

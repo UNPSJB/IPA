@@ -17,45 +17,151 @@ function getDataLabel(motivo,operacion){
 
 function graficos_tipos_permisos(){
     if (typeof informacion !== 'undefined'){
-        var motivos = tabla_head_rw1_th[dataset["motivos"]];
-        var operaciones = tabla_head_rw2_th[dataset["operaciones"]];
-        if (operaciones.length==3)
-            operaciones.pop();
-
-        for (let m of motivos){
-            for (let o of operaciones){
-                [data_canon,label_canon] = getDataLabel(m,o);
-                $("#row-graficos").append('<div style=width: 35%;><canvas id='+m+'-'+o+'-pie-chart></div>');
-                var c = new Chart($("#"+m+"-"+o+"-pie-chart"), {
-                    type: 'bar',
-                    data: {
-                        labels: label_canon,
-                        datasets: [{
-                            label: m +' - '+o,
-                            data: data_canon,
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
+        var cobro_canon = []
+        var pago_canon = []
+        var cobro_infraccion = []
+        var pago_infraccion = []
+        labels_permisos = Object.keys(informacion).slice(0,-1) //SACAR TOTALES
+        
+        for (var [key, value] of Object.entries(informacion)) { // Tipos de Permisos
+            //console.log(key)
+            if(key!="TOTALES"){
+                for (var [key2, value2] of Object.entries(value)) { // Canon e Infraccion
+                    //console.log(key2)
+                    for (var [key3, value3] of Object.entries(value2)) { // Pago y Cobro
+                        //console.log(key3)
+                        if(key3 != "Diferencia"){
+                            if (key2 == "Canon"){
+                                console.log(value3)
+                                if(key3 == "Cobro"){
+                                    cobro_canon.push(value3);
+                                }else{
+                                    pago_canon.push(value3);
+                                }
+                            }else{
+                                if(key3 == "Cobro"){
+                                    cobro_infraccion.push(value3);
+                                }else{
+                                    pago_infraccion.push(value3);
+                                }
                             }
                         }
                     }
-                });
+                }
             }
         }
+        
+        var datasetsff = {
+            labels: labels_permisos,
+            datasets: [{
+                label: 'Cobro',
+                backgroundColor: '#DE7B66',
+                borderColor: '#DE7B66',
+                borderWidth: 1,
+                data: cobro_canon
+            }, {
+                label: 'Pago',
+                backgroundColor: '#DAD527',
+                borderColor: '#DAD527',
+                borderWidth: 1,
+                data: pago_canon
+            }]
+        };
+        $("#row-graficos").append('<canvas id="line-chart">');
+        grafico = new Chart($("#line-chart"), {
+            type: 'bar',
+            data: datasetsff,  
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: {
+                        title: {
+                            display: true,
+                            text: 'Montos ($)'
+                        },
+                    },
+                    xAxes: {
+                        title: {
+                        display: true,
+                        text: 'Tipos de Permiso'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Cobro vs Pagos - Canon',
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        },
+                        font:{
+                            size:30
+                        }
+                    }
+                },
+            }
+            
+         });
+
+         var datasetszz = {
+            labels: labels_permisos,
+            datasets: [{
+                label: 'Cobro',
+                backgroundColor: '#DE7B66',
+                borderColor: '#DE7B66',
+                borderWidth: 1,
+                data: cobro_infraccion
+            }, {
+                label: 'Pago',
+                backgroundColor: '#DAD527',
+                borderColor: '#DAD527',
+                borderWidth: 1,
+                data: pago_infraccion
+            }]
+        };
+        
+        $("#row-graficos2").append('<canvas id="chart2">');
+        grafico2 = new Chart($("#chart2"), {
+            type: 'bar',
+            data: datasetszz,
+               
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: {
+                        title: {
+                            display: true,
+                            text: 'Montos ($)'
+                        },
+                    },
+                    xAxes: {
+                        title: {
+                        display: true,
+                        text: 'Tipos de Permiso'
+                        }
+                    }
+                },
+            
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Cobro vs Pagos - Infracciones',
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        },
+                        font:{
+                            size:30
+                        }
+                    }
+                },
+            }
+            
+         });
     }
-}
+};         
+
 
 const randomNum = () => Math.floor(Math.random() * 255);
 
