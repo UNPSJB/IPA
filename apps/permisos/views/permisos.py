@@ -70,7 +70,7 @@ class ModificarPermiso(GenericModificacionView):
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		id_permiso = kwargs['pk']
-		permiso = self.model.objects.get(pk=pks)
+		permiso = self.model.objects.get(pk=id_permiso)
 		form = self.form_class(request.POST, instance=permiso)
 		if form.is_valid():
 			form.save()
