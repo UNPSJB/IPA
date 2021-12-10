@@ -6,59 +6,61 @@
 
 
 {% block wrapper %}
-    {% block secondaryMenu %}
-        {% renderContextMenu %}
-    {% endblock %}
-<div class="ui grid"> 
-    <div class="row header-content">
-	<div class="ui four cards">
-        {% for documento in permiso.documentos.all %}
-          <div class="card">
-            <div class="image">
-            <img src="{% static documento.thumbnail %}">
-            </div>
-            {%if not documento.tipo.protegido%}
-                <div class="extra">Visado<i class="circle icon" style="color:
-                {%if documento.visado%}green{%else%}red{%endif%}"></i></div>
-            {% endif %}
-            <div class="content">
-                <a href="/archivos/{{documento.archivo.url}}" class="header">{{documento.tipo.nombre}}</a>
-                <div class="meta">
-                    <span class="date">{{documento.fecha}}</span>
-                </div>
-                <div class="description">{{documento.descripcion}}</div>
-                {% if permiso.estado.tipo == 1 or permiso.estado.tipo == 2%}
-                    <a href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
-                {% endif %}
-                <a href="{% url 'documentos:modificar' documento.id permiso.id%}">Modificar</a>
-            </div>
     
-          </div>
-        {% endfor%}
-    </div>
-    </div>
-</div>
+    {% renderContextMenu %}
+    
+	<div class="ui grid"> 
+		<div class="row header-content">
+		<div class="ui four cards">
+			{% for documento in documentos %}
+			<div class="card">
+				<div class="image">
+				<img src="{% static documento.thumbnail %}">
+				</div>
+				{%if not documento.tipo.protegido%}
+					<div class="extra">Visado<i class="circle icon" style="color:
+					{%if documento.visado%}green{%else%}red{%endif%}"></i></div>
+				{% endif %}
+				<div class="content">
+					<a href="/archivos/{{documento.archivo.url}}" class="header">{{documento.tipo.nombre}}</a>
+					<div class="meta">
+						<span class="date">{{documento.fecha}}</span>
+					</div>
+					<div class="description">{{documento.descripcion}}</div>
+					{% if permiso.estado.tipo == 1 or permiso.estado.tipo == 2%}
+						<a href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}">VISAR</a>
+					{% endif %}
+					{% if permiso.estado.tipo < 3 or documento.tipo.protegido%}
+						<a href="{% url 'documentos:modificar' documento.id permiso.id%}">Modificar</a>
+					{% endif %}
+						<a href="{% url 'documentos:eliminar' documento.id permiso.id%}">Eliminar</a>
+				</div>
+			</div>
+			{% endfor%}
+		</div>
+		</div>
+	</div>
 
-<div class="ui modal" id="informacion-modal">
-	<div class="ui center aligned header" id="modal-header"></div>
-	<div class="content">
-		{% block contenido_informacion_modal %} {% endblock %}
+	<div class="ui modal" id="informacion-modal">
+		<div class="ui center aligned header" id="modal-header"></div>
+		<div class="content">
+			{% block contenido_informacion_modal %} {% endblock %}
+		</div>
+		<div class="actions">
+			<div class="ui cancel blue button">Cerrar</div>
+		</div>
 	</div>
-	<div class="actions">
-		<div class="ui cancel blue button">Cerrar</div>
-	</div>
-</div>
 
-<div class="ui small modal" id="eliminar-modal">
-	<div class="ui center aligned header">¡Cuidado!</div>
-	<div class="content">
-		{% block mensaje_eliminar_modal %} {% endblock %}
-	</div>
-	<div class="actions">
-		<div class="ui positive button">Eliminar</div>
-		<div class="ui negative button">Cancelar</div>
-	</div>
-</div> 
+	<div class="ui small modal" id="eliminar-modal">
+		<div class="ui center aligned header">¡Cuidado!</div>
+		<div class="content">
+			{% block mensaje_eliminar_modal %} {% endblock %}
+		</div>
+		<div class="actions">
+			<div class="ui positive button">Eliminar</div>
+			<div class="ui negative button">Cancelar</div>
+		</div>
+	</div> 
 
 {% endblock %}
 

@@ -13,16 +13,17 @@
 
 {% block formulario_custom %}
 
-    
     {% render_form form %}
     <div class="field">
-        <label>Unidad (en {{permiso.tipo.get_medida_display}})</label>
+        <label>Unidad en {{permiso.tipo.get_medida_display}} {{unidadAnterior}}</label>
         <input type="number" name="unidad" placeholder="Ingrese la unidad del Permiso">
       </div>
+      {%if not renovacion %}
        <div class="field">
-           <label>Fecha del primer Cobro (Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}})</label>
+           <label>Fecha del primer Cobro (Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}} - Utilizando: {{utilizando}})</label>
         <input type="date" required="True" name="fechaPrimerCobro">
-        </div>  
+        </div>
+        {% endif %}
        <div class="field">
            <label>Fecha de Vencimiento</label>
         <input type="date" required="True" name="fechaVencimiento">

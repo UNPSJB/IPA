@@ -79,6 +79,21 @@
                 <td>{{solicitud.estado.vencimientoPublicacion}}</td>
         </tr>
         {% endif %}
+
+        <tr>
+            <td>Monto total de cobros generados $</td>
+            <td>{{solicitud.montoTotalCobros}}</td>
+        </tr>
+    
+        <tr>
+            <td>Monto total de pagos ingresados $</td>
+            <td>{{solicitud.montoTotalPagos}}</td>
+        </tr>
+    
+        <tr>
+            <td>Monto Total(Pagos - Cobros) $</td>
+            <td>{{solicitud.saldoActual}}</td>
+        </tr>
         
         {% include "permisos/estados/otorgado-baja.html" %}
         

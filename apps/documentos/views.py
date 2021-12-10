@@ -114,7 +114,7 @@ class ModificarDocumento(UpdateView):
 	model = Documento
 	form_class = DocumentoForm
 	template_name = 'documentos/modificar.html'
-	success_url = reverse_lazy('documentos:listar')
+	#success_url = reverse_lazy('documentos:listar')
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(ModificarDocumento, self).get_context_data(**kwargs)
@@ -122,7 +122,7 @@ class ModificarDocumento(UpdateView):
 		context['nombreForm'] = 'Modificar Documento'
 		context['return_label'] = 'Documentación de Permiso'
 		context['return_path'] = reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk])
-		
+			
 		try:
 			doc_modificar = TipoDocumento.protegidos.get(pk=Documento.objects.get(pk=self.documento_pk).tipo_id)
 		except:
@@ -130,11 +130,11 @@ class ModificarDocumento(UpdateView):
 
 		if (doc_modificar.protegido == True):
 			context['form'].fields['tipo'].queryset = [doc_modificar]
-			context['form'].fields['tipo'].disabled = True			
 		else:
 			documentacion_faltante = Permiso.objects.get(pk=self.permiso_pk).tipos_de_documentos_faltantes()
 			context['form'].fields['tipo'].queryset = documentacion_faltante.union([doc_modificar])
 
+		context['form'].fields['tipo'].disabled = True			
 		return context
 
 	def get (self, request, *args, **kwargs):
@@ -150,15 +150,22 @@ class ModificarDocumento(UpdateView):
 		form = self.form_class(request.POST, instance=documento)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect(self.get_success_url())
+			return HttpResponseRedirect(reverse('permisos:listarDocumentacionPermiso', args=[kwargs.get('pkp')]))
 		else:
-			return HttpResponseRedirect(self.get_success_url())
+			messages = ['Error en la carga del formulario']
+			return self.render_to_response(self.get_context_data(form=form, message_error=messages))
+			
 
 class DeleteDocumento(DeleteView):
 	model = Documento
 	template_name = 'Documento/delete.html'
 	success_url = reverse_lazy('documentos:listar')
 
+	def get (self, request, *args, **kwargs):
+		self.permiso_pk = kwargs.get('pkp')
+		self.documento_pk = kwargs.get('pkd')
+
+		return super(DeleteDocumento, self).get(request,*args,**kwargs)
 
 class AgregarExpediente(CreateView):
 	model = Documento
@@ -259,13 +266,17 @@ class AgregarResolucion(CreateView):
 	template_name = 'documentos/resolucion.html'
 
 	def get_success_url(self):
-		return reverse('permisos:detallePermisoOtorgado', args=(self.permiso_pk, ))
+		return reverse('permisos:detalle', args=(self.permiso_pk, ))
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AgregarResolucion, self).get_context_data(**kwargs)
+		permiso = Permiso.objects.get(pk=self.permiso_pk)
 		context['botones'] = {}
-		context['permiso'] = Permiso.objects.get(pk=self.permiso_pk)
-		context['nombreForm'] = 'Agregar Resolución a Permiso'
+		context['permiso'] = permiso
+		context['utilizando'] = 'Si' if permiso.getEstados(1)[0].utilizando else 'No'
+		context['renovacion'] = True if permiso.fechaVencimiento != None else False
+		context['unidadAnterior'] = '- Unidad de la anterior Resolución: ' + str(permiso.unidad) + permiso.tipo.get_medida_display() if permiso.unidad != None else ''
+		context['nombreForm'] = '{} Resolución a Permiso'.format('Renovar' if context['renovacion'] else 'Agregar')
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		return context
 
@@ -277,66 +288,50 @@ class AgregarResolucion(CreateView):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
 		form = self.form_class(request.POST, request.FILES)
-		print(type(request))
-		print(request.POST)
-		print(request.POST)
-		print(request.POST)
-		print(request)
+
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
-		documentos = permiso.documentos.all()
 
 		fechaResolucion=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
-		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
-		unidad = int(request.POST['unidad'])	
-		#listaResoluciones = [documento for documento in documentos if (documento.tipo.nombre == 'Resolucion')] #FIXME: VA TIPO DEFINIDO PARA PASE
-		#listaResolucionesFecha = sorted(listaResoluciones, key=attrgetter('fecha'), reverse=True)
-		
+		try:
+			fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
+			vencimientoPublicacion = permiso.estado.vencimientoPublicacion()
+		except:
+			fechaPrimerCobro = None
 
-		vencimientoPublicacion = permiso.estado.vencimientoPublicacion()
-		#if len(listaResolucionesFecha) > 0:
+		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
+		unidad = int(request.POST['unidad'])
+
+		messages_error = ['La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución', 'La Unidad mayor a CERO']
+		
 		if permiso.fechaVencimiento != None:
-			print("ENTRE DESPUES DEL NONE")
-			#ultimoVencimientoResolucion = listaResolucionesFecha[0].fecha
 			ultimoVencimientoResolucion = permiso.fechaVencimiento
 			fechaCorrecta = fechaResolucion >= ultimoVencimientoResolucion
+			accion = 'renovar'
+			messages_error.append('La Fecha de Resolucion debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (' + ultimoVencimientoResolucion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
 		else:
-			print("Fecha resolucion ", fechaResolucion)
-			print("Fecha vencimiento ", vencimientoPublicacion)
 			fechaCorrecta = fechaResolucion > vencimientoPublicacion
-		
-		print("Fecha correcta ", fechaCorrecta)
-
+			accion = 'resolver'
+			messages_error.append('La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
+	
 		fechaCorrecta = fechaCorrecta and (fechaVencimiento >= fechaResolucion) and (fechaResolucion <= date.today())
-		print("Fecha correcta despues ", fechaCorrecta)
-		messages_error = ['La Fecha de Resolucion debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.',
-		'La Fecha de Resolucion debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (si la hubiera).',
-		'La Fecha de Vencimiento debe ser mayor o igual a la Fecha de la Resolución',
-		'La Unidad mayor a CERO']
 		
 		if form.is_valid():
 			if fechaCorrecta and (unidad > 0):
-				print("ENTRE ACAAAA 111111111111")
 				resolucion = form.save(commit=False)
 				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
 				resolucion.visado = True
 				try:
-					print("ENTRE ACAAAA AAAAAAAAAAAAAAAAA33333333333333")
-					permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
-					print("ENTRE ACAAAA 3333333333333")
-					resolucion.save()
+					#permiso.hacer('resolver',request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
+					permiso.hacer(accion,request.user,resolucion.fecha, unidad, resolucion, fechaPrimerCobro, fechaVencimiento)
 					return HttpResponseRedirect(self.get_success_url())
 				except:
 					print("Unexpected error:", sys.exc_info()[0])
 					return self.render_to_response(self.get_context_data(form=form, message_error=['Cargue el valor de modulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolucion ' + form.data['fecha']]))
 			elif (unidad <= 0) or fechaCorrecta:
-				print("ENTRE ACAAAA 222222222222")
 				return self.render_to_response(self.get_context_data(form=form, 
 					message_error = messages_error))
 			else:
-				print("ENTRE ACAAAA 44444444444444")
 				return self.render_to_response(self.get_context_data(form=form, message_error=messages_error))
-		print("ENTRE ACAAAA 555555555555555")
 		return self.render_to_response(self.get_context_data(form=form))
 
 

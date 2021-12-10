@@ -90,7 +90,8 @@ class TipoUso(models.Model):
 		dias = (hasta - desde).days
 		horas = dias * 24
 		lapso = horas / self.periodo
-		return round(self.coeficiente * Decimal(modulo) * unidad * Decimal(lapso),2)
+		monto = round(self.coeficiente * Decimal(modulo) * unidad * Decimal(lapso),2)
+		return monto
 
 class Permiso(models.Model):
 	solicitante = models.ForeignKey(Persona)
@@ -245,6 +246,10 @@ class Solicitado(Estado):
 	def __str__(self):
 		return "Solicitado"
 
+	def cambiar_a_utilizando(self):
+		self.utilizando = True
+		self.save()
+
 class Visado(Estado):
 	TIPO = 2
 	fecha_visado = models.DateField()
@@ -293,18 +298,17 @@ class Publicado(Estado):
 			modulos = ValorDeModulo.objects.filter(fecha__lte=fecha, modulo=self.permiso.tipo.tipo_modulo)
 			if not modulos.exists():
 				raise Exception('No existe el valor de modulo')
+			resolucion.save()
+			precio = modulos.latest().precio
+			monto = self.permiso.tipo.calcular_monto(precio, unidad, fechaPrimerCobro, fecha)
+			cobro = Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha_hasta=fecha)
+			cobro.save()
+			self.permiso.getEstados(1)[0].cambiar_a_utilizando()
+			self.permiso.getEstados(1)[0].save()
 			self.permiso.unidad = unidad
 			self.permiso.fechaVencimiento = vencimiento
-			resolucion.save() #VER SI CAMBIAR
-			self.permiso.documentos.add(resolucion)
+			self.permiso.agregar_documentacion(resolucion)
 			self.permiso.save()
-			if self.permiso.getEstados(1)[0].utilizando:
-				precio = modulos.latest().precio
-				monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, fechaPrimerCobro, fecha)
-				cobro = Cobro(permiso=self.permiso, documento=resolucion, monto=monto, fecha_desde=fechaPrimerCobro, fecha_hasta=fecha)
-				cobro.save()
-			else:
-				monto = 0
 			return Otorgado(permiso=self.permiso, usuario=usuario, fecha=fecha, monto=monto)
 		return self
 
@@ -348,6 +352,14 @@ class Otorgado(Estado):
 		monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, desde, hasta)
 
 		return Cobro(permiso=self.permiso, documento=documento, monto=monto, fecha_desde=desde, fecha_hasta=hasta)
+	
+	def renovar(self, usuario, fecha, unidad, resolucion, fechaPrimerCobro ,vencimiento):
+		resolucion.save()
+		self.permiso.unidad = unidad
+		self.permiso.fechaVencimiento = vencimiento
+		self.permiso.agregar_documentacion(resolucion)
+		self.permiso.save()
+		return self
 
 class Baja(Estado):
 	TIPO = 6

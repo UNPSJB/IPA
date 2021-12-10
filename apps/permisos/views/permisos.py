@@ -62,24 +62,25 @@ class DetallePermiso(DetailView):
 			context['nombreDetalle'] = self.object.estado.__str__()
 			context['botones'] = {
 				'Documentación': reverse('permisos:listarDocumentacionPermiso', args=[self.object.pk]),
-				'Nueva acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
-				'Nueva acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
+				'Nueva Acta de Inspeccion': reverse('actas:altaInspeccion',  args=[self.object.pk]),
+				'Nueva Acta de Infraccion': reverse('actas:altaInfraccion',  args=[self.object.pk]),
+				'Nuevo Cobro de Infraccion':reverse('pagos:altaCobroInfraccion', args=[self.object.pk]),
+				'Nuevo Pago de Infraccion':reverse('pagos:AltaPagoInfraccion', args=[self.object.pk]),
+				'Listado de Cobros':reverse('pagos:listarCobros', args=[self.object.pk]),
+				'Listado de Pagos':reverse('pagos:listarPagos', args=[self.object.pk]),
+				'Eliminar Solicitud': reverse('permisos:eliminar', args=[self.object.pk])
 			}
 			if isinstance(self.object.estado, Otorgado):
 				for e in funciones_otorgado(self.object.pk):
 					context['botones'][e[0]]=e[1]
-			context['botones']['Eliminar Solicitud'] = reverse('permisos:eliminar', args=[self.object.pk])
+			context['utilizando'] = self.object.getEstados(1)[0].utilizando
 			context['return_label']='Listado de Permisos'
 			context['return_path']=reverse('permisos:listar')
 			return context
 
 def funciones_otorgado(pk):
-	return [('Nuevo Cobro de Infraccion',reverse('pagos:altaCobroInfraccion', args=[pk])),
-			('Nuevo Cobro de Canon',reverse('pagos:altaCobro', args=[pk])),
-			('Listado de Cobros',reverse('pagos:listarCobros', args=[pk])),
-			('Nuevo Pago de Infraccion',reverse('pagos:AltaPagoInfraccion', args=[pk])),
-			('Nuevo Pago de Canon',reverse('pagos:altaPago', args=[pk])),
-			('Listado de Pagos',reverse('pagos:listarPagos', args=[pk]))]
+	return [('Nuevo Cobro de Canon',reverse('pagos:altaCobro', args=[pk])),
+			('Nuevo Pago de Canon',reverse('pagos:altaPago', args=[pk]))]
 
 class ListadoDocumentacionPermiso(DetailView):
 	model = Permiso
@@ -90,7 +91,8 @@ class ListadoDocumentacionPermiso(DetailView):
 		context = super(ListadoDocumentacionPermiso, self).get_context_data(**kwargs)
 		context['nombreLista'] = 'Listado de Documentos'
 		context['botones'] = {
-			'Volver a Detalle de la Solicitud': reverse('permisos:detalle', args=[self.object.pk])}
+			'Volver al detalle del Permiso': reverse('permisos:detalle', args=[self.object.pk])}
+		context['documentos'] = list(context['permiso'].documentos.all())
 		return context
 
 def visar_documento_solicitud(request,pks,pkd):
