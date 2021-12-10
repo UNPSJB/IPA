@@ -11,7 +11,7 @@ class AfluentesTable(tables.Table):
 
 class LocalidadesTable(tables.Table):
 
-    codpostal = tables.Column(verbose_name="Codigo postal")
+    codpostal = tables.Column(verbose_name="Código postal")
     nombre = tables.Column(verbose_name="Nombre")
     departamento = tables.Column(verbose_name="Departamento")
     acciones = tables.TemplateColumn(template_name="formButtons.html",orderable=False)
@@ -23,8 +23,8 @@ class LocalidadesTable(tables.Table):
  
 class DepartamentosTable(tables.Table):
     nombre = tables.Column(verbose_name="Nombre")
-    poblacion = tables.Column(verbose_name="Poblacion")
-    superficie = tables.Column(verbose_name="superficie")
+    poblacion = tables.Column(verbose_name="Población")
+    superficie = tables.Column(verbose_name="Superficie")
     acciones = tables.TemplateColumn(template_name="formButtons.html",orderable=False)
 
     class Meta:

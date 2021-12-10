@@ -15,7 +15,7 @@
             <td data-label="value"><h3 style="color:green">{{object.estado}}</h3></td>
         </tr>
         
-        <td data-label="data">Usuario que cabio el ultimo Estado</td>
+        <td data-label="data">Usuario que cambio el último Estado</td>
             <td>{{object.estado.usuario}}</td> 
         <tr>
             <td data-label="data">Solicitante</td>
@@ -78,16 +78,16 @@
 
         {% if solicitud.estado.getEstadoString == "publicado"%}
         <tr>
-                <td>Fecha de Publicacion</td>
+                <td>Fecha de Publicación</td>
                 <td>{{solicitud.estado.fecha}}</td>
         </tr>
         <tr>
-                <td>Dias de Publicacion</td>
+                <td>Dias de Publicación</td>
                 <td>{{solicitud.estado.tiempo}}</td>
         </tr>
 
         <tr>
-                <td>Fecha de Vencimiento de Publicacion</td>
+                <td>Fecha de Vencimiento de Publicación</td>
                 <td>{{solicitud.estado.vencimientoPublicacion}}</td>
         </tr>
         {% endif %}

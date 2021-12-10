@@ -6,7 +6,7 @@ class ComisionTable(tables.Table):
 
     #fechaInicio = tables.Column(verbose_name="Fecha de Inicio")
     #fechaFin = tables.Column(verbose_name="Fecha de Fin")
-    id = tables.Column(verbose_name="Numero Comisión",empty_values=())
+    id = tables.Column(verbose_name="Número Comisión",empty_values=())
     fechas = tables.Column(verbose_name="Fechas",empty_values=(),order_by=("fechaInicio","fechaFin"))
     localidades = tables.ManyToManyColumn(verbose_name="Localidades")
     empleados = tables.ManyToManyColumn(verbose_name="Empleados")

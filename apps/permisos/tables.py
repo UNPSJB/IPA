@@ -2,7 +2,7 @@ import django_tables2 as tables
 from apps.permisos.models import Permiso, TipoUso
 
 class PermisosTable(tables.Table):
-    numero_exp = tables.Column(verbose_name="Expediente/Numero",empty_values=())
+    numero_exp = tables.Column(verbose_name="Expediente/Número",empty_values=())
     solicitante = tables.Column(verbose_name="Solicitante")
     establecimiento = tables.Column(verbose_name="Establecimiento")
     tipo = tables.Column(verbose_name="Tipo")
