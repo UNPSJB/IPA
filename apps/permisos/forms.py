@@ -52,7 +52,7 @@ class TipoDeUsoForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'descripcion':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Descripcion' }),
+			'descripcion':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre' }),
 			'coeficiente':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'0.01', 'placeholder':'Coeficiente'}),
 			'periodo':forms.Select(attrs={'class':'form-control', 'placeholder':'Periodo'}),
 			'medida':forms.Select(attrs={'class':'form-control', 'placeholder':'Medida'}),
