@@ -40,11 +40,11 @@ class DetalleEmpresa(GenericDetalleView):
 
 	def get_context_data(self, **kwargs):
 		context = super(DetalleEmpresa, self).get_context_data(**kwargs)
-		context['nombreForm'] = ' Empresa'
+		context['nombreDetalle'] = ' Empresa'
 		context['return_label'] = 'Listado Empresas'
 		context['return_path']= reverse('empresas:listado')
-		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
 		return context
+
 
 class Listado(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView):
 	model = Empresa

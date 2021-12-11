@@ -1,6 +1,5 @@
 {% extends 'generales/detalle.html' %}
 
-
 {% block table_render %}
 <table class="ui celled table">
     <tbody>
@@ -37,7 +36,6 @@
           <tr>
             <td data-label="Documento">{{representante.numeroDocumento}}</td>
             <td data-label="Nombre Completo">{{representante.nombre}} {{representante.apellido}}</td>
-            <td data-label="ir"><a href=""><button class="ui icon button"><i class="info circle icon"></i></button></a></td>
           </tr>
           {% endfor %}
         </tbody>
