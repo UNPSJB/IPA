@@ -10,6 +10,7 @@ from apps.generales.views import GenericListadoView, GenericAltaView,GenericElim
 from ..tables import PermisosTable
 from ..filters import PermisosFilter
 from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponseRedirect
 
 
 class ListadoPermisos(GenericListadoView):
