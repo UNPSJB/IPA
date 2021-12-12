@@ -2,7 +2,7 @@
 
 
 {% block table_render %}
-<div class="row"><h2 style="display:inline-block">Información del Usuario </h2> <a href="" style="float:right;">Cambiar contraseña</a></div>
+<div class="row"><h2 style="display:inline-block">Información del Usuario </h2>
 
 <table class="ui celled table" style="margin:0 auto 20px 0">
     <tbody>
@@ -31,7 +31,7 @@
     </tbody>
   </table>
 
-  <div class="row"><h2 style="display:inline-block">Información de la Persona </h2> <a href="/persona/detalle/{{object.persona.id}}" style="float:right;">Ver más</a></div>
+  <div class="row"><h2 style="display:inline-block">Información de la Persona </h2>
 
   <table class="ui celled table" style="margin:0 auto 20px 0">
       <tbody>
@@ -42,6 +42,13 @@
         <tr>
           <td data-label="data">Documento</td>
           <td data-label="value">{{object.persona.get_tipoDocumento_display}} {{object.persona.numeroDocumento}}</td>
+        </tr>
+        <tr>
+          <td data-label="data">Roles</td>
+          <td data-label="value">
+            {% for rol in object.persona.roles_related %}
+               <p> {{ rol }} </p>
+            {% endfor %}</td>
         </tr>
       </tbody>
     </table>
