@@ -26,5 +26,7 @@
 {% endblock %}
 
 {% block customPageJs %}
-	
+	{{ block.super }}
+	//var usuario_nombre = "{{user.persona.nombre}}";
+	//var usuario_apellido = "{{user.persona.apellido}}";
 {% endblock %}

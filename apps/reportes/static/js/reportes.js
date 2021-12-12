@@ -1,6 +1,7 @@
 var informacion;
 var canon_pago;
-
+var filtro_operaciones;
+var filtro_motivos;
 var dataset = { 'tipo_reporte': 'tipos_permisos',
 'tipos_permisos': [],
 'operaciones': '',
@@ -26,9 +27,68 @@ function lista_filtros(){
         $("#lista-filtros").append('<li>No hay filtros seleccionados para este reporte</li>')
     }
 }
+/*
+function printTablaTiposPermisos(){
+    $('<iframe>', {
+        name: 'f_tablas_permisos',
+        class: 'printFrameTp'
+    })
+    .appendTo('body')
+    .contents().find('body')
+    .append("<h1>Reporte de "+ tipo_reporte +" - Tablas</h1>",$("#tabla-recaudacion"));
+
+    window.frames['f_tablas_permisos'].focus();
+    window.frames['f_tablas_permisos'].print();
+    
+    setTimeout(() => { $(".printFrameTp").remove(); }, 3);
+}
+*/
+
+function printGrafico() {
+    var grafico;
+
+    if(["comisiones","gestion_de_permiso","tipos_permisos"].includes(tipo_reporte)){
+        grafico = $("#line-chart");
+        console.log("entre al grafico de"+tipo_reporte);
+        if (tipo_reporte == "tipos_permisos"){
+            grafico2 = $("#chart2");
+        }else{
+            grafico2 = "";
+        }
+    }else if (tipo_reporte == "series_temporales"){
+        grafico = $("#chart3");
+        grafico2 = "";
+        console.log("entre al grafico de"+tipo_reporte);
+    }else if (tipo_reporte == "proyeccion_valores_modulos"){
+        grafico = $("#chart4");
+        grafico2 = "";
+        console.log("entre al grafico de"+tipo_reporte);
+    }
+
+    $('<iframe>', {
+        name: 'myiframe',
+        class: 'printFrame'
+    })
+    .appendTo('body')
+    .contents().find('body')
+    .append("<h1>Reporte de "+ nombre_reporte +" - Graficos</h1>",grafico,grafico2)
+    .append("<h4>Este reporte se ha generado el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+" por el usuario "+usuario_nombre+", "+usuario_apellido+"</h4>")
+    
+    if (tipo_reporte == "tipos_permisos"){
+        $('<iframe>').append($("#chart2"));
+    }
+    
+    window.frames['myiframe'].focus();
+    window.frames['myiframe'].print();
+    
+    setTimeout(() => { $(".printFrame").remove(); }, 3);
+
+}
 
 $(document).ready(function(){
-    
+    filtro_operaciones = $("#filtro_operaciones");
+    filtro_motivos = $("#filtro_motivos");
+
     $(".default.text").html("----------- Seleccionar opción -----------");
     $(".text").html("----------- Seleccionar opción -----------");
 
@@ -81,17 +141,25 @@ $(document).ready(function(){
     });
 
     $("#imprimir-tabla").bind("click", function(){
-        table.print(false, true);
+        if($("#item-info").attr("class")=='active item'){
+            table.print(false, true);
+        }else if ($("#item-grafico").attr("class")=='active item'){
+            printGrafico();
+        }else if ($("#item-info-grafico").attr("class")=='active item'){
+            table.print(false, true);
+            printGrafico();
+        }
     });
 
+
     $("#descargar-tabla-json").bind("click", function(){
-        table.download("json", "reprecaudacionst.json");
+        table.download("json", "reporte.json");
     });
     $("#descargar-tabla-xlsx").bind("click", function(){
-        table.download("xlsx", "reprecaudacionst.xlsx", {sheetName:"RepRecaudacionST"});
+        table.download("xlsx", "reporte.xlsx", {title:"Reporte de "+ nombre_reporte, sheetName:"RepRecaudacionST"});
     });
     $("#descargar-tabla-pdf").bind("click", function(){
-        table.download("pdf", "reprecaudacionst.pdf", {sheetName:"RepRecaudacionST"});
+        table.download("pdf", "reporte.pdf", {title:"Reporte de "+ nombre_reporte, sheetName:"RepRecaudacionST"});
     });
 
 });

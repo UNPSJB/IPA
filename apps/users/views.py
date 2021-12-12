@@ -19,7 +19,7 @@ class ListadoUsuarios(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView
 	table_class = UsuarioTable
 	table_data = Usuario.usuarios.all()
 	paginate_by = 12
-	permission_required = 'usuarios.listar_usuarios'
+	permission_required = 'users.listar_usuarios'
 	redirect_url = '/'
 
 	def handle_no_permission(self):
@@ -35,7 +35,7 @@ class NuevoUsuario(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
 	form_class = UsuarioForm
 	template_name = 'usuarios/alta.html'
 	success_url = reverse_lazy('usuarios:listado')
-	permission_required = 'usuarios.cargar_usuario'
+	permission_required = 'users.cargar_usuario'
 	redirect_url = 'usuarios:listado'
 
 	def handle_no_permission(self):
@@ -98,7 +98,7 @@ class NuevoUsuario(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
 class DetalleUsuario(GenericDetalleView):
 	model = Usuario
 	template_name = 'usuarios/detalle.html'
-	permission_required = 'usuarios.detalle_usuario'
+	permission_required = 'users.detalle_usuario'
 	redirect_url = 'usuarios:listado'
 
 	def get_context_data(self, **kwargs):
@@ -113,13 +113,13 @@ class ModificarUsuario(GenericModificacionView):
 	form_class = UsuarioForm
 	success_url = reverse_lazy('usuarios:listado')
 	template_name = 'usuarios/alta.html'
-	permission_required = 'usuarios.modificar_usuario'
+	permission_required = 'users.modificar_usuario'
 	redirect_url = 'usuarios:listado'
 
 class EliminarUsuario(LoginRequiredMixin,DeleteView):
 	model = Usuario
 	success_url = reverse_lazy('usuarios:listado')
-	permission_required = 'usuarios.eliminar_usuario'
+	permission_required = 'users.eliminar_usuario'
 
 	def delete(self, request, *args, **kwargs):
 		if not request.user.has_perm(self.permission_required):

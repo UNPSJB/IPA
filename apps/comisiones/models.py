@@ -3,7 +3,7 @@ from apps.personas.models import Persona
 from apps.establecimientos.models import *
 from apps.documentos.models import Documento
 from datetime import date
-
+from django.db.models import Q
 
 
 # Create your models here.
@@ -45,9 +45,11 @@ class Comision (models.Model):
 		return Comision.objects.order_by('-fechaInicio')[:20]
 
 	@classmethod
-	def rep_comisiones(cls):
+	def rep_comisiones(cls,documentos):
 		T = []
-		comisiones = Comision.objects.all()
+
+		comisiones = Comision.objects.filter(documentos__in=documentos).distinct()
+
 		for com in comisiones:
 			T.append({'fecha':com.fechaInicio,'tipo':'comision','descripcion':com.motivo})
 		return T

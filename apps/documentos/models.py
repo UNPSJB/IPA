@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -6,6 +5,7 @@ from django.utils.text import slugify
 from datetime import datetime
 import os
 import subprocess
+
 
 class TipoDocumentoManager(models.Manager):
 	def __init__(self, protegido=False):
@@ -100,15 +100,17 @@ class Documento(models.Model):
 		self.save()
 
 	@classmethod
-	def rep_inspeccion_infraccion(cls):
+	def rep_inspeccion_infraccion(cls,documentos_permisos,fecha_desde,fecha_hasta):
 		T = []
-		documentos = Documento.objects.filter(tipo__slug__in=['acta-de-inspeccion','acta-de-infraccion'])
+		
+		documentos = Documento.objects.filter(tipo__slug__in=['acta-de-inspeccion','acta-de-infraccion'],pk__in=documentos_permisos,fecha__range=[fecha_desde, fecha_hasta])
+
 		for doc in documentos:
 			if doc.tipo.slug == 'acta-de-inspeccion':
 				T.append({'fecha':doc.fecha,'tipo':'acta-de-inspeccion','descripcion':doc.descripcion})
 			else:
 				T.append({'fecha':doc.fecha,'tipo':'acta-de-infraccion','descripcion':doc.descripcion})
-		return T
+		return (documentos,T)
 
 # Que se hace luego de guardar el documento
 def pdf_post_save(sender, instance=False, **kwargs):

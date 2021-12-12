@@ -16,10 +16,7 @@ function getDataLabel(motivo,operacion){
 }
 
 function graficos_tipos_permisos(){
-    $("#row-graficos").empty();
-    $("#row-graficos2").empty();
-    $("#row-graficos3").empty();
-    $("#row-graficos4").empty();
+    $("#graficos").empty();
     if (typeof informacion !== 'undefined'){
         var cobro_canon = []
         var pago_canon = []
@@ -71,7 +68,8 @@ function graficos_tipos_permisos(){
                 data: pago_canon
             }]
         };
-        $("#row-graficos").append('<canvas id="line-chart">');
+        
+        $("#graficos").append('<canvas id="line-chart">');
         grafico = new Chart($("#line-chart"), {
             type: 'bar',
             data: datasetsff,  
@@ -125,7 +123,7 @@ function graficos_tipos_permisos(){
             }]
         };
         
-        $("#row-graficos2").append('<canvas id="chart2">');
+        $("#graficos").append('<canvas id="chart2">');
         grafico2 = new Chart($("#chart2"), {
             type: 'bar',
             data: datasetszz,
@@ -178,10 +176,7 @@ const randomRGB = (mot) => {
 }
 
 function graficos_series_temporales(){
-    $("#row-graficos").empty();
-    $("#row-graficos2").empty();
-    $("#row-graficos3").empty();
-    $("#row-graficos4").empty();
+    $("#graficos").empty();
 
     var timeFormat = 'DD/MM/YYYY';
     var data_informacion = $.extend(true,[], informacion);
@@ -221,7 +216,7 @@ function graficos_series_temporales(){
             })
         }
 
-    $("#row-graficos3").append('<canvas id="chart3">');
+    $("#graficos").append('<canvas id="chart3">');
     grafico3 = new Chart($("#chart3"), {
         type: 'line',
         data: {
@@ -292,52 +287,68 @@ function graficos_series_temporales(){
 }
 
 
+function toPercent(num){
+	var porcentaje = Number(num*100).toFixed(2);
+    porcentaje+="%";
+	return porcentaje;
+}
 
 function graficos_proyeccion_vm (){
-    $("#row-graficos").empty();
-    $("#row-graficos2").empty();
-    $("#row-graficos3").empty();
-    $("#row-graficos4").empty();
+    $("#graficos").empty();
 
     var data_informacion = $.extend(true,[], informacion);
 
     datos = _.groupBy(_.sortBy(data_informacion, "fecha"), "tipo");
 
     var datasets_final = {}
+    var monto_total = 0;
+
     for (let t of Object.keys(datos)){
         datasets_final[t] = 0
     }
 
     for (const [key, value] of Object.entries(datos)) {
-            value.forEach(e => 
-                datasets_final[key] += datasets_final[key]+parseFloat(e.monto.replace(",", "."))
-            )
+            value.forEach(e => {
+                datasets_final[key] += datasets_final[key]+parseFloat(e.monto.replace(",", "."));
+                monto_total += parseFloat(e.monto.replace(",", "."));
+                })
       }
 
-
-    $("#row-graficos4").append('<canvas id="chart4">');
+    $("#graficos").append("<div class='chart-container' style='position: relative; height:20vh; width:40vw'><canvas id='chart4'></div>");
+    
     grafico4 = new Chart($("#chart4"), {
         type: 'pie',
         data: {
         labels: Object.keys(datasets_final),
             datasets: [{
-                label: "Population (millions)",
-                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                //label: "Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#F45850","#c4FF50","#A45B50","#DD1850","#c4CC50","#c4BA50","#AA58CC","#c45ABC","#DD812F"],
                 data: Object.values(datasets_final)
             }]
         },
         options: {
-            responsive: false,
+            responsive: true,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Proyección de Ingresos por Tipo de Permiso',
+                    text: "Reporte de Recaudación - Proyección por Valor de Módulo - Grafico",
                     padding: {
                         top: 10,
                         bottom: 10
                     },
                     font:{
                         size:30
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label+": ";
+                            if (context.parsed.y !== null) {
+                                label += toPercent(context.parsed/monto_total);
+                            }
+                            return label;
+                        }
                     }
                 }
             },
@@ -354,7 +365,7 @@ $("#item-grafico").on("click",function(){
     $("#informacion").hide();
     $("#graficos").show();
     
-    $("#row-graficos").empty();
+    $("#graficos").empty();
    
     switch (dataset['tipo_reporte']) {
         case "tipos_permisos": graficos_tipos_permisos(); break;
