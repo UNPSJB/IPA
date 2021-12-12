@@ -9,9 +9,6 @@ $("#item-info").on("click",function(){
     if (typeof informacion !== 'undefined'){
         $("#informacion").show();
         var data_informacion = $.extend(true,[], informacion);
-        console.log(data_informacion)
-        console.log(data_informacion)
-        console.log(data_informacion)
 
         table = new Tabulator("#tabla", {
             data:data_informacion,           //load row data from array
@@ -25,17 +22,18 @@ $("#item-info").on("click",function(){
             resizableRows:true,       //allow row order to be changed
     
             columns:[                 //define the table columns
-                {title:"Fecha", field:"fecha", hozAlign:"center",headerHozAlign:"center"},
-                {title:"Tipo", field:"tipo",hozAlign:"right",headerHozAlign:"center"},
-                {title:"Descripcion", field:"descripcion",hozAlign:"right",headerHozAlign:"center"},
+                {title:"Fecha", field:"fecha", hozAlign:"center",headerHozAlign:"center",mutator:function(value, data, type, mutatorParams, cell){
+                    return moment(value , "YYYY/MM/DD").format("DD/MM/YYYY")}},
+                {title:"Tipo", field:"tipo",hozAlign:"center",headerHozAlign:"center"},
+                {title:"Descripcion", field:"descripcion",hozAlign:"center",headerHozAlign:"center"},
             ],
             printAsHtml:true,
-            printHeader:"<h1>Comisiones vs Actas de Inspección vs Actas de Infracción<h1>",
-            printFooter:"<h4>"+"Este reporte se ha impreso el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+".<h2>",
+            printHeader:"<h1>Reporte de Comisiones - Tabla<h1>",
+            printFooter:"<h4>Este reporte se ha generado el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+" por el usuario "+usuario_nombre+", "+usuario_apellido+"</h4>",
             downloadConfig:{
                 columnHeaders:true, //include column headers in downloaded table
-                columnGroups:false, //do not include column groups in column headers for downloaded table
-                rowGroups:false, //do not include row groups in downloaded table
+                columnGroups:true, //do not include column groups in column headers for downloaded table
+                rowGroups:true, //do not include row groups in downloaded table
                 columnCalcs:true, //do not include column calcs in downloaded table
                 dataTree:false, //do not include data tree in downloaded table
             },

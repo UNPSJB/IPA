@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q
 from apps.permisos.models import Permiso, TipoUso
 from apps.pagos.models import Cobro, Pago
 from django.views.generic import FormView
@@ -140,6 +141,27 @@ class RepComisiones(FormView):
 
     def get_comision_ajax(self, request, *args, **kwargs):
         l = []
-        l += Comision.rep_comisiones()
-        l += Documento.rep_inspeccion_infraccion()
-        return JsonResponse(l,safe=False)
+        formu = self.form_class(request.GET)
+        if formu.is_valid():
+            data = formu.cleaned_data
+
+            filtros = Q()
+            filtros &= Q(tipo__pk__in= data['tipos_permisos']) if data['tipos_permisos'].exists() else Q()
+            filtros &= Q(afluente__in=data['afluentes']) if data['afluentes'].exists() else Q()
+            filtros &= Q(establecimiento__localidad__pk__in=data['localidades']) if data['localidades'].exists() else Q()
+            filtros &= Q(establecimiento__localidad__departamento__pk__in=data['departamentos']) if data['departamentos'].exists() else Q()
+
+
+            permisos = Permiso.objects.filter(filtros)
+            documentos_permisos = []
+		    
+
+            for p in permisos:
+                documentos_permisos += p.documentos.values_list('id',flat=True)
+
+            doc_reporte = Documento.rep_inspeccion_infraccion(documentos_permisos,request.GET.get('fecha_desde'),request.GET.get('fecha_hasta'))
+            l += doc_reporte[1]
+            l += Comision.rep_comisiones(doc_reporte[0])
+            
+            return JsonResponse(l,safe=False)
+        return JsonResponse(formu.errors)

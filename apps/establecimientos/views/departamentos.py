@@ -15,7 +15,7 @@ class AltaDepartamento(GenericAltaView):
 	form_class = DepartamentoForm
 	template_name = 'establecimientos/departamentos/alta.html'
 	success_url = reverse_lazy('departamentos:listar')
-	permission_required = 'departamentos.cargar_departamento'
+	permission_required = 'establecimientos.cargar_departamento'
 	redirect_url = 'departamentos:listar'
 
 	def get_context_data(self, **kwargs):
@@ -30,7 +30,7 @@ class ModificarDepartamento(GenericModificacionView):
 	form_class = DepartamentoForm
 	template_name = 'establecimientos/departamentos/alta.html'
 	success_url = reverse_lazy('departamentos:listar')
-	permission_required = 'departamentos.modificar_departamento'
+	permission_required = 'establecimientos.modificar_departamento'
 	redirect_url = 'departamentos:listar'
 
 	def post(self, request, *args, **kwargs):
@@ -54,7 +54,7 @@ class DetalleDepartamento(GenericDetalleView):
 	model = Departamento
 	template_name = 'establecimientos/departamentos/detalle.html'		
 	context_object_name = 'departamento'
-	permission_required = 'departamentos.detalle_departamento'
+	permission_required = 'establecimientos.detalle_departamento'
 	redirect_url = 'departamentos:listar'
 
 	def get_context_data(self, **kwargs):
@@ -72,7 +72,7 @@ class ListadoDepartamentos(GenericListadoView):
 	filterset_class = DepartamentosFilter
 	export_name = 'listado_departamentos'
 	context_object_name = 'departamentos'
-	permission_required = 'departamentos.listar_departamento'
+	permission_required = 'establecimientos.listar_departamento'
 	redirect_url = '/'
 
 	def get_context_data(self, **kwargs):
@@ -85,7 +85,7 @@ class DeleteDepartamento(GenericEliminarView):
 	model = Departamento
 	template_name = 'delete.html'
 	success_url = reverse_lazy('departamentos:listar')
-	permission_required = 'departamentos.eliminar_departamento'
+	permission_required = 'establecimientos.eliminar_departamento'
 
 	def post(self, request, *args, **kwargs):
 		if request.user.has_perm(self.permission_required):

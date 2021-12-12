@@ -24,8 +24,8 @@ $("#item-info").on("click",function(){
                 {title:"Promedio de dias", field:"prom",hozAlign:"center",headerHozAlign:"center"},
             ],
             printAsHtml:true,
-            printHeader:"<h1>Reporte de Productividad <h1>",
-            printFooter:"<h4>"+"Este reporte se ha impreso el "+moment().format("DD/MM/YYYY")+" a las "+moment().format("hh:mm:ss")+".<h2>",
+            printHeader:"<h1>Reporte de Gestion de Permiso - Tablas <h1>",
+            printFooter:"<h4>Este reporte se ha generado el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+" por el usuario "+usuario_nombre+", "+usuario_apellido+"</h4>",
             downloadConfig:{
                 columnHeaders:true, //include column headers in downloaded table
                 columnGroups:false, //do not include column groups in column headers for downloaded table

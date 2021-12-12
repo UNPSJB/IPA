@@ -1,39 +1,87 @@
 var table;
 const tabla_head_rw1_th = {'':['Canon','Infraccion'],'True': ['Canon'],'False': ['Infraccion']}
 const tabla_head_rw2_th = {'':['Pago','Cobro','Diferencia'],'Pago': ['Pago'],'Cobro': ['Cobro']}
+var informacion_tipos_permisos;
+
 
 function info_tipos_permisos(){
-    let tabla_head_rw1='<th class="descending" rowspan="2">Tipo Permiso</th>';
-    let tabla_head_rw2='';
-    let thrw1th = tabla_head_rw1_th[dataset["motivos"]];
-    let thrw2th = tabla_head_rw2_th[dataset["operaciones"]];
-    for (let rw1 of thrw1th){
-        tabla_head_rw1 += '<th colspan='+tabla_head_rw2_th[dataset["operaciones"]].length+'>'+rw1+'</th>';
-        for (let rw2 of thrw2th){
-            tabla_head_rw2 += '<th>'+rw2+'</th>';
+
+    informacion_tipos_permisos = [];
+    var data_informacion = $.extend(true,[], informacion);  //Hago copias de valores
+    var indice=0;
+    for (const [key, value] of Object.entries(data_informacion)) {
+        
+        if ((value["Canon"]["Cobro"]>0)||(value["Canon"]["Pago"]>0)||(value["Infraccion"]["Cobro"]>0)||(value["Infraccion"]["Pago"]>0)){
+            informacion_tipos_permisos.push({
+                'tipo':key,'motivo':'Canon','Cobro_Canon':value["Canon"]["Cobro"],'Diferencia_Canon':value["Canon"]["Diferencia"],'Pago_Canon':value["Canon"]["Pago"],
+                'operacion':'Infraccion','Cobro_Infra':value["Infraccion"]["Cobro"],'Diferencia_Infra':value["Infraccion"]["Diferencia"],'Pago_Infra':value["Infraccion"]["Pago"]
+            })
+            indice += indice+1;
         }
-        $("#tabla-head-rw2").empty().append(tabla_head_rw2);
     }
-    $("#tabla-head-rw1").empty().append(tabla_head_rw1);
     
-    $("#tabla-info").empty();
-    $("tfoot").empty();
-    for (let i in informacion){
-        let str = '';
-        for (let m of thrw1th){
-            for (let o of thrw2th){
-                str += '<td>$'+informacion[i][m][o]+'</td>';
-            }
-        }
-        $("#tabla-info").append('<tr><td>'+i+'</td>'+str+'</tr>');
-    }
-    $("#tabla-info tr:last-child").appendTo("tfoot");
-    $("tfoot td").each(function() {
-        $(this).replaceWith("<th>"+$(this).text()+"</th>");
+
+    table = new Tabulator("#tabla-temporal", {
+        data: informacion_tipos_permisos,           //load row data from array
+        //groupBy:"tipo",
+        dataTree:true,
+        layout:"fitColumns",      //fit columns to width of table
+        responsiveLayout:"hide",  //hide columns that dont fit on the table
+        tooltips:true,            //show tool tips on cells
+        addRowPos:"top",          //when adding a new row, add it to the top of the table
+        history:true,             //allow undo and redo actions on the table
+        pagination:"local",       //paginate the data
+        paginationSize:20,         //allow 7 rows per page of data
+        movableColumns:true,      //allow column order to be changed
+        resizableRows:true,       //allow row order to be changed
+
+        columnHeaderVertAlign:"bottom", //align header contents to bottom of cell
+        columns:[
+        {title:"Tipo Permisos", field:"tipo",hozAlign:"center"},
+        {//create column group
+            title:"Canon",
+            columns:[
+                {title:"Pago", field:"Pago_Canon", hozAlign:"center",formatter:"money", formatterParams:{
+                    precision:2,decimal:",",thousand:".",symbol:"$ ",
+                }},
+                {title:"Cobro", field:"Cobro_Canon", hozAlign:"center",formatter:"money", formatterParams:{
+                    precision:2,decimal:",",thousand:".",symbol:"$ ",
+                }},
+                {title:"Diferencia", field:"Diferencia_Canon", hozAlign:"center",formatter:"money", formatterParams:{
+                    precision:2,decimal:",",thousand:".",symbol:"$ ",
+                }},
+            ],
+        },
+        {//create column group
+            title:"Infraccion",
+            columns:[
+                {title:"Pago", field:"Pago_Infra", hozAlign:"center",formatter:"money", formatterParams:{
+                    precision:2,decimal:",",thousand:".",symbol:"$ ",
+                }},
+                {title:"Cobro", field:"Cobro_Infra", hozAlign:"center",formatter:"money", formatterParams:{
+                    precision:2,decimal:",",thousand:".",symbol:"$ ",
+                }},
+                {title:"Diferencia", field:"Diferencia_Infra", hozAlign:"center",formatter:"money", formatterParams:{
+                    precision:2,decimal:",",thousand:".",symbol:"$ ",
+                }},
+            ],
+        },
+        ],
+        printAsHtml:true,
+        printHeader:"<h1>Reportes de Recaudación - Tipos de Permisos - Tabla<h1>",
+        printFooter:"<h4>Este reporte se ha generado el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+" por el usuario "+usuario_nombre+", "+usuario_apellido+"</h4>",
+        downloadConfig:{
+            columnHeaders:true, //include column headers in downloaded table
+            columnGroups:false, //do not include column groups in column headers for downloaded table
+            rowGroups:false, //do not include row groups in downloaded table
+            columnCalcs:true, //do not include column calcs in downloaded table
+            dataTree:false, //do not include data tree in downloaded table
+        },
     });
-    $("tfoot tr").attr("class","active");
-    $("#tabla-temporal").hide();
-    $("#tabla-recaudacion").show();
+
+    $("#tabla-temporal").show();
+    
+
 }
 
 
@@ -98,8 +146,8 @@ function info_series_temporales(){
             {title:"Operación", field:"operacion",hozAlign:"center",headerHozAlign:"center"},
         ],
         printAsHtml:true,
-        printHeader:"<h1>Reportes de Recaudación - Serie Temporal<h1>",
-        printFooter:"<h4>"+"Este reporte se ha impreso el "+moment().format("DD/MM/YYYY")+" a las "+moment().format("hh:mm:ss")+".<h2>",
+        printHeader:"<h1>Reportes de Recaudación - Serie Temporal - Tabla<h1>",
+        printFooter:"<h4>Este reporte se ha generado el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+" por el usuario "+usuario_nombre+", "+usuario_apellido+"</h4>",
         downloadConfig:{
             columnHeaders:true, //include column headers in downloaded table
             columnGroups:false, //do not include column groups in column headers for downloaded table
@@ -154,8 +202,8 @@ function info_proyeccion_vm(){
             //{title:"Tipo Permiso", field:"tipo",visible:true,hozAlign:"center",headerHozAlign:"center"},
         ],
         printAsHtml:true,
-        printHeader:"<h1>Reportes de Recaudación - Proyección por Valor de Módulo<h1>",
-        printFooter:"<h4>"+"Este reporte se ha impreso el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+".<h2>",
+        printHeader:"<h1>Reportes de Recaudación - Proyección por Valor de Módulo - Tabla<h1>",
+        printFooter:"<h4>Este reporte se ha generado el "+moment().format("MM/DD/YYYY")+" a las "+moment().format("hh:mm:ss")+" por el usuario "+usuario_nombre+", "+usuario_apellido+"</h4>",
         downloadConfig:{
             columnHeaders:true, //include column headers in downloaded table
             columnGroups:false, //do not include column groups in column headers for downloaded table

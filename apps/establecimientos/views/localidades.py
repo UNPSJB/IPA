@@ -14,7 +14,7 @@ class AltaLocalidad(GenericAltaView):
 	form_class = LocalidadForm
 	template_name = 'establecimientos/localidades/alta.html'
 	success_url = reverse_lazy('localidades:listar')
-	permission_required = 'localidades.cargar_localidad'
+	permission_required = 'establecimientos.cargar_localidad'
 	redirect_url = 'localidades:listar'
 
 	def get_context_data(self, **kwargs):
@@ -28,7 +28,7 @@ class ModificarLocalidad(GenericModificacionView):
 	form_class = LocalidadForm
 	template_name = 'establecimientos/localidades/alta.html'
 	success_url = reverse_lazy('localidades:listar')
-	permission_required = 'localidades.modificar_localidad'
+	permission_required = 'establecimientos.modificar_localidad'
 	redirect_url = 'localidades:listar'
 
 	def post(self, request, *args, **kwargs):
@@ -56,7 +56,7 @@ class ListadoLocalidades(GenericListadoView):
 	paginate_by = 20
 	filterset_class = LocalidadesFilter
 	export_name = 'listado_localidades'
-	permission_required = 'localidades.listar_localidad'
+	permission_required = 'establecimientos.listar_localidad'
 	redirect_url = '/'
 
 	def get_context_data(self, **kwargs):
@@ -69,7 +69,7 @@ class ListadoLocalidades(GenericListadoView):
 
 class LocalidadDelete(GenericEliminarView):
 	model = Localidad
-	permission_required = 'localidades.eliminar_localidad'
+	permission_required = 'establecimientos.eliminar_localidad'
 
 	def post(self, request, *args, **kwargs):
 		if request.user.has_perm(self.permission_required):

@@ -15,7 +15,7 @@ class AltaAfluente(GenericAltaView):
 	form_class = AfluenteForm
 	template_name = 'establecimientos/afluentes/alta.html'
 	success_url = reverse_lazy('afluentes:listar')
-	permission_required = 'afluentes.cargar_afluente'
+	permission_required = 'establecimientos.cargar_afluente'
 	redirect_url = 'afluentes:listar'
 
 	def get_context_data(self, **kwargs):
@@ -30,7 +30,7 @@ class DetalleAfluente(GenericDetalleView):
 	model = Afluente
 	template_name = 'establecimientos/afluentes/detalle.html'	
 	context_object_name = 'afluente'
-	permission_required = 'afluentes.detalle_afluente'
+	permission_required = 'establecimientos.detalle_afluente'
 	redirect_url = 'afluentes:listar'
 
 	def get_context_data(self, **kwargs):
@@ -47,7 +47,7 @@ class ListadoAfluentes(GenericListadoView):
 	paginate_by = 12
 	filterset_class = AfluentesFilter
 	export_name = 'listado_afluentes'
-	permission_required = 'afluentes.listar_afluente'
+	permission_required = 'establecimientos.listar_afluente'
 	redirect_url = '/'	
 	
 	def get_context_data(self, **kwargs):
@@ -61,7 +61,7 @@ class ModificarAfluente(GenericModificacionView):
 	form_class = AfluenteForm
 	template_name = 'establecimientos/afluentes/alta.html'
 	success_url = reverse_lazy('afluentes:listar')
-	permission_required = 'afluentes.modificar_afluente'
+	permission_required = 'establecimientos.modificar_afluente'
 	redirect_url = 'afluentes:listar'
 
 	def post(self, request, *args, **kwargs):
@@ -84,7 +84,7 @@ class ModificarAfluente(GenericModificacionView):
 
 class DeleteAfluente(GenericEliminarView):
 	model = Afluente
-	permission_required = 'afluentes.eliminar_afluente'
+	permission_required = 'establecimientos.eliminar_afluente'
 	redirect_url = 'afluentes:listar'
 
 	def post(self, request, *args, **kwargs):

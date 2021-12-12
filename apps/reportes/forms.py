@@ -27,7 +27,7 @@ class FiltroRecaudacionForm(FiltroForm):
         (False,'Infracción')
     ]
 
-    operaciones = forms.ChoiceField(label="Operación",choices=OPERACION,required=False)
-    motivos = forms.ChoiceField(label="Motivo de Operación",choices=MOTIVO,required=False)
+    operaciones = forms.ChoiceField(label="Operación",choices=OPERACION,required=False,widget=forms.Select(attrs={'class':'form-control','id':'filtro_operaciones'}))
+    motivos = forms.ChoiceField(label="Motivo de Operación",choices=MOTIVO,required=False,widget=forms.Select(attrs={'class':'form-control','id':'filtro_motivos'}))
 
     field_order = ['tipos_permisos', 'operaciones', 'motivos','afluentes','localidades','departamentos']

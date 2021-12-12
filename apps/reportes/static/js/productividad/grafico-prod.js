@@ -1,8 +1,7 @@
 
 $(document).ready(function () {
-    console.log(informacion);
-    console.log(typeof(informacion));
-
+  nombre_reporte = "Gestion de Permiso";
+  tipo_reporte = "gestion_de_permiso";
     $("#item-grafico").on("click",function(){
       $(".secondary.menu a").attr("class","item");
       $(this).attr("class","active item");
@@ -10,7 +9,7 @@ $(document).ready(function () {
       $("#informacion").hide();
       $("#graficos").show();
       
-      $("#row-graficos").empty();
+      $("#graficos").empty();
       console.log(informacion)
       const labels = $.map(informacion, function(value, key) {
           return value.estado;
@@ -49,7 +48,7 @@ $(document).ready(function () {
       };
   
   
-      $("#row-graficos").append('<canvas id="line-chart">');
+      $("#graficos").append('<canvas id="line-chart">');
       grafico = new Chart($("#line-chart"), {
           type: 'bar',
           data: data,

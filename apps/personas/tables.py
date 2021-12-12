@@ -7,7 +7,7 @@ def get_roles_choices():
     choices = []
     for rol in Persona.tipoRol:
         evaluado = eval(rol)
-        choices.append((evaluado.TIPO, evaluado.roleName))
+        choices.append((evaluado.TIPO, rol))
     return choices
 
 
