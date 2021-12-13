@@ -14,9 +14,13 @@ from apps.generales.views import GenericListadoView,GenericAltaView, GenericElim
 from .filters import CobrosFilter,CobrosTodosFilter, ModulosFilter, PagosFilter, PagosTodosFilter
 from .tables import CobrosTable, ModulosTable, CobrosTodosTable, PagosTable, PagosTodosTable
 from datetime import datetime
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from django_tables2.views import SingleTableMixin
+from django_filters.views import FilterView
+from django_tables2.export.views import ExportMixin
 from django.contrib import messages as Messages
 from django.contrib.auth.decorators import permission_required
+from django.contrib import messages
 
 class AltaValorDeModulo(GenericAltaView):
 	model = ValorDeModulo
@@ -163,7 +167,7 @@ class EliminarCobro(GenericEliminarView):
 			return JsonResponse({"success": False,"message": ('error',"No se ha podido realizar la eliminación del cobro")})
 
 
-class ListarCobros(GenericListadoView):
+class ListarCobros(ExportMixin, SingleTableMixin, LoginRequiredMixin,FilterView):
 	model = Cobro
 	template_name = 'pagos/cobros/listado.html'
 	table_class = CobrosTable
@@ -282,7 +286,7 @@ def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 	return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', permiso=pago.permiso,message_error=['Datos Incorrectos']))
 
 
-class ListarPagos(GenericListadoView):
+class ListarPagos(ExportMixin, SingleTableMixin, LoginRequiredMixin,FilterView):
 	model = Pago
 	template_name = 'pagos/listado.html'
 	table_class = PagosTable

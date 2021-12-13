@@ -11,7 +11,8 @@ from ..tables import PermisosTable
 from ..filters import PermisosFilter
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseRedirect
-
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from django.contrib import messages as Messages
 
 class ListadoPermisos(GenericListadoView):
 	model = Permiso
@@ -87,12 +88,25 @@ class ModificarPermiso(GenericModificacionView):
 
 
 #class PermisoDelete(DeleteView):
-class PermisoDelete(GenericEliminarView):
+class PermisoDelete(LoginRequiredMixin,DeleteView):
 	model = Permiso
 	template_name = 'delete.html'
 	success_url = reverse_lazy('permisos:listar')
 	permission_required = 'permisos.eliminar_permiso'
-	redirect_url = 'permisos:listar'
+
+	def get(self, request, *args, **kwargs):
+		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.pk]))
+		return super(PermisoDelete,self).get(request, *args, **kwargs)
+
+	def post(self, request, *args, **kwargs):
+		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		if not request.user.has_perm(self.permission_required):
+			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.pk]))
+		return super(PermisoDelete,self).post(request, *args, **kwargs)
 
 class DetallePermiso(GenericDetalleView):
 	model = Permiso

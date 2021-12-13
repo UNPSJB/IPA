@@ -86,6 +86,14 @@ class Persona(models.Model):
 			cadena_de_retorno += "'" + i + "'" + ","
 		cadena_de_retorno += ']'
 		return cadena_de_retorno
+
+	def getRolesNameTemplate(self):
+		lista_de_roles = [rol.__class__.__name__ for rol in self.roles_related()]
+		cadena_de_retorno = '['
+		for r in lista_de_roles:
+			cadena_de_retorno += r + ", "
+		cadena_de_retorno = cadena_de_retorno[:-2]+ ']'
+		return cadena_de_retorno
 	
 	def getRolesParaComisionNames(self):
 		lista_de_roles = [rol.get_tipo_display() for rol in self.roles.filter(tipo__in=[3,4,7])]

@@ -4,8 +4,6 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
-
-from django_tables2.views import SingleTableView
 from django_tables2.export.views import ExportMixin
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from django.contrib import messages

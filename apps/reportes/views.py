@@ -11,6 +11,9 @@ from itertools import product
 import json
 from apps.documentos.models import Documento
 from apps.comisiones.models import Comision
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from django.contrib import messages
+from django.shortcuts import redirect
 
 class DashBoardReportes(TemplateView):
     template_name = "dashboard.html"
@@ -19,10 +22,16 @@ class DashBoardReportes(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class Recaudacion(FormView):
+class Recaudacion(LoginRequiredMixin,PermissionRequiredMixin,FormView):
     template_name = 'recaudacion/recaudacion.html'
     form_class = FiltroRecaudacionForm
+    permission_required = 'reportes.recaudacion'
+    redirect_url = 'pagos:listarModulos'
     
+    def handle_no_permission(self):
+        messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
+        return redirect(self.redirect_url)
+        
     def get_context_data(self, **kwargs):
         context = super(Recaudacion, self).get_context_data(**kwargs)
         context['nombreReporte'] = "Reportes de Recaudación"

@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %} {% load staticfiles %} {% load contextMenu%} {% block pageStaticStyles %}
+{% extends 'base/base.html' %} {% load staticfiles %} {% load contextMenu%} {% load groups%} {% block pageStaticStyles %}
 
 <link rel="stylesheet" href="{% static 'page/styles/index.css' %}"> {% endblock %} {% block fonts %}
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> {% endblock %} {% block header%}
@@ -25,7 +25,7 @@
 
           <div class="item">
             <h2 class="ui center aligned icon header"><i class="blue inverted circular user icon"></i> {{ user }} </h2>
-            <p class="roles">Administrativo</p>
+            <p class="roles">{{request.user.persona.getRolesNameTemplate}}</p>
           </div>
 
           <a class="ui dropdown item" href="{% url 'permisos:listar' %}">
@@ -49,13 +49,14 @@
             </div>
           </a>
              
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
-            <i class="building icon"></i>
-              <div>
-              Establecimientos
-              </div>
-          </a>
+          {% if not request.user|has_group:'Liquidador' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'establecimientos:listar' %}">
+              <i class="building icon"></i>
+                <div>
+                Establecimientos
+                </div>
+            </a>
+          {% endif %}
 
           <a class="ui dropdown item" style="color:white" href="{% url 'tiposDeUso:listar' %}">
               <i class="tag icon"></i>
@@ -63,101 +64,123 @@
               Tipos de Uso
               </div>
           </a>
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'tipoDocumentos:listado' %}">
-              <i class="file archive icon" ></i>
-              <div>
-              Tipos de Documentos
-              </div>
-          </a>
-
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'departamentos:listar' %}">
-              <i class="compass icon"></i>
-              <div>
-              Departamentos
-              </div>
-          </a>
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'localidades:listar' %}">
-              <i class="crosshairs icon"></i>
-              <div>
-              Localidades
-              </div>
-          </a>  
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'afluentes:listar' %}">
-              <i class="tint icon"></i>
-              <div>
-              Afluentes
-              </div>
-          </a>            
-
           
-          <a class="ui dropdown item" style="color:white" href="{% url 'comisiones:listar' %}">
+          {% if not request.user|has_group:'Director Administrativo JefedeDepartamento' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'tipoDocumentos:listado' %}">
+                <i class="file archive icon" ></i>
+                <div>
+                Tipos de Documentos
+                </div>
+            </a>
+          {% endif %}
+
+          {% if not request.user|has_group:'Liquidador' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'departamentos:listar' %}">
+                <i class="compass icon"></i>
+                <div>
+                Departamentos
+                </div>
+            </a>
+          {% endif %}
+          
+          {% if not request.user|has_group:'Liquidador' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'localidades:listar' %}">
+                <i class="crosshairs icon"></i>
+                <div>
+                Localidades
+                </div>
+            </a>
+          {% endif %}  
+          
+          {% if not request.user|has_group:'Liquidador' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'afluentes:listar' %}">
+                <i class="tint icon"></i>
+                <div>
+                Afluentes
+                </div>
+            </a>         
+          {% endif %}     
+          
+          {% if not request.user|has_group:'Liquidador' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'comisiones:listar' %}">
               <i class="car icon"></i>
               <div>
-              Comisión
+                Comisión
               </div>
-          </a>
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarModulos' %}">
-              <i class="dollar sign icon"></i>
-              <div>
-              Valor Modulo
-              </div>
-          </a> 
-
+            </a>
+          {% endif %}  
           
-          <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosCobros' %}">
-              <i class="money bill alternate icon"></i>
-              <div>
-              Cobros
-              </div>
-          </a> 
+          {% if not request.user|has_group:'Inspector Sumariante' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarModulos' %}">
+                <i class="dollar sign icon"></i>
+                <div>
+                Valor Modulo
+                </div>
+            </a> 
+          {% endif %}  
 
-          <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosPagos' %}">
-              <i class="dollar sign icon"></i>
-              <div>
-              Pagos
-              </div>
-          </a>
+          {% if not request.user|has_group:'Inspector Sumariante' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosCobros' %}">
+                <i class="money bill alternate icon"></i>
+                <div>
+                Cobros
+                </div>
+            </a>
+          {% endif %}   
+          
+          {% if not request.user|has_group:'Inspector Sumariante' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'pagos:listarTodosLosPagos' %}">
+                <i class="dollar sign icon"></i>
+                <div>
+                Pagos
+                </div>
+            </a>
+          {% endif %}   
 
-          <a class="ui dropdown item" style="color:white" href="{% url 'reportes:comisiones' %}">
-              <i class="balance scale icon"></i>
-              <div>
-              Reporte de Comisiones
-              </div>
-          </a>
+          {% if not request.user|has_group:'Administrativo Liquidador' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'reportes:comisiones' %}">
+                <i class="balance scale icon"></i>
+                <div>
+                Reporte de Comisiones
+                </div>
+            </a>
+          {% endif %}
+          
+          {% if not request.user|has_group:'Liquidador' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'reportes:gestion' %}">
+                <i class="chart line icon"></i>
+                <div>
+                Reporte de Gestión de Permiso
+                </div>
+            </a>
+          {% endif %}
+          
+          {% if not request.user|has_group:'Sumariante Inspector' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'reportes:recaudacion' %}">
+                <i class="calculator icon"></i>
+                <div>
+                Reporte de Recaudación
+                </div>
+            </a>       
+          {% endif %} 
+          
+          {% if request.user|has_group:'Director' or request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'usuarios:listado' %}">
+              <i class="users icon"></i>
+                <div>
+                Usuarios
+                </div>
+            </a>
+          {% endif %} 
 
-          <a class="ui dropdown item" style="color:white" href="{% url 'reportes:gestion' %}">
-              <i class="chart line icon"></i>
-              <div>
-              Reporte de Gestión de Permiso
-              </div>
-          </a>
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'reportes:recaudacion' %}">
-              <i class="calculator icon"></i>
-              <div>
-              Reporte de Recaudación
-              </div>
-          </a>        
-            
-          <a class="ui dropdown item" style="color:white" href="{% url 'usuarios:listado' %}">
-            
-            <i class="users icon"></i>
-              <div>
-              Usuarios
-              </div>
-          </a>  
-
-          <a class="ui dropdown item" style="color:white" href="{% url 'admin:index' %}">
-              <i class="free code camp icon"></i>
-              <div>
-              Administración
-              </div>
-          </a> 
+          {% if request.user.is_superuser %}
+            <a class="ui dropdown item" style="color:white" href="{% url 'admin:index' %}">
+                <i class="free code camp icon"></i>
+                <div>
+                Administración
+                </div>
+            </a> 
+          {% endif %} 
 
     
         </div>
