@@ -46,7 +46,7 @@ $(document).ready(function () {
       //var datasets_final = {"comision": {},'acta-de-inspeccion':{},'acta-de-infraccion':{}}
       var datasets_cantidades = {"comision": [],'acta-de-inspeccion':[],'acta-de-infraccion':[]}
       for(let ts in tipos_separados_agrup){
-        for (let f in fechas_no_duplicadas){
+        for (let f in fechas_no_duplicadas.sort()){
           if (tipos_separados_agrup[ts][fechas_no_duplicadas[f]] !== undefined){
         //    datasets_final[ts][fechas_no_duplicadas[f]] = Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length
             datasets_cantidades[ts].push(Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length)
