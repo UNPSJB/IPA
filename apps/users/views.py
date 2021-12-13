@@ -30,6 +30,7 @@ class ListadoUsuarios(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView
 		context = super(ListadoUsuarios, self).get_context_data(**kwargs)
 		context['url_nuevo'] = reverse('pagos:altaModulo')
 		return context
+
 class NuevoUsuario(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
 	model = Usuario
 	form_class = UsuarioForm
@@ -78,7 +79,7 @@ class NuevoUsuario(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
 						g.user_set.add(usuario)
 
 			except IntegrityError as e:
-				context['message_error'] = 'El nombre de usuario ya existe. Por favor, seleccione otro.'
+				context['message_error'] = ['El nombre de usuario ya existe. Por favor, seleccione otro.']
 				context['form'] = usuario_form
 				return render(request, self.template_name, context=context)
 			except Exception as e:

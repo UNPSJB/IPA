@@ -9,6 +9,4 @@ def has_group(user, group_name):
     if "JefedeDepartamento" in list_group:
         list_group["JefedeDepartamento"] = "Jefe de departamento"
 
-    print(list_group)
-
     return user.groups.filter(name__in=list_group).exists() 

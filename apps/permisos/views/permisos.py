@@ -10,7 +10,7 @@ from apps.generales.views import GenericListadoView, GenericAltaView,GenericElim
 from ..tables import PermisosTable
 from ..filters import PermisosFilter
 from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from django.contrib import messages as Messages
 
@@ -80,6 +80,16 @@ class ModificarPermiso(GenericModificacionView):
 		else:
 			return HttpResponseRedirect(self.get_success_url())
 
+	def get(self, request, *args, **kwargs):
+		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+		
+		if (len(self.permiso.documentos.all())>0 or len(self.permiso.pagos.all())>0 or len(self.permiso.cobros.all()>0)):
+			Messages.error(self.request, "El permiso posee Documentos / Cobros / Pagos por ello no se puede modificar sus datos")
+			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.pk]))
+		
+		return super(ModificarPermiso,self).get(request, *args, **kwargs)
+
+
 	def get_context_data(self, **kwargs):
 		context = super(ModificarPermiso, self).get_context_data(**kwargs)
 		context['nombreForm'] = "Modificar Permiso"
@@ -99,14 +109,28 @@ class PermisoDelete(LoginRequiredMixin,DeleteView):
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.pk]))
+
 		return super(PermisoDelete,self).get(request, *args, **kwargs)
 
 	def post(self, request, *args, **kwargs):
-		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
-			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.pk]))
-		return super(PermisoDelete,self).post(request, *args, **kwargs)
+		if request.user.has_perm(self.permission_required):
+			self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+			if (len(self.permiso.documentos.all())>0 or len(self.permiso.pagos.all())>0 or len(self.permiso.cobros.all())>0):
+				return JsonResponse({
+				"success": False,
+				"message": ('error',"El permiso posee Documentos / Cobros / Pagos")
+				})
+			else:
+				self.permiso.delete()
+				return JsonResponse({
+					"success": True,
+					"message": 'Comision eliminada correctamente'
+				})
+		else:
+			return JsonResponse({
+					"success": False,
+					"message": ('permiso','No posee los permisos necesarios para realizar para realizar esta operación')
+			}) 
 
 class DetallePermiso(GenericDetalleView):
 	model = Permiso
@@ -121,7 +145,7 @@ class DetallePermiso(GenericDetalleView):
 			context['botones'] = {
 				'Listado de Cobros':reverse('pagos:listarCobros', args=[self.object.pk]),
 				'Listado de Pagos':reverse('pagos:listarPagos', args=[self.object.pk]),
-				'Eliminar Solicitud': reverse('permisos:eliminar', args=[self.object.pk])
+				#'Eliminar Solicitud': reverse('permisos:eliminar', args=[self.object.pk])
 			}
 			if not isinstance(self.object.estado, Archivado):
 				context['botones']['Documentación'] = reverse('permisos:listarDocumentacionPermiso', args=[self.object.pk])

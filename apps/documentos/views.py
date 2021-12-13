@@ -34,6 +34,17 @@ class AltaTipoDocumento(GenericAltaView):
 		context['ayuda'] = 'permiso_gestion.html#como-crear-un-nuevo-tipo-de-documento'
 		return context
 
+	def post(self, request):
+		tipo_doc_form = self.form_class(request.POST)
+		if tipo_doc_form.is_valid():
+			nombre = tipo_doc_form.cleaned_data['nombre']
+			if not len(TipoDocumento.objects.filter(nombre=nombre))>0:
+				tipo_doc_form.save()
+				return redirect('tipoDocumentos:listado')
+			return render(request, self.template_name, {'form':tipo_doc_form, 'message_error': ["El nombre del Tipo Documento ya existe"]})
+		return render(request, self.template_name, {'form':tipo_doc_form, 'message_error': tipo_doc_form.non_field_errors()})
+
+
 class ListadoTipoDocumentos(GenericListadoView):
 	model = TipoDocumento
 	template_name = 'documentos/listado.html'
@@ -603,12 +614,14 @@ class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 			'Listado Comisiones': reverse('comisiones:listar'),
 			}
 		context['nombreForm'] = 'Nueva Acta de Infraccion'
+		context['form'].fields['comision'].queryset = Comision.objects.filter(fechaInicio__gte=self.permiso.fechaSolicitud)
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['ayuda'] = 'comision.html#como-crear-una-nueva-infraccion'
 		return context
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		self.permiso = Permiso.objects.get(pk=self.permiso_pk)
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
@@ -653,6 +666,7 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 
 	def get (self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
+		self.permiso = Permiso.objects.get(pk=self.permiso_pk)
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
@@ -666,6 +680,7 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 			}
 		context['nombreForm'] = 'Nueva Acta de Inspección'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
+		context['form'].fields['comision'].queryset = Comision.objects.filter(fechaInicio__gte=self.permiso.fechaSolicitud)
 		context['ayuda'] = 'comision.html#como-crear-una-nueva-acta-de-inspeccion'
 		return context
 

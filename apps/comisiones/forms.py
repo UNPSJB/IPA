@@ -12,13 +12,13 @@ class EmpModelChoiceField(ModelMultipleChoiceField):
 
 class ComisionForm(forms.ModelForm):
 	empleados = EmpModelChoiceField(label="Empleados", queryset=Persona.getEmpleadosParaComision(), required=True,
-	widget=forms.SelectMultiple(attrs={'class':'form-control','id':'localidades','placeholder':'Ingresa localidades a recorrer'}))
+	widget=forms.SelectMultiple(attrs={'class':'form-control','id':'localidades','placeholder':'Ingrese el personal que hará el recorrido'}))
 	
 	class Meta:
 		model = Comision
 
 		fields = [
-				'empleados',
+				#'empleados',
 				'nota',
 				'fechaInicio',
 				'fechaFin',
@@ -35,7 +35,7 @@ class ComisionForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'empleados':forms.SelectMultiple(attrs={'class':'form-control','id':'empleados','placeholder':'Ingrese el personal que hará el recorrido'}),
+			#'empleados':forms.SelectMultiple(attrs={'class':'form-control','id':'empleados','placeholder':'Ingrese el personal que hará el recorrido'}),
 			'nota': forms.TextInput(attrs={'class':'form-control','id':'nota','placeholder':'Ingresa el numero de nota por la cual se gestiona la comisión'}),
 			'motivo': forms.Textarea(attrs={'class':'form-control','id':'motivo','placeholder':'Ingresa el motivo de la comisión'}),
 			'localidades':forms.SelectMultiple(attrs={'class':'form-control','id':'localidades','placeholder':'Ingresa localidades a recorrer'}),

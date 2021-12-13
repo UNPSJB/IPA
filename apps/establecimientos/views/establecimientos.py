@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from ..forms import *
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, JsonResponse
@@ -24,6 +24,13 @@ class AltaEstablecimiento(GenericAltaView):
 		if context['return_label'] == None:
 			context['return_label'] = "listado de Establecimientos"
 		return context
+
+	def post(self, request):
+		establecimiento_form = self.form_class(request.POST)
+		if establecimiento_form.is_valid():
+			establecimiento_form.save()
+			return redirect('establecimientos:listar')
+		return render(request, self.template_name, {'form':establecimiento_form, 'return_label':'Volver' ,'message_error': establecimiento_form.non_field_errors()})
 
 class ListadoEstablecimientos(GenericListadoView):
 	model = Establecimiento

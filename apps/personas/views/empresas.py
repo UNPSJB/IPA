@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 from apps.personas.models import Empresa
 from apps.personas.forms import *
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
-from apps.generales.views import GenericAltaView,GenericDetalleView,GenericModificacionView
+from apps.generales.views import GenericAltaView,GenericDetalleView,GenericModificacionView,GenericListadoView
 from django.http import JsonResponse
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
@@ -13,6 +13,9 @@ from apps.personas.tables import EmpresaTable
 from django.core.urlresolvers import reverse
 from django.contrib import messages as Messages
 from django.shortcuts import redirect
+from django.shortcuts import render
+from ..tables import EmpresaFilter
+
 
 class AltaEmpresa(GenericAltaView):
 	model = Empresa
@@ -32,6 +35,13 @@ class AltaEmpresa(GenericAltaView):
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
 		return context
 
+	def post(self, request):
+		empresa_form = self.form_class(request.POST)
+		if empresa_form.is_valid():
+			empresa_form.save()
+			return redirect('empresas:listado')
+		return render(request, self.template_name, {'form':empresa_form, 'message_error': empresa_form.non_field_errors()})
+
 class DetalleEmpresa(GenericDetalleView):
 	model = Empresa
 	template_name = 'empresas/detalle.html'
@@ -46,10 +56,11 @@ class DetalleEmpresa(GenericDetalleView):
 		return context
 
 
-class Listado(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView):
+class Listado(GenericListadoView):
 	model = Empresa
 	template_name = 'empresas/listado.html'
 	table_class = EmpresaTable
+	filterset_class = EmpresaFilter
 	paginate_by = 12
 	permission_required = 'personas.listar_empresa'
 	redirect_url = '/'
@@ -85,6 +96,7 @@ class ModificarEmpresa(GenericModificacionView):
 		context['return_label'] = 'Listado Empresas'
 		context['return_path']= reverse('empresas:listado')
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
+		context['form'].fields["representantes"].disabled = True
 		return context
 
 class EliminarEmpresa(LoginRequiredMixin, DeleteView):

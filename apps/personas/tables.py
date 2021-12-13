@@ -1,3 +1,4 @@
+from django.db.models import fields
 import django_tables2 as tables
 from apps.personas.models import *
 from django.utils.html import format_html
@@ -36,5 +37,13 @@ class EmpresaTable(tables.Table):
     razonSocial = tables.Column(verbose_name="Razón Social")
     cuit = tables.Column(verbose_name="Cuit")
     acciones = tables.TemplateColumn(template_name="formButtons.html")
+
+class EmpresaFilter(django_filters.FilterSet):
+    razonSocial = django_filters.CharFilter(label='Razon Social', lookup_expr='icontains')
+    cuit = django_filters.CharFilter(label='Cuit', lookup_expr='icontains')
+
+    class Meta:
+        model = Persona
+        fields = ['razonSocial','cuit']
     
    

@@ -1,24 +1,29 @@
 {% extends 'index2.html' %}
 {% load static semanticui %}
 {% load contextMenu %}
+{% load groups%}
 
 {% block wrapper %}
-<div class="ui grid" style="margin-bottom:25px;"> 
 
 <div class="row header-content">
 	<div class="five wide column">
-		<button class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
-			<i class="angle left icon"></i>
-			Volver a {{return_label}}
-		</button>
-
+		<div class="ui secondary menu">
+			<button class="ui primary basic button" onclick="window.location.href='{{return_path}}'">
+				<i class="angle left icon"></i>
+				Volver a {{return_label}}
+			</button>
+			{% if ayuda %}
+				<div class="right menu">
+					<a target="_blank" class="question circle icon" href="/docs/{{ayuda}}"><i class="help icon"style="font-size: 30px;"></i></a>
+				</div>
+			{% endif %}
+		</div>
 	</div>
 	<div class="six wide column">
 		<h1 class="ui center aligned header blue "> {{nombreForm}} </h1>
 	</div>
 	<div class="five wide column">
 	</div>
-</div>
 </div>
 	{% if message %}
 		<div class="ui error message">
@@ -27,6 +32,24 @@
 		    	<li> {{ message }}</li>
 		</div>
 	{% endif %}
+
+	<div class="ui error message" hidden>
+		<i class="close icon"></i>
+		<div class="header"> {% block mensaje_error_titulo %} Hubo el siguiente problema: {% endblock %}</div>
+		<ul id="message_error" class="list">
+		{% for message in message_error %}
+			<li> {{ message }}</li>
+		{% endfor %}
+		</ul>
+	</div>
+	
+	
+	<div class="ui positive message" hidden>
+		<i class="close icon"></i>
+		<div class="header"> {% block mensaje_success_titulo %} ¡Todo a salido bien! {% endblock %}</div>
+		<ul id="message_positive" class="list">
+		</ul>
+	</div>
 
 <form class="ui large form" action="{{ form.url_post }}?return_path={{return_path}}" method="POST">
     {% csrf_token %}
@@ -57,22 +80,24 @@
 				</button> 
 			</div>
 		</div>
-		<div class="row">
-			<div class="sixteen wide column" >
-				<div class="field">
-					<label>Roles</label>
-					<div class="ui dropdown multiple search selection" id="roles-dropdown">
-					  <input type="hidden" name="roles">
-					  <div class="default text">Selecciona roles</div>
-					  <i class="dropdown icon"></i>
-					  <div class="menu">
-					  </div>
-					</div>
-				</div>	
+		{% if request.user|has_group:'Director' or request.user.is_superuser %}
+			<div class="row">
+				<div class="sixteen wide column" >
+					<div class="field">
+						<label>Roles</label>
+						<div class="ui dropdown multiple search selection" id="roles-dropdown">
+							<input type="hidden" name="roles">
+							<div class="default text">Selecciona roles</div>
+							<i class="dropdown icon"></i>
+							<div class="menu">
+							</div>
+						</div>
+					</div>	
+				</div>
 			</div>
-		</div>
+		{%endif%}
 	</div>
-	<div class="ui error message roles">
+	<div class="ui error message roles" hii>
 		<i class="close icon"></i>
 		<p>
 	
@@ -90,10 +115,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="ui error message">
-
-	</div>
-
 
 </form>
 {% endblock %}
@@ -140,6 +161,7 @@
 	`
 
 	$(document).ready(function(){
+		$('.form .error.message.roles').hide();
 	    $(".default.text").html("--------Seleccionar opción--------");
 		var empresas_lista_cuits = [];
 		empresas_dropdown_values = [];

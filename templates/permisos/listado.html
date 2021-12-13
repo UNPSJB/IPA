@@ -40,13 +40,19 @@
 					if (data.success){
 						location.reload();
 					}else{
-						$("#block-wrapper").prepend("<div class='row header-content'><div class='ui large warning message'><i class='close icon'></i> \
-							<div class='header'> Hubo el siguiente problema:</div><ul class='list'><li id='message_error'>"+
-							data.message[1]+"</li></ul></div></div>");
-						$('.message .close').on('click', function() {
-								$(this).closest('.message')
-								.transition('fade');
-						});
+						if(data.message[0]=='error'){
+							$('#message_error').html(data.message[1]);
+                            $('.ui.large.error.message').attr("class","ui large error message transition");
+							$('.ui.large.error.message').show();
+						}else{
+							$("#block-wrapper").prepend("<div class='row header-content'><div class='ui large warning message'><i class='close icon'></i> \
+								<div class='header'> Hubo el siguiente problema:</div><ul class='list'><li id='message_error'>"+
+								data.message[1]+"</li></ul></div></div>");
+							$('.message .close').on('click', function() {
+									$(this).closest('.message')
+									.transition('fade');
+							});
+						}
 					}
 				})
 			}

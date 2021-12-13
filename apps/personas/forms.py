@@ -1,6 +1,6 @@
 from django import forms
 from .models import *
-
+from django.core.exceptions import ValidationError
 from django.core.exceptions import ObjectDoesNotExist
 
 class PersonaForm(forms.ModelForm):
@@ -36,6 +36,14 @@ class PersonaForm(forms.ModelForm):
 			'direccion':forms.TextInput(attrs={'class':'form-control', 'placehorder':'Domicilio del solicitante'}),
 			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'placehorder':'Telefono con o sin catacteristica'}),
 		}
+
+	def clean(self):
+		tipo = self.cleaned_data.get('tipoDocumento')
+		numero = self.cleaned_data.get('numeroDocumento')
+		persona = Persona.objects.filter(tipoDocumento=tipo,numeroDocumento=numero)
+		if (len(persona)>0):
+			raise ValidationError("El documento ya existe para el tipo de documento ingresado")
+
 
 class DirectorForm (forms.ModelForm):
 	class Meta:

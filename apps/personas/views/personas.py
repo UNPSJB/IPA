@@ -6,7 +6,7 @@ from apps.personas.forms import PersonaForm, ChoferForm, DirectorForm
 from apps.personas.tables import PersonaTable, PersonaFilter
 from django.http import JsonResponse
 from apps.generales.views import GenericAltaView,GenericDetalleView,GenericListadoView,GenericModificacionView
-
+from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ListadoPersonas(GenericListadoView):
@@ -28,44 +28,71 @@ class AltaPersona(GenericAltaView):
 	permission_required = 'personas.cargar_persona'
 	redirect_url = 'personas:listado'
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
+	def get_context_alta(self, context):
 		context['empresas'] = Empresa.objects.all()
 		context['roles'] = Persona.tipoRol
 		context['director_form'] = DirectorForm()
 		context['chofer_form'] = ChoferForm()
 		context['nombreForm'] = "Nueva Persona"
-		context['return_path'] = self.request.GET.get('return_path', self.success_url)
-		if context['return_label'] == None:
-			context['return_label'] = "Listado de Personas"
+		
+		context['return_label'] = "Listado de Personas"
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
+	
 		return context
 
+	def get_context_data(self, *args, **kwargs):
+		context = super(AltaPersona, self).get_context_data(**kwargs)
+		context['return_path'] = self.request.GET.get('return_path', self.success_url)
+		return self.get_context_alta(context)
+
+
+	#def get_context_data(self, **kwargs):
+	#	context = super().get_context_data(**kwargs)
+	#	context['empresas'] = Empresa.objects.all()
+	#	context['roles'] = Persona.tipoRol
+	#	context['director_form'] = DirectorForm()
+	#	context['chofer_form'] = ChoferForm()
+	#	context['nombreForm'] = "Nueva Persona"
+	#	context['return_path'] = self.request.GET.get('return_path', self.success_url)
+	#	if context['return_label'] == None:
+	#		context['return_label'] = "Listado de Personas"
+	#	context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
+	#	
+	#	return context
+
 	def post(self,request, *args, **kwargs):
-		response = super(AltaPersona, self).post(request,*args, **kwargs)
-		cuitList = request.POST.get('empresas')
-		cuitList = [] if cuitList == '' else cuitList.split(',')
-		rolesList = request.POST.get('roles')
-		rolesList = [] if rolesList == '' else rolesList.split(',')
-		persona = Persona.objects.get(numeroDocumento=request.POST['numeroDocumento'])
-		for cuit in cuitList:
-			empresa = Empresa.objects.get(cuit=cuit)
-			empresa.representantes.add(persona)
-			empresa.save()
-		for rol in rolesList:
-			rol_to_add = None
-			if rol == 'Director':
-				director_form = DirectorForm(request.POST)
-				if director_form.is_valid():
-					rol_to_add = Director(**director_form.cleaned_data)
-			elif rol == 'Chofer':
-				chofer_form = ChoferForm(request.POST)
-				if chofer_form.is_valid():
-					rol_to_add = Chofer(**chofer_form.cleaned_data)
-			else:
-				rol_to_add = eval(rol)()	
-			persona.agregar_rol(rol_to_add)
-		return response
+		form = self.form_class(request.POST)
+		if form.is_valid():
+			response = super(AltaPersona, self).post(request,*args, **kwargs)
+			cuitList = request.POST.get('empresas')
+			cuitList = [] if cuitList == '' else cuitList.split(',')
+			rolesList = request.POST.get('roles')
+			print(rolesList)
+			print(rolesList)
+			rolesList = [] if (rolesList == '' or rolesList==None) else rolesList.split(',')
+			persona = Persona.objects.get(numeroDocumento=request.POST['numeroDocumento'])
+			for cuit in cuitList:
+				empresa = Empresa.objects.get(cuit=cuit)
+				empresa.representantes.add(persona)
+				empresa.save()
+			for rol in rolesList:
+				rol_to_add = None
+				if rol == 'Director':
+					director_form = DirectorForm(request.POST)
+					if director_form.is_valid():
+						rol_to_add = Director(**director_form.cleaned_data)
+				elif rol == 'Chofer':
+					chofer_form = ChoferForm(request.POST)
+					if chofer_form.is_valid():
+						rol_to_add = Chofer(**chofer_form.cleaned_data)
+				else:
+					rol_to_add = eval(rol)()	
+				persona.agregar_rol(rol_to_add)
+			return response
+		print(form.non_field_errors())
+		print(form.non_field_errors())
+		return render(request, self.template_name, self.get_context_alta({'form':form,'message_error':form.non_field_errors(),'return_path':'/personas/listado'}))
+		
 
 class ModificarPersona(GenericModificacionView):
 	model = Persona
@@ -81,7 +108,7 @@ class ModificarPersona(GenericModificacionView):
 		context['nombreForm'] = "Modificar Persona"
 		context['return_label'] = "Listado de Personas"
 		context['return_path']= reverse('personas:listado')
-		context['empresas'] = obj.empresa_set.values('id').all()
+		context['empresas'] = Empresa.objects.filter(representantes__in=[obj])
 		context['roles'] = Persona.tipoRol		
 		if obj.sos(Director):
 			context['director_form'] = DirectorForm(instance=obj.como(Director))
