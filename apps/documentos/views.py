@@ -14,7 +14,7 @@ from apps.generales.views import GenericAltaView, GenericListadoView, GenericEli
 from .tables import TipoDocumentosTable
 from .filters import TipoDocumentosFilter
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.db.models import Q
 from django.contrib import messages as Messages
 
 
@@ -614,7 +614,7 @@ class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 			'Listado Comisiones': reverse('comisiones:listar'),
 			}
 		context['nombreForm'] = 'Nueva Acta de Infraccion'
-		context['form'].fields['comision'].queryset = Comision.objects.filter(fechaInicio__gte=self.permiso.fechaSolicitud)
+		context['form'].fields['comision'].queryset = Comision.objects.filter(Q(fechaInicio__lte=self.permiso.fechaSolicitud,fechaFin__gte=self.permiso.fechaSolicitud)|Q(fechaInicio__gte=self.permiso.fechaSolicitud))
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['ayuda'] = 'comision.html#como-crear-una-nueva-infraccion'
 		return context
@@ -680,7 +680,7 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 			}
 		context['nombreForm'] = 'Nueva Acta de Inspección'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
-		context['form'].fields['comision'].queryset = Comision.objects.filter(fechaInicio__gte=self.permiso.fechaSolicitud)
+		context['form'].fields['comision'].queryset = Comision.objects.filter(Q(fechaInicio__lte=self.permiso.fechaSolicitud,fechaFin__gte=self.permiso.fechaSolicitud)|Q(fechaInicio__gte=self.permiso.fechaSolicitud))
 		context['ayuda'] = 'comision.html#como-crear-una-nueva-acta-de-inspeccion'
 		return context
 
@@ -699,7 +699,7 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 		fechaSolicitud = permiso.fechaSolicitud
 		fechaSolicitudString = fechaSolicitud.strftime("%d-%m-%Y")
 		fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		fechaCorrecta = ( fechaActa >= fechaSolicitud) and (fechaActa <= date.today()) and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
+		fechaCorrecta = ( fechaActa >= fechaSolicitud)  and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
 
 		if form.is_valid() and fechaCorrecta:
 			documento = form.save(commit=False)
