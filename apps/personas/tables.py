@@ -4,13 +4,6 @@ from apps.personas.models import *
 from django.utils.html import format_html
 import django_filters
 
-def get_roles_choices():
-    choices = []
-    for rol in Persona.tipoRol:
-        evaluado = eval(rol)
-        choices.append((evaluado.TIPO, rol))
-    return choices
-
 
 class PersonaTable(tables.Table):
     nombre = tables.Column()
@@ -25,13 +18,6 @@ class PersonaTable(tables.Table):
         template_name = "django_tables2/semantic.html"
         model = Persona
         fields = ()
-
-class PersonaFilter(django_filters.FilterSet):
-    roles__tipo = django_filters.ChoiceFilter(choices=get_roles_choices())
-
-    class Meta:
-        model = Persona
-        fields = ['roles__tipo']
 
 class EmpresaTable(tables.Table):
     razonSocial = tables.Column(verbose_name="Razón Social")

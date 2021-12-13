@@ -3,11 +3,13 @@ from django.views.generic import DeleteView
 from django.views import View
 from apps.personas.models import *
 from apps.personas.forms import PersonaForm, ChoferForm, DirectorForm
-from apps.personas.tables import PersonaTable, PersonaFilter
-from django.http import JsonResponse
+from apps.personas.tables import PersonaTable
+from apps.personas.filters import PersonaFilter
+from django.http import HttpResponseRedirect, JsonResponse
 from apps.generales.views import GenericAltaView,GenericDetalleView,GenericListadoView,GenericModificacionView
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 class ListadoPersonas(GenericListadoView):
 	model = Persona
@@ -29,15 +31,13 @@ class AltaPersona(GenericAltaView):
 	redirect_url = 'personas:listado'
 
 	def get_context_alta(self, context):
-		context['empresas'] = Empresa.objects.all()
 		context['roles'] = Persona.tipoRol
 		context['director_form'] = DirectorForm()
 		context['chofer_form'] = ChoferForm()
 		context['nombreForm'] = "Nueva Persona"
-		
-		context['return_label'] = "Listado de Personas"
-		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
-	
+		if context['return_label'] == None:
+			context['return_label'] = "Listado de Personas"
+		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'	
 		return context
 
 	def get_context_data(self, *args, **kwargs):
@@ -45,36 +45,13 @@ class AltaPersona(GenericAltaView):
 		context['return_path'] = self.request.GET.get('return_path', self.success_url)
 		return self.get_context_alta(context)
 
-
-	#def get_context_data(self, **kwargs):
-	#	context = super().get_context_data(**kwargs)
-	#	context['empresas'] = Empresa.objects.all()
-	#	context['roles'] = Persona.tipoRol
-	#	context['director_form'] = DirectorForm()
-	#	context['chofer_form'] = ChoferForm()
-	#	context['nombreForm'] = "Nueva Persona"
-	#	context['return_path'] = self.request.GET.get('return_path', self.success_url)
-	#	if context['return_label'] == None:
-	#		context['return_label'] = "Listado de Personas"
-	#	context['ayuda'] = 'solicitante.html#como-crear-una-nueva-persona'
-	#	
-	#	return context
-
 	def post(self,request, *args, **kwargs):
 		form = self.form_class(request.POST)
 		if form.is_valid():
 			response = super(AltaPersona, self).post(request,*args, **kwargs)
-			cuitList = request.POST.get('empresas')
-			cuitList = [] if cuitList == '' else cuitList.split(',')
 			rolesList = request.POST.get('roles')
-			print(rolesList)
-			print(rolesList)
 			rolesList = [] if (rolesList == '' or rolesList==None) else rolesList.split(',')
 			persona = Persona.objects.get(numeroDocumento=request.POST['numeroDocumento'])
-			for cuit in cuitList:
-				empresa = Empresa.objects.get(cuit=cuit)
-				empresa.representantes.add(persona)
-				empresa.save()
 			for rol in rolesList:
 				rol_to_add = None
 				if rol == 'Director':
@@ -88,63 +65,78 @@ class AltaPersona(GenericAltaView):
 				else:
 					rol_to_add = eval(rol)()	
 				persona.agregar_rol(rol_to_add)
+			#return HttpResponseRedirect(reverse('personas:listado'))
 			return response
-		print(form.non_field_errors())
-		print(form.non_field_errors())
-		return render(request, self.template_name, self.get_context_alta({'form':form,'message_error':form.non_field_errors(),'return_path':'/personas/listado'}))
+		return render(request, self.template_name, self.get_context_alta({'form':form,'message_error':form.non_field_errors(),'return_path':'/personas/listado','return_label':'Listado de Personas'}))
 		
 
 class ModificarPersona(GenericModificacionView):
 	model = Persona
 	form_class = PersonaForm
 	success_url = reverse_lazy('personas:listado')
-	template_name = 'personas/alta.html'
+	template_name = 'personas/modificar.html'
 	permission_required = 'personas.modificar_persona'
 	redirect_url = 'personas:listado'
 
-	def get_context_data(self, **kwargs):
-		context = super(ModificarPersona, self).get_context_data(**kwargs)
-		obj = context['object']
+
+	def get_context_modificar(self, context):
+		context['roles'] = Persona.tipoRol
+		context['director_form'] = DirectorForm()
+		context['chofer_form'] = ChoferForm()
 		context['nombreForm'] = "Modificar Persona"
 		context['return_label'] = "Listado de Personas"
 		context['return_path']= reverse('personas:listado')
-		context['empresas'] = Empresa.objects.filter(representantes__in=[obj])
-		context['roles'] = Persona.tipoRol		
-		if obj.sos(Director):
-			context['director_form'] = DirectorForm(instance=obj.como(Director))
+		context['empresas'] = Empresa.objects.filter(representantes__in=[self.object])
+
+		if self.object.sos(Director):
+			context['director_form'] = DirectorForm(instance=self.object.como(Director))
 		else:
 			context['director_form'] = DirectorForm()
-		if obj.sos(Chofer):
-			context['chofer_form'] = ChoferForm(instance=obj.como(Chofer))
+		if self.object.sos(Chofer):
+			context['chofer_form'] = ChoferForm(instance=self.object.como(Chofer))
 		else:
 			context['chofer_form'] = ChoferForm()
+
+		#context['form'].fields['numeroDocumento'].hidden = True
+		#context['form'].fields['numeroDocumento'].required = False
+		#context['form'].fields['numeroDocumento'].initial = self.object.numeroDocumento
+		#context['form'].fields['tipoDocumento'].disabled = True
+		#context['form'].fields['tipoDocumento'].required = False
+		#context['form'].fields['tipoDocumento'].initial = self.object.tipoDocumento
+
+		context['ayuda'] = ''
 		return context
 
+	#def clean(self):
+	#	tipo = self.cleaned_data.get('tipoDocumento')
+	#	numero = self.cleaned_data.get('numeroDocumento')
+	#	persona = Persona.objects.filter(tipoDocumento=tipo,numeroDocumento=numero)
+	#	if (len(persona)>0):
+	#		raise ValidationError("El documento ya existe para el tipo de documento ingresado")
+
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarPersona, self).get_context_data(**kwargs)
+		return self.get_context_modificar(context)
+
+	def get (self, request, *args, **kwargs):
+		self.object = self.get_object()
+		return super(ModificarPersona, self).get(request,*args,**kwargs)
+
 	def post(self,request, *args, **kwargs):
-		response = super(ModificarPersona, self).post(request, *args, **kwargs)
-		cuitList = request.POST.get('empresas')
-		cuitList = [] if cuitList == '' else cuitList.split(',')
-		rolesList = request.POST.get('roles')
-		rolesList = [] if rolesList == '' else rolesList.split(',')
-		persona = Persona.objects.get(numeroDocumento=request.POST['numeroDocumento'])
-		for cuit in cuitList:
-			empresa = Empresa.objects.get(cuit=cuit)
-			empresa.representantes.add(persona)
-			empresa.save()
-		for rol in rolesList:
-			rol_to_add = None
-			if rol == 'Director':
-				director_form = DirectorForm(request.POST)
-				if director_form.is_valid():
-					rol_to_add = Director(**director_form.cleaned_data)
-			elif rol == 'Chofer':
-				chofer_form = ChoferForm(request.POST)
-				if chofer_form.is_valid():
-					rol_to_add = Chofer(**chofer_form.cleaned_data)
-			else:
-				rol_to_add = eval(rol)()	
-			persona.agregar_rol(rol_to_add)
-		return response
+		obj = self.get_object()
+		self.object = self.get_object()
+		#form = self.form_class(request.POST,{'tipoDocumento':obj.tipoDocumento,'numeroDocumento':obj.numeroDocumento})
+		#form = self.form_class(request.POST)
+		form = self.form_class(request.POST, instance=self.object)
+		print("PASE POR ACA")
+		
+
+		if form.is_valid():
+			print("PASE POR ACA 2222222222222222")
+			response = super(ModificarPersona, self).post(request, *args, **kwargs)
+			return response
+		return render(request, self.template_name, self.get_context_modificar({'form':form,'message_error':form.non_field_errors(), 'object':self.object,'return_path':'/personas/listado','return_label':'Listado de Personas'}))
 
 class DetallePersona(GenericDetalleView):
 	model = Persona

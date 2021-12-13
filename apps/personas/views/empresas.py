@@ -76,7 +76,7 @@ class Listado(GenericListadoView):
 
 class DataEmpresas(View):
 	def get(self, request, *args, **kwargs):
-		empresas = models.Empresa.objects.all()
+		empresas = Empresa.objects.all()
 		empresaDict = []
 		for empresa in empresas:
 			empresaDict.append({"razonSocial": empresa.razonSocial, "cuit": empresa.cuit})

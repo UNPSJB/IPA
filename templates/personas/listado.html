@@ -73,6 +73,9 @@
 {% endblock %}
 
 {% block customPageJs %}
+	{{block.super}}
+    //$('.ui.button.modificar').remove();
+	
 	// using jQuery
 	function getCookie(name) {
 		var cookieValue = null;

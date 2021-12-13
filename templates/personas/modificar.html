@@ -50,15 +50,32 @@
 		<ul id="message_positive" class="list">
 		</ul>
 	</div>
-	
-	<form class="ui large form" action="{% url 'personas:alta' %}?return_path={{return_path}}" method="POST">
-<!--<form class="ui large form" action="{{ form.url_post }}?return_path={{return_path}}" method="POST"> -->
+
+<form class="ui large form" action="{% url 'personas:modificar' object.id %}" method="POST">
+<!-- <form class="ui large form" action="{{ form.url_post }}?return_path={{return_path}}" method="POST"> -->
     {% csrf_token %}
 	{% render_form form %}
+	<div class="field">
+		<label >Empresas</label>		
+	</div>
+	<div class="ui grid">
+		<div class="row">
+			<div class="fifteen wide column" >
+				<div class="disabled required field">
+					<div class="ui dropdown multiple search selection" name="empresas" id="empresasDropdown">
+						<input type="hidden" name="empresas" class="empresasDropdown">
+                        {% for x in empresas %}
+                            <a class="ui label transition visible" data-value="{{x.cuit}}" style="display: inline-block !important;">{{x}}<i class="delete icon"></i></a>
+                        {% endfor %}
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
 		{% if request.user|has_group:'Director' or request.user.is_superuser %}
 			<div class="row">
 				<div class="sixteen wide column" >
-					<div class="field">
+					<div class="disabled required field">
 						<label>Roles</label>
 						<div class="ui dropdown multiple search selection" id="roles-dropdown">
 							<input type="hidden" name="roles">
@@ -135,11 +152,18 @@
 	`
 
 	$(document).ready(function(){
+		$("id_numeroDocumento")
+		document.querySelector("#block-wrapper > form > div:nth-child(5)").hidden = true
+		document.querySelector("#block-wrapper > form > div:nth-child(6)").hidden = true
+		
+
 		$('.form .error.message.roles').hide();
 	    $(".default.text").html("--------Seleccionar opción--------");
+		var empresas_lista_cuits = [];
+		empresas_dropdown_values = [];
 		$('.field.director').css('display','none');
 		$('.field.chofer').css('display','none')
-		
+
 		function sanitize(str){
 			var tuplas = {
 				'Director': 'Director', 
@@ -205,79 +229,6 @@
 		})
 		
 		$("#rolesDropdown").dropdown()
-
-		$(".ui.large.form").form({
-			on: 'blur',
-			fields: {
-				nombre: {
-					identifier : 'nombre',
-					rules: [
-						{
-							type: 'empty',
-							prompt: "Ingrese un nombre."
-						}
-					]
-				},
-				apellido: {
-					identifier : 'apellido',
-					rules: [
-						{
-							type: 'empty',
-							prompt: "Ingrese un apellido."
-						}
-					]
-				},
-				email: {
-					identifier : 'email',
-					rules: [
-						{
-							type: 'email',
-							prompt: "Ingrese un email válido."
-						}
-					]
-				},
-				tipoDocumento: {
-					identifier : 'tipoDocumento',
-					rules: [
-						{
-							type: 'empty',
-							prompt: "Ingrese un tipo de documento."
-						}
-					]
-				},
-				numeroDocumento: {
-					identifier : 'numeroDocumento',
-					rules: [
-						{
-							type: 'empty',
-							prompt: "Ingrese un número de documento."
-						}
-					]
-				},
-				direccion: {
-					identifier : 'direccion',
-					rules: [
-						{
-							type: 'empty',
-								prompt: "Ingrese una dirección."
-						}
-					]
-				},
-				telefono: {
-					identifier : 'telefono',
-					rules: [
-						{
-							type: 'empty',
-							prompt: "Ingrese un número de teléfono."
-						},
-						{
-							type: 'integer[1111111111..9999999999]',
-							prompt: "Ingrese un número de teléfono válido."
-						}
-					]
-				},
-			}
-		})
 
 		$('.message .close').on('click', function() {
 			$(this).closest('.message').hide();

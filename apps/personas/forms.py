@@ -37,12 +37,7 @@ class PersonaForm(forms.ModelForm):
 			'telefono':forms.TextInput(attrs={'class':'form-control','type':'number', 'placehorder':'Telefono con o sin catacteristica'}),
 		}
 
-	def clean(self):
-		tipo = self.cleaned_data.get('tipoDocumento')
-		numero = self.cleaned_data.get('numeroDocumento')
-		persona = Persona.objects.filter(tipoDocumento=tipo,numeroDocumento=numero)
-		if (len(persona)>0):
-			raise ValidationError("El documento ya existe para el tipo de documento ingresado")
+
 
 
 class DirectorForm (forms.ModelForm):
