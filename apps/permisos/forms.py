@@ -1,6 +1,9 @@
 from django import forms
 from .models import Permiso, TipoUso, Solicitado
 from ..personas.models import Persona
+from datetime import date
+from datetime import datetime
+from django.core.exceptions import ValidationError
 
 class PermisoForm(forms.ModelForm):
 	class Meta:
@@ -78,6 +81,16 @@ class SolicitadoForm(forms.ModelForm):
 
 		widgets = {
 			'utilizando':forms.CheckboxInput(attrs={'class':'form-control'}),
-			'fecha': forms.DateInput(attrs={'type':'date'}),
+			'fecha': forms.DateInput(format=('%Y-%m-%d'),attrs={'type':'date'}),
 			'observacion': forms.Textarea(attrs={'class':'form-control'}), 
 	}
+
+	def clean_fecha(self):
+		fecha_form = self.cleaned_data.get('fecha')
+
+		if (fecha_form>date.today()):
+			print(fecha_form)
+			print(type(fecha_form))
+			raise ValidationError("La fecha de solicitud no puede ser mayor a la fecha actual ("+date.today().strftime("%d-%m-%Y")+")")
+		
+		return fecha_form

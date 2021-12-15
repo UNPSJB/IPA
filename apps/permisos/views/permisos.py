@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy, reverse
+from django.shortcuts import render
 from ..models import Solicitado, Publicado, Permiso, Otorgado, Baja, Archivado
 from ..forms import PermisoForm, SolicitadoForm
 from django.views.generic import ListView,DeleteView,DetailView,UpdateView
@@ -59,7 +60,7 @@ class AltaPermiso(GenericAltaView):
 			solicitado.usuario = request.user
 			solicitado.save()
 			return redirect('permisos:listar')
-		return redirect('permisos:alta')
+		return render(request, self.template_name, {'form':permiso_form,'solicitadoForm':solicitado_form})
 
 class ModificarPermiso(GenericModificacionView):
 	model = Permiso
@@ -69,32 +70,47 @@ class ModificarPermiso(GenericModificacionView):
 	permission_required = 'permisos.modificar_permiso'
 	redirect_url = 'permisos:listar'
 
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		id_permiso = kwargs['pk']
-		permiso = self.model.objects.get(pk=id_permiso)
-		form = self.form_class(request.POST, instance=permiso)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect(self.get_success_url())
-		else:
-			return HttpResponseRedirect(self.get_success_url())
-
+	
+	def get_context_data(self, **kwargs):
+		context = super(ModificarPermiso, self).get_context_data(**kwargs)
+		context['nombreForm'] = "Modificar Permiso"
+		context['solicitadoForm'] = SolicitadoForm(instance=self.permiso.estado)
+		context['ayuda'] = 'solicitud.html#como-crear-un-nuevo-permiso'
+		context['return_path'] = reverse('permisos:listar')
+		return context
+	
 	def get(self, request, *args, **kwargs):
 		self.permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		
-		if (len(self.permiso.documentos.all())>0 or len(self.permiso.pagos.all())>0 or len(self.permiso.cobros.all()>0)):
+		if (len(self.permiso.documentos.all())>0 or len(self.permiso.pagos.all())>0 or len(self.permiso.cobros.all())>0):
 			Messages.error(self.request, "El permiso posee Documentos / Cobros / Pagos por ello no se puede modificar sus datos")
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.pk]))
 		
 		return super(ModificarPermiso,self).get(request, *args, **kwargs)
 
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		id_permiso = kwargs['pk']
+		self.permiso = self.model.objects.get(pk=id_permiso)
+		permiso_form = self.form_class(request.POST,instance=self.permiso)
+		solicitado_form = SolicitadoForm(request.POST,instance=self.permiso.estado)
+		print(request.POST)
+		print(solicitado_form)
+		if permiso_form.is_valid() and solicitado_form.is_valid():
+			permiso = permiso_form.save(commit=False)
+			permiso.fechaSolicitud = solicitado_form.data['fecha']
+			permiso = permiso_form.save()
+			solicitado = solicitado_form.save(commit=False)
+			solicitado.permiso = permiso
+			solicitado.usuario = request.user
+			solicitado.save()
+			return HttpResponseRedirect(self.get_success_url())
+		else:
+			context = self.get_context_data(form=permiso_form)
+			context['solicitadoForm'] = solicitado_form
+			return render(request, self.template_name, context)
 
-	def get_context_data(self, **kwargs):
-		context = super(ModificarPermiso, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Modificar Permiso"
-		context['return_path'] = reverse('permisos:listar')
-		return context
+
+
 
 
 #class PermisoDelete(DeleteView):

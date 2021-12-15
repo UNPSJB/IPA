@@ -1,5 +1,7 @@
 {% extends 'generales/alta.html' %}
 
+{% load static semanticui %}
+
 {% block mensaje_boton_volver %}
 	Volver al listado de permisos
 {% endblock %} 
@@ -11,121 +13,13 @@
 {% endblock %}
 
 {% block formulario_custom %} 
-<div class="ui grid">
-    <div class="row">
-
-        <div class="fifteen wide column" >
-            <div class="field required">
-                    {{ form.solicitante.label_tag }}
-                    {{ form.solicitante.errors }}
-                    {{ form.solicitante }}                    
-            </div>
-        </div>
-        <div class="one wide column">
-            <button class="ui primary icon button fix-button-add-margin" id="agregarSolicitante" type="button" data-tooltip="Agrega un nuevo solicitante">
-                <i class="plus icon" ></i>
-            </button> 
-        </div>
-    </div>
-    <div class="row">
-        <div class="fifteen wide column" >
-            <div class="field required">
-                    {{ form.establecimiento.label_tag }}
-                    {{ form.establecimiento.errors }}
-                    {{ form.establecimiento }}                    
-            </div>
-        </div>
-        <div class="one wide column">
-            <button class="ui primary icon button fix-button-add-margin" id="agregarEstablecimiento" type="button" data-tooltip="Agrega un nuevo establecimiento">
-                <i class="plus icon" ></i>
-            </button> 
-        </div>
-    </div>
-    <div class="row">
-        <div class="fifteen wide column" >
-            <div class="field required">
-                    {{ form.tipo.label_tag }}
-                    {{ form.tipo.errors }}
-                    {{ form.tipo }}                    
-            </div>
-        </div>
-        <div class="one wide column">
-            <button class="ui primary icon button fix-button-add-margin" id="agregarTipo" type="button" data-tooltip="Agrega un nuevo tipo de uso">
-                <i class="plus icon" ></i>
-            </button> 
-        </div>
-    </div>
-    <div class="row">
-        <div class="fifteen wide column" >
-            <div class="field required">
-                    {{ form.afluente.label_tag }}
-                    {{ form.afluente.errors }}
-                    {{ form.afluente }}                    
-            </div>
-        </div>
-        <div class="one wide column">
-            <button class="ui primary icon button fix-button-add-margin" id="agregarAfluente" type="button" data-tooltip="Agrega un nuevo afluente">
-                <i class="plus icon" ></i>
-            </button> 
-        </div>
-    </div>
-    <div class="row">
-        <div class="sixteen wide column" >
-            <div class="field required">
-                {{ solicitadoForm.fecha.label_tag }}
-                {{ solicitadoForm.fecha.errors }}
-                {{ solicitadoForm.fecha }}                    
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="sixteen wide column" >
-            <div class="field">
-                {{ solicitadoForm.observacion.label_tag }}
-                {{ solicitadoForm.observacion.errors }}
-                {{ solicitadoForm.observacion }}                    
-            </div>
-        </div>
-    </div>
-    <div class="row">
-            <div class="sixteen wide column" >
-                <div class="inline fields">
-                    <div class="field" data-content="Add users to your feed">
-                        {{ solicitadoForm.utilizando.label_tag }}
-                        {{ solicitadoForm.utilizando.errors }}
-                        {{ solicitadoForm.utilizando }}                    
-                    </div>
-                    <div class="field" data-content="Add users to your feed oficio">
-                        {{ solicitadoForm.oficio.label_tag }}
-                        {{ solicitadoForm.oficio.errors }}
-                        {{ solicitadoForm.oficio }}                    
-                    </div>
-                </div>
-            </div>
-        </div>
-</div>
-
+    {% render_form form %}
+    {% render_form solicitadoForm %}
 {% endblock %}
 
 {% block formname %}nueva_solicitud_form{% endblock%}
 
 {% block customPageJs %}
-    saveInLocal('nueva_solicitud_form')
 
-    $('#agregarSolicitante').click(function(){
-        formButtonAdd('{% url 'personas:alta' %}','Nueva Solicitud')
-    })
-
-    $('#agregarEstablecimiento').click(function(){
-        formButtonAdd('{% url 'establecimientos:alta' %}','Nueva Solicitud')
-    })
-
-    $('#agregarTipo').click(function(){
-        formButtonAdd('{% url 'tiposDeUso:alta' %}','Nueva Solicitud')
-    })
-
-    $('#agregarAfluente').click(function(){
-        formButtonAdd('{% url 'afluentes:alta' %}','Nueva Solicitud')
-    })
 
 {% endblock %}
