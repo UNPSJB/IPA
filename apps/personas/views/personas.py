@@ -96,24 +96,8 @@ class ModificarPersona(GenericModificacionView):
 			context['chofer_form'] = ChoferForm(instance=self.object.como(Chofer))
 		else:
 			context['chofer_form'] = ChoferForm()
-
-		#context['form'].fields['numeroDocumento'].hidden = True
-		#context['form'].fields['numeroDocumento'].required = False
-		#context['form'].fields['numeroDocumento'].initial = self.object.numeroDocumento
-		#context['form'].fields['tipoDocumento'].disabled = True
-		#context['form'].fields['tipoDocumento'].required = False
-		#context['form'].fields['tipoDocumento'].initial = self.object.tipoDocumento
-
 		context['ayuda'] = ''
 		return context
-
-	#def clean(self):
-	#	tipo = self.cleaned_data.get('tipoDocumento')
-	#	numero = self.cleaned_data.get('numeroDocumento')
-	#	persona = Persona.objects.filter(tipoDocumento=tipo,numeroDocumento=numero)
-	#	if (len(persona)>0):
-	#		raise ValidationError("El documento ya existe para el tipo de documento ingresado")
-
 
 	def get_context_data(self, **kwargs):
 		context = super(ModificarPersona, self).get_context_data(**kwargs)
@@ -126,14 +110,9 @@ class ModificarPersona(GenericModificacionView):
 	def post(self,request, *args, **kwargs):
 		obj = self.get_object()
 		self.object = self.get_object()
-		#form = self.form_class(request.POST,{'tipoDocumento':obj.tipoDocumento,'numeroDocumento':obj.numeroDocumento})
-		#form = self.form_class(request.POST)
 		form = self.form_class(request.POST, instance=self.object)
-		print("PASE POR ACA")
-		
 
 		if form.is_valid():
-			print("PASE POR ACA 2222222222222222")
 			response = super(ModificarPersona, self).post(request, *args, **kwargs)
 			return response
 		return render(request, self.template_name, self.get_context_modificar({'form':form,'message_error':form.non_field_errors(), 'object':self.object,'return_path':'/personas/listado','return_label':'Listado de Personas'}))

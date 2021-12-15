@@ -215,7 +215,7 @@ class AltaPago(LoginRequiredMixin,CreateView):
 		return render(request, self.template_name, {'form':documento_form, 
 			'return_path':reverse('permisos:detalle', args=[permiso.id]),
 			'return_label':'Volver al Detalle de Permiso',
-			'permiso': permiso, 'nombreForm':"Pago Canon"})
+			'permiso': permiso, 'nombreForm':"Nuevo Pago Canon"})
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
@@ -232,36 +232,44 @@ class ModificarPago(LoginRequiredMixin,UpdateView):
 	success_url = reverse_lazy('pagos:listarTodosLosPagos')
 	permission_required = 'pagos.modificar_pago'
 
+
+	def get_context_data(self, **kwargs):
+		context = super(ModificarPago, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Modificar Pago de Canon'
+		context['return_path'] = reverse('pagos:listarPagos',args=[self.pago.permiso.pk])
+		context['return_label'] = 'Volver al listado de pagos'		
+		context['form'] = self.formulario
+		context['monto'] = self.pago_monto
+		return context
+
 	def get(self, request, *args, **kwargs):
-		super().get(request, *args, **kwargs)
-		pago = self.object
-		if not request.user.has_perm(self.permission_required):
-			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
-			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[kwargs.get('pkp')]))
-		form_class = self.form_class(initial={'descripcion':pago.documento.descripcion,	'archivo': pago.documento.archivo, 'fecha': pago.documento.fecha})
-		return render(request, self.template_name, { 'form': form_class,
-			'monto' : pago.monto, 'nombreForm' : 'Modificar Pago de Canon', 'return_path' : reverse('pagos:listarPagos', args=[pago.permiso.pk]),
-		 	'return_label' :  'Volver al listado de pagos' })
+			if not request.user.has_perm(self.permission_required):
+				Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
+				return HttpResponseRedirect(reverse('pagos:listarPagos', args=[kwargs.get('pkp')]))
+			self.pago = self.get_object()
+			self.pago_monto = self.pago.monto
+			self.formulario = DocumentoProtegidoForm(initial={'descripcion': self.pago.documento.descripcion, 'archivo': self.pago.documento.archivo, 'fecha': self.pago.documento.fecha})
+			return super(ModificarPago, self).get(request,*args,**kwargs)
 
 	def post(self, request, *args, **kwargs):
-		super().post(request, *args, **kwargs)
+		self.pago = self.get_object()
+		self.object = self.get_object()
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[kwargs.get('pk')]))
-		pago = self.object
 		documento_form = self.form_class(request.POST, request.FILES)
 		documento_form.fields['archivo'].required = False
-		return post_pago_nuevo_modificado(self, request, documento_form, pago, pago.permiso)
+		self.formulario = documento_form
+		self.pago_monto = float(request.POST['monto'])
+		return post_pago_nuevo_modificado(self, request, documento_form, self.pago, self.pago.permiso)
 
 
 def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 	monto = float(request.POST['monto'])
-	fecha_de_pago = datetime.strptime(documento_form.data['fecha'], "%Y-%m-%d").date()
-
-	lista_resoluciones = permiso.documentos.filter(tipo__nombre = 'Resolución') 
-	fecha_primer_resolucion = lista_resoluciones[0].fecha
-
 	if documento_form.is_valid():
+		fecha_de_pago = datetime.strptime(documento_form.data['fecha'], "%Y-%m-%d").date()
+		lista_resoluciones = permiso.documentos.filter(tipo__nombre = 'Resolución') 
+		fecha_primer_resolucion = lista_resoluciones[0].fecha
 		if (monto > 0) and (fecha_de_pago >= fecha_primer_resolucion) and (fecha_de_pago <= date.today()):
 			documento_nuevo = documento_form.save(commit=False)
 			if pago == None:
@@ -271,7 +279,7 @@ def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 				pago = Pago(permiso=permiso, monto=monto, documento=documento_nuevo, fecha=fecha_de_pago)
 				permiso.agregar_documentacion(documento_nuevo)
 			else:
-				if len(documento_form.data['archivo']) != 0:
+				if len(request.FILES.getlist('archivo')) != 0:
 					pago.documento.archivo = documento_nuevo.archivo
 				pago.documento.descripcion = documento_nuevo.descripcion
 				pago.documento.fecha = documento_nuevo.fecha
@@ -283,7 +291,7 @@ def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 		else:
 			return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
 			+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']))
-	return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', permiso=pago.permiso,message_error=['Datos Incorrectos']))
+	return self.render_to_response(self.get_context_data(formulario=documento_form, pago_monto = monto, message_error=['Datos Incorrectos']))
 
 
 class ListarPagos(ExportMixin, SingleTableMixin, LoginRequiredMixin,FilterView):

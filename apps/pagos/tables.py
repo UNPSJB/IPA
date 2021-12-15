@@ -6,7 +6,7 @@ from .models import Cobro, Pago, ValorDeModulo
 
 def DocumentColumn(tipo):
     return tables.TemplateColumn('<div><a href="/archivos/{{record.documento.archivo.url}}" class="ui icon">{{record.documento.descripcion}}</a></div>',
-                                verbose_name="Documento de "+tipo,
+                                verbose_name="Descripcion del "+tipo,
                                 orderable=False                               
     )
 
