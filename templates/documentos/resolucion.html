@@ -16,7 +16,7 @@
     {% render_form form %}
     <div class="field">
         <label>Unidad en <a> <FONT SIZE=4> {{permiso.tipo.get_medida_display}}  {{unidadAnterior}} </font></a></label>
-        <input type="number" name="unidad" placeholder="Ingrese la unidad del Permiso">
+        <input type="number" step="0.01" name="unidad" placeholder="Ingrese la unidad del Permiso">
       </div>
       {%if not renovacion %}
        <div class="field">

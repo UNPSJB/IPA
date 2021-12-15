@@ -16,7 +16,7 @@ from .filters import TipoDocumentosFilter
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.contrib import messages as Messages
-
+import decimal
 
 class AltaTipoDocumento(GenericAltaView):
 	model = TipoDocumento
@@ -415,7 +415,8 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 			fechaPrimerCobro = None
 
 		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
-		unidad = int(request.POST['unidad'])
+		
+		unidad = decimal.Decimal(request.POST['unidad'])
 
 		messages_error = ['La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución', 'La Unidad mayor a CERO']
 		
