@@ -37,6 +37,12 @@ $(document).ready(function () {
       
       fechas_no_duplicadas = eliminaDuplicados(fechas)              // Elimino valores duplicados --> van a ser mis labels
       
+      fechas_no_duplicadas.sort(function(a, b){
+        var aa = a.split('/').reverse().join(),
+            bb = b.split('/').reverse().join();
+        return aa < bb ? -1 : (aa > bb ? 1 : 0);
+      });
+
       tipos_separados_agrup = {}
       
       for (const [key, value] of Object.entries(tipos_seperados)) {
@@ -46,7 +52,7 @@ $(document).ready(function () {
       //var datasets_final = {"comision": {},'acta-de-inspeccion':{},'acta-de-infraccion':{}}
       var datasets_cantidades = {"comision": [],'acta-de-inspeccion':[],'acta-de-infraccion':[]}
       for(let ts in tipos_separados_agrup){
-        for (let f in fechas_no_duplicadas.sort()){
+        for (let f in fechas_no_duplicadas){
           if (tipos_separados_agrup[ts][fechas_no_duplicadas[f]] !== undefined){
         //    datasets_final[ts][fechas_no_duplicadas[f]] = Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length
             datasets_cantidades[ts].push(Object.keys(tipos_separados_agrup[ts][fechas_no_duplicadas[f]]).length)
