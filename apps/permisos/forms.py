@@ -89,8 +89,6 @@ class SolicitadoForm(forms.ModelForm):
 		fecha_form = self.cleaned_data.get('fecha')
 
 		if (fecha_form>date.today()):
-			print(fecha_form)
-			print(type(fecha_form))
 			raise ValidationError("La fecha de solicitud no puede ser mayor a la fecha actual ("+date.today().strftime("%d-%m-%Y")+")")
 		
 		return fecha_form

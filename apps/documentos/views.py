@@ -144,12 +144,14 @@ class AltaDocumento(LoginRequiredMixin, CreateView):
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		fs = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		if form.is_valid() and (permiso.fechaSolicitud <= fs): #TODO AGREGAR CONDICION DE QUE LA DOCUMENTACION NO ESTE DUPLICADO
-			documento = form.save()
-			permiso.agregar_documentacion(documento)
-			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
+		
 		messages = ['La fecha del documento presentado debe ser igual o mayor que la fecha de la solicitud de permiso (' + permiso.fechaSolicitud.strftime("%d/%m/%Y")+')']
+		if form.is_valid() :
+			if (permiso.fechaSolicitud <= form.cleaned_data['fecha']):
+				documento = form.save()
+				permiso.agregar_documentacion(documento)
+				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
+			return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 
 class DetalleDocumento(GenericDetalleView):
