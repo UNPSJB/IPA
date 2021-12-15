@@ -36,7 +36,7 @@ class ListadoEstablecimientos(GenericListadoView):
 	model = Establecimiento
 	template_name = 'establecimientos/listado.html'
 	table_class = EstablecimientosTable
-	paginate_by = 20
+	paginate_by = 11
 	filterset_class = EstablecimientosFilter
 	context_object_name = 'establecimientos'
 	export_name = 'listado_establecimientos'

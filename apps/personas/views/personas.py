@@ -15,7 +15,7 @@ class ListadoPersonas(GenericListadoView):
 	model = Persona
 	template_name = 'personas/listado.html'
 	table_class = PersonaTable
-	paginate_by = 12
+	paginate_by = 10
 	filterset_class = PersonaFilter
 	export_name = 'listado_personas'
 	permission_required = 'personas.listar_persona'

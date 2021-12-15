@@ -68,7 +68,7 @@ class ListadoTiposDeUso(GenericListadoView):
 	model = TipoUso
 	template_name = 'permisos/tipoDeUso/listado.html'
 	table_class = TipoDeUsoTable
-	paginate_by = 12
+	paginate_by = 10
 	filterset_class = TipoDeUsoFilter
 	context_object_name = 'tiposDeUso'
 	permission_required = 'permisos.listar_tipo_de_uso'

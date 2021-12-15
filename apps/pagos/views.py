@@ -54,7 +54,7 @@ class ListadoValoresDeModulo(GenericListadoView):
 	model = ValorDeModulo
 	template_name = 'pagos/modulos/listado.html'
 	table_class = ModulosTable
-	paginate_by = 12
+	paginate_by = 11
 	filterset_class = ModulosFilter
 	export_name = 'listado_valores_modulos'
 	context_object_name = 'modulos'

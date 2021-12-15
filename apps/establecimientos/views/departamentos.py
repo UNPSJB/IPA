@@ -68,7 +68,7 @@ class ListadoDepartamentos(GenericListadoView):
 	model = Departamento	
 	template_name = 'establecimientos/departamentos/listado.html'
 	table_class = DepartamentosTable
-	paginate_by = 12
+	paginate_by = 11
 	filterset_class = DepartamentosFilter
 	export_name = 'listado_departamentos'
 	context_object_name = 'departamentos'

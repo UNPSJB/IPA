@@ -19,7 +19,7 @@ class ListadoPermisos(GenericListadoView):
 	model = Permiso
 	template_name = 'permisos/listado.html'
 	table_class = PermisosTable
-	paginate_by = 12
+	paginate_by = 8
 	filterset_class = PermisosFilter
 	context_object_name = 'permiso'
 	export_name = 'listado_permisos'

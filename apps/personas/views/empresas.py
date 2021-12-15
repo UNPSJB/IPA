@@ -61,7 +61,7 @@ class Listado(GenericListadoView):
 	template_name = 'empresas/listado.html'
 	table_class = EmpresaTable
 	filterset_class = EmpresaFilter
-	paginate_by = 12
+	paginate_by = 10
 	permission_required = 'personas.listar_empresa'
 	redirect_url = '/'
 

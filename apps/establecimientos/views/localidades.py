@@ -53,7 +53,7 @@ class ListadoLocalidades(GenericListadoView):
 	model = Localidad
 	template_name = 'establecimientos/localidades/listado.html'
 	table_class = LocalidadesTable
-	paginate_by = 20
+	paginate_by = 11
 	filterset_class = LocalidadesFilter
 	export_name = 'listado_localidades'
 	permission_required = 'establecimientos.listar_localidad'
