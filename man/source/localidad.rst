@@ -3,59 +3,59 @@ Localidades
 ===========
 
 *********************************
-Comó crear un nuevo departamento
+Cómo crear un nuevo departamento
 *********************************
 
-Desde el panel principal, podremos ingresar a **Departamentos**.
+Desde el panel principal, podremos ingresar a la opción **Departamentos**.
 
 .. image::  _static/panel_departamento.png
    :align:  center
 
-Luego buscamos el boton de **Nuevo Departamento**.
+Luego buscamos el botón de **Nuevo Departamento**.
 
 .. image::  _static/panel_departamento_nuevo.png
    :align:  center
 
-En el formulario deberá completar los campos **Nombre**, **Superficie**, **Poblacion**, **Descripcion**. Los campos con * son obligatorios. Completados los campos se podra **Guardar** o **Guardar y Cargar otro**.
+En el formulario deberá completar los campos **Nombre**, **Superficie**, **Población**, **Descripción**. Los campos con * son obligatorios. Completados los campos se podrá **Guardar** o **Guardar y Cargar otro**.
 
 .. image::  _static/nuevo_departamento.png
    :align:  center
 
 *******************************
-Comó crear una nueva localidad
+Cómo crear una nueva localidad
 *******************************
 
-Desde el panel principal, podremos ingresar a **Localidades**.
+Desde el panel principal, podremos ingresar a la opción **Localidades**.
 
 .. image::  _static/panel_localidad.png
    :align:  center
 
-Luego buscamos el boton de **Nueva Localidad**.
+Luego buscamos el botón de **Nueva Localidad**.
 
 .. image::  _static/panel_localidad_nuevo.png
    :align:  center
 
-En el formulario deberá completar los campos **Codigo Postal**, **Nombre**, **Departamento** (para este caso, aparecera un desplegable con los departamentos vigentes). Los campos con * son obligatorios. Completados los campos se podra **Guardar** o **Guardar y Cargar otro**.
+En el formulario deberá completar los campos **Código Postal**, **Nombre**, **Departamento** (para éste caso, aparecerá un desplegable con los departamentos vigentes). Los campos con * son obligatorios. Completados los campos se podrá **Guardar** o **Guardar y Cargar otro**.
 
 .. image::  _static/nueva_localidad.png
    :align:  center
 
 
 *******************************
-Comó crear un nuevo afluente
+Cómo crear un nuevo afluente
 *******************************
 
-Desde el panel principal, podremos ingresar a **Afluentes**.
+Desde el panel principal, podremos ingresar a la opción **Afluentes**.
 
 .. image::  _static/panel_afluente.png
    :align:  center
 
-Luego buscamos el boton de **Nuevo Afluente**.
+Luego buscamos el botón de **Nuevo Afluente**.
 
 .. image::  _static/panel_afluente_nuevo.png
    :align:  center
 
-En el formulario deberá completar los campos **Codigo Postal**, **Nombre**, **Departamento** (para este caso, aparecera un desplegable con los departamentos vigentes). Los campos con * son obligatorios. Completados los campos se podra **Guardar** o **Guardar y Cargar otro**.
+En el formulario deberá completar los campos **Nombre**, **Localidad** (para éste caso, aparecerá un desplegable con las localidades vigentes), **Caudal** (campo en metros cúbicos), **Longitud** (campo en metros cuadrados), **Superficie**, y **Descripción** . Los campos con * son obligatorios. Completados los campos se podrá **Guardar** o **Guardar y Cargar otro**.
 
 .. image::  _static/nuevo_afluente.png
    :align:  center

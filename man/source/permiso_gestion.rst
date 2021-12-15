@@ -1,8 +1,8 @@
 =========================
-Como gestionar un permiso
+Cómo gestionar un permiso
 =========================
 
-Para poder continuar el proceso de aprobacion de un permiso, desde el panel principal, podremos ingresar a **Permisos**, donde visualizaremos el listado de permiso, localizamos el permiso.
+Para poder continuar el proceso de aprobación de un permiso, desde el panel principal, podremos ingresar a la opción **Permisos**, donde visualizaremos el listado de permiso, localizamos el permiso.
 
 .. image::  _static/solicitud_listado.png
    :align:  center
@@ -18,14 +18,14 @@ Nos dirigimos al icono inspeccionar, para ver en detalle el estado del permiso.
 ******************
 Agregar Documentos
 ******************
-Debemos completar toda la documentacion faltante, que se especifica debajo de **Documentación faltante**, cuando contemos con alguna informacion faltante, debemos dirigirnos al boton **Agregar**.
+Debemos completar toda la documentación faltante, que se especifica debajo de **Documentos faltantes:**, cuando contemos con alguna información faltante, debemos dirigirnos al botón **Agregar**.
 
 .. image::  _static/solicitud_documento.png
    :align:  center
 
-Para ingresar un documento, en la pantalla deberá completar los campos **Tipo** (para este caso, aparecera un desplegable con los documentos faltantes), **Descripcion**, **Archivo** (Se nos abrira un explorador de archivos, el cual debemos ubicar el archivo del documento a subir), **Fecha del documento** (Se registrara la fecha en que fue entregada la documentación)
+Para ingresar un documento, en la pantalla deberá completar los campos **Tipo** (para éste caso, aparecerá un desplegable con los documentos faltantes), **Descripción**, **Adjuntar el documento digital** (Se nos abrira un explorador de archivos, en el cual debemos ubicar el archivo del documento a subir), **Fecha de entrega del documento** (Se registrará la fecha en que fue entregada la documentación). Completados los campos se podrá **Guardar** o **Guardar y Cargar otro**.
 
-Completada toda la documentacion requerida, nos encontraremos con este mensaje. El visado es el tramite legal donde se corrobora que el documento presentado sea el correcto.
+Completada toda la documentación requerida, nos encontraremos con éste mensaje. El visado es el trámite legal donde se corrobora que el documento presentado sea el correcto.
 
 .. image::  _static/solicitud_visado.png
    :align:  center
@@ -34,24 +34,23 @@ Completada toda la documentacion requerida, nos encontraremos con este mensaje. 
 Visar Documentos
 ****************
 
-Para realizar el visado, debemos ir al boton de **acción** y dirigirnos a **Ve Documentación Presentada**.
+Para realizar el visado, debemos ir al botón de **Documentación**, y encontraremos el listado de los documentos presentados, con la descripción de el estado en que se encuentra cada uno.
 
+**CAMBIAR IMAGEN**
 .. image::  _static/solicitud_visado_documento.png
    :align:  center
 
-Encontraremos el listados de los documentos presentados, con la descripcion de el estado en que se encuentra cada uno.
+El botón de **Acción** nos presentará un desplegable con las opciones disponibles:
 
-Los documentos presentan la siguiente informacion, junto con un boton de **acción** donde nos da las opciones de:
-
-**Rechazar** en caso de que el documento presente algun error.
+**Rechazar** en caso de que el documento presente algún error.
 **Visar** en caso de que el documento sea correcto.
-**Modificar** en caso de que se necesite hacer un rectificacion sobre el documento en cuanto a los datos cargados.
+**Modificar** en caso de que se necesite hacer un rectificación sobre el documento en cuanto a los datos cargados.
 **Eliminar** en caso de error en la carga.
 
 .. image::  _static/solicitud_documento_accion.jpeg
    :align:  center
 
-La accion de **Rechazar** es para cuando un documento no cumple con los requisitos o no sea valido. Esta accion cambia el estado del permiso a **Revisado**
+La acción de **Rechazar** es para cuando un documento no cumple con los requisitos o no sea válido. Ésta acción cambia el estado del permiso a **Revisado**
 
 .. image::  _static/solicitud_documento_accion_rechazar.jpeg
    :align:  center
