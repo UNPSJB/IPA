@@ -29,7 +29,7 @@ class Persona(models.Model):
 
 	class Meta:
 		unique_together = ("tipoDocumento", "numeroDocumento")
-		ordering = ["nombre", "apellido"]
+		ordering = ["apellido","nombre"]
 		permissions = (
 			("listar_persona","Listar personas"),
 			("cargar_persona","Cargar personas"),
@@ -47,7 +47,7 @@ class Persona(models.Model):
 	telefono = models.CharField(max_length=11)
 
 	def __str__(self):
-		return "{}, {}".format(self.apellido, self.nombre)
+		return "{}, {}, {}".format(self.apellido, self.nombre, self.numeroDocumento)
 
 	@property
 	def nombre_completo(self):
