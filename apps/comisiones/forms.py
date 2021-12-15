@@ -37,7 +37,7 @@ class ComisionForm(forms.ModelForm):
 		widgets = {
 			#'empleados':forms.SelectMultiple(attrs={'class':'form-control','id':'empleados','placeholder':'Ingrese el personal que hará el recorrido'}),
 			'nota': forms.TextInput(attrs={'class':'form-control','id':'nota','placeholder':'Ingresa el numero de nota por la cual se gestiona la comisión'}),
-			'motivo': forms.Textarea(attrs={'class':'form-control','id':'motivo','placeholder':'Ingresa el motivo de la comisión'}),
+			'motivo': forms.TextInput(attrs={'class':'form-control','id':'motivo','placeholder':'Ingresa el motivo de la comisión'}),
 			'localidades':forms.SelectMultiple(attrs={'class':'form-control','id':'localidades','placeholder':'Ingresa localidades a recorrer'}),
 			'fechaInicio':forms.DateInput(format=('%Y-%m-%d'),attrs={'type':'date','id':'fechaInicio'}),
 			'fechaFin':forms.DateInput(format=('%Y-%m-%d'),attrs={'type':'date','id':'fechaFin'}),
