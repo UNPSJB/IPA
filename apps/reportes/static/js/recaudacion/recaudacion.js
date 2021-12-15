@@ -6,7 +6,7 @@ var filtro_motivos;
 const dict_nombre_reporte = {
     'tipos_permisos': 'Tipos de Permisos',
     'series_temporales': 'Series Temporales',
-    'proyeccion_valores_modulos': 'Proyeccion Valores de Modulos'
+    'proyeccion_valores_modulos': 'Proyeccion Valores de Módulos'
 }
 
 $(document).ready(function(){

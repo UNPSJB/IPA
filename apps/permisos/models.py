@@ -505,7 +505,7 @@ class Publicado(Estado):
 		if self.fecha + timedelta(days=self.tiempo) < fecha:
 			modulos = ValorDeModulo.objects.filter(fecha = fecha, modulo=self.permiso.tipo.tipo_modulo)
 			if not modulos.exists():
-				raise Exception('No existe el valor de modulo')
+				raise Exception('No existe el valor de módulo')
 			resolucion.save()
 			precio = modulos.latest().precio
 			monto = self.permiso.tipo.calcular_monto(precio, unidad, fechaPrimerCobro, fecha)
@@ -563,7 +563,7 @@ class Otorgado(Estado):
 
 		modulos = ValorDeModulo.objects.filter(fecha__lte=hasta, modulo=self.permiso.tipo.tipo_modulo)
 		if not modulos.exists():
-			raise Exception('No existe el valor de modulo')
+			raise Exception('No existe el valor de módulo')
 		precio = modulos.latest().precio
 		monto = self.permiso.tipo.calcular_monto(precio, self.permiso.unidad, desde, hasta)
 		

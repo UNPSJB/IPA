@@ -78,12 +78,12 @@ class EliminarValorDeModulo(GenericEliminarView):
 				self.object.delete()
 				return JsonResponse({
 					"success": True,
-					"message": 'Valor de Modulo eliminado correctamente'
+					"message": 'Valor de Módulo eliminado correctamente'
 				})
 			except Exception:
 				return JsonResponse({
 				"success": False,
-				"message": ('error',"No se pudo eliminar el valor de modulo")
+				"message": ('error',"No se pudo eliminar el valor de módulo")
 				})
 		else:
 			return JsonResponse({

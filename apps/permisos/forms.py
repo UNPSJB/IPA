@@ -59,7 +59,7 @@ class TipoDeUsoForm(forms.ModelForm):
 			'coeficiente':forms.TextInput(attrs={'class':'form-control', 'type':'number', 'step':'0.01', 'min':'0.01', 'placeholder':'Coeficiente'}),
 			'periodo':forms.Select(attrs={'class':'form-control', 'placeholder':'Periodo'}),
 			'medida':forms.Select(attrs={'class':'form-control', 'placeholder':'Medida'}),
-			'tipo_modulo':forms.Select(attrs={'class':'form-control', 'placeholder':'Tipo de Modulo'}),
+			'tipo_modulo':forms.Select(attrs={'class':'form-control', 'placeholder':'Tipo de Módulo'}),
 			'documentos':forms.SelectMultiple(attrs={'class':'form-control', 'placeholder':'Documentos'}),
 		}
 
