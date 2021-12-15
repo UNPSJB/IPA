@@ -82,7 +82,7 @@ class SolicitadoForm(forms.ModelForm):
 		widgets = {
 			'utilizando':forms.CheckboxInput(attrs={'class':'form-control'}),
 			'fecha': forms.DateInput(format=('%Y-%m-%d'),attrs={'type':'date'}),
-			'observacion': forms.Textarea(attrs={'class':'form-control'}), 
+			'observacion': forms.TextInput(attrs={'class':'form-control','maxlength':'100'}), 
 	}
 
 	def clean_fecha(self):

@@ -47,7 +47,7 @@ class Persona(models.Model):
 	telefono = models.CharField(max_length=11)
 
 	def __str__(self):
-		return "{}, {}, {}".format(self.apellido, self.nombre, self.numeroDocumento)
+		return "{}, {} - [{}]".format(self.apellido, self.nombre, self.numeroDocumento)
 
 	@property
 	def nombre_completo(self):

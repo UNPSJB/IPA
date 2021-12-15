@@ -289,7 +289,7 @@ class Estado(models.Model):
 	fecha = models.DateField()
 	permiso = models.ForeignKey(Permiso, related_name="estados")
 	tipo = models.PositiveSmallIntegerField(choices=TIPOS)
-	observacion = models.CharField(max_length=300, null=True, blank=True)
+	observacion = models.CharField(max_length=100, null=True, blank=True)
 	usuario = models.ForeignKey('users.Usuario', null=True, blank=True)
 
 	class Meta:
