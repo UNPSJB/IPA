@@ -25,7 +25,7 @@ class TipoDocumento(models.Model):
 	protegidos = TipoDocumentoManager(True)
 
 	class Meta:
-		ordering = ["-nombre"]
+		ordering = ["nombre"]
 		permissions = (
 			("cargar_tipo_documento","Cargar tipo de documentos"),
 			("listar_tipo_documento","Listar tipo de documentos"),
@@ -44,6 +44,9 @@ class TipoDocumento(models.Model):
 	@classmethod
 	def get_protegido(klass, slug):
 		return klass.protegidos.get(slug=slug)
+
+	def __unicode__(self):
+		return self.nombre
 
 
 class Documento(models.Model):

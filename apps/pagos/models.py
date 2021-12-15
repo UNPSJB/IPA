@@ -37,6 +37,7 @@ class Pago(Operacion):
 	permiso = models.ForeignKey('permisos.Permiso', blank=False, null=False, related_name="pagos")
 
 	class Meta:
+		ordering = ['-fecha']
 		permissions = (
 			("cargar_pago","Cargar pagos"),
 			("modificar_pago","Modificar pagos"),
@@ -61,7 +62,7 @@ class Cobro(Operacion):
 
 	class Meta:
 		get_latest_by = "fecha"
-		
+		ordering = ['-fecha']
 		permissions = (
 			("cargar_cobro","Cargar cobros"),
 			("recalcular_cobro","Recalcular cobros"),
@@ -94,7 +95,7 @@ class ValorDeModulo (models.Model):
 	descripcion = models.TextField()
 
 	class Meta:
-		ordering = ["fecha"]
+		ordering = ["-fecha"]
 		unique_together = ("fecha", "modulo")
 		get_latest_by = "fecha"
 

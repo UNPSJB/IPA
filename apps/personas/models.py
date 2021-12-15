@@ -229,6 +229,9 @@ class Empresa(models.Model):
 	telefono = models.CharField(max_length=11)
 	representantes = models.ManyToManyField(Persona)
 
+	def __unicode__(self):
+		return self.razonSocial
+
 	def __str__(self):
 		return "{} - {}".format(self.cuit, self.razonSocial)
 
@@ -243,3 +246,4 @@ class Empresa(models.Model):
 			("modificar_empresa","Modificar empresas"),
 			("eliminar_empresa","Eliminar empresas")
 		)
+		ordering = ['razonSocial']

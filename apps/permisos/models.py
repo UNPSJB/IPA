@@ -67,6 +67,7 @@ class TipoUso(models.Model):
 	documentos = models.ManyToManyField(TipoDocumento)
 
 	class Meta:
+		ordering = ['descripcion']
 		permissions = (
 			("cargar_tipo_de_uso","Cargar tipos de usos"),
 			("detalle_tipo_de_uso","Ver detalle de tipos de usos"),

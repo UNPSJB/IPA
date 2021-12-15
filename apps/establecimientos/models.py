@@ -73,6 +73,7 @@ class Localidad(models.Model):
 			("listar_localidad","Listar localidades"),
 			("eliminar_localidad","Eliminar localidades")
 		)
+		ordering : ['nombre']
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
@@ -85,6 +86,9 @@ class Localidad(models.Model):
 	@classmethod
 	def get_protegido(klass, slug):
 		return klass.protegidos.get(slug=slug)
+
+	def __unicode__(self):
+		return self.nombre
 
 
 class Establecimiento(models.Model):
@@ -99,7 +103,7 @@ class Establecimiento(models.Model):
 		return '{} | {}'.format(self.nombre, self.codigoCatastral)
 
 	class Meta:
-		
+		ordering = ['nombre']
 		permissions = (
 			("cargar_establecimiento","Cargar establecimientos"),
 			("listar_establecimiento","Listar establecimientos"),
