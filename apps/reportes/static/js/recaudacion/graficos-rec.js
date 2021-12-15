@@ -1,6 +1,7 @@
 var label_canon = [];
 var data_canon = [];
-
+var datasets_final = {}
+var monto_total = 0;
 var grafico;
 
 function getDataLabel(motivo,operacion){
@@ -25,15 +26,11 @@ function graficos_tipos_permisos(){
         labels_permisos = Object.keys(informacion).slice(0,-1) //SACAR TOTALES
         
         for (var [key, value] of Object.entries(informacion)) { // Tipos de Permisos
-            //console.log(key)
             if(key!="TOTALES"){
                 for (var [key2, value2] of Object.entries(value)) { // Canon e Infraccion
-                    //console.log(key2)
                     for (var [key3, value3] of Object.entries(value2)) { // Pago y Cobro
-                        //console.log(key3)
                         if(key3 != "Diferencia"){
                             if (key2 == "Canon"){
-                                console.log(value3)
                                 if(key3 == "Cobro"){
                                     cobro_canon.push(value3);
                                 }else{
@@ -195,7 +192,6 @@ function graficos_series_temporales(){
         var acum_cobro = 0;
         var acum_pago = 0;
         Object.entries(datos).forEach(([motivo, movimiento]) => {
-            console.log("clave:" + motivo); // "a 5", "b 7", "c 9"
             movimiento.forEach(e => {
                 if (e.operacion=="Cobro"){
                     acum_cobro+=e.monto
@@ -204,7 +200,6 @@ function graficos_series_temporales(){
                     acum_pago+=e.monto
                     e.monto = acum_pago
                 }
-                console.log(e)
             })
         });        
 
@@ -300,8 +295,8 @@ function graficos_proyeccion_vm (){
 
     datos = _.groupBy(_.sortBy(data_informacion, "fecha"), "tipo");
 
-    var datasets_final = {}
-    var monto_total = 0;
+    datasets_final = {}
+    monto_total = 0;
 
     for (let t of Object.keys(datos)){
         datasets_final[t] = 0
@@ -309,7 +304,7 @@ function graficos_proyeccion_vm (){
 
     for (const [key, value] of Object.entries(datos)) {
             value.forEach(e => {
-                datasets_final[key] += datasets_final[key]+parseFloat(e.monto.replace(",", "."));
+                datasets_final[key] += parseFloat(e.monto.replace(".", ","));
                 monto_total += parseFloat(e.monto.replace(",", "."));
                 })
       }
@@ -343,10 +338,8 @@ function graficos_proyeccion_vm (){
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            let label = context.label+": ";
-                            if (context.parsed.y !== null) {
-                                label += toPercent(context.parsed/monto_total);
-                            }
+                            let label = context.label+": ";                            
+                            label += toPercent(datasets_final[context.label]/monto_total);
                             return label;
                         }
                     }
