@@ -79,7 +79,7 @@ class DataEmpresas(View):
 		empresas = Empresa.objects.all()
 		empresaDict = []
 		for empresa in empresas:
-			empresaDict.append({"razonSocial": empresa.razonSocial, "cuit": empresa.cuit})
+			empresaDict.append({"Razón Social": empresa.razonSocial, "cuit": empresa.cuit})
 		return JsonResponse({"data": empresaDict})
 
 class ModificarEmpresa(GenericModificacionView):

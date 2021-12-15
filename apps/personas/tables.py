@@ -25,7 +25,7 @@ class EmpresaTable(tables.Table):
     acciones = tables.TemplateColumn(template_name="formButtons.html")
 
 class EmpresaFilter(django_filters.FilterSet):
-    razonSocial = django_filters.CharFilter(label='Razon Social', lookup_expr='icontains')
+    razonSocial = django_filters.CharFilter(label='Razón Social', lookup_expr='icontains')
     cuit = django_filters.CharFilter(label='Cuit', lookup_expr='icontains')
 
     class Meta:
