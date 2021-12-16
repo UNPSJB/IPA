@@ -642,25 +642,25 @@ class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 
 		if form.is_valid():
 		
-		comision_pk = (int(form.data['comision']))
-		comision = Comision.objects.get(pk=comision_pk)
+			comision_pk = (int(form.data['comision']))
+			comision = Comision.objects.get(pk=comision_pk)
 			fechaSolicitud = self.permiso.fechaSolicitud
-		fechaSolicitudString = fechaSolicitud.strftime("%d-%m-%Y")
-		fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		fechaCorrecta = ( fechaActa >= fechaSolicitud) and (fechaActa <= date.today()) and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
+			fechaSolicitudString = fechaSolicitud.strftime("%d-%m-%Y")
+			fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+			fechaCorrecta = ( fechaActa >= fechaSolicitud) and (fechaActa <= date.today()) and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
 
 			if fechaCorrecta:
-			documento = form.save(commit=False)
-			documento.tipo = TipoDocumento.get_protegido('acta-de-infraccion')
-			documento.estado = 2
-			documento = form.save()	#TODO se esta guardando mal la información
+				documento = form.save(commit=False)
+				documento.tipo = TipoDocumento.get_protegido('acta-de-infraccion')
+				documento.estado = 2
+				documento = form.save()	#TODO se esta guardando mal la información
 				self.permiso.agregar_documentacion(documento)
-			comision.agregar_documentacion(documento)
+				comision.agregar_documentacion(documento)
 				return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.id]))
 				
-		messages = ['La fecha del acta de infraccion debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
-		'Estar entre las fechas de la comisión','Menor o igual a la fecha actual']
-		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
+			messages = ['La fecha del acta de infraccion debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
+			'Estar entre las fechas de la comisión','Menor o igual a la fecha actual']
+			return self.render_to_response(self.get_context_data(form=form, message_error=messages))
 		
 		return self.render_to_response(self.get_context_data(form=form))
 
