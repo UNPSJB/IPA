@@ -56,6 +56,7 @@ class ListadoAfluentes(GenericListadoView):
 	paginate_by = 12
 	filterset_class = AfluentesFilter
 	export_name = 'listado_afluentes'
+	exclude_columns = 'acciones'
 	permission_required = 'establecimientos.listar_afluente'
 	redirect_url = '/'	
 	

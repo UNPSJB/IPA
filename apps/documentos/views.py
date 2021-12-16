@@ -51,6 +51,8 @@ class ListadoTipoDocumentos(GenericListadoView):
 	table_class = TipoDocumentosTable
 	paginate_by = 20
 	filterset_class = TipoDocumentosFilter
+	export_name = 'listado_tipo_documentos'
+	exclude_columns = 'acciones'
 	context_object_name = 'tipoDocumentos'
 	permission_required = 'documentos.listar_tipo_documento'
 	redirect_url = '/'

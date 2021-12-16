@@ -59,6 +59,7 @@ class ListadoComision(GenericListadoView):
 	paginate_by = 12
 	filterset_class = ComisionFilter
 	export_name = 'listado_comisiones'
+	exclude_columns = 'acciones'
 	permission_required = 'comisiones.listado_comision'
 	redirect_url = '/'
 

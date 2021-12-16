@@ -18,6 +18,7 @@ class ListadoPersonas(GenericListadoView):
 	paginate_by = 10
 	filterset_class = PersonaFilter
 	export_name = 'listado_personas'
+	exclude_columns = 'acciones'
 	permission_required = 'personas.listar_persona'
 	redirect_url = '/'
 

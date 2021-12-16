@@ -23,6 +23,7 @@ class ListadoPermisos(GenericListadoView):
 	filterset_class = PermisosFilter
 	context_object_name = 'permiso'
 	export_name = 'listado_permisos'
+	exclude_columns = 'acciones'
 	permission_required = 'permisos.listar_permiso'
 	redirect_url = '/'
 

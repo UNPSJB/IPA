@@ -9,7 +9,7 @@ class PermisosTable(tables.Table):
     estado = tables.Column(verbose_name="Estado",orderable=False)
     fechaSolicitud = tables.Column(verbose_name="Fecha de Solicitud")
     fechaVencimiento = tables.Column(verbose_name="Fecha de Vencimiento")
-    acciones = tables.TemplateColumn(template_name="formButtons.html",orderable=False)
+    acciones = tables.TemplateColumn(template_name="formButtons.html",orderable=False,attrs={"th": {"id": "acciones"}})
  
     class Meta:
         template_name = "django_tables2/semantic.html"

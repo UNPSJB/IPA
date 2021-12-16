@@ -70,6 +70,8 @@ class ListadoTiposDeUso(GenericListadoView):
 	table_class = TipoDeUsoTable
 	paginate_by = 10
 	filterset_class = TipoDeUsoFilter
+	export_name = 'listado_tipos_de_uso'
+	exclude_columns = 'acciones'
 	context_object_name = 'tiposDeUso'
 	permission_required = 'permisos.listar_tipo_de_uso'
 	redirect_url = '/'

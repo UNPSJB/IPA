@@ -67,6 +67,7 @@ class ListadoLocalidades(GenericListadoView):
 	paginate_by = 11
 	filterset_class = LocalidadesFilter
 	export_name = 'listado_localidades'
+	exclude_columns = 'acciones'
 	permission_required = 'establecimientos.listar_localidad'
 	redirect_url = '/'
 

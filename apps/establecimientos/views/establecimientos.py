@@ -43,6 +43,7 @@ class ListadoEstablecimientos(GenericListadoView):
 	filterset_class = EstablecimientosFilter
 	context_object_name = 'establecimientos'
 	export_name = 'listado_establecimientos'
+	exclude_columns = 'acciones'
 	permission_required = 'establecimientos.listar_establecimiento'
 	redirect_url = '/'
 

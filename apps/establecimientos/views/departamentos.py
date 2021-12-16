@@ -81,6 +81,7 @@ class ListadoDepartamentos(GenericListadoView):
 	paginate_by = 11
 	filterset_class = DepartamentosFilter
 	export_name = 'listado_departamentos'
+	exclude_columns = 'acciones'
 	context_object_name = 'departamentos'
 	permission_required = 'establecimientos.listar_departamento'
 	redirect_url = '/'

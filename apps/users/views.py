@@ -12,13 +12,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixi
 from django.contrib import messages as Messages
 from django.http import JsonResponse
 from django.contrib.auth.models import Group
+from django_tables2.export.views import ExportMixin
 
-class ListadoUsuarios(LoginRequiredMixin,PermissionRequiredMixin,SingleTableView):
+class ListadoUsuarios(ExportMixin,LoginRequiredMixin,PermissionRequiredMixin,SingleTableView):
 	model = Usuario
 	template_name = 'usuarios/listado.html'
 	table_class = UsuarioTable
 	table_data = Usuario.usuarios.all()
 	paginate_by = 12
+	export_name = 'listado_usuarios'
+	exclude_columns = 'acciones'
 	permission_required = 'users.listar_usuarios'
 	redirect_url = '/'
 

@@ -64,6 +64,8 @@ class Listado(GenericListadoView):
 	table_class = EmpresaTable
 	filterset_class = EmpresaFilter
 	paginate_by = 10
+	export_name = 'listado_empresas'
+	exclude_columns = 'acciones'
 	permission_required = 'personas.listar_empresa'
 	redirect_url = '/'
 
