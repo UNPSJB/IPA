@@ -38,12 +38,19 @@
       <td>Roles</td>
       <td>
         {% for rol in persona.roles_related %}
-            <p> {{ rol }} </p>
+            
+        <p> {{ rol }} 
+                {% if 'Director' == rol.roleName %} - N° de Lejajo: {{ rol.legajo }} - Cargo: {{ rol.cargo }} desde el {{rol.fechaInicio}}{% endif %}
+              {% if 'Chofer' == rol.roleName %} - Licencia: {{ rol.licencia }} (vence el {{ rol.vencimientoLicencia }}) {% endif %}
+        </p>
         {% endfor %}
       </td>
     </tr>
-
+    
   </tbody>
+
+
+
 </table>
   
 {% endblock table_render%}  
