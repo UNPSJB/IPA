@@ -149,7 +149,7 @@ class DocumentoActaInsfraccionProtegidoForm(forms.ModelForm):
 			return fecha_form
 
 class ResolucionForm(forms.Form):
-	unidad = forms.DecimalField(label='Unidad',max_digits=6,decimal_places=2, widget=forms.NumberInput(attrs={'class':'form-control','type':'number','min':'3','max':'30','placeholder':'Ingrese la unidad del Permiso'}))
+	unidad = forms.DecimalField(label='Unidad',max_digits=6,decimal_places=2, widget=forms.NumberInput(attrs={'class':'form-control','type':'number','min':'1','placeholder':'Ingrese la unidad del Permiso'}))
 	#Fecha a partir de la cual se comienza a calcular el primer Cobro (Fecha de Solicitud de Permiso: 12 Dic. 2021 - Utilizando: No
 	fechaPrimerCobro = forms.DateField(label="Fecha a partir de la cual se comienza a calcular el primer Cobro",widget=forms.DateInput(format=('%Y-%m-%d'),attrs={'class':'form-control','type':'date'}))
 	fechaVencimiento = forms.DateField(label="Fecha de Vencimiento del Permiso",widget=forms.DateInput(format=('%Y-%m-%d'),attrs={'class':'form-control','type':'date'}))
