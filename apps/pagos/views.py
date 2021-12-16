@@ -192,7 +192,8 @@ class ListarCobros(ExportMixin, SingleTableMixin, LoginRequiredMixin,FilterView)
 		context['nombreListado'] = 'Listado de Cobros del Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso.pk])
 		context['particular'] = True
-		if isinstance(self.permiso.estado, (Otorgado,Baja)):
+		estado_otorgado = True if len(self.permiso.estados.all().filter(tipo=6))>0 else False
+		if isinstance(self.permiso.estado, (Otorgado,Baja)) and estado_otorgado:
 			context['url_nuevo'] = reverse('pagos:altaCobro',args=[self.permiso.pk])
 		if not isinstance(self.permiso.estado, Archivado):
 			context['url_nuevo2'] = reverse('pagos:altaCobroInfraccion',args=[self.permiso.pk])
@@ -326,7 +327,8 @@ class ListarPagos(ExportMixin, SingleTableMixin, LoginRequiredMixin,FilterView):
 		context['nombreListado'] = 'Listado de Pagos del Permiso'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso.pk])
 		context['particular'] = True
-		if isinstance(self.permiso.estado, (Otorgado,Baja)):
+		estado_otorgado = True if len(self.permiso.estados.all().filter(tipo=6))>0 else False
+		if isinstance(self.permiso.estado, (Otorgado,Baja)) and estado_otorgado:
 			context['url_nuevo'] = reverse('pagos:altaPago',args=[self.permiso.pk])
 		if not isinstance(self.permiso.estado, Archivado):
 			context['url_nuevo2'] = reverse('pagos:AltaPagoInfraccion',args=[self.permiso.pk])
@@ -401,19 +403,22 @@ class AltaCobroInfraccion(LoginRequiredMixin,CreateView):
 		return super(AltaCobroInfraccion, self).get(request,*args,**kwargs)	
 
 	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk]))
 
 		documento_form = DocumentoProtegidoForm(request.POST, request.FILES)
-		documento = documento_form.save(commit=False)
-		fecha_de_cobro = documento.fecha
-		monto = float(request.POST['monto'])
-
+		
 		if documento_form.is_valid():
-			if fecha_de_cobro >= permiso.fechaSolicitud:
+			documento = documento_form.save(commit=False)
+			fecha_de_cobro = documento.fecha
+			try:
+				monto = float(request.POST['monto'])
+			except Exception:
+				monto = None
+
+			if fecha_de_cobro >= permiso.fechaSolicitud and monto != None:
 				documento.tipo = TipoDocumento.get_protegido('cobro-infraccion')
 				documento.estado = 2
 				documento = documento_form.save()
@@ -423,10 +428,11 @@ class AltaCobroInfraccion(LoginRequiredMixin,CreateView):
 				permiso.agregar_documentacion(documento)
 				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk,]))
 			else:
-				return render(request, self.template_name, {'form': documento_form, 'monto':str(monto), 'nombreForm': 'Cobro de Infraccion',
-					'message_error': ['La fecha de cobro debe ser igual o mayor a la fecha de solicitud (' + permiso.fechaSolicitud.strftime('%d/%m/%Y'+')')]
-					})
-		return render(request, self.template_name, {'form':documento_form, 'return_path': reverse('permisos:detalle', args=[self.permiso_pk]), 'message_error':['Error en la carga']})
+				return render(request, self.template_name, {'form': documento_form, 'monto':str(monto), 'nombreForm': 'Cobro de Infraccion','return_label':'Volver al Detalle de Permiso','return_path': reverse('permisos:detalle', args=[permiso.pk]),
+					'message_error': ['La fecha de cobro debe ser igual o mayor a la fecha de solicitud (' + permiso.fechaSolicitud.strftime('%d/%m/%Y'+')'),"Ingresar un monto correcto"]})
+		
+		documento_form.fields['archivo'].label = 'Archivo de Cobro de Infracción'
+		return render(request, self.template_name, {'form':documento_form, 'nombreForm':"Cobro de Infraccion",'return_label':'Volver al Detalle de Permiso','return_path': reverse('permisos:detalle', args=[permiso.pk]), 'message_error':['Error en la carga']})
 
 
 class AltaPagoInfraccion(LoginRequiredMixin,CreateView):

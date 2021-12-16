@@ -717,28 +717,35 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		self.permiso = Permiso.objects.get(pk=self.permiso_pk)
+
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 		permiso = Permiso.objects.get(pk=self.permiso_pk)
 
-		comision_pk = (int(form.data['comision']))
-		comision = Comision.objects.get(pk=comision_pk)
-
 		fechaSolicitud = permiso.fechaSolicitud
 		fechaSolicitudString = fechaSolicitud.strftime("%d-%m-%Y")
-		fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		fechaCorrecta = ( fechaActa >= fechaSolicitud)  and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
 
-		if form.is_valid() and fechaCorrecta:
-			documento = form.save(commit=False)
-			documento.tipo = TipoDocumento.get_protegido('acta-de-inspeccion')
-			documento.estado = 2
-			documento = form.save()
-			permiso.agregar_documentacion(documento)
-			comision.agregar_documentacion(documento)
-			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
-		messages = ['La fecha del acta de Inspección debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
-		'Estar entre las fechas de la comisión','Menor o igual a la fecha actual']
-		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
+		if form.is_valid():
+			comision_pk = (int(form.data['comision']))
+			comision = Comision.objects.get(pk=comision_pk)
+
+			fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+			fechaCorrecta = ( fechaActa >= fechaSolicitud)  and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
+
+			if fechaCorrecta:
+				documento = form.save(commit=False)
+				documento.tipo = TipoDocumento.get_protegido('acta-de-inspeccion')
+				documento.estado = 2
+				documento = form.save()
+				permiso.agregar_documentacion(documento)
+				comision.agregar_documentacion(documento)
+				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
+			
+			form.fields['comision'].queryset = Comision.objects.filter(Q(fechaInicio__lte=self.permiso.fechaSolicitud,fechaFin__gte=self.permiso.fechaSolicitud)|Q(fechaInicio__gte=self.permiso.fechaSolicitud))
+			messages = ['La fecha del acta de Inspección debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
+			'Estar entre las fechas de la comisión','Menor o igual a la fecha actual']
+			return self.render_to_response(self.get_context_data(form=form, message_error=messages))
+		return self.render_to_response(self.get_context_data(form=form))
