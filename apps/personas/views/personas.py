@@ -90,10 +90,15 @@ class ModificarPersona(GenericModificacionView):
 
 		if self.object.sos(Director):
 			context['director_form'] = DirectorForm(instance=self.object.como(Director))
+			context['director_form'].fields['legajo'].disabled=True
+			context['director_form'].fields['cargo'].disabled=True
+			context['director_form'].fields['fechaInicio'].disabled=True
 		else:
 			context['director_form'] = DirectorForm()
 		if self.object.sos(Chofer):
 			context['chofer_form'] = ChoferForm(instance=self.object.como(Chofer))
+			context['chofer_form'].fields['licencia'].disabled=True
+			context['chofer_form'].fields['vencimientoLicencia'].disabled=True
 		else:
 			context['chofer_form'] = ChoferForm()
 		context['ayuda'] = ''

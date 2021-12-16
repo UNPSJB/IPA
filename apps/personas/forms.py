@@ -51,7 +51,7 @@ class DirectorForm (forms.ModelForm):
 		ordering = ["-legajo"]
 
 		widgets = {
-			'fechaInicio': forms.DateInput(attrs={'type':'date'}),
+			'fechaInicio': forms.DateInput(format=('%Y-%m-%d'),attrs={'class':'form-control','type':'date'}),
 		}
 
 class ChoferForm (forms.ModelForm):
@@ -70,7 +70,7 @@ class ChoferForm (forms.ModelForm):
 
 		widgets = {
 			'licencia':forms.TextInput(attrs={'class':'form-control'}),
-			'vencimientoLicencia': forms.DateInput(attrs={'type':'date'}),
+			'vencimientoLicencia': forms.DateInput(format=('%Y-%m-%d'),attrs={'class':'form-control','type':'date'}),
 		}
 
 class EmpresaForm(forms.ModelForm):
