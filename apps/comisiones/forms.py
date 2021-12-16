@@ -12,13 +12,13 @@ class EmpModelChoiceField(ModelMultipleChoiceField):
 
 class ComisionForm(forms.ModelForm):
 	empleados = EmpModelChoiceField(label="Empleados", queryset=Persona.getEmpleadosParaComision(), required=True,
-	widget=forms.SelectMultiple(attrs={'class':'form-control','id':'localidades','placeholder':'Ingrese el personal que hará el recorrido'}))
+	widget=forms.SelectMultiple(attrs={'class':'form-control','id':'empleados','placeholder':'Ingrese el personal que hará el recorrido'}))
 	
 	class Meta:
 		model = Comision
 
 		fields = [
-				#'empleados',
+				'empleados',
 				'nota',
 				'fechaInicio',
 				'fechaFin',
