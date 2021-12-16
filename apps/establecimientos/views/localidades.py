@@ -31,7 +31,7 @@ class AltaLocalidad(GenericAltaView):
 		localidad_form = self.form_class(request.POST)
 		if localidad_form.is_valid():
 			localidad_form.save()
-			return redirect('afluentes:listar')
+			return redirect('localidades:listar')
 		return render(request, self.template_name,self.get_context_localidad({'form':localidad_form}))
 
 class ModificarLocalidad(GenericModificacionView):

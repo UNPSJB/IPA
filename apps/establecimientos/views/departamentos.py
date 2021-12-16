@@ -32,7 +32,7 @@ class AltaDepartamento(GenericAltaView):
 		departamento_form = self.form_class(request.POST)
 		if departamento_form.is_valid():
 			departamento_form.save()
-			return redirect('afluentes:listar')
+			return redirect('departamentos:listar')
 		return render(request, self.template_name,self.get_context_departamento({'form':departamento_form}))
 
 class ModificarDepartamento(GenericModificacionView):
