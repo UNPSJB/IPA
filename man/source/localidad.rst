@@ -1,11 +1,10 @@
-===========
+.. _cheat-sheet:
+
 Localidades
 ===========
 
-*********************************
 Cómo crear un nuevo departamento
-*********************************
-
+--------------------------------
 Desde el panel principal, podremos ingresar a la opción **Departamentos**.
 
 .. image::  _static/panel_departamento.png
@@ -21,10 +20,9 @@ En el formulario deberá completar los campos **Nombre**, **Superficie**, **Pobl
 .. image::  _static/nuevo_departamento.png
    :align:  center
 
-*******************************
-Cómo crear una nueva localidad
-*******************************
 
+Cómo crear una nueva localidad
+------------------------------
 Desde el panel principal, podremos ingresar a la opción **Localidades**.
 
 .. image::  _static/panel_localidad.png
@@ -37,14 +35,12 @@ Luego buscamos el botón de **Nueva Localidad**.
 
 En el formulario deberá completar los campos **Código Postal**, **Nombre**, **Departamento** (para éste caso, aparecerá un desplegable con los departamentos vigentes). Los campos con * son obligatorios. Completados los campos se podrá **Guardar**.
 
-.. image::  _static/nueva_localidad.png
+.. image::  _static/nueva_localidad_(3).png
    :align:  center
 
 
-*******************************
 Cómo crear un nuevo afluente
-*******************************
-
+----------------------------
 Desde el panel principal, podremos ingresar a la opción **Afluentes**.
 
 .. image::  _static/panel_afluente.png
