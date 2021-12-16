@@ -23,7 +23,7 @@ class AltaLocalidad(GenericAltaView):
 
 	def get_context_localidad(self,context):
 		context['nombreForm'] = 'Nueva Localidad'
-		context['ayuda'] = 'localidad.html#como-crear-un-nuevo-afluente'
+		context['ayuda'] = 'localidad.html#como-crear-una-nueva-localidad'
 		context['return_label'] = "listado de localidades"
 		return context
 

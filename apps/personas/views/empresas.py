@@ -27,20 +27,22 @@ class AltaEmpresa(GenericAltaView):
 	permission_required = 'personas.cargar_empresa'
 	redirect_url = 'empresas:listado'
 
-	def get_context_data(self, **kwargs):
-		context = super(AltaEmpresa, self).get_context_data(**kwargs)
+	def get_context_data(self,*args, **kwargs):
+		context = super(AltaEmpresa, self).get_context_data(**kwargs) 
+		return self.get_context_empresa(context)
+
+	def get_context_empresa(self,context):
 		context['nombreForm'] = 'Nueva Empresa'
-		context['return_label'] = 'Listado Empresas'
-		context['return_path']= reverse('empresas:listado')
 		context['ayuda'] = 'solicitante.html#como-crear-una-nueva-empresa'
+		context['return_label'] = "listado de empresas"
 		return context
 
-	def post(self, request):
+	def post(self, request, *args, **kwargs):
 		empresa_form = self.form_class(request.POST)
 		if empresa_form.is_valid():
 			empresa_form.save()
-			return redirect('empresas:listado')
-		return render(request, self.template_name, {'form':empresa_form, 'message_error': empresa_form.non_field_errors()})
+			return redirect('afluentes:listar')
+		return render(request, self.template_name,self.get_context_departamento({'form':empresa_form}))
 
 class DetalleEmpresa(GenericDetalleView):
 	model = Empresa
