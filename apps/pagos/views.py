@@ -459,17 +459,22 @@ class AltaPagoInfraccion(LoginRequiredMixin,CreateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
+		self.permiso_pk = kwargs.get('pk')
 		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.pk]))
 		documento_form = self.form_class(request.POST, request.FILES)
-		monto = float(request.POST['monto'])
-		fecha_de_pago = datetime.strptime(documento_form.data['fecha'], "%Y-%m-%d").date()
-		fechaSolicitud = permiso.fechaSolicitud
-
+		
 		if documento_form.is_valid():
-			if (monto > 0) and (fecha_de_pago >= fechaSolicitud) and (fecha_de_pago <= date.today()):
+			try:
+				monto = float(request.POST['monto'])
+			except Exception:
+				monto = None
+			fecha_de_pago = datetime.strptime(documento_form.data['fecha'], "%Y-%m-%d").date()
+			fechaSolicitud = permiso.fechaSolicitud
+
+			if (monto != None) and (fecha_de_pago >= fechaSolicitud) and (fecha_de_pago <= date.today()):
 				documento = documento_form.save(commit=False)
 				documento.tipo = TipoDocumento.get_protegido('pago-infraccion')
 				documento.estado = 2
@@ -479,10 +484,8 @@ class AltaPagoInfraccion(LoginRequiredMixin,CreateView):
 				permiso.agregar_documentacion(documento)
 				return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id,]))
 			else:
-				return render(request, self.template_name, {'form': documento_form,'monto':str(monto), 'nombreForm': 'Nuevo Pago de Infraccion',
-					'message_error': ['La fecha de Pago debe ser mayor o igual a la fecha de Solicitud de permiso y menor o igual a la fecha actual ('
-				+ (fechaSolicitud).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']
-				})
-		return self.render_to_response(self.get_context_data(form=documento_form, message_error=['Error en la carga']))
+				return render(request, self.template_name, self.get_context_data(form=documento_form, message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de Solicitud de permiso y menor o igual a la fecha actual ('
+				+ (fechaSolicitud).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')',"El monto debe ser mayor a 0"]))
+		return self.render_to_response(self.get_context_data(form=documento_form, message_error=['Error en la carga',"El monto debe ser mayor a 0"]))
 
 
