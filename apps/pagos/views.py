@@ -271,7 +271,9 @@ class ModificarPago(LoginRequiredMixin,UpdateView):
 
 def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 	monto = float(request.POST['monto'])
+	
 	if documento_form.is_valid():
+		
 		fecha_de_pago = datetime.strptime(documento_form.data['fecha'], "%Y-%m-%d").date()
 		lista_resoluciones = permiso.documentos.filter(tipo__nombre = 'Resolución') 
 		fecha_primer_resolucion = lista_resoluciones[0].fecha
@@ -294,11 +296,9 @@ def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 			pago.save()
 			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[pago.permiso.id,]))
 		else:
-			if monto <= 0: #controla que el monto sea positivo
-				return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['El monto debe ser mayor a 0']))
-			else:
-				return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
-				+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']))
+			return self.render_to_response({'form':documento_form, 'return_path':reverse('pagos:listarPagos', args=[permiso.pk]), 'return_label':'Volver al listado de pagos', 'message_error' : ['El monto debe ser mayor a 0']})
+			#else:
+			#	return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual']))
 	return self.render_to_response(self.get_context_data(formulario=documento_form, pago_monto = monto, message_error=['Datos Incorrectos']))
 
 
