@@ -60,8 +60,30 @@
 											{% endif %}
 										{% endif %}
 										{%if documento.tipo.slug in permiso.estado.documentos_modificar_eliminar%}
-											<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
-											<a class="item eliminar" id="{{permiso.id}}-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
+											{%if not documento.tipo.protegido and documento.estado == 1 %}
+												<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
+											{% endif %}
+
+											{%if permiso.estado.tipo < 4 and not documento.tipo.protegido and documento.estado == 0 %}
+												<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
+											{% endif %}
+
+											{%if documento.tipo.protegido %}
+												<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>
+											{% endif %}
+
+											{%if not documento.estado == 1%}
+												{%if permiso.estado.tipo == 1 and documento.estado == 0 and not documento.tipo.protegido %}
+													<a class="item eliminar" id="{{permiso.id}}-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
+												{% endif %}
+												{%if permiso.estado.tipo < 4 and documento.estado == 0 and not documento.tipo.protegido %}
+													<a class="item eliminar" id="{{permiso.id}}-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
+												{% endif %}
+												{%if documento.estado == 2 and documento.tipo.protegido %}
+													<a class="item eliminar" id="{{permiso.id}}-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
+												{% endif %}
+											{% endif %}
+
 										{% endif %}
 									</div>
 								</div>
