@@ -6,7 +6,7 @@ class PermisosTable(tables.Table):
     solicitante = tables.Column(verbose_name="Solicitante")
     establecimiento = tables.Column(verbose_name="Establecimiento")
     tipo = tables.Column(verbose_name="Tipo")
-    estado = tables.Column(verbose_name="Estado")
+    estado = tables.Column(verbose_name="Estado",orderable=False)
     fechaSolicitud = tables.Column(verbose_name="Fecha de Solicitud")
     fechaVencimiento = tables.Column(verbose_name="Fecha de Vencimiento")
     acciones = tables.TemplateColumn(template_name="formButtons.html",orderable=False)
