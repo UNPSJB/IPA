@@ -18,6 +18,7 @@ Bienvenidos a la documentación de IPA!
    localidad
    general
    cobro
+   reportes
 
 
 

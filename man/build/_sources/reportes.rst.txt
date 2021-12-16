@@ -5,32 +5,120 @@ Reportes
 ========
 
 Cómo generar los reportes
-=========================
+-------------------------
+Desde el panel principal, podremos ingresar a la opción
+**Reporte de Comisiones** -
+**Reporte de de Gestión de Permiso** -
+**Reporte de Recaudación**.
 
-**Reporte Comisión**
-====================
 
-Elejimos los filtros disponibles luego damos al botón **Generar**
+**Reporte de Comisiones**
+------------------------
+Al seleccionar **Reporte de Comisiones**, elejimos los filtros disponibles y luego presionamos el botón **Generar**
 
-mostrata la informacion 
+.. image::  _static/reporte_comision.png
+   :align:  center
+
+Y nos mostrará la siguiente información 
+
+.. image::  _static/reporte_comision_informacion.png
+   :align:  center
+ 
+Luego podremos verlo de forma grafica desde la solapa **Graficos**
+
+.. image::  _static/reporte_comision_graficos.png
+   :align:  center
+ 
+También podremos ver toda ésta información Informacion + Graficos desde **Info+Graficos**
+
+El reporte se podrá imprimir y exportar desde las opciones
+
+.. image::  _static/imprimir_exportar.png
+   :align:  center
+
+
+**Reporte de Gestión de Permiso**
+---------------------------------
+Al seleccionar **Reporte de Gestión de Permiso**, elejimos los filtros disponibles y luego presionamos el botón **Generar**
+
+.. image::  _static/reporte_gestionpermiso.png
+   :align:  center
+
+Y nos mostrará la siguiente información 
+
+.. image::  _static/reporte_gestionpermiso_informacion.png
+   :align:  center
+ 
+Luego podremos verlo de forma grafica desde la solapa **Graficos**
+
+.. image::  _static/reporte_gestionpermiso_grafico.png
+   :align:  center
+ 
+También podremos ver toda ésta información Informacion + Graficos desde **Info+Graficos**
+
+El reporte se podrá imprimir y exportar desde las opciones
+
+.. image::  _static/imprimir_exportar.png
+   :align:  center
  
 
-luego podemos verlo de forma grafica desde la solapa GRAFICO
- 
-podremos ver toda esta informacion junta desde INFO+GRAFICO
+**Reporte de Recaudación**
+--------------------------
+Al seleccionar **Reporte de Recaudación**, podremos seleccionar el tipo de Reporte de Recaudación desde las solapas
 
-el repote se podra exportar desde 
- 
+.. image::  _static/reporte_recaudacion.png
+   :align:  center
 
-reporte gestion de permiso
 
-elejimos los filtros que tenemos, luego damos generar 
-nos va a mostrat la info
-(explciar mas o menos a que corresponde cada estado, solicitado-corregido…)
- 
-podemos verlo en forma grafica desde GRAFICOS 
- 
-podemos ver toda la info junta desde info + grafico
+**Tipos de Permisos**:
+Si seleccionamos la solapa **Tipos de Permisos** nos mostrará la siguiente información
 
-se puede imprimir la info desde los botones
+.. image::  _static/reporte_recaudacion_filtro.png
+   :align:  center
+
+elejimos los filtros disponibles y luego presionamos el botón **Generar**
+
+.. image::  _static/reporte_recaudacion_permisos_informacion.png
+   :align:  center
+
+
+**Series Temporales**: 
+Si seleccionamos la solapa **Series Temporales** nos mostrará la siguiente información 
+
+.. image::  _static/reporte_recaudacion_temporal_informacion.png
+   :align:  center
+ 
+Luego podremos verlo de forma grafica desde la solapa **Graficos**
+
+.. image::  _static/reporte_recaudacion_permisos_grafico_canon.png
+   :align:  center
+
+.. image::  _static/reporte_recaudacion_permisos_grafico_infraccion.png
+   :align:  center
+
+También podremos ver toda ésta información Informacion + Graficos desde **Info+Graficos**
+
+El reporte se podrá imprimir y exportar desde las opciones
+
+.. image::  _static/imprimir_exportar.png
+   :align:  center 
+
+
+**Proyección por Valores Módulos**:
+Si seleccionamos la solapa **Proyección por Valores Módulos** nos mostrará la siguiente información 
+
+.. image::  _static/reporte_recaudacion_proyeccion_informacion.png
+   :align:  center
+ 
+Luego podremos verlo de forma grafica desde la solapa **Graficos**
+
+.. image::  _static/reporte_recaudacion_temporal_grafico.png
+   :align:  center
+
+También podremos ver toda ésta información Informacion + Graficos desde **Info+Graficos**
+
+El reporte se podrá imprimir y exportar desde las opciones
+
+.. image::  _static/imprimir_exportar.png
+   :align:  center
  
