@@ -20,12 +20,12 @@
       </div>
       {%if not renovacion %}
        <div class="field">
-           <label>Fecha del primer Cobro (Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}} - Utilizando: {{utilizando}})</label>
+           <label>Fecha a partir de la cual se comienza a calcular el primer Cobro (Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}} - Utilizando: {{utilizando}})</label>
         <input type="date" required="True" name="fechaPrimerCobro">
         </div>
         {% endif %}
        <div class="field">
-           <label>Fecha de Vencimiento</label>
+           <label>Fecha de Vencimiento del Permiso</label>
         <input type="date" required="True" name="fechaVencimiento">
         </div>
 

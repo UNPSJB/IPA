@@ -385,7 +385,7 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 		context['renovacion'] = True if permiso.fechaVencimiento != None else False
 		context['unidadAnterior'] = '- Unidad de la anterior Resolución: ' + str(permiso.unidad) + permiso.tipo.get_medida_display() if permiso.unidad != None else ''
 		context['nombreForm'] = '{} Resolución a Permiso'.format('Renovar' if context['renovacion'] else 'Agregar')
-		context['form'].fields['archivo'].label = 'Archivo de la Resolución que aprueba el permiso'
+		context['form'].fields['fecha'].label = 'Fecha de aprobación de la Resolución'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['ayuda'] = 'solicitud.html#agregar-resolucion'
 		return context
@@ -405,34 +405,37 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
-		permiso = Permiso.objects.get(pk=self.permiso_pk)
-
-		fechaResolucion=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		try:
-			fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
-			vencimientoPublicacion = permiso.estado.vencimientoPublicacion()
-		except:
-			fechaPrimerCobro = None
-
-		fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
-		
-		unidad = decimal.Decimal(request.POST['unidad'])
-
-		messages_error = ['La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución', 'La Unidad mayor a CERO']
-		
-		if permiso.fechaVencimiento != None:
-			ultimoVencimientoResolucion = permiso.fechaVencimiento
-			fechaCorrecta = fechaResolucion >= ultimoVencimientoResolucion
-			accion = 'renovar'
-			messages_error.append('La Fecha de Resolución debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (' + ultimoVencimientoResolucion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
-		else:
-			fechaCorrecta = fechaResolucion > vencimientoPublicacion
-			accion = 'resolver'
-			messages_error.append('La Fecha de Resolución debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
-	
-		fechaCorrecta = fechaCorrecta and (fechaVencimiento >= fechaResolucion) and (fechaResolucion <= date.today())
-		
 		if form.is_valid():
+			permiso = Permiso.objects.get(pk=self.permiso_pk)
+
+			#fechaResolucion=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+			fechaResolucion=form.cleaned_data['fecha']
+
+			try:
+				fechaPrimerCobro=datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
+				vencimientoPublicacion = permiso.estado.vencimientoPublicacion()
+			except:
+				fechaPrimerCobro = None
+
+			fechaVencimiento=datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
+			
+			unidad = decimal.Decimal(request.POST['unidad'])
+
+			messages_error = ['La Fecha de Vencimiento debe ser mayor a la Fecha de la Resolución', 'La Unidad mayor a CERO']
+			
+			if permiso.fechaVencimiento != None:
+				ultimoVencimientoResolucion = permiso.fechaVencimiento
+				fechaCorrecta = fechaResolucion >= ultimoVencimientoResolucion
+				accion = 'renovar'
+				messages_error.append('La Fecha de Resolución debe ser mayor o igual a la Fecha de Vencimiento de la Ultima Resolución cargada (' + ultimoVencimientoResolucion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
+			else:
+				fechaCorrecta = fechaResolucion > vencimientoPublicacion
+				accion = 'resolver'
+				messages_error.append('La Fecha de Resolución debe ser mayor a la fecha de vencimiento de publicacion (' + vencimientoPublicacion.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
+				messages_error.append('La Fecha de Resolución debe ser mayor a la fecha de primero cobro que ingreso (' + fechaPrimerCobro.strftime('%d/%m/%Y') + ') y menor o igual a la fecha actual.')
+
+			fechaCorrecta = fechaCorrecta and (fechaVencimiento >= fechaResolucion) and (fechaResolucion <= date.today() and (fechaResolucion > fechaPrimerCobro))
+		
 			if fechaCorrecta and (unidad > 0):
 				resolucion = form.save(commit=False)
 				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
