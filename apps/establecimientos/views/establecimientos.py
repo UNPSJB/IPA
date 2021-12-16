@@ -31,7 +31,7 @@ class AltaEstablecimiento(GenericAltaView):
 		establecimiento_form = self.form_class(request.POST)
 		if establecimiento_form.is_valid():
 			establecimiento_form.save()
-			return redirect('afluentes:listar')
+			return redirect('establecimientos:listar')
 		return render(request, self.template_name,self.get_context_establecimiento({'form':establecimiento_form}))
 
 
