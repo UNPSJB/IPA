@@ -17,20 +17,23 @@ class AltaEstablecimiento(GenericAltaView):
 	permission_required = 'establecimientos.cargar_establecimiento'
 	redirect_url = 'establecimientos:listar'
 
-	def get_context_data(self, **kwargs):
-		context = super(AltaEstablecimiento, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Nuevo Establecimiento"
+	def get_context_data(self,*args, **kwargs):
+		context = super(AltaEstablecimiento, self).get_context_data(**kwargs) 
+		return self.get_context_establecimiento(context)
+
+	def get_context_establecimiento(self,context):
+		context['nombreForm'] = 'Nuevo Establecimiento'
 		context['ayuda'] = 'solicitante.html#como-crear-un-nuevo-establecimiento'
-		if context['return_label'] == None:
-			context['return_label'] = "listado de Establecimientos"
+		context['return_label'] = "listado de Establecimientos"
 		return context
 
-	def post(self, request):
+	def post(self, request, *args, **kwargs):
 		establecimiento_form = self.form_class(request.POST)
 		if establecimiento_form.is_valid():
 			establecimiento_form.save()
-			return redirect('establecimientos:listar')
-		return render(request, self.template_name, {'form':establecimiento_form, 'return_label':'Volver' ,'message_error': establecimiento_form.non_field_errors()})
+			return redirect('afluentes:listar')
+		return render(request, self.template_name,self.get_context_establecimiento({'form':establecimiento_form}))
+
 
 class ListadoEstablecimientos(GenericListadoView):
 	model = Establecimiento

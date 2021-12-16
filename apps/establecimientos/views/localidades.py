@@ -17,11 +17,22 @@ class AltaLocalidad(GenericAltaView):
 	permission_required = 'establecimientos.cargar_localidad'
 	redirect_url = 'localidades:listar'
 
-	def get_context_data(self, **kwargs):
+	def get_context_data(self,*args, **kwargs):
 		context = super(AltaLocalidad, self).get_context_data(**kwargs) 
+		return self.get_context_localidad(context)
+
+	def get_context_localidad(self,context):
 		context['nombreForm'] = 'Nueva Localidad'
-		context['ayuda'] = 'localidad.html#como-crear-una-nueva-localidad'
+		context['ayuda'] = 'localidad.html#como-crear-un-nuevo-afluente'
+		context['return_label'] = "listado de localidades"
 		return context
+
+	def post(self, request, *args, **kwargs):
+		localidad_form = self.form_class(request.POST)
+		if localidad_form.is_valid():
+			localidad_form.save()
+			return redirect('afluentes:listar')
+		return render(request, self.template_name,self.get_context_localidad({'form':localidad_form}))
 
 class ModificarLocalidad(GenericModificacionView):
 	model = Localidad

@@ -18,12 +18,22 @@ class AltaDepartamento(GenericAltaView):
 	permission_required = 'establecimientos.cargar_departamento'
 	redirect_url = 'departamentos:listar'
 
-	def get_context_data(self, **kwargs):
-		context = super(AltaDepartamento, self).get_context_data(**kwargs)
-		context['nombreForm'] = "Nuevo Departamento"
-		context['return_path'] = reverse('departamentos:listar')
+	def get_context_data(self,*args, **kwargs):
+		context = super(AltaDepartamento, self).get_context_data(**kwargs) 
+		return self.get_context_departamento(context)
+
+	def get_context_departamento(self,context):
+		context['nombreForm'] = 'Nuevo Departamento'
 		context['ayuda'] = 'localidad.html#como-crear-un-nuevo-departamento'
+		context['return_label'] = "listado de departamentos"
 		return context
+
+	def post(self, request, *args, **kwargs):
+		departamento_form = self.form_class(request.POST)
+		if departamento_form.is_valid():
+			departamento_form.save()
+			return redirect('afluentes:listar')
+		return render(request, self.template_name,self.get_context_departamento({'form':departamento_form}))
 
 class ModificarDepartamento(GenericModificacionView):
 	model = Departamento
