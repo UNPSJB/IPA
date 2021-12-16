@@ -204,6 +204,10 @@ class AltaPago(LoginRequiredMixin,CreateView):
 	template_name = 'pagos/alta.html'
 	permission_required = 'pagos.cargar_pago'
 
+	def get_context_data(self, **kwargs):
+		context = super(AltaPago, self).get_context_data(**kwargs)
+		context['nombreForm'] = 'Nuevo Pago Canon'
+
 	def get(self, request, *args, **kwargs):
 		self.permiso_pk = kwargs.get('pk')
 		if not request.user.has_perm(self.permission_required):
@@ -289,8 +293,11 @@ def post_pago_nuevo_modificado(self, request, documento_form, pago, permiso):
 			pago.save()
 			return HttpResponseRedirect(reverse('pagos:listarPagos', args=[pago.permiso.id,]))
 		else:
-			return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
-			+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']))
+			if monto <= 0: #controla que el monto sea positivo
+				return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['El monto debe ser mayor a 0']))
+			else:
+				return self.render_to_response(self.get_context_data(form=documento_form, return_path=reverse('pagos:listarPagos', args=[permiso.pk]), return_label= 'Volver al listado de pagos', monto=str(monto), message_error = ['La fecha de Pago debe ser mayor o igual a la fecha de de la resolución de otorgamiento de permiso y menor o igual a la fecha actual ('
+				+ (fecha_primer_resolucion).strftime("%d-%m-%Y") + ' - ' + (date.today()).strftime("%d-%m-%Y") + ')']))
 	return self.render_to_response(self.get_context_data(formulario=documento_form, pago_monto = monto, message_error=['Datos Incorrectos']))
 
 

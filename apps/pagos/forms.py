@@ -43,7 +43,7 @@ class PagoForm(forms.ModelForm):
 	descripcion = forms.CharField(label='Descripción del Pago')
 	archivo = forms.FileField(label='Adjuntar el Comprobante del Pago del Usuario')
 	fecha = forms.DateField(label="Fecha de realizado el pago",widget=forms.DateInput(format=('%Y-%m-%d'),attrs={'class':'form-control','type':'date','data-tooltip':"Fijarse en el documento enviado por el solicitante, la fecha efectiva de pago"}))
-	monto = forms.DecimalField(label='Ingreso el monto de pago')
+	monto = forms.DecimalField(label='Monto',max_digits=10,decimal_places=2, widget=forms.NumberInput(attrs={'class':'form-control','type':'number','placeholder':'Ingrese el monto','min':'0.01'}))
 
 	class Meta:
 		model = Pago
