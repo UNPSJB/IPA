@@ -57,6 +57,8 @@ class ComisionForm(forms.ModelForm):
 	def clean(self):
 		fecha_inicio = self.cleaned_data.get('fechaInicio')
 		fecha_fin = self.cleaned_data.get('fechaFin')
+		if (fecha_inicio == None or fecha_fin == None):
+			raise ValidationError("Error en los datos ingresados")
 		emp_comision = self.cleaned_data.get('empleados')
 		validacion_fechas = Q(fechaInicio__range=(fecha_inicio,fecha_fin))|Q(fechaFin__range=(fecha_inicio,fecha_fin))|(Q(fechaInicio__lte=fecha_inicio)&Q(fechaFin__gte=fecha_inicio))
 		comisiones = Comision.objects.filter(validacion_fechas&Q(empleados__in=emp_comision))
