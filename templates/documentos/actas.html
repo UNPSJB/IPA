@@ -23,6 +23,7 @@
 {% block formname %}nueva_acta_inspeccion_form{% endblock%}
 
 {% block customPageJs %}
+	$(".default.text").html("----------- Seleccionar opción -----------");
 	if ($('#message_error').length>2){
 		$('.ui.error.message').show();
 	}
