@@ -12,7 +12,7 @@ def get_roles_choices():
 class PersonaFilter(django_filters.FilterSet):
     roles__tipo = django_filters.ChoiceFilter(choices=get_roles_choices())
     nombre = django_filters.CharFilter(method='search_filter')
-    numeroDocumento = django_filters.CharFilter(label='N° Doc.', lookup_expr='icontains')
+    #numeroDocumento = django_filters.CharFilter(label='N° Doc.', lookup_expr='icontains')
 
     class Meta:
         model = Persona
