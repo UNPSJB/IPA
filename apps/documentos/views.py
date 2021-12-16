@@ -355,9 +355,14 @@ class AgregarEdicto(LoginRequiredMixin, CreateView):
 
 		fechaEdicto=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
 
-		tiempo = int(form.data['tiempo'])
-
-		if form.is_valid():
+		try:
+			tiempo = int(form.data['tiempo'])
+			tiempo_correcto = (tiempo>=3) and (tiempo<=30)
+		except Exception:
+			tiempo = None
+			tiempo_correcto = False
+		
+		if form.is_valid() and tiempo != None and tiempo_correcto:
 			if (fechaEdicto >= fecha_pase) and (tiempo > 0):
 				edicto = form.save(commit=False)
 				edicto.tipo = TipoDocumento.get_protegido('edicto')
@@ -368,8 +373,8 @@ class AgregarEdicto(LoginRequiredMixin, CreateView):
 			else:
 				return self.render_to_response(self.get_context_data(form=form, 
 					message_error = ['La fecha del Edicto debe igual o posterior a la fecha del Expediente ('+(fecha_pase).strftime("%d-%m-%Y")+
-					') y el tiempo de publicación mayor a CERO']))
-		return self.render_to_response(self.get_context_data(form=form))
+					') y el tiempo de publicación mayor a CERO','El tiempo de Publicacion debe ser mayor o igual a 3, y menor o igual a 30']))
+		return self.render_to_response(self.get_context_data(form=form,message_error=['El tiempo de Publicacion debe ser mayor o igual a 3, y menor o igual a 30']))
 
 class AgregarResolucion(LoginRequiredMixin, CreateView):
 	model = Documento
