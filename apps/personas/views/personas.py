@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from apps.generales.views import GenericAltaView,GenericDetalleView,GenericListadoView,GenericModificacionView
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from apps.permisos.models import Permiso
 
 class ListadoPersonas(GenericListadoView):
 	model = Persona
@@ -145,16 +145,22 @@ class EliminarPersona(LoginRequiredMixin,DeleteView):
 	
 	def delete(self, request, *args, **kwargs):
 		if not request.user.has_perm(self.permission_required):
-			return JsonResponse({"success": False,"message": ('permiso',"No posee los permisos necesarios para realizar esta operación")})
-		try:
-			self.object = self.get_object()
-			self.object.delete()
+				return JsonResponse({"success": False,"message": ('permiso',"No posee los permisos necesarios para realizar esta operación")})
+		if not len(Permiso.objects.filter(solicitante_id=45))>0:
+			try:
+				self.object = self.get_object()
+				self.object.delete()
 
+				return JsonResponse({
+					"success": True
+				})
+			except Exception as e:
+				return JsonResponse({
+					"success": False,
+					"message": ('error',"No se pudo eliminar esta persona")
+				})
+		else:
 			return JsonResponse({
-				"success": True
-			})
-		except Exception as e:
-			return JsonResponse({
-				"success": False,
-				"message": ('error',"No se pudo eliminar esta persona")
-			})
+					"success": False,
+					"message": ('error',"La persona tiene permisos asociados")
+				})

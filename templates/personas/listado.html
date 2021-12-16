@@ -3,6 +3,15 @@
 
 {% block wrapper %}
 {{block.super}}
+<div class="row header-content">
+	<div class="ui hidden large error message">
+		<i class="close icon"></i>
+		<div class="header"> Hubo el siguiente problema:</div>
+		<ul class="list">
+			<li id="message_error"></li>
+		</ul>
+	</div>
+</div>
 <div class="ui grid"> 
 
 	<div class="row centered">		
