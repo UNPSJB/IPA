@@ -16,6 +16,11 @@
 	window.location.href = "/usuarios/detalle/" + id;
 {% endblock comportamiento_click_detalle %}
 
+{% block customPageJs %}
+	{{ block.super }}
+    $(".ui.button.modificar").remove();
+{% endblock %}
+
 {% block comportamiento_click_eliminar %}
 		var splitted_data = this.id.split('-');
 		var id = splitted_data[2]

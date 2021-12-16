@@ -18,13 +18,22 @@ class AltaAfluente(GenericAltaView):
 	permission_required = 'establecimientos.cargar_afluente'
 	redirect_url = 'afluentes:listar'
 
-	def get_context_data(self, **kwargs):
+	def get_context_data(self, *args,**kwargs):
 		context = super(AltaAfluente, self).get_context_data(**kwargs)
+		return self.get_context_afluente(context)
+
+	def get_context_afluente(self,context):
 		context['nombreForm'] = 'Nuevo Afluente'
 		context['ayuda'] = 'localidad.html#como-crear-un-nuevo-afluente'
-		if context['return_label'] == None:
-			context['return_label'] = "listado de afluentes"
+		context['return_label'] = "listado de afluentes"
 		return context
+
+	def post(self, request, *args, **kwargs):
+		afluente_form = self.form_class(request.POST)
+		if afluente_form.is_valid():
+			afluente_form.save()
+			return redirect('afluentes:listar')
+		return render(request, self.template_name,self.get_context_afluente({'form':afluente_form}))
 
 class DetalleAfluente(GenericDetalleView):
 	model = Afluente
