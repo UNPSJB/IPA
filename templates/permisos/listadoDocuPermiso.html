@@ -52,8 +52,12 @@
 									<i class="dropdown icon"></i>
 									<div class="menu">
 										{%if permiso.estado.tipo < 4 and not documento.tipo.protegido%}
-											<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
-											<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
+											{%if documento.estado == 0 %}
+												<a class="item" href="{% url 'permisos:rechazarDocumentoSolicitud' permiso.id documento.id %}"><i class="x icon"></i> Rechazar</a>
+											{% endif %}
+											{%if documento.estado != 1 and documento.estado != 2 %}
+												<a class="item" href="{% url 'permisos:visarDocumentoSolicitud' permiso.id documento.id %}"><i class="check icon"></i> Visar</a>
+											{% endif %}
 										{% endif %}
 										{%if documento.tipo.slug in permiso.estado.documentos_modificar_eliminar%}
 											<a class="item" href="{% url 'documentos:modificar' documento.id permiso.id%}"><i class="edit icon"></i> Modificar</a>

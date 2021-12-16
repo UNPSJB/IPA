@@ -175,7 +175,7 @@ class ModificarDocumento(LoginRequiredMixin,UpdateView):
 		if (self.object.tipo.protegido == True):
 			context['form'].fields['tipo'].queryset = [self.object.tipo]
 		else:
-			documentacion_faltante = Permiso.objects.get(pk=self.permiso_pk).tipos_de_documentos_faltantes()
+			documentacion_faltante = Permiso.objects.get(pk=pk).tipos_de_documentos_faltantes()
 			context['form'].fields['tipo'].queryset = documentacion_faltante.union([self.object.tipo])
 
 		context['form'].fields['tipo'].disabled = True
@@ -192,7 +192,7 @@ class ModificarDocumento(LoginRequiredMixin,UpdateView):
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:listarDocumentacionPermiso', args=[self.permiso_pk]))
-		if self.object.tipo.protegido == True:
+		if (self.object.tipo.protegido == True or self.object.estado == 2):
 			self.form_class = DocumentoForm
 		else:
 			self.form_class = ModificarDocumentoForm
@@ -208,6 +208,7 @@ class ModificarDocumento(LoginRequiredMixin,UpdateView):
 
 		try:
 			es_documento_nuevo=request.POST['documento_nuevo']
+			es_documento_nuevo = eval(es_documento_nuevo)
 			form = ModificarDocumentoForm(request.POST, instance=self.object)	
 		except:
 			form = DocumentoForm(request.POST, instance=self.object)
@@ -615,10 +616,7 @@ class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaActaDeInfraccion, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Nueva comisión': reverse('comisiones:alta'),
-			'Listado Comisiones': reverse('comisiones:listar'),
-			}
+		context['botones'] = {}
 		context['nombreForm'] = 'Nueva Acta de Infraccion'
 		context['form'].fields['comision'].queryset = Comision.objects.filter(Q(fechaInicio__lte=self.permiso.fechaSolicitud,fechaFin__gte=self.permiso.fechaSolicitud)|Q(fechaInicio__gte=self.permiso.fechaSolicitud))
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
@@ -640,26 +638,31 @@ class AltaActaDeInfraccion(LoginRequiredMixin, CreateView):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
-		permiso = Permiso.objects.get(pk=self.permiso_pk)
+		self.permiso = Permiso.objects.get(pk=self.permiso_pk)
 
+		if form.is_valid():
+		
 		comision_pk = (int(form.data['comision']))
 		comision = Comision.objects.get(pk=comision_pk)
-		fechaSolicitud = permiso.fechaSolicitud
+			fechaSolicitud = self.permiso.fechaSolicitud
 		fechaSolicitudString = fechaSolicitud.strftime("%d-%m-%Y")
 		fechaActa = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
 		fechaCorrecta = ( fechaActa >= fechaSolicitud) and (fechaActa <= date.today()) and (fechaActa >= comision.fechaInicio) and (fechaActa <= comision.fechaFin)
 
-		if form.is_valid() and fechaCorrecta:
+			if fechaCorrecta:
 			documento = form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('acta-de-infraccion')
 			documento.estado = 2
 			documento = form.save()	#TODO se esta guardando mal la información
-			permiso.agregar_documentacion(documento)
+				self.permiso.agregar_documentacion(documento)
 			comision.agregar_documentacion(documento)
-			return HttpResponseRedirect(reverse('permisos:detalle', args=[permiso.id]))
+				return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso.id]))
+				
 		messages = ['La fecha del acta de infraccion debe ser:', 'Igual o mayor a la fecha de solicitud (' + fechaSolicitudString + ')',
 		'Estar entre las fechas de la comisión','Menor o igual a la fecha actual']
 		return self.render_to_response(self.get_context_data(form=form, message_error=messages))
+		
+		return self.render_to_response(self.get_context_data(form=form))
 
 class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 	model = Documento

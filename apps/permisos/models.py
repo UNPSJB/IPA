@@ -337,7 +337,7 @@ class Estado(models.Model):
 			return self
 
 	def verificar_transicion_estado(self,usuario, fecha, es_nuevo_documento):
-		if eval(es_nuevo_documento) == True:
+		if es_nuevo_documento == True:
 			if isinstance(self, Corregido):
 				if not self.permiso.documentos.filter(estado=1).exists() and self.permiso.documentos.filter(estado=2).exists():
 					Visado(permiso=self.permiso, usuario=usuario, fecha=fecha).save()
@@ -367,8 +367,10 @@ class Solicitado(Estado):
 		for documento in documentos:
 			documento.estado = 2
 			documento.save()
-		if not self.permiso.falta_entregar_documentacion():
+		#if not self.permiso.falta_entregar_documentacion():7
+		if self.permiso.documentos.filter(estado=2).exists():
 			return Visado(permiso=self.permiso, usuario=usuario, fecha=documento.fecha) #TODO Establecer fecha de visado como la del documento y fecha como cuando se cargo por sistema
+			self.permiso.documentos.filter(estado=1).exists()
 		else:
 			self
 
