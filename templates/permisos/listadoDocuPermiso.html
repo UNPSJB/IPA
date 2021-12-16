@@ -73,9 +73,6 @@
 											{% endif %}
 
 											{%if not documento.estado == 1%}
-												{%if permiso.estado.tipo == 1 and documento.estado == 0 and not documento.tipo.protegido %}
-													<a class="item eliminar" id="{{permiso.id}}-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
-												{% endif %}
 												{%if permiso.estado.tipo < 4 and documento.estado == 0 and not documento.tipo.protegido %}
 													<a class="item eliminar" id="{{permiso.id}}-{{documento.id}}"><i class="trash icon"></i> Eliminar</a>
 												{% endif %}
