@@ -15,6 +15,7 @@
 
     {% render_form form %}
     
+    
     <div class="field">
         <label>Unidad en <a> <FONT SIZE=4> {{permiso.tipo.get_medida_display}}  {{unidadAnterior}} </font></a></label>
         <input type="number" value={{unidad}} data-toggle="tooltip" data-placement="top" title="Ingrese un valor mayor a 0.01" step="0.01" min="0.01" name="unidad" placeholder="Ingrese la unidad del Permiso">
@@ -22,12 +23,12 @@
       {%if not renovacion %}
        <div class="field">
            <label>Fecha a partir de la cual se comienza a calcular el primer Cobro (Fecha de Solicitud de Permiso: {{permiso.fechaSolicitud}} - Utilizando: {{utilizando}})</label>
-        <input type="date" required="True" name="fechaPrimerCobro">
+        <input type="date" value={{fechaPrimerCobro}} required="True" name="fechaPrimerCobro">
         </div>
         {% endif %}
        <div class="field">
            <label>Fecha de Vencimiento del Permiso</label>
-        <input type="date" required="True" name="fechaVencimiento">
+        <input type="date" value={{fechaVencimiento}} required="True" name="fechaVencimiento">
         </div>
 
 {% endblock %}
