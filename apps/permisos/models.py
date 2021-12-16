@@ -332,7 +332,7 @@ class Estado(models.Model):
 		self.permiso.documentos.add(documento)
 		self.permiso.save()
 		if valido:
-			return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha)
+			return Baja(permiso=self.permiso, usuario=usuario, fecha=fecha).save()
 		else:
 			return self
 
@@ -483,7 +483,7 @@ class Completado(Estado):
 	
 	def documentos_modificar_eliminar(self):
 		docs = super().documentos_modificar_eliminar()
-		return docs+['pase']
+		return docs
 
 	def eliminar_documento(self,usuario, fecha, documento):
 		if documento.tipo.slug=='pase':
@@ -625,7 +625,7 @@ class Baja(Estado):
 
 	def documentos_modificar_eliminar(self):
 		docs = super().documentos_modificar_eliminar()
-		return docs+['resolucion','cobro','pago','oposicion'] #TODO CORROBORAR SI ESTA BIEN
+		return docs+['resolucion','cobro','pago'] #TODO CORROBORAR SI ESTA BIEN
 
 	def archivar(self, usuario, fecha, documento):
 		if ((self.fecha+timedelta(days=60)) <= fecha) and self.permiso.saldoActual()>=0: #2 MESES TUVO QUE HABER PASADO Y TEMA PLATA

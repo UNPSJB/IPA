@@ -398,18 +398,39 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		return super(AgregarResolucion, self).get(request,*args,**kwargs)
 
+	def validacion_resolucion_form(self,request,form):
+		campos_correctos = True
+		try:
+			self.fechaPrimerCobro = datetime.strptime(form.data['fechaPrimerCobro'], "%Y-%m-%d").date()
+		except:
+			campos_correctos = False
+			self.messages_error.append("La Fecha a partir de la cual se comienza a calcular el primer Cobro es incorrecta")
+		try:
+			self.fechaVencimiento = datetime.strptime(form.data['fechaVencimiento'], "%Y-%m-%d").date()
+		except:
+			campos_correctos = False
+			self.messages_error.append("Fecha de Vencimiento del Permiso es incorrecta")
+		try:
+			self.unidad = decimal.Decimal(request.POST['unidad'])
+		except:
+			campos_correctos = False
+			self.messages_error.append("La Unidad ingresada es incorrecta")
+		return campos_correctos
+
+	
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object
 		self.permiso_pk = kwargs.get('pk')
+		self.messages_error = []
 		if not request.user.has_perm(self.permission_required):
 			Messages.error(self.request, 'No posee los permisos necesarios para realizar esta operación')
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
-		if form.is_valid():
+		if form.is_valid() and self.validacion_resolucion_form(request,form):
+
 			permiso = Permiso.objects.get(pk=self.permiso_pk)
 
-			#fechaResolucion=datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
 			fechaResolucion=form.cleaned_data['fecha']
 
 			try:
@@ -448,11 +469,11 @@ class AgregarResolucion(LoginRequiredMixin, CreateView):
 					print("Unexpected error:", sys.exc_info()[0])
 					return self.render_to_response(self.get_context_data(form=form, message_error=[e,'Cargue el valor de módulo ' + permiso.tipo.getTipoModuloString()+ ' para la fecha de la resolución (' + fechaResolucion.strftime('%d/%m/%Y')+')']))
 			elif (unidad <= 0) or fechaCorrecta:
-				return self.render_to_response(self.get_context_data(form=form, 
-					message_error = messages_error))
+				return self.render_to_response(self.get_context_data(form=form, message_error = messages_error,fechaPrimerCobro=form.data['fechaPrimerCobro'], fechaVencimiento=form.data['fechaVencimiento'], unidad=request.POST['unidad']))
 			else:
-				return self.render_to_response(self.get_context_data(form=form, message_error=messages_error))
-		return self.render_to_response(self.get_context_data(form=form))
+				return self.render_to_response(self.get_context_data(form=form, message_error=messages_error,fechaPrimerCobro=form.data['fechaPrimerCobro'], fechaVencimiento=form.data['fechaVencimiento'], unidad=request.POST['unidad']))
+		return self.render_to_response(self.get_context_data(form=form,message_error = self.messages_error,
+		fechaPrimerCobro=form.data['fechaPrimerCobro'], fechaVencimiento=form.data['fechaVencimiento'], unidad=request.POST['unidad']))
 
 
 class AgregarOposicion(LoginRequiredMixin, CreateView):
@@ -491,22 +512,27 @@ class AgregarOposicion(LoginRequiredMixin, CreateView):
 		form = self.form_class(request.POST, request.FILES)
 		second_form = OposicionForm(request.POST)
 
-		fecha_oposicion = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		valido = eval(second_form.data['valido'])
 		
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		
-		fechaVencimiento = permiso.estado.vencimientoPublicacion()
-		
-		#if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
-		if form.is_valid() and (fecha_oposicion <= fechaVencimiento):
-			oposicion = form.save(commit=False)
-			oposicion.tipo = TipoDocumento.get_protegido('oposicion')
-			oposicion.estado = 2
-			permiso.hacer('darDeBaja',request.user,fecha_oposicion, oposicion, valido)
-			return HttpResponseRedirect(self.get_success_url())
+		if form.is_valid():
+			fecha_oposicion = form.cleaned_data['fecha']
 
-		return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser menor o igual a la fecha de vencimiento de publicacion - '+(fechaVencimiento).strftime("%d-%m-%Y")]))
+			valido = eval(second_form.data['valido'])
+		
+			permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+			fechaVencimiento = permiso.estado.vencimientoPublicacion()
+			
+			if (fecha_oposicion>=permiso.estado.fecha and fecha_oposicion <= fechaVencimiento):
+			#if form.is_valid() and (request.POST['fecha'] <= fechaVencimiento.strftime('%d/%m/%Y')):
+				oposicion = form.save(commit=False)
+				oposicion.tipo = TipoDocumento.get_protegido('oposicion')
+				oposicion.estado = 2
+				permiso.hacer('darDeBaja',request.user,fecha_oposicion, oposicion, valido)
+				return HttpResponseRedirect(self.get_success_url())
+			
+			return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser menor o igual a la fecha de vencimiento de publicacion ('+(fechaVencimiento).strftime("%d-%m-%Y") +
+			') y mayor o igual a la fecha de publicacion ('+permiso.estado.fecha.strftime("%d-%m-%Y")+")"]))
+		
+		return self.render_to_response(self.get_context_data(form=form))
 
 class BajaPermiso(LoginRequiredMixin, CreateView):
 	model = Documento
@@ -541,18 +567,18 @@ class BajaPermiso(LoginRequiredMixin, CreateView):
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
-		fecha_de_baja = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
+		if form.is_valid():
+			fecha_de_baja = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
 		
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		
-		if form.is_valid() and (fecha_de_baja >= permiso.estado.fecha):
-			resolucion = form.save(commit=False)
-			resolucion.tipo = TipoDocumento.get_protegido('resolucion')
-			resolucion.estado = 2
-			permiso.hacer('darDeBaja',request.user,fecha_de_baja, resolucion, True)
-			return HttpResponseRedirect(self.get_success_url())
-
-		return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser mayor o igual a '+(permiso.estado.fecha).strftime("%d-%m-%Y")+' (Permiso '+permiso.estado.getEstadoString().title()+')']))
+			permiso = Permiso.objects.get(pk=kwargs.get('pk'))
+			if (fecha_de_baja >= permiso.estado.fecha):
+				resolucion = form.save(commit=False)
+				resolucion.tipo = TipoDocumento.get_protegido('resolucion')
+				resolucion.estado = 2
+				permiso.hacer('darDeBaja',request.user,fecha_de_baja, resolucion, True)
+				return HttpResponseRedirect(self.get_success_url())
+			return self.render_to_response(self.get_context_data(form=form, message_error = ['La fecha debe ser mayor o igual a '+(permiso.estado.fecha).strftime("%d-%m-%Y")+' (Permiso '+permiso.estado.getEstadoString().title()+')']))
+		return self.render_to_response(self.get_context_data(form=form))
 
 class ArchivarPermiso(LoginRequiredMixin, CreateView):
 	model = Documento
@@ -590,11 +616,9 @@ class ArchivarPermiso(LoginRequiredMixin, CreateView):
 			return HttpResponseRedirect(reverse('permisos:detalle', args=[self.permiso_pk]))
 		form = self.form_class(request.POST, request.FILES)
 
-		fecha_de_archivo = datetime.strptime(form.data['fecha'], "%Y-%m-%d").date()
-		
-		permiso = Permiso.objects.get(pk=kwargs.get('pk'))
-		
 		if form.is_valid():
+			fecha_de_archivo = form.cleaned_data['fecha']
+			permiso = Permiso.objects.get(pk=kwargs.get('pk'))
 			documento = form.save(commit=False)
 			documento.tipo = TipoDocumento.get_protegido('pase')
 			documento.estado = 2
@@ -683,10 +707,7 @@ class AltaActaDeInspeccion(LoginRequiredMixin, CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(AltaActaDeInspeccion, self).get_context_data(**kwargs)
-		context['botones'] = {
-			'Nueva comisión': reverse('comisiones:alta'),
-			'Listado Comisiones': reverse('comisiones:listar')
-			}
+		context['botones'] = {}
 		context['nombreForm'] = 'Nueva Acta de Inspección'
 		context['return_path'] = reverse('permisos:detalle', args=[self.permiso_pk])
 		context['form'].fields['comision'].queryset = Comision.objects.filter(Q(fechaInicio__lte=self.permiso.fechaSolicitud,fechaFin__gte=self.permiso.fechaSolicitud)|Q(fechaInicio__gte=self.permiso.fechaSolicitud))
