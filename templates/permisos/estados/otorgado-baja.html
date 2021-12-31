@@ -1,14 +1,18 @@
 {% if solicitud.estado.getEstadoString == "otorgado" or solicitud.estado.getEstadoString == "baja"%}
 
 	{% if solicitud.estado.getEstadoString == "otorgado" %}
-		<tr>
-			<td>Vigencia del Permiso</td>
-			<td style="color:red">{% if solicitud.isPermisoFinalizado %} VENCIDO
-				<a href="{% url 'documentos:agregarResolucion' solicitud.id %}" class="ui button"> Renovar - Resolución</a> 
-				{% else %}
-				<p style="color:green"> Este Permiso esta VIGENTE</p>
-				{% endif %}
-			</td>
-		</tr>
+
+		{% if solicitud.isPermisoFinalizado %}	
+			<table>
+				<tr>
+					<td> <h4 style="color:red"> VENCIDO </h4> </td>
+					<td> <a href="{% url 'documentos:agregarResolucion' solicitud.id %}" class="ui button"> Renovar Resolución</a> </td>
+				</tr>
+			</table>
+		{% else %}
+			<h4 style="color:green"> Permiso Vigente</h4>
+		{% endif %}
+
 	{% endif %}
 {% endif %}
+

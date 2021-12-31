@@ -449,10 +449,9 @@ class Visado(Estado):
 	def completar(self, usuario, fecha, expediente, pase):
 		super().completar(usuario,fecha,expediente,pase)
 		if self.permiso.documentacion_completa():
-			fechas = [documento.fecha for documento in permiso.documentos.filter(tipo__protegido=False)]
-			fechas = fechas.sort()
-			fecha_ult = fechas.pop()
-			return Completado(permiso=self.permiso, usuario=usuario, fecha=fecha_ult)
+			fechas = [documento.fecha for documento in self.permiso.documentos.filter(tipo__protegido=False)]
+			fechas = sorted(fechas)[-1]
+			return Completado(permiso=self.permiso, usuario=usuario, fecha=fechas)
 		else:
 			return self
 
