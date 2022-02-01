@@ -16,8 +16,9 @@ Bienvenidos a la documentación de IPA!
    permiso_gestion
    comision
    localidad
-   general
    cobro
+   canon
+   general
    reportes
 
 
